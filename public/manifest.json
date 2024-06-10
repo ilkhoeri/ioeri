@@ -1,0 +1,91 @@
+{
+  "name": "ioeri",
+  "short_name": "ioeri",
+  "description": "The Best Choice",
+  "prefer_related_applications": false,
+  "lang": "id-ID",
+  "categories": ["ioeri", "original brand", "store", "web", "application", "apple", "apk"],
+  "display": "standalone",
+  "display_override": ["window-controls-overlay"],
+  "orientation": "portrait-primary",
+  "start_url": "/",
+  "id": "/",
+  "background_color": "#F9F8FE",
+  "icons": [
+    {
+      "src": "/ioeri-asset.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-icon-48x48.png",
+      "sizes": "48x48",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "platform": "wide",
+      "form_factor": "wide",
+      "sizes": "831x576",
+      "src": "/assets/images/screenshoot-app.webp",
+      "label": "The Best Choice."
+    },
+    {
+      "sizes": "831x576",
+      "src": "/assets/images/screenshoot-app.webp",
+      "label": "The Best Choice."
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Open",
+      "url": "/?blank=false",
+      "description": "ioeri Next App",
+      "icons": [{ "src": "/android-icon-96x96.png", "sizes": "96x96" }]
+    }
+  ],
+  "edge_side_panel": {
+    "preferred_width": 420
+  }
+}

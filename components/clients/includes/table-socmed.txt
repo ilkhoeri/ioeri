@@ -1,0 +1,88 @@
+"use client";
+
+import { flexRender } from "@tanstack/react-table";
+
+import { Table, TableBody, TableCell, TableHeader, TableRow } from "@/components/ui/table";
+import { DataTablePagination } from "@/components/assets/table/data-table-pagination";
+import { Input } from "@/components/ui/input";
+
+import { twMerge } from "tailwind-merge";
+import { DataTableProps, TableConfig } from "@/components/assets/table/table-config";
+
+import tbl from "@/styles/ioeri.module.css";
+
+export type ClassNameDataTable = {
+  classNames?: {
+    root?: string;
+    table?: string;
+    thead?: string;
+    tbody?: string;
+    th?: string;
+    td?: string;
+  };
+};
+
+export type SearchKey = { searchKey: string };
+
+export function TableSocmed<TData, TValue>({
+  columns,
+  data,
+  searchKey,
+  classNames,
+}: DataTableProps<TData, TValue> & ClassNameDataTable & SearchKey) {
+  const table = TableConfig({ data, columns });
+
+  return (
+    <div className={twMerge("w-full relative m-0 lg:px-16 xl:px-60 2xl:px-64", classNames?.root)}>
+      <Input
+        placeholder="Search"
+        name="search"
+        autoComplete="off"
+        value={(table.getColumn(searchKey)?.getFilterValue() as string) ?? ""}
+        onChange={(event) => table.getColumn(searchKey)?.setFilterValue(event.target.value)}
+        className="mb-4 md:max-w-xl md:mr-auto [--background:0deg_0%_100%_/_20%] dark:[--background:0deg_0%_3.9%_/_20%]"
+      />
+
+      <div className="rounded-md border overflow-hidden">
+        <Table className={twMerge("[--max-w-subtitution:200px]", classNames?.table)}>
+          <TableHeader unstyled className={twMerge("sr-only hidden visible-hidden", classNames?.thead)} />
+
+          <TableBody className={classNames?.tbody}>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                  // className="grid grid-flow-col items-center justify-items-start hover:bg-muted/30 first:[&_td]:justify-center last:[&_td]:grid last:[&_td]:justify-items-end"
+                  className="border-0 border-transparent bg-background [--background:0deg_0%_100%_/_20%] dark:[--background:0deg_0%_3.9%_/_20%]"
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell
+                      key={cell.id}
+                      // unstyled
+                      className={twMerge(
+                        // "py-2 px-4 my-4 align-middle [&:has([role=checkbox])]:pr-0 w-full line-clamp-1",
+                        tbl.tb_tr,
+                        classNames?.td,
+                      )}
+                    >
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={columns.length} className="h-24 text-center">
+                  No results.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+
+      <DataTablePagination table={table} />
+    </div>
+  );
+}

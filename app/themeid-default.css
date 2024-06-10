@@ -1,0 +1,58 @@
+[data-themeid-light="default"]:root {
+  --background-theme: var(--pure-white);
+  --background-nav: var(--pure-white);
+  --background-box: var(--concrete);
+
+  --primitive: var(--mischka);
+  --primitive-foreground: var(--geyser);
+  --primitive-emphasis: var(--bali-hai);
+
+  --muted: var(--mercury);
+  --muted-foreground: var(--dove-gray-tertiary);
+  --muted-emphasis: var(--concrete);
+
+  --destructive: var(--punch-primary);
+  --destructive-foreground: var(--punch-secondary);
+  --destructive-emphasis: var(--punch-tertiary);
+
+  --constructive: var(--azure-radiance-primary);
+  --constructive-foreground: var(--azure-radiance-secondary);
+  --constructive-emphasis: var(--azure-radiance-tertiary);
+
+  --conservative: var(--green-haze-primary);
+  --conservative-foreground: var(--green-haze-secondary);
+  --conservative-emphasis: var(--green-haze-tertiary);
+
+  --mention: var(--golden-grass-primary);
+  --mention-foreground: var(--golden-grass-secondary);
+  --mention-emphasis: var(--golden-grass-tertiary);
+}
+html[class="dark"][data-themeid-dark="default"]:root {
+  --background-theme: var(--pure-black);
+  --background-nav: var(--pure-black);
+  --background-box: var(--woodsmoke-secondary);
+
+  --primitive: var(--shark-primary);
+  --primitive-foreground: var(--shark-secondary);
+  --primitive-emphasis: var(--shark-tertiary);
+
+  --muted: var(--mine-shaft-primary);
+  --muted-foreground: var(--gray-secondary);
+  --muted-emphasis: var(--woodsmoke-secondary);
+
+  --destructive: var(--punch-primary);
+  --destructive-foreground: var(--punch-secondary);
+  --destructive-emphasis: var(--punch-tertiary);
+
+  --constructive: var(--azure-radiance-primary);
+  --constructive-foreground: var(--azure-radiance-secondary);
+  --constructive-emphasis: var(--azure-radiance-tertiary);
+
+  --conservative: var(--green-haze-primary);
+  --conservative-foreground: var(--green-haze-secondary);
+  --conservative-emphasis: var(--green-haze-tertiary);
+
+  --mention: var(--golden-grass-primary);
+  --mention-foreground: var(--golden-grass-secondary);
+  --mention-emphasis: var(--golden-grass-tertiary);
+}

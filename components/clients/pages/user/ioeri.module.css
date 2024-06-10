@@ -1,0 +1,127 @@
+/* Page User */
+.user_header {
+  @apply -mt-14 md:-mt-20 xl:-mt-24 relative w-full max-w-full h-dvh min-h-dvh max-h-dvh flex items-center justify-center flex-col after:content-[''] after:w-[100dvw] after:h-1/2 after:bg-gradient-to-t after:from-background after:absolute after:z-[+1] after:bottom-0 after:left-0 after:right-0 after:-mb-[98px] after:-mx-6 after:md:-mx-9 after:xl:-mx-12;
+
+  & > article {
+    @apply min-h-dvh h-dvh w-full flex items-center justify-center text-h3 font-semibold font-montserrat absolute;
+  }
+
+  & > figure {
+    @apply h-full w-full absolute bg-fixed -z-1 top-0 left-0 right-0;
+
+    & picture {
+      @apply hue-rotate-15 fixed top-0 left-0 right-0 w-full h-full bg-scroll bg-center bg-auto bg-repeat overflow-hidden;
+    }
+  }
+  & figcaption {
+    @apply relative grid grid-flow-row items-center justify-center justify-items-center gap-3 text-center font-montserrat;
+
+    & h2 {
+      font-size: clamp(16px, 16px + 3.5vw, 3.5rem);
+      line-height: 1;
+      font-weight: 500;
+      text-transform: uppercase;
+      text-wrap: wrap;
+      background-image: linear-gradient(to bottom right, var(--gradient-stops));
+      --gradient-stops: var(--text-gradient-from), var(--text-gradient-to);
+      background-clip: text;
+      color: transparent;
+      transition: all ease 0.2s;
+      -webkit-text-stroke-width: 2px;
+      -webkit-background-clip: text;
+    }
+  }
+}
+
+.portfolio_section {
+  @apply bg-background relative z-11 mt-12 -mb-14 md:-mb-20 xl:-mb-24 -mx-6 md:-mx-9 xl:-mx-12;
+
+  & .portfolio_wrapper {
+    @apply p-8 font-montserrat mt-24 rounded-xl shadow-[0px_10px_30px_10px_rgba(0,0,0,0.1)];
+
+    & .portfolio_wraptop {
+      @apply grid grid-cols-1 md:grid-cols-3;
+
+      & .portfolio_lth_db {
+        @apply grid grid-cols-3 text-center order-last md:order-first mt-20 md:mt-0;
+
+        & .portfolio_lth_db_lnk {
+          @apply grid grid-flow-row;
+
+          & [data-count] {
+            @apply font-bold text-color text-2xl;
+          }
+
+          & [data-name] {
+            @apply text-muted-foreground text-sm;
+          }
+        }
+      }
+
+      & figure {
+        @apply relative flex items-center justify-center;
+
+        & img {
+          @apply size-48 bg-transparent aspect-square absolute mx-auto rounded-full overflow-hidden shadow-[rgba(0,0,0,0.1)_0px_4px_12px] -mt-24 inset-x-0;
+        }
+      }
+
+      & .portfolio_wrap_link {
+        @apply gap-8 grid grid-flow-col items-center mt-32 md:mt-0;
+
+        & .crs_root {
+          @apply [--h:34px] [--cursor:pointer] w-full transition-transform duration-200 hover:-translate-y-0.5;
+
+          & .crs_content {
+            @apply bg-transparent ring-2 ring-muted-foreground w-full rounded-md shadow hover:shadow-lg;
+
+            & .portfolio_cntct {
+              @apply bg-transparent font-montserrat text-sm flex items-center justify-center px-4 gap-4 w-full font-bold uppercase duration-0 min-w-0 shrink-0 grow-0 basis-full;
+            }
+          }
+        }
+
+        & .portfolio_msg {
+          @apply text-white ring-neutral-800 h-8 px-4 bg-neutral-700 hover:bg-neutral-700 text-sm ring-2 focus-visible:ring-offset-2 font-bold uppercase rounded-md shadow hover:shadow-lg min-w-max hover:-translate-y-0.5;
+        }
+      }
+    }
+
+    & .portfolio_wrapbottom {
+      @apply mt-20 text-center pb-12 space-y-4 flex flex-col items-center justify-center;
+
+      & .alias {
+        @apply text-base text-muted-foreground font-semibold;
+      }
+      & figcaption {
+        @apply text-h3 font-bold leading-normal text-color;
+      }
+
+      & .portfolio_birth {
+        @apply font-normal text-gray-500;
+      }
+
+      & h4 {
+        @apply text-h6 font-bold text-wrap flex flex-col items-center justify-center text-center;
+
+        & span:nth-child(1) {
+          @apply text-h2;
+        }
+        & span:nth-child(2) {
+          @apply bg-clip-text text-transparent bg-gradient-to-r from-purple-800 via-pink-700 to-orange-600;
+        }
+      }
+
+      & .text {
+        @apply font-normal text-gray-600 mt-3;
+      }
+
+      & .bio {
+        @apply pb-14 text-center text-[90%] max-w-[600px];
+      }
+      & .resume {
+        @apply border-t pt-8 pb-14 text-wrap text-pre-line text-sm md:text-[15px] leading-normal text-justify text-muted-foreground lg:max-w-[56rem];
+      }
+    }
+  }
+}

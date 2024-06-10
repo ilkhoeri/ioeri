@@ -1,0 +1,58 @@
+[data-themeid-light="lyona"]:root {
+  --background-theme: var(--pure-white);
+  --background-nav: var(--concrete);
+  --background-box: var(--concrete);
+
+  --primitive: var(--golden-grass-tertiary);
+  --primitive-foreground: var(--golden-grass-secondary);
+  --primitive-emphasis: var(--golden-grass-primary);
+
+  --muted: var(--mercury);
+  --muted-foreground: var(--dove-gray-tertiary);
+  --muted-emphasis: var(--concrete);
+
+  --destructive: var(--punch-primary);
+  --destructive-foreground: var(--punch-secondary);
+  --destructive-emphasis: var(--punch-tertiary);
+
+  --constructive: var(--azure-radiance-primary);
+  --constructive-foreground: var(--azure-radiance-secondary);
+  --constructive-emphasis: var(--azure-radiance-tertiary);
+
+  --conservative: var(--green-haze-primary);
+  --conservative-foreground: var(--green-haze-secondary);
+  --conservative-emphasis: var(--green-haze-tertiary);
+
+  --mention: var(--chelsea-gem-primary);
+  --mention-foreground: var(--chelsea-gem-secondary);
+  --mention-emphasis: var(--chelsea-gem-tertiary);
+}
+html[class="dark"][data-themeid-dark="lyona"]:root {
+  --background-theme: var(--pure-black);
+  --background-nav: var(--shark-primary);
+  --background-box: var(--woodsmoke-tertiary);
+
+  --primitive: var(--golden-grass-tertiary);
+  --primitive-foreground: var(--golden-grass-secondary);
+  --primitive-emphasis: var(--golden-grass-primary);
+
+  --muted: var(--mine-shaft-primary);
+  --muted-foreground: var(--gray-secondary);
+  --muted-emphasis: var(--woodsmoke-secondary);
+
+  --destructive: var(--punch-primary);
+  --destructive-foreground: var(--punch-secondary);
+  --destructive-emphasis: var(--punch-tertiary);
+
+  --constructive: var(--azure-radiance-primary);
+  --constructive-foreground: var(--azure-radiance-secondary);
+  --constructive-emphasis: var(--azure-radiance-tertiary);
+
+  --conservative: var(--green-haze-primary);
+  --conservative-foreground: var(--green-haze-secondary);
+  --conservative-emphasis: var(--green-haze-tertiary);
+
+  --mention: var(--chelsea-gem-primary);
+  --mention-foreground: var(--chelsea-gem-secondary);
+  --mention-emphasis: var(--chelsea-gem-tertiary);
+}

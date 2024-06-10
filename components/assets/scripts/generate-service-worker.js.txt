@@ -1,0 +1,117 @@
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').then((registration) => {
+    registration.pushManager.getSubscription().then(async (subscription) => {
+      if (!subscription) {
+        const installingWorker = registration.installing;
+
+        if (installingWorker) {
+          installingWorker.addEventListener('statechange', async () => {
+            if (installingWorker.state === 'activated') {
+              // Service Worker sudah diaktifkan, sekarang kita bisa membuat langganan push
+              const applicationServerKey = urlB64ToUint8Array(
+                'BGLnRXVmHKioa-ZS85lSE4QwYnO8pMg6r9EO21pnmFt4pdWGxOipzuAXnGbHm3dEkZEUlZ9L7z_ufsApiPsdLts'
+              );
+              const options = { applicationServerKey, userVisibleOnly: true };
+
+              try {
+                subscription = await registration.pushManager.subscribe(options);
+                await sendSubscriptionToServer(subscription);
+              } catch (error) {
+                console.error('Subscription error:', error);
+              }
+            }
+          });
+        }
+      }
+    });
+
+    registration.addEventListener('updatefound', () => {
+      const installingWorker = registration.installing;
+
+      if (installingWorker) {
+        installingWorker.addEventListener('statechange', () => {
+          if (installingWorker.state === 'installed') {
+            if (navigator.serviceWorker.controller) {
+              registration.showNotification('New content is available', {
+                body: 'Open to see the latest updates.',
+                icon: '/icons/notification/reload-icon.svg',
+              });
+
+              self.addEventListener('notificationclick', (event) => {
+                event.notification.close();
+                // Buka halaman atau URL yang sesuai dengan notifikasi
+                event.waitUntil(
+                  clients.matchAll({ type: 'window' }).then((clientList) => {
+                    if (clientList.length > 0) {
+                      return clientList[0].focus();
+                    } else {
+                      return clients.openWindow('/');
+                    }
+                  })
+                );
+                window.location.reload();
+              });
+            }
+          }
+        });
+      }
+    });
+  });
+}
+
+// Konversi kunci publik FCM ke Uint8Array
+function urlB64ToUint8Array(base64String) {
+  const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
+  const base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/');
+  const rawData = atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+
+  for (let i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i);
+  }
+
+  return outputArray;
+}
+
+// Kirimkan langganan ke server Anda (implementasi sendSubscriptionToServer)
+async function sendSubscriptionToServer(subscription) {
+  // Implementasikan logika untuk mengirimkan subscription ke server Anda
+  try {
+    const response = await fetch('/api/subscribe', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ subscription }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to send subscription to server');
+    }
+  } catch (error) {
+    console.error('Error sending subscription to server:', error);
+  }
+}
+
+async function sendPushNotification(message) {
+  try {
+    // Kirim permintaan ke endpoint /api/subscribe dengan pesan
+    const response = await fetch('/api/subscribe', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ message }),
+    });
+
+    if (response.ok) {
+      // Pesan push berhasil dikirim, tampilkan pesan sukses ke pengguna
+      alert('Push notification berhasil dikirim!');
+    } else {
+      // Ada kesalahan saat mengirim, tampilkan pesan kesalahan
+      alert('Terjadi kesalahan saat mengirim push notification.');
+    }
+  } catch (error) {
+    console.error('Error sending push notification:', error);
+  }
+}

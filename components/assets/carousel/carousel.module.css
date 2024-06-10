@@ -1,0 +1,146 @@
+/* embla__carousel */
+.embla {
+  --slide-size: var(--slide-sz, 33%);
+  --slide-spacing: var(--slide-gap, 16px);
+  --slide-height: var(--slide-h, 40px);
+  --embla-h: var(--h, auto);
+
+  width: 100%;
+  cursor: var(--cursor, grab);
+  height: var(--embla-h);
+  min-height: var(--embla-h);
+  max-height: var(--embla-h);
+  display: flex;
+  align-items: center;
+  padding: 0px;
+
+  & .embla__viewport {
+    overflow: hidden;
+    height: var(--embla-h);
+    min-height: var(--embla-h);
+    max-height: var(--embla-h);
+  }
+
+  & .embla__container {
+    display: flex;
+    align-items: center;
+    height: var(--embla-h);
+    min-height: var(--embla-h);
+    max-height: var(--embla-h);
+    flex-direction: var(--direction);
+    touch-action: pan-y;
+    backface-visibility: hidden;
+  }
+
+  & .embla__container_x {
+    margin-left: calc(var(--slide-spacing) * -1);
+    --direction: row;
+  }
+
+  & .embla__container_y {
+    margin-top: calc(var(--slide-spacing) * 0);
+    --direction: column;
+  }
+
+  & .embla__container_dragging {
+    & > * {
+      flex: 0 0 var(--slide-size);
+      margin-left: var(--slide-spacing);
+    }
+  }
+
+  & .embla__slide {
+    max-width: max-content;
+    flex: 0 0 var(--slide-size);
+    margin-inline-start: var(--slide-ml, var(--slide-spacing));
+    position: relative;
+  }
+
+  & .embla__lazyload_hasloaded {
+    & img.lazyload__img {
+      opacity: 1 !important;
+    }
+  }
+}
+
+.a__ {
+  color: rgb(var(--app-rgb-hex-lighter) / 1);
+}
+.ab__ {
+  color: rgb(var(--app-rgb-hex-lighter) / 1);
+  font-weight: 600;
+}
+.a__:hover,
+.ab__:hover {
+  color: rgb(var(--app-rgb-hex-dimmer) / 1);
+}
+.li > .p > .strong {
+  font-size: 16px;
+}
+
+.carousel_loop {
+  animation: carousel 60s linear infinite;
+}
+
+@keyframes carousel {
+  75% {
+    transform: translate(-300%);
+  }
+  75.01% {
+    transform: translate(100%);
+  }
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-carousel {
+  animation: marquee 60s linear infinite;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* add class text-newline */
+.text-newline {
+  white-space: pre-line;
+}
+
+/* fancybox
+
+[data-panzoom-action],
+[data-fancybox-toggle-fullscreen],
+[data-fancybox-close] {
+  border-radius: 999px;
+  height: 40px !important;
+  width: 40px !important;
+  margin-left: 6px;
+} */

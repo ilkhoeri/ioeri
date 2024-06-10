@@ -1,0 +1,47 @@
+"use client";
+import * as React from "react";
+
+import style from "@/styles/ioeri.module.css";
+
+interface TitlePageProps extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement> {
+  title: string | undefined;
+  /** @default 200 */
+  scrollUpto?: number;
+}
+
+const TitlePage: React.FC<TitlePageProps> = ({ title, scrollUpto = 200, ...props }) => {
+  const [opacity, setOpacity] = React.useState(1);
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      const newOpacity = 1 - scrollPosition / scrollUpto;
+      setOpacity(Math.max(0.1, newOpacity));
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [scrollUpto]);
+
+  const attr = {
+    className: style.h,
+    style: { opacity },
+  };
+
+  return (
+    <h1 {...attr} {...props}>
+      <span className={style.h_span}>{title}</span>
+    </h1>
+  );
+};
+
+const TitlePageID: React.FC<TitlePageProps> = ({ title, ...props }) => {
+  return (
+    <h1 className={style.pg_ID_h1} {...props}>
+      {title}
+    </h1>
+  );
+};
+
+export { TitlePage, TitlePageID };
