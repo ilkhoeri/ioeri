@@ -5,12 +5,12 @@ import { useTextTyping } from "./utils-anim-text";
 import type { ComponentType } from "../../../types/shared";
 import type { AnimTextAllTypes, AnimTextTypingType } from "./types-anim-text";
 
-export const AnimTextTyping = ({ anim, ...props }: AnimTextAllTypes) => {
+export const AnimTextTyping = ({ anim, suppressHydrationWarning = true, ...props }: AnimTextAllTypes) => {
   const { el = "div", duration, placeholders, ...others } = props as AnimTextTypingType;
   const { elementRef } = useTextTyping({ duration, placeholders });
 
   let Root: ComponentType = el as ComponentType;
-  const root = { ref: elementRef, "data-anim": "text-" + anim, ...others };
+  const root = { ref: elementRef, suppressHydrationWarning, "data-anim": "text-" + anim, ...others };
 
   return <Root {...root} />;
 };

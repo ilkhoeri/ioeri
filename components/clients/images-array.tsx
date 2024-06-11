@@ -2,12 +2,15 @@
 
 import { Image } from "@/components/ui/image";
 import Dragging from "@/components/assets/carousel/dragging";
+import { useImagePopup } from "@/modules";
 
 import type { Image as ImagesType } from "@/types/connections";
 
 import style from "@/styles/ioeri.module.css";
 
 const ImagesArray: React.FC<{ images: ImagesType[] | undefined }> = ({ images }) => {
+  useImagePopup();
+
   if (!images?.length) {
     return null;
   }

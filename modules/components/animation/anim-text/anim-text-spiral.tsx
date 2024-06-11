@@ -14,13 +14,31 @@ const Spiral = React.forwardRef<HTMLElement, AttributesElement>(({ el = "div", .
 });
 Spiral.displayName = "Spiral";
 
-export const AnimTextSpiral = ({ anim, ...props }: AnimTextAllTypes) => {
+export const AnimTextSpiral = ({ anim, suppressHydrationWarning = true, ...props }: AnimTextAllTypes) => {
   const { el, placeholders, duration, className, classNames, style, styles, ...others } = props as AnimTextSpiralType;
   const { refWrap1, refWrap2 } = useTextSpiral({ el, placeholders, duration });
 
-  const root = { el: el?.root, "data-anim": "text-" + anim, className: cnx(className, classNames?.root), ...others };
-  const nth1 = { ref: refWrap1, el: el?.wrap, className: classNames?.wrap, style: styles?.wrap };
-  const nth2 = { ref: refWrap2, el: el?.wrap, className: classNames?.wrap, style: styles?.wrap };
+  const root = {
+    el: el?.root,
+    suppressHydrationWarning,
+    "data-anim": "text-" + anim,
+    className: cnx(className, classNames?.root),
+    ...others,
+  };
+  const nth1 = {
+    ref: refWrap1,
+    suppressHydrationWarning,
+    el: el?.wrap,
+    className: classNames?.wrap,
+    style: styles?.wrap,
+  };
+  const nth2 = {
+    ref: refWrap2,
+    suppressHydrationWarning,
+    el: el?.wrap,
+    className: classNames?.wrap,
+    style: styles?.wrap,
+  };
 
   return (
     <Spiral {...root}>

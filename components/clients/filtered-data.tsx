@@ -21,7 +21,7 @@ export function FilteredData<T extends string>({
         autoComplete="socmed"
         value={value}
         onChange={onChange}
-        className={cnx(style._search)}
+        className={cnx(style._search, "input_class")}
       />
     )
   );

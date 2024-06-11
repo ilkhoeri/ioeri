@@ -1,0 +1,184 @@
+.markdown-body {
+  --ocean: 215 92% 65%;
+  --dush: #30363d;
+}
+.markdown-body h1 {
+  font-size: 2em;
+  padding-bottom: 0.3em;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--h1-border, var(--h-border, hsl(var(--muted))));
+}
+.markdown-body h2 {
+  font-size: 1.5em;
+  padding-bottom: 0.3em;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--h2-border, var(--h-border, hsl(var(--muted))));
+}
+.markdown-body h3 {
+  font-size: 1.25em;
+  margin-bottom: 8px;
+}
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  margin-top: 24px;
+  font-weight: var(--fw, 600);
+  line-height: 1.25;
+}
+
+.markdown-body ul li,
+.markdown-body ol li {
+  display: list-item;
+  text-align: -webkit-match-parent;
+  unicode-bidi: isolate;
+}
+.markdown-body ol li::marker {
+  font-weight: bolder;
+}
+.markdown-body ol {
+  list-style-type: decimal;
+}
+.markdown-body ul {
+  list-style-type: disc;
+}
+.markdown-body ul,
+.markdown-body ol {
+  padding-left: 2em;
+}
+.readme .markdown-body,
+.readme .plain {
+  word-wrap: break-word;
+}
+
+.markdown-body blockquote {
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 40px;
+  margin-inline-end: 40px;
+  unicode-bidi: isolate;
+  padding: 0 1em;
+  color: var(--blockquote-color, hsl(var(--muted-foreground)));
+  border-left: 0.25em solid var(--blockquote-border, var(--dush));
+}
+.markdown-body blockquote p {
+  --mb: 0px;
+}
+.markdown-body p,
+.markdown-body blockquote,
+.markdown-body ul,
+.markdown-body ol,
+.markdown-body dl,
+.markdown-body table,
+.markdown-body pre,
+.markdown-body details {
+  margin-top: 0;
+  margin-bottom: var(--mb, 16px);
+}
+
+.markdown-body h1 a,
+.markdown-body h2 a,
+.markdown-body h3 a,
+.markdown-body h4 a,
+.markdown-body h5 a,
+.markdown-body h6 a {
+  --decoration: none;
+  text-underline-offset: 2px;
+}
+.markdown-body a {
+  color: var(--link-color, hsl(var(--ocean)));
+  text-decoration: var(--decoration, underline);
+  text-underline-offset: 2px;
+}
+.markdown-body a:hover,
+.markdown-body a:focus,
+.markdown-body a:focus-visible {
+  --link-color: #397be0;
+}
+
+.markdown-body code,
+.markdown-body tt {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  white-space: break-spaces;
+  background-color: var(--code-bg, hsl(var(--muted)));
+  border-radius: 6px;
+}
+.markdown-body pre {
+  word-wrap: normal;
+}
+.markdown-body .highlight pre,
+.markdown-body pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  color: var(--highlight-color, hsl(var(--color)));
+  background-color: var(--highlight-bg, hsl(var(--highlight)));
+  border-radius: 6px;
+}
+.markdown-body .clipboard-content {
+  position: relative;
+}
+.markdown-body .clipboard-content pre p {
+  --mb: 0;
+}
+.markdown-body .clipboard-content .clipboard-button {
+  cursor: pointer;
+  position: absolute;
+  right: 0.57rem;
+  top: 0.57rem;
+  height: 2rem;
+  width: 2rem;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--clipboard-btn-bd, hsl(var(--color)));
+  color: var(--clipboard-btn-c, hsl(var(--color)));
+  background-color: var(--clipboard-btn-bg, hsl(var(--color) / 0.1));
+}
+.markdown-body .clipboard-content .clipboard-button:active {
+  transform: translateY(1px);
+}
+.markdown-body .clipboard-content .clipboard-button[data-copied="success"] {
+  --clipboard-btn-c: hsl(var(--ocean));
+  --clipboard-btn-bd: hsl(var(--ocean));
+  --clipboard-btn-bg: hsl(var(--ocean) / 0.1);
+}
+.markdown-body pre code {
+  font-size: 100%;
+  --pre-mw: max-content;
+}
+.markdown-body pre > code {
+  padding: 0;
+  margin: 0;
+  word-break: normal;
+  white-space: pre;
+  background: transparent;
+  border: 0;
+}
+.markdown-body pre code,
+.markdown-body pre tt {
+  display: inline;
+  max-width: var(--pre-mw, auto);
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+  background-color: transparent;
+  border: 0;
+}
+
+.markdown-body hr {
+  height: 0.25em;
+  padding: 0;
+  margin: 16px 0;
+  background-color: var(--hr-border, hsl(var(--muted)));
+  border: 0;
+}

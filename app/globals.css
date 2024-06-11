@@ -74,19 +74,16 @@
 }
 :root * * {
   --state: var(--state-light);
-  --filter-icon: contrast(1);
-  --filter-icon-foreground: contrast(0.5);
 }
 html[class="dark"]:root * * {
   --state: var(--state-dark);
-  --filter-icon: invert(1);
-  --filter-icon-foreground: contrast(0);
 }
 :root {
   --color: var(--pure-black);
   --color-muted: var(--dove-gray-tertiary);
   --azure-radiance: var(--azure-radiance-primary);
   --background: var(--pure-white);
+  --highlight: var(--geyser);
   --filter-icon: contrast(1);
   --filter-icon-foreground: contrast(0.5);
 }
@@ -95,6 +92,7 @@ html[class="dark"]:root {
   --color-muted: var(--mine-shaft-tertiary);
   --azure-radiance: var(--azure-radiance-tertiary);
   --background: var(--pure-black);
+  --highlight: var(--shark-primary);
   --filter-icon: invert(1);
   --filter-icon-foreground: contrast(0);
 }
@@ -144,52 +142,52 @@ html[class="dark"]:root {
 html body * {
   font-family: var(--fontid, var(--ff-sans));
 }
-html[data-fontid="sans"] body * {
+html[data-fontid="sans"] body {
   --fontid: var(--ff-sans);
 }
-html[data-fontid="serif"] body * {
+html[data-fontid="serif"] body {
   --fontid: var(--ff-serif);
 }
-html[data-fontid="mono"] body * {
+html[data-fontid="mono"] body {
   --fontid: var(--ff-mono);
 }
-html[data-fontid="anek-telugu"] body * {
+html[data-fontid="anek-telugu"] body {
   --fontid: var(--ff-anek-telugu);
 }
-html[data-fontid="amiri"] body * {
+html[data-fontid="amiri"] body {
   --fontid: var(--ff-amiri);
 }
-html[data-fontid="inter"] body * {
+html[data-fontid="inter"] body {
   --fontid: var(--ff-inter);
 }
-html[data-fontid="kanit"] body * {
+html[data-fontid="kanit"] body {
   --fontid: var(--ff-kanit);
 }
-html[data-fontid="koulen"] body * {
+html[data-fontid="koulen"] body {
   --fontid: var(--ff-koulen);
 }
-html[data-fontid="montserrat"] body * {
+html[data-fontid="montserrat"] body {
   --fontid: var(--ff-montserrat);
 }
-html[data-fontid="poppins"] body * {
+html[data-fontid="poppins"] body {
   --fontid: var(--ff-poppins);
 }
-html[data-fontid="roboto-mono"] body * {
+html[data-fontid="roboto-mono"] body {
   --fontid: var(--ff-roboto-mono);
 }
-html[data-fontid="special-elit"] body * {
+html[data-fontid="special-elit"] body {
   --fontid: var(--ff-special-elit);
 }
-html[data-fontid="quicksand"] body * {
+html[data-fontid="quicksand"] body {
   --fontid: var(--ff-quicksand);
 }
-html[data-fontid="dancing-script"] body * {
+html[data-fontid="dancing-script"] body {
   --fontid: var(--ff-dancing-script);
 }
-html[data-fontid="caveat"] body * {
+html[data-fontid="caveat"] body {
   --fontid: var(--ff-caveat);
 }
-html[data-fontid="ubuntu"] body * {
+html[data-fontid="ubuntu"] body {
   --fontid: var(--ff-ubuntu);
 }
 
@@ -249,6 +247,14 @@ body footer[data-sheet="open"] {
 
 s {
   text-decoration: line-through;
+}
+html body tt,
+html body code,
+html body samp,
+html body tt *,
+html body code *,
+html body samp * {
+  font-family: var(--ff-mono, ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace);
 }
 
 img {

@@ -69,7 +69,7 @@ export const HeaderHome: React.FC = () => {
         aria-hidden="true"
         className={[
           mainStyle.aura,
-          "opacity-[0.5] xl:opacity-[0.7] before:top-[-10%] before:left-[-2%] after:bottom-[5%] after:right-[-5%]",
+          "opacity-[0.5] dark:opacity-[0.3] before:top-[-10%] before:left-[-2%] after:bottom-[5%] after:right-[-5%]",
         ].join(" ")}
       />
 

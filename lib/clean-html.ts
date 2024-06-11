@@ -1,8 +1,7 @@
-import { markdownText } from "@/utils/formatter/process-text";
 import DOMPurify from "dompurify";
 
 const config = {
-  ADD_TAGS: ["iframe"], // Izinkan elemen <iframe>
+  ADD_TAGS: ["iframe", "use"], // Izinkan elemen <iframe>
   // ALLOWED_TAGS: ["b", "span"],
   // ALLOWED_ATTR: ["style"],
 };
@@ -33,7 +32,7 @@ export function markdownInsertHTML(html: string) {
     const sanitizedHTML = DOMPurify.sanitize(html, config);
     return { __html: addLineBreaksToEmptyParagraphs(sanitizedHTML) };
   }
-  return { __html: markdownText(html) };
+  return { __html: html };
 }
 
 function addLineBreaksToEmptyParagraphs(html: string) {
@@ -42,6 +41,16 @@ function addLineBreaksToEmptyParagraphs(html: string) {
   const emptyParagraphs = doc.querySelectorAll("p:empty:not(:only-child)");
   emptyParagraphs.forEach(function (paragraph) {
     paragraph.innerHTML = "<br>"; // Menambahkan konten <br> (enter)
+  });
+  return doc.body.innerHTML;
+}
+
+function removeEmptyParagraphs(html: string) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, "text/html");
+  const emptyParagraphs = doc.querySelectorAll("p:empty:not(:only-child)");
+  emptyParagraphs.forEach(function (p) {
+    p.remove();
   });
   return doc.body.innerHTML;
 }
@@ -57,12 +66,12 @@ function addLineBreaksToEmptyParagraphs(html: string) {
  * @param markdown 
  * @returns __html: renderedHTML
  */
-export function markdownHTML(markdown: string) {
+export function markdownHTML(html: string) {
   if (typeof window !== "undefined") {
-    const sanitizedHTML = DOMPurify.sanitize(markdown, config);
-    return { __html: sanitizedHTML }; // Pastikan mengembalikan objek dengan properti __html
+    const sanitizedHTML = DOMPurify.sanitize(html, config);
+    return { __html: removeEmptyParagraphs(sanitizedHTML) }; // Pastikan mengembalikan objek dengan properti __html
   }
-  return { __html: markdown }; // Jika tidak perlu membersihkan HTML, kembalikan langsung
+  return { __html: html }; // Jika tidak perlu membersihkan HTML, kembalikan langsung
 }
 
 // document.addEventListener("DOMContentLoaded", function () {

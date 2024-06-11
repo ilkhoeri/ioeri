@@ -3,16 +3,13 @@ import { notFound } from "next/navigation";
 import { getBlogByID } from "@/connections/get-blog";
 import { SectionID } from "@/components/clients/section";
 import { TitlePageID } from "@/components/clients/title-page";
-import { ImagesArray } from "@/components/clients/images-array";
-import { ArticleInnerHTML } from "@/components/clients/article-inner-html";
-import { PostedTimes } from "@/components/clients/italic-time";
 
 import { MarkdownEditor } from "@/components/clients/pages/playground-markdown-editor";
 
-type BLOGID = { params: { blogId: string } };
+type Params = { params: { playgroundId: string } };
 
-export async function generateMetadata({ params }: BLOGID): Promise<Metadata> {
-  const page = await getBlogByID(params.blogId);
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
+  const page = await getBlogByID(params.playgroundId);
   const url = process.env.NEXT_PUBLIC_DOMAIN_URL;
   const slug = page?.id;
   const namePage = page?.title;
@@ -29,8 +26,8 @@ export async function generateMetadata({ params }: BLOGID): Promise<Metadata> {
   };
 }
 
-export default async function Page({ params }: BLOGID) {
-  const data = await getBlogByID(params.blogId);
+export default async function Page({ params }: Params) {
+  const data = await getBlogByID(params.playgroundId);
 
   if (!data) {
     notFound();
@@ -38,10 +35,6 @@ export default async function Page({ params }: BLOGID) {
   return (
     <SectionID>
       <TitlePageID title={data?.title} />
-      {/* <ImagesArray images={data?.images} />
-      <ArticleInnerHTML article={data?.description} />
-
-      <PostedTimes times={data} /> */}
 
       <MarkdownEditor text={data.description} />
     </SectionID>

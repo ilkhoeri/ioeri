@@ -30,13 +30,14 @@ const TextRunningInner = React.forwardRef<HTMLElement, AttributesElement>(({ el 
 });
 TextRunningInner.displayName = "TextRunningInner";
 
-const AnimTextRunning: React.FC<AnimTextAllTypes> = ({ anim, ...props }) => {
+const AnimTextRunning: React.FC<AnimTextAllTypes> = ({ anim, suppressHydrationWarning = true, ...props }) => {
   const { placeholders, el, className, classNames, style, styles, children, speed, direction, ...rest } =
     props as AnimTextRunningType;
   const { wrapRef, innerRef } = useTextRunning({ speed, direction });
 
   const wrap = {
     ref: wrapRef,
+    suppressHydrationWarning,
     el: el?.wrap,
     "data-anim": "text-" + anim,
     className: cnx(className, classNames?.wrap),
@@ -45,6 +46,7 @@ const AnimTextRunning: React.FC<AnimTextAllTypes> = ({ anim, ...props }) => {
   };
   const inner = {
     ref: innerRef,
+    suppressHydrationWarning,
     el: el?.inner,
     className: classNames?.inner,
     style: styles?.inner,

@@ -18,36 +18,45 @@ interface FootLinkProps {
 function FootLink({ items, includePath = true }: FootLinkProps) {
   const pathname = usePathname();
 
-  return items.map((i) => (
-    <li key={i.slug} className={f.li}>
-      <Link
-        href={`/${i.slug}`}
-        className={(includePath ? pathname.includes(i.slug) : pathname === i.slug) ? f.a_active : f.a}
-      >
-        {i.title}
-      </Link>
-    </li>
-  ));
+  // Helper function to split pathname into segments
+  const getPathSegments = (path: string) => path.split("/").filter(Boolean);
+
+  return items.map((i) => {
+    const pathSegments = getPathSegments(pathname);
+    const isActive = includePath ? pathSegments.includes(i.slug) : pathname === `/${i.slug}`;
+
+    return (
+      <li key={i.slug} className={f.li}>
+        <Link href={`/${i.slug}`} className={isActive ? f.a_active : f.a}>
+          {i.title}
+        </Link>
+      </li>
+    );
+  });
 }
 
 function FootLinkMark({ items, includePath = true }: FootLinkProps) {
   const pathname = usePathname();
 
+  const getPathSegments = (path: string) => path.split("/").filter(Boolean);
+
   return items
     .slice()
     .sort((a, b) => a.title.localeCompare(b.title))
-    .map((i) => (
-      <li key={i.slug} className={f.li}>
-        <Link
-          href={`/page/${i.slug}`}
-          className={(includePath ? pathname.includes(i.slug) : pathname === i.slug) ? f.a_active : f.a}
-        >
-          {i.title}
-        </Link>
+    .map((i) => {
+      const pathSegments = getPathSegments(pathname);
+      const isActive = includePath ? pathSegments.includes(i.slug) : pathname === `/${i.slug}`;
 
-        {i.isNew && <MarkBoolean mark={true} childTrue="NEW" />}
-      </li>
-    ));
+      return (
+        <li key={i.slug} className={f.li}>
+          <Link href={`/page/${i.slug}`} className={isActive ? f.a_active : f.a}>
+            {i.title}
+          </Link>
+
+          {i.isNew && <MarkBoolean mark={true} childTrue="NEW" />}
+        </li>
+      );
+    });
 }
 
 export { FootLink, FootLinkMark };

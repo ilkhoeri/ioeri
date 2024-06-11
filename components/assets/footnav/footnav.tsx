@@ -28,6 +28,10 @@ const mainroutes = (user: string) => [
     slug: `bio/${sanitizedToParams(user)}`,
   },
   {
+    title: "Playground",
+    slug: "playground",
+  },
+  {
     title: "Web app",
     slug: "web",
   },
