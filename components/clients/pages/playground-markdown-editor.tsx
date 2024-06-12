@@ -1,8 +1,10 @@
 "use client";
 
+import { UnstyledButton } from "@/components/ui/button";
+import Element from "@/components/ui/element";
 import { Textarea } from "@/components/ui/textarea";
 import { markdownHTML } from "@/lib/clean-html";
-import { cnx, markdownText } from "@/modules";
+import { cnx, markdownText, useElementInfo } from "@/modules";
 import { useState } from "react";
 
 // import fs from "fs-extra";
@@ -12,29 +14,51 @@ export function MarkdownEditor({ text: defaultText }: { text: string }) {
   const [text, setText] = useState<string>(defaultText);
   const [preview, setPreview] = useState<boolean>(false);
 
+  const initial = { initial: { height: 32, width: 48.4 } };
+  const { ref: labelRef, info: labelInfo } = useElementInfo(initial);
+  const { ref: buttonRef, info: buttonInfo } = useElementInfo(initial);
+
+  const activeInfo = preview ? buttonInfo : labelInfo;
+
   const className = (n: boolean): string =>
     cnx(
-      "relative z-4 flex items-center rounded-sm cursor-pointer py-1.5 px-3 min-h-8 text-sm leading-none border border-transparent",
-      n ? "font-semibold bg-color text-background" : "font-medium",
+      "relative z-4 flex items-center rounded-sm cursor-pointer py-1.5 px-3 min-h-8 text-sm leading-none",
+      n ? "font-semibold text-background" : "font-medium",
     );
 
   return (
     <div className="space-y-2 relative">
-      <div className="flex flex-row items-center p-1 gap-2 rounded-md relative w-full bg-[hsl(var(--highlight))] border overflow-hidden after:absolute after:z-0 after:content-[''] after:h-8 after:w-[134px] after:rounded-sm after:left-1 after:bg-background">
-        <label htmlFor="playground" onClick={() => setPreview(false)} className={className(!preview)}>
+      <Element className="flex flex-row items-center p-0 ml-1 mt-1 after:rounded-md bg-background w-max after:border after:border-color-muted overflow-hidden after:absolute after:-z-1 after:content-[''] after:h-10 after:w-full rounded-sm after:left-0 after:top-0 after:bg-[hsl(var(--highlight))]">
+        <label
+          ref={labelRef as React.LegacyRef<HTMLLabelElement>}
+          htmlFor="playground"
+          onClick={() => setPreview(false)}
+          className={className(!preview)}
+        >
           Edit
         </label>
 
-        <button
-          type="button"
+        <UnstyledButton
+          ref={buttonRef as React.LegacyRef<HTMLButtonElement>}
           aria-label="preview"
           role="button"
           onClick={() => setPreview(true)}
           className={className(preview)}
         >
           Preview
-        </button>
-      </div>
+        </UnstyledButton>
+
+        <Element
+          el="span"
+          className="absolute transition-transform bg-color rounded-sm"
+          style={{
+            transition: "transform 180ms, width 180ms",
+            height: `${activeInfo.height}px`,
+            width: `${activeInfo.width}px`,
+            transform: `translateX(${activeInfo.x - labelInfo.left}px)`,
+          }}
+        />
+      </Element>
 
       {preview ? (
         <div

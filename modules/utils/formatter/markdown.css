@@ -138,9 +138,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid var(--clipboard-btn-bd, hsl(var(--color)));
-  color: var(--clipboard-btn-c, hsl(var(--color)));
-  background-color: var(--clipboard-btn-bg, hsl(var(--color) / 0.1));
+  border: 1px solid var(--clipboard-btn-bd, hsl(var(--muted-foreground)));
+  color: var(--clipboard-btn-c, hsl(var(--muted-foreground)));
+  background-color: var(--clipboard-btn-bg, hsl(var(--background) / 0.25));
 }
 .markdown-body .clipboard-content .clipboard-button:active {
   transform: translateY(1px);

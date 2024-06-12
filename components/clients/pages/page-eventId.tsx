@@ -1,19 +1,15 @@
 "use client";
 
-
 import { SectionID } from "../section";
 import { PostedTimes } from "../italic-time";
 import { TitlePageID } from "../title-page";
 import { ImagesArray } from "../images-array";
-import { markdownInsertHTML, markdownHTML } from "@/lib/clean-html";
-import { markdownText, useImagePopup } from "@/modules";
-import { useState } from "react";
+import { markdownInsertHTML } from "@/lib/clean-html";
+import { useImagePopup } from "@/modules";
 
 import type { PageEventIdTypes } from "@/types/connections";
 
-
 export const PageEventId: React.FC<PageEventIdTypes> = ({ event }) => {
-
   useImagePopup();
 
   return (

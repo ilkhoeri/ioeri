@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getBlogByID } from "@/connections/get-blog";
 import { SectionID } from "@/components/clients/section";
 import { TitlePageID } from "@/components/clients/title-page";
+import { truncate } from "@/modules";
 
 import { MarkdownEditor } from "@/components/clients/pages/playground-markdown-editor";
 
@@ -12,9 +13,9 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const page = await getBlogByID(params.playgroundId);
   const url = process.env.NEXT_PUBLIC_DOMAIN_URL;
   const slug = page?.id;
-  const namePage = page?.title;
+  const namePage = truncate(page?.title) + " | Playground";
   return {
-    title: namePage ? namePage.slice(0, 30) : "NotFound!",
+    title: namePage ? namePage : "NotFound!",
     description: namePage,
     openGraph: {
       title: namePage || "NotFound!",

@@ -51,4 +51,4 @@ export { useOs, type OS } from "./use-os/use-os";
 export { useOrientation } from "./use-orientation/use-orientation";
 export { useReload } from "./use-reload/use-reload";
 export { usePWAInstaller } from "./use-pwa-installer/use-pwa-installer";
-export { useElementPosition, type ElementPosition } from "./use-element-position/use-element-position";
+export { useElementInfo } from "./use-element-info/use-element-info";
