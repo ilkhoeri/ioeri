@@ -1,4 +1,5 @@
 "use client";
+
 import * as React from "react";
 
 import style from "@/styles/ioeri.module.css";
@@ -24,13 +25,10 @@ export const TitlePage: React.FC<TitlePageProps> = ({ title, scrollUpto = 200, .
     };
   }, [scrollUpto]);
 
-  const attr = {
-    className: style.h,
-    style: { opacity },
-  };
+  const rest = { className: style.h, style: { opacity }, ...props };
 
   return (
-    <h1 {...attr} {...props}>
+    <h1 {...rest}>
       <span className={style.h_span}>{title}</span>
     </h1>
   );

@@ -69,19 +69,14 @@ export const HeaderHome: React.FC = () => {
         aria-hidden="true"
         className={[
           mainStyle.aura,
-          "opacity-[0.5] dark:opacity-[0.3] before:top-[-10%] before:left-[-2%] after:bottom-[5%] after:right-[-5%]",
+          "opacity-[0.65] before:top-[-10%] before:left-[-2%] after:bottom-[5%] after:right-[-5%]",
         ].join(" ")}
       />
 
       <article className={style.hero}>
         <Transform el="h1" hold={0}>
           <span>bring</span>
-          <AnimText
-            anim="typing"
-            el="span"
-            duration={{ min: 300, max: 300 }}
-            placeholders={["a team", "an idea", "a spirit"]}
-          />
+          <AnimText el="span" anim="typing" placeholders={["a team", "an idea", "a spirit"]} />
           <span>together</span>
         </Transform>
 

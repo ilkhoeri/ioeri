@@ -305,7 +305,7 @@ export function PageHome() {
               Crafting and share relevant functionals, styles, and hooks recommendations for react.js applications.
             </p>
           </div>
-          <div className="mt-16 bg-background grid overflow-hidden rounded-xl border text-muted-foreground sm:grid-cols-2 lg:grid-cols-4 lg:divide-y-0 xl:grid-cols-4">
+          <div className="relative mt-16 bg-background grid overflow-hidden rounded-xl border text-muted-foreground sm:grid-cols-2 lg:grid-cols-4 lg:divide-y-0 xl:grid-cols-4">
             <FeaturesList features={features} />
           </div>
         </div>
@@ -371,6 +371,6 @@ const features = [
     title: "Valuable",
     slug: "#",
     image: "/images/icons.svg#pantone-2",
-    notes: "Easy to modify according to the needs of the structure of the component force.",
+    notes: "Editable content according to the requirements of the style component structure.",
   },
 ];

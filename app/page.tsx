@@ -1,8 +1,8 @@
 import { PageHome } from "@/components/clients/pages/page-home";
-import { CarouselClient } from "@/components/clients/pages/home/carousel-client";
 import { HeaderHome, HomeLayouts } from "@/components/clients/pages/home/header";
-import { getClients } from "@/connections/get-clients";
 
+// import { getClients } from "@/connections/get-clients";
+// import { CarouselClient } from "@/components/clients/pages/home/carousel-client";
 // import { SectionBlogs } from "@/components/clients/pages/home/latest-blog";
 // import { CardReviews } from "@/components/clients/pages/home/card-reviews";
 // import { Solution } from "@/components/clients/pages/home/solution";
@@ -13,13 +13,13 @@ export default async function Home() {
   // const events = await getEvent();
   // const socmeds = await getSocmed();
   // const address = await getUserAddress();
-  const [clientList] = await Promise.all([getClients()]);
+  // const [clientList] = await Promise.all([getClients()]);
 
   return (
     <HomeLayouts>
       <HeaderHome />
-      {/* <CardReviews data={userReviews} /> */}
-      <CarouselClient data={clientList} />
+      {/* <CardReviews data={userReviews} />
+      <CarouselClient data={clientList} /> */}
 
       {/* <Solution /> */}
       <PageHome />

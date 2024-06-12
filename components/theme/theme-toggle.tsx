@@ -37,7 +37,6 @@ export function ThemeToggle({
             !unstyled?.buttons &&
               "relative text-[13px] flex items-center justify-center cursor-pointer select-none p-1 outline-0 transition-colors focus:text-neutral-900 disabled:pointer-events-none disabled:opacity-50 dark:focus:text-neutral-50 border border-neutral-200 dark:border-neutral-700 h-[var(--ttg-sz,30px)] w-[var(--ttg-sz,30px)] rounded-lg capitalize focus:bg-[#e4e4e4] dark:focus:bg-[#373737]",
             classNames?.buttons,
-            t.name === (theme || "auto") && "bg-muted text-color",
           )}
         >
           <t.icon />
