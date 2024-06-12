@@ -3,7 +3,6 @@ import Link from "next/link";
 import Container from "@/components/ui/container";
 
 import { ThemeToggle } from "@/components/theme/theme-toggle";
-import { Tooltip } from "@/components/assets/tooltip";
 import { twMerge } from "tailwind-merge";
 
 import { sanitizedToParams } from "@/utils/text-transform";
@@ -69,15 +68,8 @@ export default async function FootNav({ className }: FooterProps) {
       </Container>
 
       <ThemeToggle
-        unstyled={{
-          wrapper: true,
-          buttons: true,
-          root: true, // tooltip-root
-        }}
-        classNames={{
-          wrapper: f.footnav_inner_theme,
-          buttons: f.theme_toggle,
-        }}
+        unstyled={{ wrapper: true, buttons: true, }}
+        classNames={{ wrapper: f.footnav_inner_theme, buttons: f.theme_toggle, }}
       />
 
       <Container el={"section"} unstyled className={f.footnav_bottom_inner}>
@@ -89,16 +81,14 @@ export default async function FootNav({ className }: FooterProps) {
 
         <div className={f.inner_right}>
           Built by
-          <Tooltip tooltip="ioeri.dev" withArrow>
-            <a
-              rel="noopener noreferrer nofollow"
-              target="_blank"
-              href="https://github.com/ioeridev"
-              aria-label="Vercel.com Link"
-            >
-              <IoeriIcon size={28} aria-label="ioeri Logo" /> ioeri
-            </a>
-          </Tooltip>
+          <a
+            rel="noopener noreferrer nofollow"
+            target="_blank"
+            href="https://github.com/ioeridev"
+            aria-label="Vercel.com Link"
+          >
+            <IoeriIcon size={28} aria-label="ioeri Logo" /> ioeri
+          </a>
         </div>
       </Container>
     </footer>

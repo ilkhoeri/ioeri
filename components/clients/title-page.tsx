@@ -9,7 +9,7 @@ interface TitlePageProps extends React.DetailedHTMLProps<React.HTMLAttributes<HT
   scrollUpto?: number;
 }
 
-const TitlePage: React.FC<TitlePageProps> = ({ title, scrollUpto = 200, ...props }) => {
+export const TitlePage: React.FC<TitlePageProps> = ({ title, scrollUpto = 200, ...props }) => {
   const [opacity, setOpacity] = React.useState(1);
 
   React.useEffect(() => {
@@ -36,12 +36,10 @@ const TitlePage: React.FC<TitlePageProps> = ({ title, scrollUpto = 200, ...props
   );
 };
 
-const TitlePageID: React.FC<TitlePageProps> = ({ title, ...props }) => {
+export const TitlePageID: React.FC<TitlePageProps> = ({ title, ...props }) => {
   return (
     <h1 className={style.pg_ID_h1} {...props}>
       {title}
     </h1>
   );
 };
-
-export { TitlePage, TitlePageID };

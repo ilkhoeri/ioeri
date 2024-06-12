@@ -1,9 +1,9 @@
 import { PageHome } from "@/components/clients/pages/page-home";
 import { CarouselClient } from "@/components/clients/pages/home/carousel-client";
 import { HeaderHome, HomeLayouts } from "@/components/clients/pages/home/header";
-import { SectionBlogs } from "@/components/clients/pages/home/latest-blog";
 import { getClients } from "@/connections/get-clients";
 
+// import { SectionBlogs } from "@/components/clients/pages/home/latest-blog";
 // import { CardReviews } from "@/components/clients/pages/home/card-reviews";
 // import { Solution } from "@/components/clients/pages/home/solution";
 
@@ -24,11 +24,12 @@ export default async function Home() {
       {/* <Solution /> */}
       <PageHome />
 
-      <SectionBlogs />
+      {/* <SectionBlogs /> */}
     </HomeLayouts>
   );
 }
 
+/**
 const userReviews = [
   {
     imageUrl: "https://raw.githubusercontent.com/ioeridev/assets/public/avatar/u/0.png",
@@ -73,3 +74,4 @@ const userReviews = [
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum aliquid quo eum quae quos illo earum ipsa doloribus nostrum minus libero aspernatur laborum cum, a suscipit, ratione ea totam ullam! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Architecto laboriosam deleniti aperiam ab veniam sint non cumque quis tempore cupiditate. Sint libero voluptas veniam at reprehenderit, veritatis harum et rerum.",
   },
 ];
+ */
