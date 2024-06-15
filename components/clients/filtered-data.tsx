@@ -1,8 +1,6 @@
 import { cnx } from "@/modules";
 import { Input } from "../ui/input";
 
-import style from "@/styles/ioeri.module.css";
-
 export function FilteredData<T extends string>({
   data,
   value,
@@ -12,17 +10,21 @@ export function FilteredData<T extends string>({
   value: string;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
 }) {
+  if (!data.length) {
+    return null;
+  }
   return (
-    data.length > 0 && (
-      <Input
-        unstyled
-        placeholder="Search"
-        name="search"
-        autoComplete="socmed"
-        value={value}
-        onChange={onChange}
-        className={cnx(style._search, "input_class")}
-      />
-    )
+    <Input
+      unstyled
+      placeholder="Search"
+      name="search"
+      autoComplete="socmed"
+      value={value}
+      onChange={onChange}
+      className={cnx(
+        "input_class",
+        "backdrop-blur-md bg-background/40 max-w-[35rem] aria-[disabled='true']:cursor-not-allowed aria-[disabled='true']:opacity-50",
+      )}
+    />
   );
 }

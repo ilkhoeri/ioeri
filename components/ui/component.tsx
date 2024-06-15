@@ -22,7 +22,7 @@ export const Main = React.forwardRef<HTMLElement, ElementType<HTMLElement>>(
         ref={ref}
         className={twMerge(
           !unstyled &&
-            "w-full relative flex flex-row mx-auto max-w-screen-3xl min-h-dvh pb-14 max-md:pl-6 pr-6 md:pr-9 xl:pr-12",
+            "w-full relative flex flex-col md:flex-row mx-auto max-w-screen-3xl min-h-dvh pb-14",
           className,
         )}
         {...props}
@@ -31,6 +31,17 @@ export const Main = React.forwardRef<HTMLElement, ElementType<HTMLElement>>(
   },
 );
 Main.displayName = "Main";
+
+export const Article = React.forwardRef<HTMLElement, ElementType<HTMLElement>>(
+  ({ className, el = "article", unstyled = false, ...props }, ref) => {
+    let Component: ComponentType<HTMLElement> = el as ComponentType<HTMLElement>;
+
+    return (
+      <Component ref={ref} className={twMerge(!unstyled && "w-full relative flex flex-col max-md:pl-6 pr-6 md:pr-9 xl:pr-12", className)} {...props} />
+    );
+  },
+);
+Article.displayName = "Article";
 
 export const Container = React.forwardRef<HTMLElement, ContainerProps>(
   ({ className, el = "div", unstyled = false, asChild = false, ...props }, ref) => {

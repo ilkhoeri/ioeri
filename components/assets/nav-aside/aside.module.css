@@ -97,26 +97,4 @@
   }
 }
 
-/* aside */
-.overlay {
-  @apply md:hidden md:sr-only fixed max-md:z-[95] w-full h-full min-w-full min-h-full inset-y-0 inset-x-0 backdrop-blur-[0.5px] bg-background/15 supports-[backdrop-filter]:bg-background/15;
-}
-.aside {
-  @apply m-0 bg-background overflow-hidden [transition:all_0.5s_ease] h-full w-0 focus-visible:outline-0 top-0 bottom-0 md:sticky md:top-[calc(var(--navbar)*1)] md:pr-6 md:pb-8 md:pl-4 md:left-0 md:w-[--aside] max-md:fixed max-md:z-[111] max-md:left-0 max-md:border-0 max-md:border-r-[0.04rem] max-md:border-r-muted/75;
 
-  & nav {
-    @apply p-4 pr-0 relative flex items-start flex-col flex-nowrap gap-4 md:h-max w-full max-md:h-full max-md:pt-0 max-md:pr-0.5 max-md:pb-[5rem] max-md:overflow-y-auto md:overflow-y-hidden overflow-x-hidden webkit-scrollbar;
-
-    & [data-aside="item"] {
-      @apply w-full flex flex-row flex-nowrap items-center justify-between gap-3;
-    }
-  }
-
-  &[data-state="open"] {
-    @apply max-md:w-[--aside] pl-6 pr-3;
-  }
-
-  &[data-state="closed"] {
-    @apply max-md:pl-0 max-md:pr-0 max-md:opacity-0;
-  }
-}

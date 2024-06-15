@@ -7,6 +7,7 @@ import { getBlogs } from "@/connections/get-blog";
 import { getEvents } from "@/connections/get-event";
 import { getSocmed } from "@/connections/get-socmed";
 import { UserPageHeader } from "@/components/clients/pages/user/header";
+import { Article } from "@/components/ui/component";
 
 type USERID = { params: { userId: string } };
 
@@ -43,9 +44,9 @@ export default async function Page({ params }: USERID) {
   }
 
   return (
-    <>
+    <Article className="absolute z-[86] inset-0 md:bg-background">
       <UserPageHeader user={user} />
       <UserPortfolio user={user} address={address} blog={blogs} events={events} socmed={socmeds} />
-    </>
+    </Article>
   );
 }

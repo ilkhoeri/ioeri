@@ -1,6 +1,6 @@
 /* Page User */
 .user_header {
-  @apply -mt-14 md:-mt-20 xl:-mt-24 relative w-full max-w-full h-dvh min-h-dvh max-h-dvh flex items-center justify-center flex-col after:content-[''] after:w-[100dvw] after:h-1/2 after:bg-gradient-to-t after:from-background after:absolute after:z-[+1] after:bottom-0 after:left-0 after:right-0 after:-mb-[98px] after:-mx-6 after:md:-mx-9 after:xl:-mx-12;
+  @apply -mt-14 md:-mt-20 xl:-mt-24 relative w-full max-w-full h-dvh min-h-dvh max-h-dvh flex items-center justify-center flex-col after:content-[''] after:w-[100dvw] after:h-1/2 after:bg-gradient-to-t after:from-background after:absolute after:z-[+1] after:bottom-0 after:inset-x-0 after:-mb-[98px] after:mx-0;
 
   & > article {
     @apply min-h-dvh h-dvh w-full flex items-center justify-center text-h3 font-semibold font-montserrat absolute;

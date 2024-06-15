@@ -10,6 +10,8 @@ const defaultText = fs.readFileSync("md/markdown.md", "utf-8");
 
 type Params = { params: { playgroundId: string } };
 
+export const fetchCache = "only-no-store";
+
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const url = process.env.NEXT_PUBLIC_DOMAIN_URL;
   const slug = "Markdown Editor";

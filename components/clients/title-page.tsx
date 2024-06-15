@@ -1,8 +1,7 @@
 "use client";
 
 import * as React from "react";
-
-import style from "@/styles/ioeri.module.css";
+import { twMerge } from "tailwind-merge";
 
 interface TitlePageProps extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement> {
   title: string | undefined;
@@ -25,18 +24,26 @@ export const TitlePage: React.FC<TitlePageProps> = ({ title, scrollUpto = 200, .
     };
   }, [scrollUpto]);
 
-  const rest = { className: style.h, style: { opacity }, ...props };
-
   return (
-    <h1 {...rest}>
-      <span className={style.h_span}>{title}</span>
+    <h1
+      className={twMerge("overflow-hidden sticky top-6 -z-9 -mt-8 [font-size:clamp(42px,2px+10dvw,80px)]")}
+      style={{ opacity }}
+      {...props}
+    >
+      <span
+        className={twMerge(
+          "uppercase select-none font-extrabold font-kanit text-muted-foreground w-0 max-w-0 [transition:all_250ms_ease]",
+        )}
+      >
+        {title}
+      </span>
     </h1>
   );
 };
 
 export const TitlePageID: React.FC<TitlePageProps> = ({ title, ...props }) => {
   return (
-    <h1 className={style.tt} {...props}>
+    <h1 className={twMerge("mb-3 text-h4 font-bold capitalize leading-none font-kanit")} {...props}>
       {title}
     </h1>
   );

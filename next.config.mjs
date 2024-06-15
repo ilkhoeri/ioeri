@@ -9,17 +9,29 @@ const withPWA = nextPWA({
 });
 
 /** @type {import('next').NextConfig} */
-const Config = {
+const Config = withMDX({
   images: {
     formats: ["image/avif", "image/webp"],
-    domains: [
-      "img.clerk.com",
-      "res.cloudinary.com",
-      "avatars.githubusercontent.com",
-      "raw.githubusercontent.com",
-      "lh3.googleusercontent.com",
-      "cdn-icons-png.flaticon.com",
-      "images.unsplash.com",
+    domains: ["img.clerk.com", "lh3.googleusercontent.com", "cdn-icons-png.flaticon.com", "images.unsplash.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+        port: "",
+        pathname: "/bio/**",
+      },
+      {
+        protocol: "https",
+        hostname: "avatars.githubusercontent.com",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "raw.githubusercontent.com",
+        port: "",
+        pathname: "/**",
+      },
     ],
     deviceSizes: [375, 640, 768, 1024, 1536, 1920],
     minimumCacheTTL: 60 * 60 * 24,
@@ -34,7 +46,7 @@ const Config = {
       },
     ];
   },
-  pageExtensions: ["ts", "tsx", "mdx"],
+  pageExtensions: ["ts", "tsx", "mdx", "md"],
   experimental: {
     mdxRs: true,
   },
@@ -54,8 +66,8 @@ const Config = {
 
     return config;
   },
-};
+});
 
-const nextConfig = withPWA(withMDX(Config));
+const nextConfig = withPWA(Config);
 
 export default nextConfig;

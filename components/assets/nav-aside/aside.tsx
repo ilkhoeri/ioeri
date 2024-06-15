@@ -17,7 +17,9 @@ export function NavAside({ classNames }: { classNames?: { aside?: string; overla
 
   const { minQuery, maxQuery, open, setOpen, handleClose } = useNavContext();
 
-  if (pathname === "/" && minQuery) {
+  const home = pathname === "/" && minQuery;
+
+  if (home) {
     return null;
   }
 
@@ -35,11 +37,13 @@ export function NavAside({ classNames }: { classNames?: { aside?: string; overla
 
   return (
     <>
-      <Overlay minQuery={minQuery} open={open} setOpen={setOpen} className={classNames?.overlay} />
-
       <aside
         data-state={maxQuery ? (open ? "open" : "closed") : undefined}
-        className={twMerge(style.aside, classNames?.aside)}
+        className={twMerge(
+          "m-0 bg-background overflow-hidden [transition:all_0.5s_ease] h-full w-0 focus-visible:outline-0 top-0 bottom-0 md:sticky md:top-[calc(var(--navbar)*1)] md:pr-6 md:pb-8 md:pl-4 md:left-0 md:w-[--aside] md:min-w-[--aside] md:max-w-[--aside] max-md:fixed max-md:z-[111] max-md:left-0 max-md:border-0 max-md:border-r-[0.04rem] max-md:border-r-muted/75",
+          "max-md:data-[state=open]:w-[--aside] max-md:data-[state=open]:min-w-[--aside] max-md:data-[state=open]:max-w-[--aside] data-[state=open]:pl-6 data-[state=open]:pr-3 max-md:data-[state=closed]:pl-0 max-md:data-[state=closed]:pr-0 max-md:data-[state=closed]:opacity-0",
+          classNames?.aside,
+        )}
       >
         {maxQuery && (
           <section className="flex flex-row items-center justify-between h-[--navbar] mb-4 md:hidden md:sr-only">
@@ -48,7 +52,7 @@ export function NavAside({ classNames }: { classNames?: { aside?: string; overla
           </section>
         )}
 
-        <nav>
+        <nav className="p-4 pr-0 relative flex items-start flex-col flex-nowrap gap-4 md:h-max w-full max-md:h-full max-md:pt-0 max-md:pr-0.5 max-md:pb-[5rem] max-md:overflow-y-auto md:overflow-y-hidden overflow-x-hidden webkit-scrollbar">
           {routes.map((i, index) => (
             <Collapsible key={index} defaultOpen className="h-full w-full flex flex-col gap-1">
               <CollapsibleTrigger className={[style.clb, "text-sm font-medium select-none z-9"].join(" ")}>
@@ -87,6 +91,8 @@ export function NavAside({ classNames }: { classNames?: { aside?: string; overla
           ))}
         </nav>
       </aside>
+
+      <Overlay minQuery={minQuery} open={open} setOpen={setOpen} className={classNames?.overlay} />
     </>
   );
 }
@@ -105,5 +111,13 @@ function Overlay({
   if (minQuery || !open) {
     return null;
   }
-  return <span onClick={() => setOpen(false)} className={twMerge(style.overlay, className)} />;
+  return (
+    <span
+      onClick={() => setOpen(false)}
+      className={twMerge(
+        "md:hidden md:sr-only fixed max-md:z-[95] w-full h-full min-w-full min-h-full inset-y-0 inset-x-0 backdrop-blur-[0.5px] bg-background/15 supports-[backdrop-filter]:bg-background/15",
+        className,
+      )}
+    />
+  );
 }

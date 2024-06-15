@@ -1,6 +1,7 @@
 "use client"; // Error components must be Client Components
 
 import { useEffect } from "react";
+import { Article } from "@/components/ui/component";
 
 export default function Error({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
   useEffect(() => {
@@ -14,7 +15,7 @@ export default function Error({ error, reset }: { error: Error & { digest?: stri
   }
 
   return (
-    <>
+    <Article>
       <h2 className="font-medium">Something went wrong!</h2>
       {errorMessage}
 
@@ -29,6 +30,6 @@ export default function Error({ error, reset }: { error: Error & { digest?: stri
           Home
         </button>
       </div>
-    </>
+    </Article>
   );
 }

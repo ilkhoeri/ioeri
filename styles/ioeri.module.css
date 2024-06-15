@@ -173,21 +173,6 @@
   }
 }
 
-._search {
-  @apply backdrop-blur-md bg-background/40 max-w-[35rem] aria-[disabled='true']:cursor-not-allowed aria-[disabled='true']:opacity-50;
-}
-
-/* TitlePage */
-.h {
-  @apply overflow-hidden sticky top-4 -z-9 -mt-8 -ml-6 [font-size:clamp(42px,2px+10dvw,80px)];
-}
-.h_span {
-  @apply uppercase select-none font-extrabold font-kanit text-muted-foreground w-0 max-w-0 [transition:all_250ms_ease];
-}
-.tt {
-  @apply mb-3 text-h4 font-bold capitalize leading-none font-kanit;
-}
-
 /* card */
 .card {
   @apply relative flex items-center justify-center size-full aspect-square !list-none rounded-xl overflow-hidden bg-background transition duration-300 border border-muted-foreground/40;
