@@ -1,4 +1,5 @@
-import { cleanHTML } from "@/lib/clean-html";
+"use client";
+
 import * as React from "react";
 
 export function CodeCustomizer({ code }: { code: string }) {
