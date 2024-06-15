@@ -3,7 +3,6 @@
 import * as React from "react";
 import Image from "next/image";
 import { Anchor } from "@/components/ui/anchor";
-import { Input } from "@/components/ui/input";
 
 import { FilteredData } from "../filtered-data";
 import { getSocMedImages } from "@/connections/get-socmed-images";
@@ -51,7 +50,7 @@ const ListSocmedCard: React.FC<{ data: Socmed }> = ({ data }) => {
       />
       <div className={style.lscm_stN}>{data.siteName || data.siteUrl.split("/")[2].split(".").shift()}</div>
       <div className={style.lscm_stU}>{data.siteUrl}</div>
-      <Anchor unstyled href={data.siteUrl} target="_blank" className={style.lscm_st_Link}>
+      <Anchor href={data.siteUrl} target="_blank" className={style.lscm_st_Link}>
         <ChainLinkIcon />
       </Anchor>
     </li>
