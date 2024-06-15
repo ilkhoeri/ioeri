@@ -1,9 +1,9 @@
 "use client";
 
-import { SectionID } from "../section";
 import { PostedTimes } from "../italic-time";
 import { TitlePageID } from "../title-page";
 import { ImagesArray } from "../images-array";
+import { Article } from "@/components/ui/component";
 import { markdownInsertHTML } from "@/lib/clean-html";
 import { useImagePopup } from "@/modules";
 
@@ -13,7 +13,7 @@ export const PageEventId: React.FC<PageEventIdTypes> = ({ event }) => {
   useImagePopup();
 
   return (
-    <SectionID>
+    <Article>
       <TitlePageID title={event?.title} />
       <ImagesArray images={event?.images} />
       {event?.description && (
@@ -29,6 +29,6 @@ export const PageEventId: React.FC<PageEventIdTypes> = ({ event }) => {
         />
       )}
       <PostedTimes times={event} />
-    </SectionID>
+    </Article>
   );
 };

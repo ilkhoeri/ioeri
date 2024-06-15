@@ -21,8 +21,7 @@ export const Main = React.forwardRef<HTMLElement, ElementType<HTMLElement>>(
       <Component
         ref={ref}
         className={twMerge(
-          !unstyled &&
-            "w-full relative flex flex-col md:flex-row mx-auto max-w-screen-3xl min-h-dvh pb-14",
+          !unstyled && "w-full relative flex flex-col md:flex-row mx-auto max-w-screen-3xl min-h-dvh pb-14",
           className,
         )}
         {...props}
@@ -37,7 +36,14 @@ export const Article = React.forwardRef<HTMLElement, ElementType<HTMLElement>>(
     let Component: ComponentType<HTMLElement> = el as ComponentType<HTMLElement>;
 
     return (
-      <Component ref={ref} className={twMerge(!unstyled && "w-full relative flex flex-col max-md:pl-6 pr-6 md:pr-9 xl:pr-12", className)} {...props} />
+      <Component
+        ref={ref}
+        className={twMerge(
+          !unstyled && "w-full max-w-full relative flex flex-col max-md:pl-6 pr-6 md:pr-9 xl:pr-12",
+          className,
+        )}
+        {...props}
+      />
     );
   },
 );

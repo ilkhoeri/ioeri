@@ -28,12 +28,6 @@ export function markdownText(text: string): string {
   text = text.replace(/^> (.*$)/gim, '<blockquote><p dir="auto">$1</p></blockquote>');
   text = text.replace(/^< (.*$)/gim, "$1");
 
-  // // Replace unordered lists
-  // text = text.replace(/^- (.*)$/gim, "<li>$1</li>");
-  // text = text.replace(/(<li>.*<\/li>)/gim, '<ul dir="auto">$1</ul>');
-  // // Combine all consecutive <ul> tags into one
-  // text = text.replace(/<\/ul>\s*<ul dir="auto">/gim, "");
-
   // Replace ordered list items (start with a digit followed by space)
   text = text.replace(/^\d+ (.*)$/gm, "<li>$1</li>");
   text = text.replace(/(<li>.*<\/li>)(?!(<\/ol>|<\/ul>))/gim, '<ol dir="auto">$1</ol>');
@@ -45,9 +39,6 @@ export function markdownText(text: string): string {
   // Combine all consecutive <ol> and <ul> tags into one
   text = text.replace(/<\/ol>\s*<ol dir="auto">/gim, "");
   text = text.replace(/<\/ul>\s*<ul dir="auto">/gim, "");
-
-  // Wrap paragraphs in <p>
-  // text = text.replace(/^(?!<h1|<h2|<h3|<ul|<blockquote|<hr)(.*$)/gim, "<p>$1</p>");
 
   // Replace code blocks (text wrapped with triple backticks)
   text = text.replace(
@@ -74,7 +65,7 @@ function stripHtml(text: string) {
   return text.trim();
 }
 
-// Add event listener to handle copy functionality
+// event listener to handle copy functionality
 if (typeof window !== "undefined") {
   document.addEventListener("click", function (event) {
     const target = event.target as HTMLElement;
@@ -82,7 +73,6 @@ if (typeof window !== "undefined") {
     if (target && target.closest(".clipboard-button")) {
       const button = target.closest(".clipboard-button") as HTMLElement;
       const useElement = button.querySelector("use") as SVGUseElement;
-      // useElement.setAttribute("href", "/images/icons.svg#copy");
 
       const textToCopy = button.getAttribute("data-value");
       if (textToCopy) {
@@ -91,7 +81,6 @@ if (typeof window !== "undefined") {
           .then(() => {
             button.setAttribute("data-copied", "success");
             useElement.setAttribute("href", "/images/icons.svg#check");
-            // alert("Text copied to clipboard!");
           })
           .catch((err) => {
             console.error("Failed to copy text: ", err);

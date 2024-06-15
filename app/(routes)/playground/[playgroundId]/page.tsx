@@ -1,12 +1,10 @@
 import { Metadata } from "next";
-// import { notFound } from "next/navigation";
-import { SectionID } from "@/components/clients/section";
+import { Article } from "@/components/ui/component";
 import { TitlePageID } from "@/components/clients/title-page";
-
 import { MarkdownEditor } from "../playground-markdown-editor";
+// import { notFound } from "next/navigation";
 
 import fs from "fs-extra";
-// const defaultText = fs.readFileSync("md/markdown.md", "utf-8");
 
 type Params = { params: { playgroundId: string } };
 
@@ -30,13 +28,17 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 }
 
 export default async function Page({ params }: Params) {
-  const file = await fs.readFile(process.cwd() + "/md/markdown.md", "utf-8");
+  const [edit, code, css] = await Promise.all([
+    fs.readFile(process.cwd() + "/md/markdown.md", "utf-8"),
+    fs.readFile(process.cwd() + "/modules/utils/formatter/mardown-text.ts", "utf-8"),
+    fs.readFile(process.cwd() + "/modules/utils/formatter/markdown.css", "utf-8"),
+  ]);
   // const data = JSON.parse(file);
   return (
-    <SectionID>
+    <Article>
       <TitlePageID title="Markdown Editor" />
 
-      <MarkdownEditor defaultText={file} />
-    </SectionID>
+      <MarkdownEditor edit={edit} code={code} css={css} />
+    </Article>
   );
 }

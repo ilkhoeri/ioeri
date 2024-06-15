@@ -1,6 +1,6 @@
 import { ListSocmed } from "@/components/clients/includes/list-socmed";
-import { SectionID } from "@/components/clients/section";
 import { TitlePage } from "@/components/clients/title-page";
+import { Article } from "@/components/ui/component";
 import { getSocmed } from "@/connections/get-socmed";
 
 export const metadata = {
@@ -12,11 +12,10 @@ export default async function Page() {
   const socmeds = await getSocmed();
 
   return (
-    <>
+    <Article>
       <TitlePage title="official" />
-      <SectionID className="max-w-3xl">
-        <ListSocmed data={socmeds} filtered={socmeds} />
-      </SectionID>
-    </>
+
+      <ListSocmed data={socmeds} filtered={socmeds} />
+    </Article>
   );
 }

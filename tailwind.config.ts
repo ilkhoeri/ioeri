@@ -361,6 +361,12 @@ const config = {
         ".text-pre-line": {
           whiteSpace: "pre-line",
         },
+        ".text-pre-wrap": {
+          whiteSpace: "pre-wrap",
+        },
+        ".text-break-spaces": {
+          whiteSpace: "break-spaces",
+        },
         ".filter-icon": {
           filter: "var(--filter-icon)",
         },

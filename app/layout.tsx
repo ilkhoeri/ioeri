@@ -16,6 +16,8 @@ import "./themeid-deulysiea.css";
 import "./themeid-lyona.css";
 import "./themeid-protanopia.css";
 
+import "../styles/mdx.css";
+
 export const metadata: Metadata = {
   title: {
     template: "%s | ioeri",

@@ -1,10 +1,8 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getBlogByID } from "@/connections/get-blog";
-import { SectionID } from "@/components/clients/section";
 import { TitlePageID } from "@/components/clients/title-page";
-
-import { MarkdownEditor } from "@/app/(routes)/playground/playground-markdown-editor";
+import { Article } from "@/components/ui/component";
 
 type BLOGID = { params: { blogId: string } };
 
@@ -33,14 +31,12 @@ export default async function Page({ params }: BLOGID) {
     notFound();
   }
   return (
-    <SectionID>
+    <Article>
       <TitlePageID title={data?.title} />
       {/* <ImagesArray images={data?.images} />
       <ArticleInnerHTML article={data?.description} />
 
       <PostedTimes times={data} /> */}
-
-      <MarkdownEditor defaultText={data.description} />
-    </SectionID>
+    </Article>
   );
 }
