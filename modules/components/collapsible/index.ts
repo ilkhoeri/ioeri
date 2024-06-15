@@ -20,7 +20,5 @@ export type {
   CollapsibleTrees,
   DestructureCollapsibleType,
   IntrinsicCollapsibleType,
-  StylesCollapsibleVarsType,
-  UseCollapsibleProps,
   UseCollapsibleType,
 } from "./types";
