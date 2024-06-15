@@ -48,7 +48,7 @@ export function NavAside({ classNames }: { classNames?: { aside?: string; overla
           </section>
         )}
 
-        <nav className="p-4 pr-0 relative flex items-start flex-col flex-nowrap gap-4 md:h-max w-full max-md:h-full max-md:pt-0 max-md:pr-0.5 max-md:pb-[5rem] max-md:overflow-y-auto md:overflow-y-hidden overflow-x-hidden webkit-scrollbar">
+        <nav className="p-4 pr-0 relative flex items-start flex-col flex-nowrap gap-4 h-max w-full max-md:pt-0 max-md:pr-0.5 max-md:pb-[5rem] max-md:overflow-y-auto md:overflow-y-hidden overflow-x-hidden webkit-scrollbar">
           {routes.map((i, index) => (
             <Collapsible key={index} defaultOpen className="h-full w-full flex flex-col gap-1">
               <CollapsibleTrigger className={[style.clb, "text-sm font-medium select-none z-9"].join(" ")}>
