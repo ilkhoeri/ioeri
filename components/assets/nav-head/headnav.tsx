@@ -10,14 +10,17 @@ import { twMerge } from "tailwind-merge";
 import style from "../nav-aside/aside.module.css";
 
 export function Headnav() {
-  const { minQuery, handleOpen, open } = useNavContext();
+  const { minQuery, handleOpen, isHome, open } = useNavContext();
 
   const { hovered, onMouseEnter, onMouseLeave } = useHoveredElement();
 
   return (
     <header
       id="header-nav"
-      className="h-[--navbar] flex items-center justify-between py-4 md:px-5 xl:px-6 border-0 border-b-[0.04rem] border-b-muted/75 sticky top-0 inset-x-0 z-[88] w-full backdrop-blur bg-background/95 supports-[backdrop-filter]:bg-background/60"
+      className={twMerge(
+        "h-[--navbar] flex items-center justify-between py-4 md:px-5 xl:px-6 border-0 border-b-[0.04rem] border-b-muted/75 sticky top-0 inset-x-0 z-[--z,88] w-full backdrop-blur bg-background/95 supports-[backdrop-filter]:bg-background/60",
+        isHome && open && "[--z:0]",
+      )}
     >
       <Element className="w-full relative flex items-center mx-auto max-w-screen-3xl px-4 3xl:px-20">
         <ButtonAside

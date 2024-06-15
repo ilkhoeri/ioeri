@@ -1,6 +1,14 @@
 import nextPWA from "next-pwa";
+import remarkGfm from "remark-gfm";
+import createMDX from "@next/mdx";
 
-import withMDX from "@next/mdx";
+const withMDX = createMDX({
+  options: {
+    // as desired
+    remarkPlugins: [remarkGfm],
+    rehypePlugins: [],
+  },
+});
 
 /** @type {import('next-pwa').PWAConfig} */
 const withPWA = nextPWA({
@@ -12,24 +20,23 @@ const withPWA = nextPWA({
 const Config = withMDX({
   images: {
     formats: ["image/avif", "image/webp"],
-    domains: ["img.clerk.com", "lh3.googleusercontent.com", "cdn-icons-png.flaticon.com", "images.unsplash.com"],
+    domains: [
+      "res.cloudinary.com",
+      "img.clerk.com",
+      "lh3.googleusercontent.com",
+      "cdn-icons-png.flaticon.com",
+      "images.unsplash.com",
+    ],
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "res.cloudinary.com",
-        port: "",
-        pathname: "/bio/**",
-      },
-      {
-        protocol: "https",
         hostname: "avatars.githubusercontent.com",
-        port: "",
+        // port: "",
         pathname: "/**",
       },
       {
         protocol: "https",
         hostname: "raw.githubusercontent.com",
-        port: "",
         pathname: "/**",
       },
     ],
@@ -46,7 +53,7 @@ const Config = withMDX({
       },
     ];
   },
-  pageExtensions: ["ts", "tsx", "mdx", "md"],
+  pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
   experimental: {
     mdxRs: true,
   },

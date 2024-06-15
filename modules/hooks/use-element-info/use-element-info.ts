@@ -12,7 +12,7 @@ export function useElementInfo({ initial }: InitialInfo = {}) {
   const [hoveredElement, setHoveredElement] = useState<DOMRect | null>(null);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [scrollBody, setScrollBody] = useState(0);
-  const [windowSize, setWindowSize] = useState({ width: window.innerWidth, height: window.innerHeight });
+  const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
   const [rectElement, setRectElement] = useState<RectElement>({
     x: initial?.x || 0,
     y: initial?.y || 0,

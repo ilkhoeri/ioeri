@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { usePathname } from "next/navigation";
 import { fitures, routes } from "@/routes";
 import { NavLinkItem } from "../connections/nav-link";
 
@@ -13,13 +12,9 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/modules";
 import style from "./aside.module.css";
 
 export function NavAside({ classNames }: { classNames?: { aside?: string; overlay?: string } }) {
-  const pathname = usePathname();
+  const { homeQuery, minQuery, maxQuery, open, setOpen, handleClose } = useNavContext();
 
-  const { minQuery, maxQuery, open, setOpen, handleClose } = useNavContext();
-
-  const home = pathname === "/" && minQuery;
-
-  if (home) {
+  if (homeQuery) {
     return null;
   }
 
@@ -38,6 +33,7 @@ export function NavAside({ classNames }: { classNames?: { aside?: string; overla
   return (
     <>
       <aside
+        id="aside-nav"
         data-state={maxQuery ? (open ? "open" : "closed") : undefined}
         className={twMerge(
           "m-0 bg-background overflow-hidden [transition:all_0.5s_ease] h-full w-0 focus-visible:outline-0 top-0 bottom-0 md:sticky md:top-[calc(var(--navbar)*1)] md:pr-6 md:pb-8 md:pl-4 md:left-0 md:w-[--aside] md:min-w-[--aside] md:max-w-[--aside] max-md:fixed max-md:z-[111] max-md:left-0 max-md:border-0 max-md:border-r-[0.04rem] max-md:border-r-muted/75",

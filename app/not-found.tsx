@@ -5,7 +5,7 @@ import { Main } from "@/components/ui/component";
 
 export default function NotFound() {
   return (
-    <Main>
+    <Main className="pb-0">
       <NavAside />
 
       <article className="h-dvh w-full max-w-full overflow-hidden flex flex-wrap items-start justify-center p-4 m-0 relative pt-20 after:content-[''] after:w-full after:h-[262px] after:absolute after:bottom-0 after:bg-gradient-to-t after:from-background">

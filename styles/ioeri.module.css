@@ -58,7 +58,12 @@
 }
 /* main - layout */
 .main_home {
-  @apply m-0 flex items-center min-h-screen flex-col p-4 lg:p-14 relative w-full min-w-full overflow-hidden space-y-12;
+  @apply m-0 flex items-center min-h-screen flex-col p-4 lg:p-14 relative inset-x-0 z-[86] w-full min-w-full overflow-hidden space-y-12;
+
+  & aside,
+  & [id="aside-nav"] {
+    @apply md:!hidden md:!sr-only;
+  }
 
   background-size: 55px 55px;
   background-image: linear-gradient(
