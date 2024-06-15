@@ -3,11 +3,9 @@ import { Article } from "@/components/ui/component";
 import { TitlePageID } from "@/components/clients/title-page";
 import { MarkdownEditor } from "../playground-markdown-editor";
 // import { notFound } from "next/navigation";
-
+// import { getPath } from "@/script/get-path";
+import path from "node:path";
 import fs from "fs-extra";
-import { readFileSync } from "fs";
-import { readFile } from "fs/promises";
-import { outputFile, outputFileSync } from "fs-extra/esm";
 
 type Params = { params: { playgroundId: string } };
 
@@ -33,12 +31,14 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 export default async function Page() {
   // const [edit, code, css] = await Promise.all([
   //   fs.readFile(process.cwd() + "/md/markdown.md", "utf-8"),
-  //   fs.readFile(process.cwd() + "/modules/utils/formatter/mardown-text.ts", "utf-8"),
+  //   fs.readFile(process.cwd() + "/modules/utils/formatter/markdown-text.ts", "utf-8"),
   //   fs.readFile(process.cwd() + "/modules/utils/formatter/markdown.css", "utf-8"),
   // ]);
-  const edit = await fs.readFile(process.cwd() + "/md/markdown.md", "utf-8");
-  const css = await fs.readFile(process.cwd() + "/modules/utils/formatter/markdown.css", "utf-8");
-  const code = await readFile(process.cwd() + "/md/mardown-text.ts", "utf-8");
+  const edit = await fs.readFile(path.join(process.cwd(), "/md/markdown.md"), "utf-8");
+  const css = await fs.readFile(path.join(process.cwd(), "/modules/utils/formatter/markdown.css"), "utf-8");
+  const code = await fs.readFile(path.join(process.cwd(), "/modules/utils/formatter/markdown-text.ts"), "utf-8");
+
+  // const a = getPath("/modules/utils/formatter/markdown-text.ts");
   // const data = JSON.parse(file);
   return (
     <Article>

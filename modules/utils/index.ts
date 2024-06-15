@@ -40,7 +40,7 @@ export {
   desanitizeParams,
 } from "./text-transform";
 
-export { markdownText } from "./formatter/mardown-text";
+export { markdownText } from "./formatter/markdown-text";
 export { parseText, processParseText } from "./formatter/parse-text";
 export { convertBytesToMB } from "./formatter/bytes";
 export { formatPrice, formatterIDR, formatterIDRK, formatterLong } from "./formatter/currency";
