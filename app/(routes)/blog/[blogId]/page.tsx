@@ -3,9 +3,6 @@ import { notFound } from "next/navigation";
 import { getBlogByID } from "@/connections/get-blog";
 import { SectionID } from "@/components/clients/section";
 import { TitlePageID } from "@/components/clients/title-page";
-import { ImagesArray } from "@/components/clients/images-array";
-import { ArticleInnerHTML } from "@/components/clients/article-inner-html";
-import { PostedTimes } from "@/components/clients/italic-time";
 
 import { MarkdownEditor } from "@/app/(routes)/playground/playground-markdown-editor";
 
@@ -43,7 +40,7 @@ export default async function Page({ params }: BLOGID) {
 
       <PostedTimes times={data} /> */}
 
-      <MarkdownEditor text={data.description} />
+      <MarkdownEditor defaultText={data.description} />
     </SectionID>
   );
 }
