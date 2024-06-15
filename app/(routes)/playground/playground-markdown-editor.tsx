@@ -2,14 +2,12 @@
 
 import Element from "@/components/ui/element";
 import { useState } from "react";
-import { UnstyledButton } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { markdownHTML, markdownInsertHTML } from "@/lib/clean-html";
+import { markdownHTML } from "@/lib/clean-html";
 
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { cnx, markdownText, useElementInfo, CodeIcon, CSSIcon, TailwindIcon } from "@/modules";
-import { Code } from "@/components/ui/code";
+import { cnx, markdownText, CodeIcon, CSSIcon } from "@/modules";
 import { CodeCustomizer } from "@/components/ui/code-customizer";
 
 export function MarkdownEditor({ edit, code, css }: Record<"edit" | "code" | "css", string>) {
@@ -69,17 +67,14 @@ export function MarkdownEditor({ edit, code, css }: Record<"edit" | "code" | "cs
       <TabsContent value="code">
         <Card className="p-4">
           <CodeCustomizer code={String(code)} />
-          {/* <Code code={code} /> */}
         </Card>
       </TabsContent>
 
       <TabsContent value="css">
         <Card className="p-4">
           <CodeCustomizer code={String(css)} />
-          {/* <Code code={css} /> */}
         </Card>
       </TabsContent>
     </Tabs>
   );
 }
-
