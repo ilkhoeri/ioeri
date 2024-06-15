@@ -1,8 +1,11 @@
 "use client";
 
 import * as React from "react";
+import { ClipboardCheckIcon, ClipboardCopyIcon, useClipboard } from "@/modules";
+import { UnstyledButton } from "./button";
 
 export function CodeCustomizer({ code }: { code: string }) {
+  const clipboard = useClipboard({ timeout: 500 });
   return (
     <div data-rehype-pretty-code-fragment="">
       <pre className="overflow-x-auto rounded-lg" data-language="tsx" data-theme="default">
@@ -16,6 +19,13 @@ export function CodeCustomizer({ code }: { code: string }) {
         </code>
       </pre>
       {/* button copy */}
+      <UnstyledButton
+        tabIndex={-1}
+        onClick={() => clipboard.copy(code)}
+        className="centered rounded-sm size-6 border bg-background-box absolute right-3 top-3 [&_svg]:size-4"
+      >
+        {clipboard.copied ? <ClipboardCopyIcon /> : <ClipboardCheckIcon />}
+      </UnstyledButton>
     </div>
   );
 }

@@ -34,13 +34,14 @@ export default async function Page() {
   //   fs.readFile(process.cwd() + "/modules/utils/formatter/markdown.css", "utf-8"),
   // ]);
   const edit = await fs.readFile(process.cwd() + "/md/markdown.md", "utf-8");
+  const code = await fs.readFile(process.cwd() + "/modules/utils/formatter/mardown-text.ts", "utf8");
   const css = await fs.readFile(process.cwd() + "/modules/utils/formatter/markdown.css", "utf-8");
   // const data = JSON.parse(file);
   return (
     <Article>
       <TitlePageID title="Markdown Editor" />
 
-      <MarkdownEditor edit={edit} code={css} css={css} />
+      <MarkdownEditor edit={edit} code={code} css={css} />
     </Article>
   );
 }
