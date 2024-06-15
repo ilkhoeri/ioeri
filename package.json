@@ -10,6 +10,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "prebuild": "node script/copy-ts-to-md.ts",
     "preinstall": "npx only-allow pnpm"
   },
   "dependencies": {
