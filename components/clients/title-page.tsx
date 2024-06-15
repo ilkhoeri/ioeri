@@ -26,7 +26,7 @@ export const TitlePage: React.FC<TitlePageProps> = ({ title, scrollUpto = 200, .
 
   return (
     <h1
-      className={twMerge("overflow-hidden sticky top-6 -z-9 -mt-8 [font-size:clamp(42px,2px+10dvw,80px)]")}
+      className={twMerge("overflow-hidden sticky top-6 -z-9 md:-mt-8 [font-size:clamp(42px,2px+10dvw,80px)]")}
       style={{ opacity }}
       {...props}
     >

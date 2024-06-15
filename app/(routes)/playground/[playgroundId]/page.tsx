@@ -28,8 +28,8 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 }
 
 export default async function Page({ params }: Params) {
-  const [edit, code, css] = await Promise.all([
-    fs.readFile(process.cwd() + "/md/markdown.md", "utf-8"),
+  const [code, css] = await Promise.all([
+    // fs.readFile(process.cwd() + "/md/markdown.md", "utf-8"),
     fs.readFile(process.cwd() + "/modules/utils/formatter/mardown-text.ts", "utf-8"),
     fs.readFile(process.cwd() + "/modules/utils/formatter/markdown.css", "utf-8"),
   ]);
@@ -38,7 +38,7 @@ export default async function Page({ params }: Params) {
     <Article>
       <TitlePageID title="Markdown Editor" />
 
-      <MarkdownEditor edit={edit} code={code} css={css} />
+      <MarkdownEditor edit={code} code={code} css={css} />
     </Article>
   );
 }
