@@ -74,24 +74,20 @@
   --ring-focus: #0000;
   --content-h-set: var(--content-h, 100%);
   --transition-scale: 1;
-  --transition-translate-y: -25%;
+  --transition-translate-y: -0%;
   --transition-translate-x: 1rem;
 
   &[data-state="open"] {
-    animation:
-      enter 0.3s,
-      enter-smooth 0s 0.3s forwards;
+    animation: enter 0.3s;
     --tw-enter-opacity: 1;
     --tw-enter-scale: var(--transition-scale);
   }
   &[data-state="closed"] {
-    animation: exit 0.3s forwards;
+    animation: exit 0.3s;
     --tw-exit-opacity: 0;
     --tw-exit-scale: var(--transition-scale);
   }
   &[data-side="top"] {
-    opacity: 0;
-    --tw-exit-smooth: 0 0 calc(var(--content-h-set) * -1) 0;
     --tw-enter-translate-y: calc(var(--transition-translate-y) * 1);
   }
   &[data-side="top"][data-state="closed"] {
@@ -104,13 +100,10 @@
     --tw-exit-translate-x: calc(var(--transition-translate-x) * -1);
   }
   &[data-side="bottom"] {
-    opacity: 0;
     --tw-enter-translate-y: calc(var(--transition-translate-y) * 1);
-    --tw-enter-smooth: calc(var(--content-h-set) * -1) 0 0 0;
   }
   &[data-side="bottom"][data-state="closed"] {
     --tw-exit-translate-y: calc(var(--transition-translate-y) * 1);
-    --tw-exit-smooth: calc(var(--content-h-set) * -1) 0 0 0;
   }
   &[data-side="left"] {
     --tw-enter-translate-x: calc(var(--transition-translate-x) * -1);
@@ -142,15 +135,10 @@
 
 @keyframes enter {
   from {
+    opacity: var(--tw-enter-opacity, 1);
     transform: translate3d(var(--tw-enter-translate-x, 0), var(--tw-enter-translate-y, 0), 0)
       scale3d(var(--tw-enter-scale, 1), var(--tw-enter-scale, 1), var(--tw-enter-scale, 1))
       rotate(var(--tw-enter-rotate, 0));
-    margin: var(--tw-enter-smooth);
-  }
-}
-@keyframes enter-smooth {
-  to {
-    opacity: var(--tw-enter-opacity, 1);
   }
 }
 
@@ -160,6 +148,5 @@
     transform: translate3d(var(--tw-exit-translate-x, 0), var(--tw-exit-translate-y, 0), 0)
       scale3d(var(--tw-exit-scale, 1), var(--tw-exit-scale, 1), var(--tw-exit-scale, 1))
       rotate(var(--tw-exit-rotate, 0));
-    margin: var(--tw-exit-smooth);
   }
 }

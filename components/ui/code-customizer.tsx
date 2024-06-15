@@ -9,8 +9,10 @@ export function CodeCustomizer({ code }: { code: string }) {
           className="relative text-pre-wrap rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm"
           data-language="tsx"
           data-theme="default"
-          dangerouslySetInnerHTML={{ __html: (code) }}
-        />
+          // dangerouslySetInnerHTML={{ __html: code }}
+        >
+          {code}
+        </code>
       </pre>
       {/* button copy */}
     </div>
