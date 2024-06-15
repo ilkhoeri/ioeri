@@ -34,16 +34,6 @@ const Components = [
     description: "",
     href: "/web/components",
   },
-  {
-    title: "B",
-    description: "",
-    href: "/web/components/b",
-  },
-  {
-    title: "C",
-    description: "",
-    href: "/web/components/c",
-  },
 ];
 
 const Hooks = [
@@ -51,16 +41,6 @@ const Hooks = [
     title: "Open State",
     description: "",
     href: "/web/hooks",
-  },
-  {
-    title: "B",
-    description: "",
-    href: "/web/hooks/b",
-  },
-  {
-    title: "C",
-    description: "",
-    href: "/web/hooks/c",
   },
 ];
 
@@ -70,16 +50,6 @@ const NativeComponents = [
     description: "",
     href: "/mobile/components",
   },
-  {
-    title: "B",
-    description: "",
-    href: "/mobile/components/b",
-  },
-  {
-    title: "C",
-    description: "",
-    href: "/mobile/components/c",
-  },
 ];
 
 const NativeHooks = [
@@ -87,11 +57,6 @@ const NativeHooks = [
     title: "A",
     description: "",
     href: "/mobile/hooks/a",
-  },
-  {
-    title: "B",
-    description: "",
-    href: "/mobile/hooks/b",
   },
 ];
 

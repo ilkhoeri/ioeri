@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     },
   };
 }
-const text = fs.readFileSync("modules/utils/formatter/mardown-text.ts", "utf-8");
+const text = fs.readFileSync("md/markdown.md", "utf-8");
 
 export default async function Page() {
   try {
@@ -35,6 +35,8 @@ export default async function Page() {
     //   fs.readFile(process.cwd() + "/modules/utils/formatter/mardown-text.ts", "utf-8"),
     //   fs.readFile(process.cwd() + "/modules/utils/formatter/markdown.css", "utf-8"),
     // ]);
+
+    const text = await fs.readFile(process.cwd() + "/modules/utils/formatter/mardown-text.ts", "utf-8");
 
     return (
       <Article>
