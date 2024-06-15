@@ -1,1 +1,1 @@
-export type { AnchorTargetsProps } from './anchor';
+export type { AnchorTargets } from "./anchor";

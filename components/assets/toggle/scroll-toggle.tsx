@@ -8,7 +8,7 @@ import { UnstyledButton } from "@/components/ui/button";
 interface ScrollToggleProps
   extends React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {}
 
-const ScrollToggle: React.FC<ScrollToggleProps> = ({ className, ...rest }) => {
+export function ScrollToggle({ className, ...rest }: ScrollToggleProps) {
   const { bottom, scrollWindow, mounted } = useScroll();
   // const [hovered, setHovered] = React.useState(false);
   // const visible = hovered || isScroll;
@@ -21,6 +21,7 @@ const ScrollToggle: React.FC<ScrollToggleProps> = ({ className, ...rest }) => {
   return (
     <UnstyledButton
       aria-label={label}
+      tabIndex={-1}
       title={label}
       onClick={scrollWindow}
       // onMouseEnter={() => setHovered(true)}
@@ -40,6 +41,4 @@ const ScrollToggle: React.FC<ScrollToggleProps> = ({ className, ...rest }) => {
       <ChevronDownSquareIcon style={{ rotate: bottom ? "180deg" : "0deg", transition: "rotate 0.3s" }} />
     </UnstyledButton>
   );
-};
-
-export default ScrollToggle;
+}

@@ -1,2 +1,2 @@
 export { AnimText } from "./anim-text";
-export type { AnimTextAllTypes, AnimTextRunningType, AnimTextTypingType } from "./types-anim-text";
+export type { AnimTextAllTypes } from "./types-anim-text";

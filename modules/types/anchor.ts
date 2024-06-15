@@ -3,7 +3,7 @@
  *
  * `Please note that some target values may behave differently depending on configuration and browser used.`
  */
-export type AnchorTargetsProps = {
+export type AnchorTargets = {
   /**
    * Target property **`<a>`** :
    *

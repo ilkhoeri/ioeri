@@ -4,7 +4,8 @@ import * as React from "react";
 
 import { observeIntersection, styletransformVars } from "./utils-anim-transform";
 import type { TransformProps } from "./types-anim-transform";
-import type { ComponentType } from "../../../types/shared";
+
+type ComponentType = React.ComponentType<React.HTMLAttributes<HTMLElement>>;
 
 export const Transform: React.FC<TransformProps> = (props) => {
   const { style, el = "div", hold, opacity, withoutOpacity, transform, transition, ...others } = props;

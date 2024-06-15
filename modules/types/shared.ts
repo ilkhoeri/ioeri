@@ -1,45 +1,34 @@
-import { CSSProperties } from "../utils/record-types";
-export interface ElementProps {
-  /** @default div */
-  el?: React.ElementType;
-  // ref
-  ref?: React.Ref<HTMLElement>;
-  style?: CSSProperties;
-  // el?: React.ComponentType<React.HTMLAttributes<HTMLElement>>;
+import * as React from "react";
+
+export interface CSSProperties extends React.CSSProperties {
+  [key: string]: any;
 }
-
-export type DetailedHTMLType = React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
+export type ElementType<T extends React.ElementType, Except extends string = never> = Omit<
+  React.ComponentPropsWithoutRef<T>,
+  "style" | Except
+> & {
   style?: CSSProperties;
 };
-
-export type _DispatchType = {
-  // anchor
-  rel?: string;
-  href?: string;
-  target?: string;
-  // button
-  type?: "button" | "submit" | "reset";
-  // img
-  src?: string;
-  alt?: string;
-  loading?: "eager" | "lazy";
-  sizes?: string;
-  width?: string | number;
-  height?: string | number;
-  // ref
-  ref?: React.Ref<HTMLElement>;
-  // default
-  style?: CSSProperties;
+/** @usage
+ *```
+  type Trees = "root" | "wrap" | "inner";
+  type U = ["el", React.ElementType] | ["styles", CSSProperties] | ["classNames", string];
+  type MyProps = NestedRecord<U, Trees>;
+ *```
+ */
+export type NestedRecord<U extends [string, unknown], T extends string> = {
+  [K in U as K[0]]?: Partial<Record<T, K[1]>>;
 };
 
-export type DispatchType = ElementProps & DetailedHTMLType & _DispatchType;
+/** Utility to change all properties to required <T> */
+export type Required<T> = {
+  [P in keyof T]-?: T[P];
+};
 
-export type AttributesElement = React.HTMLAttributes<HTMLElement> & ElementProps;
-
-export type ComponentType = React.ComponentType<React.HTMLAttributes<HTMLElement>>;
-
-/** *Initials Values* */
-export type _STRING = string & {};
+/** Utility to change all properties to mandatory (required) (T), except excluded ones (K) */
+export type Mandatory<T, K extends keyof T = never> = {
+  [P in keyof T as Exclude<P, K>]-?: T[P];
+} & Pick<T, K>;
 
 export type Commons = "inherit" | "initial" | "revert" | "unset";
 

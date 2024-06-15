@@ -21,7 +21,7 @@ export function Solution() {
       <div>
         <figure>
           <Transform
-            el={"img"}
+            el="img"
             withoutOpacity
             transform={{
               before: "rotateX(0) rotateZ(0)",

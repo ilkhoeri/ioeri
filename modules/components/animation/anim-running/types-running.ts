@@ -1,19 +1,17 @@
-import * as React from "react";
+import type { DispatchType } from "../../../types/dispatch";
+import type { CSSProperties, NestedRecord } from "../../../types/shared";
 
-import type { DetailedHTMLType, ElementProps, _DispatchType } from "../../../types/shared";
-import type { RecordElements, RecordClasses, RecordStyles } from "../../../utils/record-types";
+type Trees = "wrap" | "inner";
+type U = ["el", React.ElementType] | ["styles", CSSProperties] | ["classNames", string];
 
-type RunningTrees = "wrap" | "inner";
-type ElementRunning = RecordElements<RunningTrees>;
-type ClassesRunning = RecordClasses<RunningTrees>;
-type StylesRunning = RecordStyles<RunningTrees>;
-
-export interface RunningSharedType extends ElementRunning, ClassesRunning, StylesRunning, _DispatchType {}
+export interface RunningSharedType extends NestedRecord<U, Trees>, DispatchType {}
 
 export type RunningType = {
   /** @default ``` "left-to-right" ``` */
   direction?: "right-to-left" | "left-to-right" | "top-to-bottom" | "bottom-to-top";
   /** @default ``` 25 ``` */
   speed?: number;
-} & DetailedHTMLType &
-  RunningSharedType;
+} & RunningSharedType &
+  Omit<React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>, "style"> & {
+    style?: CSSProperties;
+  };

@@ -5,12 +5,10 @@ import Link, { type LinkProps } from "next/link";
 export interface AnchorProps
   extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "href" | "target">,
     LinkProps,
-    AnchorTargetsType {
-  unstyled?: boolean;
-}
+    AnchorTargets {}
 
-const Anchor = React.forwardRef<HTMLAnchorElement, AnchorProps>(
-  ({ unstyled, target, rel = "noopener noreferrer nofollow", ...props }, ref) => {
+export const Anchor = React.forwardRef<HTMLAnchorElement, AnchorProps>(
+  ({ target, rel = "noopener noreferrer nofollow", ...props }, ref) => {
     const link = {
       ref,
       rel,
@@ -22,14 +20,7 @@ const Anchor = React.forwardRef<HTMLAnchorElement, AnchorProps>(
 );
 Anchor.displayName = "Anchor";
 
-export { Anchor };
-
-/**
- * Target property **`<a>`** :
- *
- * `Please note that some target values may behave differently depending on configuration and browser used.`
- */
-export type AnchorTargetsType = {
+type AnchorTargets = {
   /**
    * Target property **`<a>`** :
    *

@@ -1,25 +1,30 @@
 import * as React from "react";
-import { CSSProperties } from "../../utils/record-types";
 
-export type HTMLAttributes = React.HTMLAttributes<HTMLElement>;
-export type HTMLButtonAttributes = React.ButtonHTMLAttributes<HTMLButtonElement>;
-export type ComponentType = React.ComponentType<HTMLAttributes>;
+import type { Mandatory, CSSProperties } from "../../types/shared";
 
-export type UseCollapsibleType = {
-  trigger?: CollapsibleTriggerValuesType;
+type Info = "x" | "y" | "width" | "height" | "top" | "right" | "bottom" | "left" | "scrollX" | "scrollY";
+export type ElementInfo = Record<Info, number>;
+
+export interface IntrinsicUseCollapsible {
+  defaultOpen?: boolean;
   open?: boolean;
   setOpen?: (value: boolean) => void;
-} & DestructureCollapsibleType;
+  clickOutsideToClose?: boolean;
+}
 
-export interface CollapsibleContextProps extends DestructureCollapsibleType {
-  refClickOutside: React.MutableRefObject<any>;
-  open: boolean;
-  setOpen: (value: boolean) => void;
+export type DestructureCollapsibleType = {
+  align?: CollapsibleAlignValuesType;
+  side?: CollapsibleSideValuesType;
+  sideOffset?: number;
+  triggerInfo?: ElementInfo;
+};
+
+export type UseCollapsibleType = IntrinsicUseCollapsible & DestructureCollapsibleType;
+
+export interface CollapsibleContextProps extends Mandatory<IntrinsicUseCollapsible>, DestructureCollapsibleType {
+  triggerRef: React.MutableRefObject<HTMLElement | null>;
   shouldRender: boolean;
-  onClick: () => void;
-  onMouseEnter: () => void;
-  onMouseLeave: () => void;
-  onKeyDown: () => void;
+  onKeyDown: (e: React.KeyboardEvent<HTMLElement>) => void;
   attr: (as: string) => {
     ["data-state"]: string;
     ["data-side"]: CollapsibleSideValuesType;
@@ -28,19 +33,12 @@ export interface CollapsibleContextProps extends DestructureCollapsibleType {
   };
 }
 
-export interface UseCollapsibleProps {
-  open?: boolean;
-  setOpen?: (value: boolean) => void;
-}
-
-export interface CollapsibleProviderProps extends UseCollapsibleProps, DestructureCollapsibleType {
+export interface CollapsibleProviderProps extends IntrinsicUseCollapsible, DestructureCollapsibleType {
   children: React.ReactNode;
 }
 
-export type CollapsibleTriggerValuesType = "hover" | "click";
 export type CollapsibleAlignValuesType = "center" | "start" | "end";
 export type CollapsibleSideValuesType = "top" | "right" | "bottom" | "left";
-export type StylesCollapsibleVarsType = "content";
 export type CollapsibleTrees = "root" | "trigger" | "content";
 
 export type CollapsibleStylesType = {
@@ -49,12 +47,6 @@ export type CollapsibleStylesType = {
   styles?: Partial<Record<CollapsibleTrees, CSSProperties>>;
   className?: string;
   classNames?: Partial<Record<CollapsibleTrees, string>>;
-};
-
-export type DestructureCollapsibleType = UseCollapsibleProps & {
-  align?: CollapsibleAlignValuesType;
-  side?: CollapsibleSideValuesType;
-  sideOffset?: number;
 };
 
 export type IntrinsicCollapsibleType = CollapsibleStylesType;
@@ -74,7 +66,6 @@ export type CollapsibleRootType = {
 } & CollapsibleSharedType;
 
 export type CollapsibleTriggerType = {
-  trigger?: CollapsibleTriggerValuesType;
   withArrow?: boolean;
 } & IntrinsicCollapsibleType;
 

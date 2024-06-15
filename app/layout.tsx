@@ -4,10 +4,11 @@ import type { Metadata } from "next";
 // import { TagAttributeScript } from "@/components/assets/scripts/tag-attribute-script";
 import { ThemeProvider } from "@/components/provider/theme-provider";
 import { ThemeStateHidden } from "@/components/theme/theme-state-hidden";
-import ScrollToggle from "@/components/assets/toggle/scroll-toggle";
+import { ScrollToggle } from "@/components/assets/toggle/scroll-toggle";
+import { NavProvider } from "@/hooks/use-nav";
 
-import Headnav from "@/components/assets/headnav/headnav";
-import FootNav from "@/components/assets/footnav/footnav";
+import { Headnav } from "@/components/assets/nav-head/headnav";
+import { FootNav } from "@/components/assets/nav-foot/footnav";
 
 import "./globals.css";
 import "./themeid-default.css";
@@ -30,6 +31,19 @@ export const metadata: Metadata = {
   keywords: ["ioeri", "ioeri", "original", "component server", "web", "react", "ui"],
   creator: "Ilham Khoeri - ioeri",
   authors: [{ name: "ioeri" }, { name: "Khoeri Ilham", url: "https://github.com/ioeridev" }],
+  robots: {
+    index: true,
+    follow: true,
+    nocache: false,
+    googleBot: {
+      index: true,
+      follow: true,
+      noimageindex: false,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   openGraph: {
     images: "/favicon-32x32.png",
   },
@@ -38,17 +52,109 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/apple-icon.png",
+    other: [
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "192x192",
+        url: "/android-icon-192x192.png",
+      },
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "32x32",
+        url: "/favicon-32x32.png",
+      },
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "96x96",
+        url: "/favicon-96x96.png",
+      },
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "16x16",
+        url: "/favicon-16x16.png",
+      },
+      {
+        rel: "apple-touch-icon",
+        sizes: "57x57",
+        url: "/apple-icon-57x57.png",
+      },
+      {
+        rel: "apple-touch-icon",
+        sizes: "60x60",
+        url: "/apple-icon-60x60.png",
+      },
+      {
+        rel: "apple-touch-icon",
+        sizes: "72x72",
+        url: "/apple-icon-72x72.png",
+      },
+      {
+        rel: "apple-touch-icon",
+        sizes: "76x76",
+        url: "/apple-icon-76x76.png",
+      },
+      {
+        rel: "apple-touch-icon",
+        sizes: "114x114",
+        url: "/apple-icon-114x114.png",
+      },
+      {
+        rel: "apple-touch-icon",
+        sizes: "120x120",
+        url: "/apple-icon-120x120.png",
+      },
+      {
+        rel: "apple-touch-icon",
+        sizes: "144x144",
+        url: "/apple-icon-144x144.png",
+      },
+      {
+        rel: "apple-touch-icon",
+        sizes: "152x152",
+        url: "/apple-icon-152x152.png",
+      },
+      {
+        rel: "apple-touch-icon",
+        sizes: "180x180",
+        url: "/apple-icon-180x180.png",
+      },
+    ],
+  },
+  other: {
+    "msapplication-config": "/browserconfig.xml",
+    "mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-status-bar-style": "default",
+    "apple-mobile-web-app-title": "Berdikarier Next App",
+    "format-detection": "telephone=no",
+    "msapplication-TileColor": "#ffffff",
+    "msapplication-TileImage": "/ms-icon-144x144.png",
+    "msapplication-tap-highlight": "no",
+  },
 };
 
 export const viewport = {
+  minimumScale: 1,
+  maximumScale: 1,
+  initialScale: 1,
+  userScalable: true,
+  width: "device-width",
+  height: "device-height",
+  viewportFit: "cover",
+  interactiveWidget: "overlays-content",
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#ffffff" },
     { media: "(prefers-color-scheme: dark)", color: "#000000" },
   ],
 };
-
-// Opt out of caching for all data requests in the route segment
-// export const dynamic = 'force-dynamic'
 
 export default async function RootLayout({
   children,
@@ -75,31 +181,17 @@ export default async function RootLayout({
     >
       <head>
         <link rel="icon" sizes="any" href="/favicon.ico" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <link rel="shortcut icon" href="/favicon.ico" />
-
-        <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png" />
-        <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png" />
-        <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png" />
-        <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png" />
-        <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png" />
-        <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png" />
-        <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png" />
-        <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png" />
-        <link rel="icon" type="image/png" sizes="192x192" href="/android-icon-192x192.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-        <meta name="msapplication-TileColor" content="#ffffff" />
-        <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
       </head>
       <body {...attrBody}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <Headnav />
-          {children}
-          <FootNav />
+          <NavProvider hotKeys="S">
+            <Headnav />
+
+            {children}
+
+            <FootNav />
+          </NavProvider>
           <ThemeStateHidden />
 
           <ScrollToggle />

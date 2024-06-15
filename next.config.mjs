@@ -1,5 +1,7 @@
 import nextPWA from "next-pwa";
 
+import withMDX from "@next/mdx";
+
 /** @type {import('next-pwa').PWAConfig} */
 const withPWA = nextPWA({
   dest: "public",
@@ -23,6 +25,19 @@ const Config = {
     minimumCacheTTL: 60 * 60 * 24,
   },
   reactStrictMode: true,
+  async redirects() {
+    return [
+      {
+        source: "/native/:slug",
+        destination: "/mobile/:slug",
+        permanent: true,
+      },
+    ];
+  },
+  pageExtensions: ["ts", "tsx", "mdx"],
+  experimental: {
+    mdxRs: true,
+  },
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve = {
@@ -41,6 +56,6 @@ const Config = {
   },
 };
 
-const nextConfig = withPWA(Config);
+const nextConfig = withPWA(withMDX(Config));
 
 export default nextConfig;

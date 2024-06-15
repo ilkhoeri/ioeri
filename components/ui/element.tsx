@@ -5,24 +5,27 @@ interface CSSProperties extends React.CSSProperties {
   [key: string]: any;
 }
 
-export type ElementProps = {
-  /** @default <div> */
-  el?: React.ElementType;
-  /** @default false */
-  asChild?: boolean;
+export type PolymorphicRef<T extends React.ElementType> = React.ComponentPropsWithRef<T>["ref"];
+
+export type PolymorphicWithoutRef<T extends React.ElementType, Except extends string = never> = Omit<
+  React.ComponentProps<T>,
+  "ref" | "style" | Except
+> & {
+  el?: T;
   style?: CSSProperties;
-  ref?: React.Ref<HTMLElement>;
-} & React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
-// React.HTMLAttributes<HTMLElement>
+};
 
-export const Element = React.forwardRef<HTMLElement, ElementProps>(({ el = "div", asChild = false, ...props }, ref) => {
-  let X: React.ComponentType<React.HTMLAttributes<HTMLElement>> = el as React.ComponentType<
-    React.HTMLAttributes<HTMLElement>
-  >;
-  const XX = asChild ? Slot : X;
+export type ElementType<T extends React.ElementType> = PolymorphicWithoutRef<T> & { asChild?: boolean };
 
-  return <XX ref={ref} {...props} />;
-});
-Element.displayName = "Element";
+const Element = <T extends React.ElementType = "div">(
+  { asChild = false, el, ...props }: ElementType<T>,
+  ref: PolymorphicRef<T>,
+) => {
+  const Component = asChild ? Slot : ((el || "div") as React.ElementType);
 
-export default Element;
+  return <Component ref={ref} {...props} />;
+};
+
+export default React.forwardRef(Element) as <T extends React.ElementType = "div">(
+  props: ElementType<T> & { ref?: PolymorphicRef<T> },
+) => React.ReactElement | null;

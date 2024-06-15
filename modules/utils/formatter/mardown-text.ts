@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
 import "./markdown.css";
 
 export function markdownText(text: string): string {

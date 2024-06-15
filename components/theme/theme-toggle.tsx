@@ -3,10 +3,10 @@
 import * as React from "react";
 import { useTheme } from "next-themes";
 
-import { useHotkeys } from "@/hooks/use-hotkeys/use-hotkeys";
 import { theming } from "./theme";
 import { twMerge } from "tailwind-merge";
 import { UnstyledButton } from "../ui/button";
+import { useHotkeys } from "@/modules";
 
 export function ThemeToggle({
   classNames,
@@ -23,7 +23,7 @@ export function ThemeToggle({
     <section
       className={twMerge(!unstyled?.wrapper && "relative flex items-center flex-flow-row gap-4", classNames?.wrapper)}
     >
-      <code className="tracking-wide">⌘+J</code>
+      <code className="tracking-wide select-none">⌘+J</code>
       {theming.map((t, index) => (
         <UnstyledButton
           suppressHydrationWarning

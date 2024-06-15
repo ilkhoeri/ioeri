@@ -147,7 +147,4 @@ export interface ColorProps {
   color?: ArmColor;
 }
 
-/** *Initials Values* */
-export type _STRING = string & {};
-
 export type Commons = "inherit" | "initial" | "revert" | "unset";

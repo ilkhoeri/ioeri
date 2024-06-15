@@ -36,7 +36,7 @@ export const TitlePage: React.FC<TitlePageProps> = ({ title, scrollUpto = 200, .
 
 export const TitlePageID: React.FC<TitlePageProps> = ({ title, ...props }) => {
   return (
-    <h1 className={style.pg_ID_h1} {...props}>
+    <h1 className={style.tt} {...props}>
       {title}
     </h1>
   );

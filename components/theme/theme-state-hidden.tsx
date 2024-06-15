@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useTheme } from "next-themes";
-import { useHotkeys } from "@/hooks/use-hotkeys/use-hotkeys";
+import { useHotkeys } from "@/modules";
 
 export function ThemeStateHidden() {
   const { theme, setTheme } = useTheme();

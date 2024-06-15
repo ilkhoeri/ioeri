@@ -8,7 +8,7 @@ const SectionID: React.FC<SectionType> = ({ unstyled, className, ...props }) => 
   const attr = {
     className: twMerge(!unstyled && style.pg_section, className),
   };
-  return <section {...attr} {...props} />;
+  return <article {...attr} {...props} />;
 };
 
 export { SectionID };

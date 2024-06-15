@@ -1,13 +1,18 @@
 "use client";
 import * as React from "react";
-import { useTextTyping } from "./utils-anim-text";
 
-import type { ComponentType } from "../../../types/shared";
-import type { AnimTextAllTypes, AnimTextTypingType } from "./types-anim-text";
+import {
+  useAnimatedTypingWords,
+  type AnimatedTypingWordsType,
+} from "../../../hooks/use-animated/use-animated-typing-words";
+
+import type { AnimTextAllTypes } from "./types-anim-text";
+
+type ComponentType = React.ComponentType<React.HTMLAttributes<HTMLElement>>;
 
 export const AnimTextTyping = ({ anim, suppressHydrationWarning = true, ...props }: AnimTextAllTypes) => {
-  const { el = "div", duration, placeholders, ...others } = props as AnimTextTypingType;
-  const { elementRef } = useTextTyping({ duration, placeholders });
+  const { el = "div", duration, placeholders, ...others } = props as AnimatedTypingWordsType;
+  const { elementRef } = useAnimatedTypingWords({ duration, placeholders });
 
   let Root: ComponentType = el as ComponentType;
   const root = { ref: elementRef, suppressHydrationWarning, "data-anim": "text-" + anim, ...others };

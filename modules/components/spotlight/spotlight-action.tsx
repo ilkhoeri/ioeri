@@ -10,9 +10,8 @@ import { useProps } from "../../factory/use-props";
 import { useSpotlightContext } from "./spotlight.context";
 import { spotlightActions } from "./spotlight.store";
 
-import classes from "./spotlight.module.css";
 import { HighlightText } from "../highlight-text";
-import type { AnchorTargetsProps } from "../../types/anchor";
+import type { AnchorTargets } from "../../types/anchor";
 
 export type SpotlightActionStylesNames =
   | "action"
@@ -79,7 +78,7 @@ export interface SpotlightActionProps
 export interface AnchorProps
   extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "href" | "target">,
     Omit<LinkProps, "href">,
-    AnchorTargetsProps {
+    AnchorTargets {
   style?: CSSProperties;
 }
 

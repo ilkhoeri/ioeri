@@ -7,7 +7,7 @@ import { ImagesArray } from "@/components/clients/images-array";
 import { ArticleInnerHTML } from "@/components/clients/article-inner-html";
 import { PostedTimes } from "@/components/clients/italic-time";
 
-import { MarkdownEditor } from "@/components/clients/pages/playground-markdown-editor";
+import { MarkdownEditor } from "@/app/(routes)/playground/playground-markdown-editor";
 
 type BLOGID = { params: { blogId: string } };
 

@@ -1,17 +1,18 @@
-import Container from "@/components/ui/container";
+import { Main } from "@/components/ui/component";
+import { NavAside } from "@/components/assets/nav-aside/aside";
 
-import style from "../../styles/ioeri.module.css";
+// export const dynamic = "force-dynamic";
+export const fetchCache = "only-no-store";
 
-// Opt out of caching for all data requests in the route segment
-export const dynamic = "force-dynamic";
 export default function Layout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <Container el={"main"} unstyled className={style.main}>
+    <Main>
+      <NavAside />
       {children}
-    </Container>
+    </Main>
   );
 }

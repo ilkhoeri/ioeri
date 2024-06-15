@@ -1,5 +1,5 @@
 import { PageHome } from "@/components/clients/pages/page-home";
-import { HeaderHome, HomeLayouts } from "@/components/clients/pages/home/header";
+import { HeaderHome } from "@/components/clients/pages/home/header";
 
 // import { getClients } from "@/connections/get-clients";
 // import { CarouselClient } from "@/components/clients/pages/home/carousel-client";
@@ -16,7 +16,7 @@ export default async function Home() {
   // const [clientList] = await Promise.all([getClients()]);
 
   return (
-    <HomeLayouts>
+    <>
       <HeaderHome />
       {/* <CardReviews data={userReviews} />
       <CarouselClient data={clientList} /> */}
@@ -25,7 +25,7 @@ export default async function Home() {
       <PageHome />
 
       {/* <SectionBlogs /> */}
-    </HomeLayouts>
+    </>
   );
 }
 

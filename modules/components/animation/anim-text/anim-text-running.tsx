@@ -1,11 +1,22 @@
 "use client";
 import * as React from "react";
 
-import { useTextRunning } from "./utils-anim-text";
-import type { AnimTextAllTypes, AnimTextRunningType } from "./types-anim-text";
-import type { AttributesElement, ComponentType } from "../../../types/shared";
-
 import { cnx } from "@/modules";
+import {
+  useAnimatedRunningWords,
+  type AnimatedRunningWordsType,
+} from "../../../hooks/use-animated/use-animated-running-words";
+
+import type { AnimTextAllTypes } from "./types-anim-text";
+import type { CSSProperties } from "../../../types/shared";
+
+type AttributesElement = {
+  el?: React.ElementType;
+  ref?: React.Ref<HTMLElement>;
+  style?: CSSProperties;
+};
+
+type ComponentType = React.ComponentType<React.HTMLAttributes<HTMLElement>>;
 
 const TextRunningWrap = React.forwardRef<HTMLElement, AttributesElement>(({ el = "div", ...rest }, ref) => {
   let Wrap: ComponentType = el as ComponentType;
@@ -32,8 +43,8 @@ TextRunningInner.displayName = "TextRunningInner";
 
 const AnimTextRunning: React.FC<AnimTextAllTypes> = ({ anim, suppressHydrationWarning = true, ...props }) => {
   const { placeholders, el, className, classNames, style, styles, children, speed, direction, ...rest } =
-    props as AnimTextRunningType;
-  const { wrapRef, innerRef } = useTextRunning({ speed, direction });
+    props as AnimatedRunningWordsType;
+  const { wrapRef, innerRef } = useAnimatedRunningWords({ speed, direction });
 
   const wrap = {
     ref: wrapRef,

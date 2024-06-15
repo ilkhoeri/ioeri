@@ -1,22 +1,19 @@
 "use client";
 
-import { UnstyledButton } from "@/components/ui/button";
 import Element from "@/components/ui/element";
+import { useState } from "react";
+import { UnstyledButton } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { markdownHTML } from "@/lib/clean-html";
 import { cnx, markdownText, useElementInfo } from "@/modules";
-import { useState } from "react";
 
-// import fs from "fs-extra";
-// const defaultText = fs.readFileSync("txt/markdown.md", "utf-8");
-
-export function MarkdownEditor({ text: defaultText }: { text: string }) {
+export function MarkdownEditor({ defaultText }: { defaultText: string }) {
   const [text, setText] = useState<string>(defaultText);
   const [preview, setPreview] = useState<boolean>(false);
 
   const initial = { initial: { height: 32, width: 48.4 } };
-  const { ref: labelRef, info: labelInfo } = useElementInfo(initial);
-  const { ref: buttonRef, info: buttonInfo } = useElementInfo(initial);
+  const { ref: labelRef, rectElement: labelInfo } = useElementInfo(initial);
+  const { ref: buttonRef, rectElement: buttonInfo } = useElementInfo(initial);
 
   const activeInfo = preview ? buttonInfo : labelInfo;
 

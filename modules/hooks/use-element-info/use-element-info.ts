@@ -3,13 +3,17 @@
 import { useEffect, useRef, useState } from "react";
 
 type Info = "x" | "y" | "width" | "height" | "top" | "right" | "bottom" | "left" | "scrollX" | "scrollY";
-type ElementInfo = Record<Info, number>;
+type RectElement = Record<Info, number>;
 type InitialInfo = {
   initial?: Partial<Record<Info, number>>;
 };
 
 export function useElementInfo({ initial }: InitialInfo = {}) {
-  const [elementInfo, setElementInfo] = useState<ElementInfo>({
+  const [hoveredElement, setHoveredElement] = useState<DOMRect | null>(null);
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const [scrollBody, setScrollBody] = useState(0);
+  const [windowSize, setWindowSize] = useState({ width: window.innerWidth, height: window.innerHeight });
+  const [rectElement, setRectElement] = useState<RectElement>({
     x: initial?.x || 0,
     y: initial?.y || 0,
     width: initial?.width || 0,
@@ -21,13 +25,72 @@ export function useElementInfo({ initial }: InitialInfo = {}) {
     scrollX: initial?.scrollX || 0,
     scrollY: initial?.scrollY || 0,
   });
+
   const elementRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
-    const updateElementInfo = () => {
+    const handleScroll = () => {
       if (elementRef.current) {
-        const rect = elementRef.current.getBoundingClientRect();
-        setElementInfo({
+        setScrollPosition(elementRef.current.scrollTop);
+      }
+    };
+
+    const handleScrollBody = () => {
+      setScrollBody(document.documentElement.scrollTop);
+    };
+
+    const handleResize = () => {
+      setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+    };
+
+    const current = elementRef.current;
+
+    window.addEventListener("scroll", handleScrollBody);
+    window.addEventListener("resize", handleResize);
+    if (current) {
+      current.addEventListener("scroll", handleScroll);
+    }
+
+    handleResize();
+
+    return () => {
+      window.removeEventListener("scroll", handleScrollBody);
+      window.removeEventListener("resize", handleResize);
+      if (current) {
+        current.removeEventListener("scroll", handleScroll);
+      }
+    };
+  }, []);
+
+  useBoundingElement(elementRef.current, setRectElement);
+
+  const onMouseEnter = (event: React.MouseEvent<HTMLElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    setHoveredElement(rect);
+  };
+
+  const onMouseLeave = () => {
+    setHoveredElement(null);
+  };
+
+  return {
+    ref: elementRef,
+    rectElement,
+    windowSize,
+    scrollBody,
+    scrollPosition,
+    onMouseEnter,
+    onMouseLeave,
+    hovered: hoveredElement,
+  };
+}
+
+export function useBoundingElement(current: HTMLElement | null, setInfo: (value: RectElement) => void) {
+  useEffect(() => {
+    const updateRectElement = () => {
+      if (current) {
+        const rect = current.getBoundingClientRect();
+        setInfo({
           scrollX: window.scrollX,
           scrollY: window.scrollY,
           x: rect.left + window.scrollX,
@@ -41,19 +104,15 @@ export function useElementInfo({ initial }: InitialInfo = {}) {
         });
       }
     };
-    // Initial update
-    updateElementInfo();
 
-    // Update on window resize or scroll
-    window.addEventListener("resize", updateElementInfo);
-    window.addEventListener("scroll", updateElementInfo);
+    updateRectElement();
 
-    // Cleanup event listeners on component unmount
+    window.addEventListener("resize", updateRectElement);
+    window.addEventListener("scroll", updateRectElement);
+
     return () => {
-      window.removeEventListener("resize", updateElementInfo);
-      window.removeEventListener("scroll", updateElementInfo);
+      window.removeEventListener("resize", updateRectElement);
+      window.removeEventListener("scroll", updateRectElement);
     };
-  }, []);
-
-  return { ref: elementRef, info: elementInfo };
+  }, [current, setInfo]);
 }

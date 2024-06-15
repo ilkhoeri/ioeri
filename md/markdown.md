@@ -1,5 +1,5 @@
 <div align="center">
-  <a href="https://www.npmjs.com/org/ioeri" target="_bla">
+  <a href="https://www.npmjs.com/org/ioeri" target="_blank">
     <img src="https://raw.githubusercontent.com/ioeridev/.github/main/profile/ioeri-512x512.png" alt="ioeri" height="200" style="width: 200px;height: 200px;border-radius: 8px;overflow: hidden;" />
   </a>
 </div>
@@ -17,8 +17,6 @@ Team support <ioeri.dev@gmail.com>. You can contact this email.
 ___
 
 ```
-// @ts-ignore
-// @ts-nocheck
 document.addEventListener("click", function (event) {
   const target = event.target as HTMLElement;
 
@@ -32,8 +30,7 @@ document.addEventListener("click", function (event) {
         .writeText(textToCopy)
         .then(() => {
           button.setAttribute("data-copied", "success");
-          useElement.setAttribute("href", "/images/icons.svg#check");
-          // alert("Text copied to clipboard!");
+          alert("Text copied to clipboard!");
         })
         .catch((err) => {
           console.error("Failed to copy text: ", err);
@@ -60,9 +57,8 @@ function stripHtml(text: string) {
 
 ___
 
-
-
 ## [core - component ui repository](https://github.com/ioeridev/ioeri)
+
 <div align="left">
   <a href="https://www.npmjs.com/package/ioeri">
     <img src="https://badgen.net/npm/v/ioeri" alt="version" />
@@ -79,6 +75,7 @@ ___
 > You can guide or [join our community](https://github.com/ioeridev/ioeri/blob/master/CONTRIBUTING.md) to build multi-functional polymorphic projects.
 
 ## [ioeri-presetcss - styles css preset](https://github.com/ioeridev/ioeri-presetcss)
+
 <div align="left">
   <a href="https://www.npmjs.com/package/ioeri-presetcss">
     <img src="https://badgen.net/npm/v/ioeri-presetcss" alt="version" />

@@ -8,7 +8,7 @@ import { AnimText, BookOpen2Icon, GithubIcon, Transform } from "@/modules";
 import style from "./ioeri.module.css";
 import mainStyle from "@/styles/ioeri.module.css";
 
-export function HomeLayouts({ children }: { children: React.ReactNode }) {
+export function Root({ children }: { children: React.ReactNode }) {
   // useEffect(() => {
   //   const body = document.body;
   //   const main = document.querySelector("main");

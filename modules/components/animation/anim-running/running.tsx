@@ -2,10 +2,17 @@
 import * as React from "react";
 
 import { useRunning } from "./utils-running";
-import type { RunningType } from "./types-running";
-import type { AttributesElement, ComponentType } from "../../../types/shared";
-
 import { cnx } from "@/modules";
+
+import type { CSSProperties } from "../../../types/shared";
+import type { RunningType } from "./types-running";
+
+type AttributesElement = React.HTMLAttributes<HTMLElement> & {
+  el?: React.ElementType;
+  ref?: React.Ref<HTMLElement>;
+  style?: CSSProperties;
+};
+type ComponentType = React.ComponentType<React.HTMLAttributes<HTMLElement>>;
 
 const RunningWrap = React.forwardRef<HTMLElement, AttributesElement>(({ el = "div", ...rest }, ref) => {
   let Wrap: ComponentType = el as ComponentType;
