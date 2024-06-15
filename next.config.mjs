@@ -19,7 +19,7 @@ const options = {
 };
 
 const withMDX = createMDX({
-  extension: /\.(md|mdx)$/,
+  // extension: /\.(md|mdx)$/,
   options: {
     // as desired
     remarkPlugins: [remarkGfm],
