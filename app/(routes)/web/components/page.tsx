@@ -73,7 +73,7 @@ import {
   IconsIcon,
   ServerCogIcon,
 } from "@/modules";
-export const billingRoutes = [
+const billingRoutes = [
   {
     title: "Billing and plans",
     description: "",
