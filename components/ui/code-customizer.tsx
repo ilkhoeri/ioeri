@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { ClipboardCheckIcon, ClipboardCopyIcon, useClipboard } from "@/modules";
 import { UnstyledButton } from "./button";
+import { ClipboardCheckIcon, ClipboardCopyIcon, useClipboard } from "@/modules";
 
 export function CodeCustomizer({ code }: { code: string }) {
   const clipboard = useClipboard({ timeout: 1000 });
@@ -18,7 +18,7 @@ export function CodeCustomizer({ code }: { code: string }) {
           {code}
         </code>
       </pre>
-      {/* button copy */}
+
       <UnstyledButton
         tabIndex={-1}
         onClick={() => clipboard.copy(code)}
