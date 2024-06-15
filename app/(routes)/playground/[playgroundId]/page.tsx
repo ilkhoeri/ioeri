@@ -26,31 +26,20 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     },
   };
 }
-const text = fs.readFileSync("md/markdown.md", "utf-8");
 
 export default async function Page() {
-  try {
-    // const [edit, code, css] = await Promise.all([
-    //   fs.readFile(process.cwd() + "/md/markdown.md", "utf-8"),
-    //   fs.readFile(process.cwd() + "/modules/utils/formatter/mardown-text.ts", "utf-8"),
-    //   fs.readFile(process.cwd() + "/modules/utils/formatter/markdown.css", "utf-8"),
-    // ]);
+  // const [edit, code, css] = await Promise.all([
+  //   fs.readFile(process.cwd() + "/md/markdown.md", "utf-8"),
+  //   fs.readFile(process.cwd() + "/modules/utils/formatter/mardown-text.ts", "utf-8"),
+  //   fs.readFile(process.cwd() + "/modules/utils/formatter/markdown.css", "utf-8"),
+  // ]);
+  const text = await fs.readFile(process.cwd() + "/modules/utils/formatter/mardown-text.ts", "utf-8");
+  // const data = JSON.parse(file);
+  return (
+    <Article>
+      <TitlePageID title="Markdown Editor" />
 
-    const text = await fs.readFile(process.cwd() + "/modules/utils/formatter/mardown-text.ts", "utf-8");
-
-    return (
-      <Article>
-        <TitlePageID title="Markdown Editor" />
-        <MarkdownEditor edit={text} code={text} css={text} />
-      </Article>
-    );
-  } catch (error) {
-    console.error("Error reading files:", error);
-    return (
-      <Article>
-        <TitlePageID title="Error" />
-        <p>There was an error loading the markdown editor.</p>
-      </Article>
-    );
-  }
+      <MarkdownEditor edit={text} code={text} css={text} />
+    </Article>
+  );
 }
