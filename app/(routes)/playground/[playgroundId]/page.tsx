@@ -35,7 +35,7 @@ export default async function Page() {
     //   fs.readFile(process.cwd() + "/modules/utils/formatter/markdown.css", "utf-8"),
     // ]);
 
-    const text = fs.readFileSync(process.cwd() + "/modules/utils/formatter/mardown-text.ts", "utf-8");
+    const text = await fs.readFile(process.cwd() + "/modules/utils/formatter/mardown-text.ts", "utf-8");
 
     return (
       <Article>
