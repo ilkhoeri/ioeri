@@ -1,5 +1,5 @@
-import process from "node:process";
-Object.assign(process.env, { NEXT_TELEMETRY_DISABLED: "1" });
+// import process from "node:process";
+// Object.assign(process.env, { NEXT_TELEMETRY_DISABLED: "1" });
 
 /**
  * @typedef {import('next').NextConfig} NextConfig
@@ -8,7 +8,7 @@ Object.assign(process.env, { NEXT_TELEMETRY_DISABLED: "1" });
 import nextPWA from "next-pwa";
 import remarkGfm from "remark-gfm";
 import createMDX from "@next/mdx";
-import rehypeSlug from "rehype-slug";
+// import rehypeSlug from "rehype-slug";
 import rehypePrettyCode from "rehype-pretty-code";
 import moonlightTheme from "./lib/moonlight-ii.json" with { type: "json" };
 
@@ -23,7 +23,8 @@ const withMDX = createMDX({
   options: {
     // as desired
     remarkPlugins: [remarkGfm],
-    rehypePlugins: [[rehypePrettyCode, options], rehypeSlug],
+    // rehypePlugins: [[rehypePrettyCode, options], rehypeSlug],
+    rehypePlugins: [[rehypePrettyCode, options]],
   },
 });
 
@@ -70,15 +71,15 @@ const Config = withMDX({
     ];
   },
   reactStrictMode: true,
-  poweredByHeader: false,
+  // poweredByHeader: false,
   // output: "export", // must be exported function "generateStaticParams()", which is required with "output: export" config
+  // env: {
+  //   NEXT_TELEMETRY_DISABLED: "1",
+  // },
   cleanDistDir: true,
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
   experimental: {
     mdxRs: true,
-  },
-  env: {
-    NEXT_TELEMETRY_DISABLED: "1",
   },
   webpack: (config, { isServer }) => {
     if (!isServer) {
