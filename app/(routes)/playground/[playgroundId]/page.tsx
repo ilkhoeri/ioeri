@@ -5,6 +5,9 @@ import { MarkdownEditor } from "../playground-markdown-editor";
 // import { notFound } from "next/navigation";
 
 import fs from "fs-extra";
+import { readFileSync } from "fs";
+import { readFile } from "fs/promises";
+import { outputFile, outputFileSync } from "fs-extra/esm";
 
 type Params = { params: { playgroundId: string } };
 
@@ -34,8 +37,8 @@ export default async function Page() {
   //   fs.readFile(process.cwd() + "/modules/utils/formatter/markdown.css", "utf-8"),
   // ]);
   const edit = await fs.readFile(process.cwd() + "/md/markdown.md", "utf-8");
-  const code = await fs.readFile(process.cwd() + "/modules/utils/formatter/mardown-text.ts", "utf8");
   const css = await fs.readFile(process.cwd() + "/modules/utils/formatter/markdown.css", "utf-8");
+  const code = await readFile(process.cwd() + "/modules/utils/formatter/mardown-text.ts", "utf8");
   // const data = JSON.parse(file);
   return (
     <Article>

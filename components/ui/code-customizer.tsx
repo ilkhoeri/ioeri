@@ -5,7 +5,7 @@ import { ClipboardCheckIcon, ClipboardCopyIcon, useClipboard } from "@/modules";
 import { UnstyledButton } from "./button";
 
 export function CodeCustomizer({ code }: { code: string }) {
-  const clipboard = useClipboard({ timeout: 500 });
+  const clipboard = useClipboard({ timeout: 1000 });
   return (
     <div data-rehype-pretty-code-fragment="">
       <pre className="overflow-x-auto rounded-lg" data-language="tsx" data-theme="default">
@@ -22,9 +22,9 @@ export function CodeCustomizer({ code }: { code: string }) {
       <UnstyledButton
         tabIndex={-1}
         onClick={() => clipboard.copy(code)}
-        className="centered rounded-sm size-6 border bg-background-box absolute right-3 top-3 [&_svg]:size-4"
+        className="centered p-1 rounded-md border bg-background-box absolute right-0 top-0 [&_svg]:sizer [--sz:20px]"
       >
-        {clipboard.copied ? <ClipboardCopyIcon /> : <ClipboardCheckIcon />}
+        {clipboard.copied ? <ClipboardCheckIcon /> : <ClipboardCopyIcon />}
       </UnstyledButton>
     </div>
   );
