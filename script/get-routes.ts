@@ -19,11 +19,17 @@ async function generateRoutes(sourcePath: string, basePath: string): Promise<{ t
     for (const folder of folders) {
       const folderPath = path.join(basePath, folder);
       const isDirectory = (await fs.stat(folderPath)).isDirectory();
+
       if (isDirectory && folder.startsWith("use")) {
-        routes.push({
-          title: toCamelCase(folder),
-          href: `/${sourcePath}/${folder}`,
-        });
+        const files = await fs.readdir(folderPath);
+        console.log("Files in folder:", folder, files);
+
+        if (files.length > 0) {
+          routes.push({
+            title: toCamelCase(folder),
+            href: `/${sourcePath}/${folder}`,
+          });
+        }
       }
     }
   } catch (error) {
@@ -33,16 +39,21 @@ async function generateRoutes(sourcePath: string, basePath: string): Promise<{ t
 }
 
 export async function getRoutes(title: string, sourcePath: string): Promise<NestedRoute[]> {
-  const routeData = await generateRoutes(sourcePath, path.resolve(process.cwd(), "modules", sourcePath));
-  return [
-    {
-      title: title,
-      data: [
-        {
-          title: capitalizeFirst(sourcePath),
-          data: routeData,
-        },
-      ],
-    },
-  ];
+  try {
+    const routeData = await generateRoutes(sourcePath, path.resolve(process.cwd(), "modules", sourcePath));
+    return [
+      {
+        title: title,
+        data: [
+          {
+            title: capitalizeFirst(sourcePath),
+            data: routeData,
+          },
+        ],
+      },
+    ];
+  } catch (error) {
+    console.error("Error generating routes:", error);
+    return [];
+  }
 }
