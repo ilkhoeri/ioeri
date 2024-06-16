@@ -35,11 +35,11 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 }
 
 export default async function Page({ params }: Params) {
-  const codePoly = await fs.readFile(
-    path.join(process.cwd(), `/modules/hooks/${params.hookId}/${params.hookId}.ts`),
-    "utf-8",
-  );
-  // const codePoly = await getMdFile("hooks", `modules/hooks/${params.hookId}/${params.hookId}.ts`);
+  // const codePoly = await fs.readFile(
+  //   path.join(process.cwd(), `/modules/hooks/${params.hookId}/${params.hookId}.ts`),
+  //   "utf-8",
+  // );
+  const codePoly = await getMdFile("hooks", `modules/hooks/${params.hookId}/${params.hookId}.ts`);
 
   return (
     <Article className="gap-12">

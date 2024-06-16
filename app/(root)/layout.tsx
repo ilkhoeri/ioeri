@@ -5,6 +5,9 @@ import { getRoutes } from "@/script/get-routes";
 import style from "@/styles/ioeri.module.css";
 
 export const dynamic = "force-dynamic";
+export const dynamicParams = true;
+export const runtime = "nodejs";
+
 export default async function Layout({
   children,
 }: Readonly<{

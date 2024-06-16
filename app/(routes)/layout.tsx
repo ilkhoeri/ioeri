@@ -3,6 +3,8 @@ import { NavAside } from "@/components/assets/nav-aside/aside";
 import { getRoutes } from "@/script/get-routes";
 
 export const dynamic = "force-dynamic";
+export const dynamicParams = true;
+export const runtime = "nodejs";
 // export const fetchCache = "only-no-store";
 
 export default async function Layout({

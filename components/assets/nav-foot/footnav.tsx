@@ -23,15 +23,15 @@ const mainroutes = [
   },
   {
     title: "Playground",
-    slug: "playground",
+    slug: "playground/markdown-editor",
   },
   {
     title: "Web app",
-    slug: "web",
+    slug: "components/web",
   },
   {
     title: "Native app",
-    slug: "mobile",
+    slug: "components/mobile",
   },
 ];
 
