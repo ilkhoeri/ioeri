@@ -1,4 +1,3 @@
-"use client";
 import { useMemo } from "react";
 import { useUncontrolled } from "../use-uncontrolled/use-uncontrolled";
 

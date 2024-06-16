@@ -1,4 +1,3 @@
-"use client";
 import { useMediaQuery, UseMediaQueryOptions } from "../use-media-query/use-media-query";
 
 export function useReducedMotion(initialValue?: boolean, options?: UseMediaQueryOptions) {

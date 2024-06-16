@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useState } from "react";
 import { useClickOutside } from "../use-click-outside/use-click-outside";
 import { useHasScrollbar } from "../use-has-scrollbar/use-has-scrollbar";
@@ -133,69 +131,12 @@ export function useOpenState({
   useEffectWidthScrollbar({ open, widthHasScrollbar, hasScrollbar, scrollbarWidth, durationClose });
 
   return {
-    /**
-   * ```js
-   * // usage
-    function Demo() {
-      const {open, ref, handleOpen} = useOpenState();
-
-      return (
-        <>
-          <button onClick={handleOpen}>Open dropdown</button>
-
-          {open && (
-            <Paper ref={ref} shadow="sm">
-              <span>Click outside to close</span>
-            </Paper>
-          )}
-        </>
-      );
-    }
-  * ```
-  * @returns setOpen(false)
-  */
     ref,
-    /** // sample
-  ```js
-    if (!render) {
-      return null;
-    }
-  ```
-  */
     render,
-    /** @return boolean */
     open,
-    /** ```js
-     * <button
-     *   type="button"
-     *   onClick={() => {
-     *     if (!open) {
-           window.history.pushState({ open: true }, "");
-           }
-           setOpen(!open);
-     *   }}
-     * >
-     * Open
-     * </button>
-     * ``` */
     setOpen,
-    /**
-     * ```js
-    const handleOpen = () => {
-      if (trigger === "click") {
-        if (!open) {
-          window.history.pushState({ open: true }, "");
-        }
-        setOpen(!open);
-      }
-    };
-     * ```
-     */
     handleOpen,
     handleClose,
-    /**
-     * *Sedikit berbeda dengan handleOpen*
-     */
     onClick,
     handleBack,
     onMouseEnter,

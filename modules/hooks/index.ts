@@ -1,3 +1,5 @@
+"use client";
+
 export { useClickOutside } from "./use-click-outside/use-click-outside";
 export { useDidUpdate } from "./use-did-update/use-did-update";
 export { useDisclosure } from "./use-disclosure/use-disclosure";
@@ -10,8 +12,6 @@ export { useHotkeys } from "./use-hotkeys/use-hotkeys";
 export { useHover } from "./use-hover/use-hover";
 export { useIntersection } from "./use-intersection/use-intersection";
 export { useInterval } from "./use-interval/use-interval";
-export type { StorageProperties, StorageType } from "./use-local-storage/create-storage";
-export { createStorage } from "./use-local-storage/create-storage";
 export { useLocalStorage } from "./use-local-storage/use-local-storage";
 export type { UseMediaQueryOptions } from "./use-media-query/use-media-query";
 export { useMediaQuery } from "./use-media-query/use-media-query";

@@ -1,4 +1,3 @@
-"use client";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 export function useHover<T extends HTMLElement = HTMLElement>() {

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { NestedRoute, fitures } from "@/routes";
+import { SingleRoute, fitures } from "@/routes";
 import { NavLinkItem } from "../connections/nav-link";
 
 import { twMerge } from "tailwind-merge";
@@ -16,7 +16,7 @@ export function NavAside({
   routes,
 }: {
   classNames?: { aside?: string; overlay?: string };
-  routes: NestedRoute[] | null;
+  routes: SingleRoute[] | null;
 }) {
   const { homeQuery, minQuery, maxQuery, open, setOpen, handleClose } = useNavContext();
 
@@ -64,19 +64,7 @@ export function NavAside({
 
                 <CollapsibleContent className="flex z-1">
                   {i.data.map((i, index) => (
-                    <Collapsible key={index} defaultOpen className="h-full w-full flex flex-col">
-                      <CollapsibleTrigger
-                        withArrow={false}
-                        className="flex flex-row items-center justify-start gap-2 h-8 pr-2 py-1 text-sm font-medium"
-                      >
-                        <Icon /> <span className="truncate">{i.title}</span>
-                      </CollapsibleTrigger>
-                      <CollapsibleContent className="flex z-1">
-                        {i.data.map((i, index) => (
-                          <NavLinkItem key={index} href={i.href} title={i.title} className={style.link} {...attr} />
-                        ))}
-                      </CollapsibleContent>
-                    </Collapsible>
+                    <NavLinkItem key={index} href={i.href} title={i.title} className={style.link} {...attr} />
                   ))}
                 </CollapsibleContent>
               </Collapsible>

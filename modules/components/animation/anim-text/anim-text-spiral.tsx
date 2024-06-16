@@ -2,10 +2,7 @@
 import * as React from "react";
 
 import { cnx } from "@/modules";
-import {
-  useAnimatedSpiralWords,
-  type AnimatedSpiralWordsType,
-} from "../../../hooks/use-animated/use-animated-spiral-words";
+import { useAnimatedSpiralWords, type AnimatedSpiralWordsType } from "./use-animated-spiral-words";
 
 import type { CSSProperties } from "../../../types/shared";
 import type { AnimTextAllTypes } from "./types-anim-text";

@@ -1,33 +1,7 @@
-"use client";
 import { useEffect, useRef } from "react";
 
 const DEFAULT_EVENTS = ["mousedown", "touchstart"];
 
-/**
- * ```js
- * // usage
-  function Demo() {
-    const [opened, setOpened] = useState(false);
-    const ref = useClickOutside(() => setOpened(false));
-
-    return (
-      <>
-        <button onClick={() => setOpened(true)}>Open dropdown</button>
-
-        {opened && (
-          <Card ref={ref} shadow="sm">
-            <span>Click outside to close</span>
-          </Card>
-        )}
-      </>
-    );
-  }
- * ```
- * @param handler 
- * @param events 
- * @param nodes 
- * @returns 
- */
 export function useClickOutside<T extends HTMLElement = any>(
   handler: () => void,
   events?: string[] | null,

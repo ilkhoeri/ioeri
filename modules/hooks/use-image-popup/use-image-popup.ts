@@ -1,4 +1,3 @@
-"use client";
 import React, { useEffect } from "react";
 import { useHasScrollbar } from "../use-has-scrollbar/use-has-scrollbar";
 import { attributeState, removeBodyProperty, setBodyProperty } from "../../function/attribute-property";

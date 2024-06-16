@@ -6,9 +6,9 @@ import { AnimTextRunning } from "./anim-text-running";
 import { AnimTextSpiral } from "./anim-text-spiral";
 
 import type { AnimTextAllTypes } from "./types-anim-text";
-import type { AnimatedTypingWordsType } from "../../../hooks/use-animated/use-animated-typing-words";
-import type { AnimatedRunningWordsType } from "../../../hooks/use-animated/use-animated-running-words";
-import type { AnimatedSpiralWordsType } from "../../../hooks/use-animated/use-animated-spiral-words";
+import type { AnimatedTypingWordsType } from "./use-animated-typing-words";
+import type { AnimatedRunningWordsType } from "./use-animated-running-words";
+import type { AnimatedSpiralWordsType } from "./use-animated-spiral-words";
 
 export const AnimText = (props: AnimTextAllTypes) => {
   const { anim, ...rest } = props;

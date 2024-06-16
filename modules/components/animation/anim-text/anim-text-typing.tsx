@@ -1,10 +1,7 @@
 "use client";
 import * as React from "react";
 
-import {
-  useAnimatedTypingWords,
-  type AnimatedTypingWordsType,
-} from "../../../hooks/use-animated/use-animated-typing-words";
+import { useAnimatedTypingWords, type AnimatedTypingWordsType } from "./use-animated-typing-words";
 
 import type { AnimTextAllTypes } from "./types-anim-text";
 

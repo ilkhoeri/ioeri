@@ -1,4 +1,3 @@
-"use client";
 import { useEffect, useRef, useState } from "react";
 
 export function useInterval(fn: () => void, interval: number) {

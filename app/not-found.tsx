@@ -1,18 +1,25 @@
 import Link from "next/link";
-import { getRoutes } from "@/script/get-routes";
+import { getRoutes } from "@/scripts/generate-routes";
 import { IoeriIcon } from "@/modules";
 import { Main } from "@/components/ui/components";
 import { NavAside } from "@/components/assets/nav-aside/aside";
+
+import { SingleRoute } from "@/routes";
 
 export const dynamic = "force-dynamic";
 export const dynamicParams = true;
 export const runtime = "nodejs";
 
+async function loadRoutes(sourcePath: string): Promise<SingleRoute[]> {
+  return await getRoutes(sourcePath);
+}
+
 export default async function NotFound() {
-  const routes = await getRoutes("Web app", "hooks");
+  const hooks = await loadRoutes("hooks");
+
   return (
     <Main className="pb-0">
-      <NavAside routes={routes} />
+      <NavAside routes={hooks} />
 
       <article className="h-dvh w-full max-w-full overflow-hidden flex flex-wrap items-start justify-center p-4 m-0 relative pt-20 after:content-[''] after:w-full after:h-[262px] after:absolute after:bottom-0 after:bg-gradient-to-t after:from-background">
         <figure className="absolute w-full h-full -top-40 bg-[url('/images/grid.svg')] bg-center bg-repeat z-0" />

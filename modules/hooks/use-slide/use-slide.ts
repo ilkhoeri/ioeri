@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useRef, useState } from "react";
 import { useWindowScroll } from "../use-window-scroll/use-window-scroll";
 

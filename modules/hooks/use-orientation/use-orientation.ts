@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import { useIsomorphicEffect } from "../use-isomorphic-effect/use-isomorphic-effect";
 

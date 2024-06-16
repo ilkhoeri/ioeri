@@ -1,4 +1,3 @@
-"use client";
 import { useEffect, useRef, EffectCallback, DependencyList } from "react";
 
 export function useDidUpdate(fn: EffectCallback, dependencies?: DependencyList) {

@@ -2,10 +2,7 @@
 import * as React from "react";
 
 import { cnx } from "@/modules";
-import {
-  useAnimatedRunningWords,
-  type AnimatedRunningWordsType,
-} from "../../../hooks/use-animated/use-animated-running-words";
+import { useAnimatedRunningWords, type AnimatedRunningWordsType } from "./use-animated-running-words";
 
 import type { AnimTextAllTypes } from "./types-anim-text";
 import type { CSSProperties } from "../../../types/shared";

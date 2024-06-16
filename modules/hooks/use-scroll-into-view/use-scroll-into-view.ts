@@ -1,4 +1,3 @@
-"use client";
 import { useCallback, useEffect, useRef } from "react";
 import { useReducedMotion } from "../use-reduced-motion/use-reduced-motion";
 import { useWindowEvent } from "../use-window-event/use-window-event";

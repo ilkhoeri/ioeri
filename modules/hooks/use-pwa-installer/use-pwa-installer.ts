@@ -1,20 +1,5 @@
-"use client";
-
 import { useState, useEffect } from "react";
 
-/**
- * ```js
- * const PwaInstallButton: React.FC = () => {
-  const { prompt, installer } = usePWAInstaller();
-
-  return (
-    <button id="install" hidden={!prompt} onClick={installer}>
-      Install
-    </button>
-  );
-};
- * ```
- */
 export function usePWAInstaller() {
   const [prompt, setPrompt] = useState<any>(null); // TODO: menyesuaikan any dengan event beforeinstallprompt
 

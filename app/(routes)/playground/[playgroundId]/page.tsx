@@ -6,7 +6,7 @@ import { Article, Title } from "@/components/ui/components";
 import { CodeCustomizer, markdownCustomizer } from "@/components/ui/code-customizer";
 
 import { capitalizeWords } from "@/modules";
-import { getMdFile } from "@/script/get-md-file";
+import { getMdFile } from "@/scripts/get-md-file";
 import { Code } from "@/components/ui/code";
 import type { Metadata } from "next";
 

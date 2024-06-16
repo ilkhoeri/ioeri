@@ -1,6 +1,20 @@
-"use client";
 import { useEffect, useRef, useState } from "react";
-import { clamp } from "../utils";
+
+export function clamp(value: number, min: number | undefined, max: number | undefined) {
+  if (min === undefined && max === undefined) {
+    return value;
+  }
+
+  if (min !== undefined && max === undefined) {
+    return Math.max(value, min);
+  }
+
+  if (min === undefined && max !== undefined) {
+    return Math.min(value, max);
+  }
+
+  return Math.min(Math.max(value, min!), max!);
+}
 
 export interface UseMovePosition {
   x: number;
@@ -19,18 +33,6 @@ interface useMoveHandlers {
   onScrubEnd?: () => void;
 }
 
-/**
- * ```js
- * const [value, setValue] = useState({ x: 0.2, y: 0.6 });
- * // Jika digunakan pada komponen button ganti dengan HTMLButtonElement
- * const { ref: refMove, active } = useMove<HTMLButtonElement>(setValue);
-
- * ```
- * @param onChange 
- * @param handlers 
- * @param dir 
- * @returns 
- */
 export function useMove<T extends HTMLElement = HTMLDivElement>(
   onChange: (value: UseMovePosition) => void,
   handlers?: useMoveHandlers,

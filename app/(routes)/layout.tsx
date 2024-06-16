@@ -1,6 +1,6 @@
 import { Main } from "@/components/ui/components";
 import { NavAside } from "@/components/assets/nav-aside/aside";
-import { getRoutes } from "@/script/get-routes";
+import { getRoutes } from "@/scripts";
 
 export const dynamic = "force-dynamic";
 export const dynamicParams = true;
@@ -12,10 +12,10 @@ export default async function Layout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const routes = await getRoutes("Web app", "hooks");
+  const hooks = await getRoutes("hooks");
   return (
     <Main>
-      <NavAside routes={routes} />
+      <NavAside routes={hooks} />
       {children}
     </Main>
   );

@@ -1,4 +1,3 @@
-"use client";
 import { useState, useCallback } from "react";
 
 export function useDisclosure(initialState = false, callbacks?: { onOpen?(): void; onClose?(): void }) {

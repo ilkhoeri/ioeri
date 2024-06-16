@@ -3,7 +3,7 @@ import React from "react";
 import type { CSSProperties, NestedRecord } from "@/modules/types/shared";
 import type { DispatchType } from "@/modules/types/dispatch";
 
-import "./spiral.css";
+import "./spiral.mjs";
 
 type Trees = "root" | "wrap" | "inner";
 type U = ["el", React.ElementType] | ["styles", CSSProperties] | ["classNames", string];

@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useLayoutEffect } from "react";
 
 // useLayoutEffect will show warning if used during ssr, e.g. with Next.js

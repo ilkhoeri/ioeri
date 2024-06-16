@@ -1,8 +1,8 @@
-import { AnimatedSpiralWordsType } from "../../../hooks/use-animated/use-animated-spiral-words";
+import { AnimatedSpiralWordsType } from "./use-animated-spiral-words";
 
-import { AnimatedRunningWordsType } from "../../../hooks/use-animated/use-animated-running-words";
+import { AnimatedRunningWordsType } from "./use-animated-running-words";
 
-import { AnimatedTypingWordsType } from "../../../hooks/use-animated/use-animated-typing-words";
+import { AnimatedTypingWordsType } from "./use-animated-typing-words";
 
 export type AnimTextAllTypes =
   | (AnimatedTypingWordsType & { anim: "typing" })
