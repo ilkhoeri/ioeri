@@ -1,15 +1,15 @@
 import path from "node:path";
 import fs from "fs-extra";
 
-export async function getMdFile(sourcePath: string): Promise<string> {
+export async function getMdFile(toPath: string, sourcePath: string): Promise<string> {
   try {
     const filePath = path.resolve(process.cwd(), String(sourcePath));
     // Specify the path for the .md file
-    const mdFilePath = path.resolve(process.cwd(), "md/convert", path.basename(filePath).replace(/\.[^.]+$/, ".md"));
+    const mdFilePath = path.resolve(process.cwd(), "md", toPath, path.basename(filePath).replace(/\.[^.]+$/, ".md"));
 
     // If the .md file doesn't exist yet, convert the original file to .md
     if (!(await fileExists(mdFilePath))) {
-      await convertFileToMd(filePath);
+      await convertFileToMd(toPath, filePath);
     }
 
     // Now read the .md file
@@ -21,13 +21,13 @@ export async function getMdFile(sourcePath: string): Promise<string> {
   }
 }
 
-async function convertFileToMd(filePath: string): Promise<string> {
+async function convertFileToMd(toPath: string, filePath: string): Promise<string> {
   try {
     // Read the contents of the file
     const fileContent = await fs.readFile(filePath, "utf-8");
 
     // Specify the name and path for the new .md file
-    const mdFilePath = path.resolve(process.cwd(), "md/convert", path.basename(filePath).replace(/\.[^.]+$/, ".md"));
+    const mdFilePath = path.resolve(process.cwd(), "md", toPath, path.basename(filePath).replace(/\.[^.]+$/, ".md"));
 
     // Write the contents of the file into a new .md file
     const targetDir = path.dirname(mdFilePath);

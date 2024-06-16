@@ -3,25 +3,19 @@
   @apply font-medium text-color hover:underline underline-offset-2;
 }
 
-.clb,
 .link,
 .link[data-path="active"] {
-  @apply text-sm rounded-sm py-1 flex items-center flex-nowrap flex-row justify-start min-w-max focus-visible:ring-offset-0 h-7;
+  @apply text-sm rounded-sm py-1 flex items-center flex-nowrap flex-row justify-start min-w-max focus-visible:ring-offset-0 h-7 px-4 hover:bg-muted;
 
   & > svg {
     @apply mr-2 sizer [--sz:22px];
   }
 }
 
-.link,
-.link[data-path="active"] {
-  @apply px-4 hover:bg-muted;
-}
-
 .link[data-path="active"] {
   @apply text-color font-semibold bg-muted;
   &::before {
-    @apply content-[''] absolute bg-[#1f6feb] rounded-full w-1 h-4/5 -left-1.5 inset-y-auto right-auto;
+    @apply content-[''] absolute bg-[#1f6feb] rounded-full w-1 h-4/5 left-1 inset-y-auto right-auto;
   }
 }
 .clb {
@@ -89,7 +83,7 @@
 }
 
 .aside_toggle {
-  @apply centered md:hidden md:sr-only relative z-10 scale-100 lg:scale-0 opacity-100 lg:opacity-0 [transition:all_0.5s_ease] rounded-[4px] ring ring-transparent ring-offset-2 focus-visible:outline-0;
+  @apply centered md:hidden md:sr-only relative z-10 scale-100 lg:scale-0 opacity-100 lg:opacity-0 [transition:all_0.5s_ease] rounded-[4px] focus-visible:outline-0;
 
   & svg {
     @apply sizer [--sz:24px];

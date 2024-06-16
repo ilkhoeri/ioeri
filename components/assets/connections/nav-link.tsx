@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import MarkBoolean from "@/components/ui/mark-boolean";
 import { usePathname } from "next/navigation";
-import { capitalizeWords, PLACEHOLDER_IMAGESRC } from "@/modules";
+import { PLACEHOLDER_IMAGESRC } from "@/modules";
 import { twMerge } from "tailwind-merge";
 
 import type { RecordClasses } from "@/modules";
@@ -76,7 +76,7 @@ export function NavLinkItem({
           />
         )}
         {Icon && <Icon className={classNames?.svg} />}
-        {title && capitalizeWords(title)}
+        {title}
       </Link>
 
       {isNew && <MarkBoolean mark={true} childTrue="NEW" className={classNames?.mark} />}

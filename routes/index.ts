@@ -1,8 +1,8 @@
-import { AppsIcon, AreaCodeIcon, DesktopCodeIcon, MobileCodeIcon } from "@/modules";
 import { IconType } from "@/modules/icons/utils";
+import { AppsIcon, AreaCodeIcon, DesktopCodeIcon, MobileCodeIcon } from "@/modules";
 
-export type TitleRoute = { title: string; description: string; icon: IconType };
-export type InnerRoutes = { title: string; description: string; href: string };
+export type TitleRoute = { title: string; icon?: IconType };
+export type InnerRoutes = { title: string; href: string };
 export type SingleRoute = TitleRoute & { data: InnerRoutes[] };
 export type NestedRoute = TitleRoute & {
   data: SingleRoute[];
@@ -11,18 +11,15 @@ export type NestedRoute = TitleRoute & {
 export const fitures: SingleRoute[] = [
   {
     title: "Playground",
-    description: "",
     icon: AreaCodeIcon,
     data: [
       {
         title: "Markdown Editor",
         href: "/playground/markdown-editor",
-        description: "",
       },
       {
         title: "Polymorphic",
         href: "/playground/polymorphic",
-        description: "",
       },
     ],
   },
@@ -31,7 +28,6 @@ export const fitures: SingleRoute[] = [
 const Components = [
   {
     title: "Collapsible",
-    description: "",
     href: "/web/components",
   },
 ];
@@ -39,7 +35,6 @@ const Components = [
 const Hooks = [
   {
     title: "Open State",
-    description: "",
     href: "/web/hooks",
   },
 ];
@@ -47,7 +42,6 @@ const Hooks = [
 const NativeComponents = [
   {
     title: "A",
-    description: "",
     href: "/mobile/components",
   },
 ];
@@ -55,7 +49,6 @@ const NativeComponents = [
 const NativeHooks = [
   {
     title: "A",
-    description: "",
     href: "/mobile/hooks/a",
   },
 ];
@@ -63,39 +56,41 @@ const NativeHooks = [
 export const routes: NestedRoute[] = [
   {
     title: "Web app",
-    description: "",
     icon: DesktopCodeIcon,
     data: [
       {
-        title: "Components",
-        description: "",
-        icon: AppsIcon,
-        data: Components,
-      },
-      {
         title: "Hooks",
-        description: "",
         icon: AppsIcon,
-        data: Hooks,
+        data: [
+          {
+            title: "useClipboard",
+            href: "/web/hooks/use-clipboard",
+          },
+          {
+            title: "useOpenState",
+            href: "/web/hooks/use-open-state",
+          },
+          {
+            title: "useOption",
+            href: "/web/hooks/use-option",
+          },
+        ],
       },
     ],
   },
   {
     title: "Native app",
-    description: "",
     icon: MobileCodeIcon,
     data: [
       {
-        title: "Components",
-        description: "",
-        icon: AppsIcon,
-        data: NativeComponents,
-      },
-      {
         title: "Hooks",
-        description: "",
         icon: AppsIcon,
-        data: NativeHooks,
+        data: [
+          {
+            title: "Open State",
+            href: "/mobile/hooks",
+          },
+        ],
       },
     ],
   },

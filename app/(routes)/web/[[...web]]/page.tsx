@@ -12,13 +12,13 @@ import type { Metadata } from "next";
 
 interface Params {
   params: {
-    playgroundId: string;
+    web: string[];
   };
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const url = process.env.NEXT_PUBLIC_DOMAIN_URL;
-  const slug = params.playgroundId;
+  const slug = remakeTitle(params.web);
   const namePage = slug + " | Playground";
   return {
     title: namePage ? namePage : "NotFound!",
@@ -34,35 +34,26 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 }
 
 export default async function Page({ params }: Params) {
-  const [edit, css, code] = await Promise.all([
-    fs.readFile(path.join(process.cwd(), "/md/markdown.md"), "utf-8"),
-    fs.readFile(path.join(process.cwd(), "/modules/utils/formatter/markdown.css"), "utf-8"),
-    getMdFile("convert", "modules/utils/formatter/markdown-text.ts"),
-  ]);
-
-  const codePoly = await getMdFile("convert", "components/ui/element.tsx");
-
-  let component;
-
-  if (params.playgroundId === "markdown-editor") {
-    component = (
-      <Playground
-        edit={edit}
-        childrens={{ code: <CodeCustomizer code={String(code)} />, css: <CodeCustomizer code={String(css)} /> }}
-      />
-    );
-  }
-  if (params.playgroundId === "polymorphic") {
-    component = (
-      <Playground defaultState="code" childrens={{ code: <Code code={markdownCustomizer(String(codePoly))} /> }} />
-    );
-  }
+  // const codePoly = await fs.readFile(
+  //   path.join(process.cwd(), `/modules/hooks/${params.web[1]}/${params.web[1]}.ts`),
+  //   "utf-8",
+  // );
+  const codePoly = await getMdFile("hooks", `modules/hooks/${params.web[1]}/${params.web[1]}.ts`);
 
   return (
     <Article className="gap-12">
-      <Title type="tick" title={capitalizeWords(params.playgroundId)} />
+      <Title type="tick" title={params.web[1]} />
 
-      {component}
+      <Playground
+        defaultState="code"
+        childrens={{ code: <CodeCustomizer code={markdownCustomizer(String(codePoly))} /> }}
+      />
     </Article>
   );
+}
+
+function remakeTitle(n: string[]) {
+  const o = n.join("/");
+
+  return capitalizeWords(o.replace("/", " | "));
 }

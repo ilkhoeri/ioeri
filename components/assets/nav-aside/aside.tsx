@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { fitures, routes } from "@/routes";
+import { NestedRoute, fitures } from "@/routes";
 import { NavLinkItem } from "../connections/nav-link";
 
 import { twMerge } from "tailwind-merge";
@@ -11,7 +11,13 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/modules";
 
 import style from "./aside.module.css";
 
-export function NavAside({ classNames }: { classNames?: { aside?: string; overlay?: string } }) {
+export function NavAside({
+  classNames,
+  routes,
+}: {
+  classNames?: { aside?: string; overlay?: string };
+  routes: NestedRoute[] | null;
+}) {
   const { homeQuery, minQuery, maxQuery, open, setOpen, handleClose } = useNavContext();
 
   if (homeQuery) {
@@ -49,32 +55,36 @@ export function NavAside({ classNames }: { classNames?: { aside?: string; overla
         )}
 
         <nav className="p-4 pr-0 relative flex items-start flex-col flex-nowrap gap-4 h-max w-full max-md:pt-0 max-md:pr-0.5 max-md:pb-[5rem] max-md:overflow-y-auto md:overflow-y-hidden overflow-x-hidden webkit-scrollbar">
-          {routes.map((i, index) => (
-            <Collapsible key={index} defaultOpen className="h-full w-full flex flex-col gap-1">
-              <CollapsibleTrigger className={[style.clb, "text-sm font-medium select-none z-9"].join(" ")}>
-                <i.icon />
-                <span className="truncate">{i.title}</span>
-              </CollapsibleTrigger>
+          {routes &&
+            routes.map((i, index) => (
+              <Collapsible key={index} defaultOpen className="h-full w-full flex flex-col gap-1">
+                <CollapsibleTrigger className={style.clb}>
+                  <span className="truncate">{i.title}</span>
+                </CollapsibleTrigger>
 
-              <CollapsibleContent className="flex z-1">
-                {i.data.map((i, index) => (
-                  <div key={index} className="h-full w-full flex flex-col">
-                    <h6 className="flex flex-row items-center gap-2 h-8 pr-2 py-1 text-sm font-medium">
-                      <span className="truncate">{i.title}</span>
-                    </h6>
-                    {i.data.map((i, index) => (
-                      <NavLinkItem key={index} href={i.href} title={i.title} className={style.link} {...attr} />
-                    ))}
-                  </div>
-                ))}
-              </CollapsibleContent>
-            </Collapsible>
-          ))}
+                <CollapsibleContent className="flex z-1">
+                  {i.data.map((i, index) => (
+                    <Collapsible key={index} defaultOpen className="h-full w-full flex flex-col">
+                      <CollapsibleTrigger
+                        withArrow={false}
+                        className="flex flex-row items-center justify-start gap-2 h-8 pr-2 py-1 text-sm font-medium"
+                      >
+                        <span className="truncate">{i.title}</span>
+                      </CollapsibleTrigger>
+                      <CollapsibleContent className="flex z-1">
+                        {i.data.map((i, index) => (
+                          <NavLinkItem key={index} href={i.href} title={i.title} className={style.link} {...attr} />
+                        ))}
+                      </CollapsibleContent>
+                    </Collapsible>
+                  ))}
+                </CollapsibleContent>
+              </Collapsible>
+            ))}
 
           {fitures.map((i, index) => (
             <Collapsible key={index} defaultOpen className="h-full w-full flex flex-col gap-1">
-              <CollapsibleTrigger className={[style.clb, "text-sm font-medium select-none z-9"].join(" ")}>
-                <i.icon />
+              <CollapsibleTrigger className={style.clb}>
                 <span className="truncate">{i.title}</span>
               </CollapsibleTrigger>
 

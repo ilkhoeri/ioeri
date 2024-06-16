@@ -1,33 +1,6 @@
 /* collapse */
 
-.collapse_root {
-  position: relative;
-  display: flex;
-  height: auto;
-  border-width: 0px;
-  border-color: transparent;
-  user-select: none;
-  gap: var(--offset);
-}
-
-.collapse_root[data-side="top"],
-.collapse_content[data-side="top"] {
-  flex-direction: column-reverse;
-}
-.collapse_root[data-side="right"],
-.collapse_content[data-side="right"] {
-  flex-direction: row;
-}
-.collapse_root[data-side="bottom"],
-.collapse_content[data-side="bottom"] {
-  flex-direction: column;
-}
-.collapse_root[data-side="left"],
-.collapse_content[data-side="left"] {
-  flex-direction: row-reverse;
-}
-
-.collapse_root button [data-collapse="arrow-trigger"] {
+[data-collapse="root"] [data-collapse="arrow-trigger"] {
   position: relative;
   margin-left: var(--ml-arrow-trigger, auto);
   transition: transform 180ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -43,28 +16,28 @@
   --sz-icon-trigger-collapse-pop: 20px;
 }
 
-.collapse_root[data-side="top"] [data-collapse="arrow-trigger"] {
+[data-collapse="root"][data-side="top"] [data-collapse="arrow-trigger"] {
   --tw-rotate: -180deg;
 }
-.collapse_root[data-side="top"][data-state="open"] [data-collapse="arrow-trigger"] {
+[data-collapse="root"][data-side="top"][data-state="open"] [data-collapse="arrow-trigger"] {
   --tw-rotate: 0deg;
 }
-.collapse_root[data-side="right"] [data-collapse="arrow-trigger"] {
+[data-collapse="root"][data-side="right"] [data-collapse="arrow-trigger"] {
   --tw-rotate: 90deg;
 }
-.collapse_root[data-side="right"][data-state="open"] [data-collapse="arrow-trigger"] {
+[data-collapse="root"][data-side="right"][data-state="open"] [data-collapse="arrow-trigger"] {
   --tw-rotate: -90deg;
 }
-.collapse_root[data-side="bottom"] [data-collapse="arrow-trigger"] {
+[data-collapse="root"][data-side="bottom"] [data-collapse="arrow-trigger"] {
   --tw-rotate: 0deg;
 }
-.collapse_root[data-side="bottom"][data-state="open"] [data-collapse="arrow-trigger"] {
+[data-collapse="root"][data-side="bottom"][data-state="open"] [data-collapse="arrow-trigger"] {
   --tw-rotate: -180deg;
 }
-.collapse_root[data-side="left"] [data-collapse="arrow-trigger"] {
+[data-collapse="root"][data-side="left"] [data-collapse="arrow-trigger"] {
   --tw-rotate: -90deg;
 }
-.collapse_root[data-side="left"][data-state="open"] [data-collapse="arrow-trigger"] {
+[data-collapse="root"][data-side="left"][data-state="open"] [data-collapse="arrow-trigger"] {
   --tw-rotate: 90deg;
 }
 

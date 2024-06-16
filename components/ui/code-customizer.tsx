@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import { CopyToggle } from "./toggle";
 
@@ -21,16 +19,15 @@ export function CodeCustomizer({ code }: { code: string }) {
   );
 }
 
-
 export function markdownCustomizer(text: string): string {
   text = text.replace(/^(.*?)(\/\/.*)$/gm, (match, p1, p2) => {
     const beforeComment = p1.trim();
     const comment = p2.replace(/^\/\//, "").trim();
 
     if (beforeComment) {
-      return `<p>${beforeComment} <i>// ${comment}</i></p>`;
+      return `<p class="text-muted">${beforeComment} <i>// ${comment}</i></p>`;
     } else {
-      return `<p><i>// ${comment}</i></p>`;
+      return `<p class="text-muted"><i>// ${comment}</i></p>`;
     }
   });
 
