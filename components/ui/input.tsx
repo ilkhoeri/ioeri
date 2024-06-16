@@ -1,8 +1,8 @@
 "use client";
-import * as React from "react";
-import { twMerge } from "tailwind-merge";
 
-import { attr as attrBase } from "@/utils/attr";
+import * as React from "react";
+import { attr } from "@/modules";
+import { twMerge } from "tailwind-merge";
 
 type Variants = "inputBase" | "inputPassword" | "inputPin";
 const inputVariants = ({ variant }: { variant: Variants }): string | undefined => {
@@ -34,9 +34,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       }
     };
 
-    attrBase.disabled = disabled;
-    attrBase.autoComplete = autoComplete;
-    attrBase["aria-disabled"] = disabled ? "true" : "false";
+    attr.disabled = disabled;
+    attr.autoComplete = autoComplete;
+    attr["aria-disabled"] = disabled ? "true" : "false";
     return (
       <input
         ref={ref}
@@ -50,7 +50,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         type={type === "number" ? "text" : type}
         value={type === "number" ? numb : value}
         onChange={handleChange}
-        {...attrBase}
+        {...attr}
         {...props}
       />
     );

@@ -1,5 +1,5 @@
 import { CSSProperties } from "../../utils/record-types";
-import { FactoryPayload } from "../../factory";
+import { FactoryPayload } from "..";
 
 import { getId } from "../get-id";
 import { getClassName } from "./get-class-name/get-class-name";

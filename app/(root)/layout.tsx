@@ -1,6 +1,6 @@
 import Element from "@/components/ui/element";
 import { NavAside } from "@/components/assets/nav-aside/aside";
-import { getRoutes } from "@/routes/generates";
+import { getRoutes } from "@/script/get-routes";
 
 import style from "@/styles/ioeri.module.css";
 
@@ -10,7 +10,7 @@ export default async function Layout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const routes = await getRoutes();
+  const routes = await getRoutes("Web app", "hooks");
   return (
     <Element el="main" className={[style.main_home, "[--hex:#f2f2f2] dark:[--hex:#151515]"].join(" ")}>
       <NavAside routes={routes} />

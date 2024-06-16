@@ -1,5 +1,5 @@
-import process from "node:process";
-Object.assign(process.env, { NEXT_TELEMETRY_DISABLED: "1" });
+// import process from "node:process";
+// Object.assign(process.env, { NEXT_TELEMETRY_DISABLED: "1" });
 
 /**
  * @typedef {import('next').NextConfig} NextConfig
@@ -80,10 +80,10 @@ const Config = withMDX({
   reactStrictMode: true,
   poweredByHeader: false,
   // output: "export", // must be exported function "generateStaticParams()", which is required with "output: export" config
-  env: {
-    NEXT_TELEMETRY_DISABLED: "1",
-  },
-  cleanDistDir: true,
+  // env: {
+  //   NEXT_TELEMETRY_DISABLED: "1",
+  // },
+  // cleanDistDir: true,
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx", "css", "scss", "json"],
   experimental: {
     mdxRs: true,

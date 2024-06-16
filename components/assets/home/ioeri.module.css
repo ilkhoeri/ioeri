@@ -1,0 +1,258 @@
+/* header */
+.header_home {
+  @apply relative flex flex-col items-center justify-around w-full max-w-7xl h-[90vh] max-h-[42.5rem] px-6 [--sz-rx:2.25rem] [--sz-ry:7.5rem] [--sz-circle:clamp(3rem,1rem+5dvw,5rem)] [transition:height_185ms_ease];
+
+  & [data-line] {
+    animation: borderAnimation 1.5s infinite linear;
+  }
+
+  & .line_top {
+    @apply max-lg:top-[70%] max-lg:right-[25%] max-lg:[rotate:90deg] max-lg:[scale:1_-1] top-[10%] right-[-3rem] absolute w-[435px] h-max;
+    & svg {
+      @apply size-full overflow-visible z-9;
+      & circle[cy="130.5"] {
+        animation: progress 6s infinite linear;
+      }
+    }
+    & circle:hover,
+    & circle:hover ~ circle[cy="130.5"] {
+      fill: #29943a;
+      stroke: hsl(var(--color));
+    }
+    & circle:hover ~ [data-line] {
+      transition: stroke 0.5s ease;
+      animation:
+        borderAnimation 0.5s infinite linear,
+        strokeAnimation 0.5s infinite linear;
+    }
+    &::before,
+    &::after {
+      @apply content-[''] absolute rounded-full;
+    }
+    &::before {
+      @apply h-[--sz-rx] w-[--sz-ry] border-2 border-muted-foreground left-[-93.5px] bottom-[-8.5px] flex items-center justify-center;
+    }
+    &::after {
+      z-index: -1;
+      height: 2px;
+      width: calc(var(--sz-rx) * 2.75);
+      background-color: hsl(var(--muted-foreground));
+      bottom: calc(var(--sz-ry) * 0.0725);
+      left: calc(var(--sz-rx) * -2.25);
+    }
+  }
+
+  & .line_circle {
+    @apply absolute z-9 flex items-center h-[--sz-h] w-[--sz-w] [--sz-h:7rem] [--sz-w:9rem] mr-[clamp(22px,22px+30vw,25rem)] mb-[clamp(10rem,22px+5vw,14rem)];
+    & svg {
+      @apply size-full;
+    }
+    & circle:hover,
+    & circle:hover ~ path[d*="m203"] {
+      fill: #29943a;
+      stroke: hsl(var(--color));
+    }
+    & circle:hover + [data-line] {
+      transition: stroke 0.5s ease;
+      animation:
+        borderAnimation 0.5s infinite linear,
+        strokeAnimation 0.5s infinite linear;
+    }
+    &::before,
+    &::after {
+      @apply absolute bottom-[calc(var(--sz-h)*-0.2)] md:bottom-[calc(var(--sz-h)*-0.325)] h-[--sz-circle] w-[calc(var(--sz-circle)*1.25)] rounded-full;
+    }
+    &::before {
+      @apply right-[calc(var(--right)*0.5)] md:right-[--right];
+      --right: calc(calc(var(--sz-w) / 2) * -1);
+      background-color: hsl(var(--color));
+    }
+    &::after {
+      @apply right-[calc(var(--right)*0.55)] md:right-[--right];
+      --right: calc(calc(var(--sz-w) - 1rem) * -1);
+      background-color: hsl(var(--muted));
+      box-shadow:
+        -2px 0 16px 0 rgba(0, 0, 0, 0.1) inset,
+        0 0 0 1px rgb(255 255 255 / 0.5);
+    }
+  }
+
+  & .wrap_command {
+    @apply absolute top-[34.125%] left-[49.5%] md:top-[41%] md:left-[37.5%] flex items-center justify-end px-[5px] h-[--sz-rx] w-[calc(var(--sz-ry)-2rem)] bg-white/25 backdrop-blur-md rounded-full;
+    box-shadow:
+      0 4px 30px rgba(0, 0, 0, 0.1),
+      0 0px 0 1px rgb(255 255 255 / 0.5);
+    & .command {
+      @apply relative text-[12px] leading-none font-extrabold not-italic text-background bg-color h-3/4 w-1/2 flex items-center justify-center rounded-full;
+      box-shadow:
+        hsl(var(--background) / 0.4) 0px 2px 4px,
+        hsl(var(--background) / 0.3) 0px 7px 13px -3px,
+        hsl(var(--background) / 0.2) 0px -2px 0px inset;
+    }
+  }
+}
+
+.hero {
+  @apply relative z-9 gap-16 flex flex-col items-center justify-center size-full text-left mx-auto animate-[fade-in_0.6s_ease-in_forwards];
+
+  & h1 {
+    @apply relative text-color [font-size:clamp(22px,22px+5vw,5rem)] leading-[1.35] font-extrabold whitespace-nowrap grid grid-flow-row;
+    & span:nth-child(2) {
+      @apply ml-[12dvw];
+    }
+    & span:nth-child(3) {
+      @apply ml-[24dvw];
+    }
+    & span {
+      position: relative;
+      z-index: 99;
+      user-select: none;
+      -webkit-box-reflect: below -45% linear-gradient(0deg, rgb(0 0 0 / 20%) 0%, rgb(0 0 0 / 4%) 50%, rgb(0 0 0 / 1%)
+            75%);
+      color: hsl(var(--color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-image: linear-gradient(0deg, hsl(var(--color)), rgb(64 64 64));
+      background-position: 40% 40%;
+      background-clip: text;
+      background-size: 200%;
+      background-repeat: no-repeat;
+      text-shadow:
+        -2px -1px 15px rgb(255 30 86 / 1%),
+        2px 1px 15px rgb(0 150 255 / 1%);
+    }
+  }
+
+  & p {
+    @apply relative z-[+1] flex flex-col items-center justify-center text-center text-xs md:text-sm xl:text-base font-medium text-color;
+  }
+
+  & .link_wrap {
+    @apply relative w-full -mt-4 mx-auto flex flex-col sm:flex-row items-center justify-center gap-8;
+  }
+  & a {
+    @apply relative flex w-[clamp(10.375rem,1.25rem+2dvw,100%)] h-[clamp(2.25rem,1.25rem+2dvw,2.75rem)] items-center justify-center px-6 active:duration-75 hover:before:scale-105 active:before:scale-95;
+
+    &[data-link="documentation"] {
+      &::before {
+        @apply bg-color ring-2 ring-offset-4 ring-color;
+      }
+    }
+    &[data-link="repository"] {
+      &::before {
+        @apply bg-conservative ring-2 ring-offset-4 ring-conservative;
+      }
+    }
+    &::before {
+      @apply content-[''] absolute inset-0 rounded-full transition duration-300 ring-offset-background;
+    }
+
+    & span {
+      @apply relative z-[+1] text-base font-semibold text-background centered flex-row gap-2;
+    }
+    & svg {
+      @apply sizer [--sz:18px];
+    }
+  }
+}
+
+@keyframes progress {
+  0%,
+  100% {
+    translate: calc(var(--sz-rx) * -0) 0;
+  }
+  50% {
+    translate: calc(var(--sz-rx) * -2.35) 0;
+  }
+}
+@keyframes borderAnimation {
+  0% {
+    stroke-dashoffset: -8;
+  }
+  100% {
+    stroke-dashoffset: 20;
+  }
+}
+@keyframes strokeAnimation {
+  0%,
+  100% {
+    stroke: hsl(var(--color));
+  }
+  25%,
+  50% {
+    stroke: #29943a;
+  }
+}
+/* checkbox toggle */
+
+.checkbox_wrap {
+  z-index: 20;
+  position: absolute;
+  top: 7.5%;
+  margin-left: 8rem;
+  height: var(--sz-circle);
+  width: var(--w-checkbox);
+  --bd: 1px;
+  --pad: 0.125rem;
+  --w-checkbox: calc(var(--sz-circle) * 2);
+  --space-toggle: calc(calc(var(--pad) * 2) + calc(var(--bd) * 2));
+  --sz-toggle: calc(var(--sz-circle) - var(--space-toggle));
+  --checked: calc(var(--sz-circle) + calc(var(--pad) - calc(var(--bd) * 2)));
+
+  & .tgl {
+    display: none;
+
+    &::-moz-selection,
+    &:after::-moz-selection,
+    &:before::-moz-selection,
+    & *::-moz-selection,
+    & *:after::-moz-selection,
+    & *:before::-moz-selection,
+    & + .tgl_btn::-moz-selection,
+    &::selection,
+    &:after::selection,
+    &:before::selection,
+    & *::selection,
+    & *:after::selection,
+    & *:before::selection,
+    & + .tgl_btn::selection {
+      background: none;
+    }
+    /* &:not(:checked) + .tgl_btn:active {
+      background-color: #e8eae9;
+    } */
+  }
+
+  & .tgl:checked + .tgl_btn {
+    background-color: hsl(var(--color));
+    &:after {
+      --state-checked: var(--checked);
+    }
+    &:active {
+      box-shadow: none;
+    }
+    &:active::after {
+      margin-left: calc(calc(var(--w-switch) - var(--sz-toggle)) * -1);
+    }
+  }
+  & .tgl + .tgl_btn {
+    @apply cursor-pointer select-none relative size-full block p-[--pad] outline-0 bg-color rounded-full [border-width:--bd] border-muted-foreground transition-all [--state-light:0] [--state-dark:--checked];
+
+    &:active::after {
+      --w-switch: calc(var(--sz-circle) * 1.25);
+    }
+    &:after {
+      @apply relative block content-[''] w-[--w-switch,var(--sz-toggle)] h-[--sz-toggle] left-[--state,var(--state-checked,0)] rounded-full bg-background;
+      box-shadow: var(--shadow-3d);
+      will-change: left, width, margin, padding;
+      transition:
+        left 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+        width 0.3s ease,
+        padding 0.3s ease,
+        margin 0.3s ease;
+    }
+    &:active:after {
+      padding-right: 0.8em;
+    }
+  }
+}

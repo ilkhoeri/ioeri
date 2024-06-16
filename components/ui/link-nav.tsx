@@ -4,9 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { twMerge } from "tailwind-merge";
 
-import type { RecordClasses } from "@/types";
-
-export type LinkNavClass = RecordClasses<"link" | "linkActive" | "svg">;
+export type LinkNavClass = { classNames?: Partial<Record<"link" | "linkActive" | "svg", string>> };
 
 type IconType = (props: React.SVGAttributes<SVGElement>) => React.JSX.Element;
 

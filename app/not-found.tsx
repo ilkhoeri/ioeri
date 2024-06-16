@@ -1,11 +1,11 @@
 import Link from "next/link";
+import { getRoutes } from "@/script/get-routes";
 import { IoeriIcon } from "@/modules";
-import { getRoutes } from "@/routes/generates";
 import { Main } from "@/components/ui/components";
 import { NavAside } from "@/components/assets/nav-aside/aside";
 
 export default async function NotFound() {
-  const routes = await getRoutes();
+  const routes = await getRoutes("Web app", "hooks");
   return (
     <Main className="pb-0">
       <NavAside routes={routes} />

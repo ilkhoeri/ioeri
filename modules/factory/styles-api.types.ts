@@ -1,7 +1,7 @@
 import type { CSSProperties } from "../utils";
 import type { Theme } from "./transit";
 import type { StyleProp } from "./transit";
-import type { FactoryPayload } from "../factory";
+import type { FactoryPayload } from ".";
 import type { PartialVarsResolver } from "./transit";
 
 type ResolveStyle = CSSProperties | ((theme: Theme) => CSSProperties);

@@ -3,14 +3,14 @@
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { default as NextImage } from "next/image";
+
 import { twMerge } from "tailwind-merge";
 
-import type { RecordClasses } from "@/types";
 import type { ImageProps } from "next/image";
 
 export const PLACEHOLDER_SRC = `data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D`;
 
-type ImgClasses = RecordClasses<"image" | "srcLoad">;
+type ImgClasses = { classNames?: Partial<Record<"image" | "srcLoad", string>> };
 
 export interface ImgProps
   extends Omit<

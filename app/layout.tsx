@@ -1,9 +1,10 @@
-import { inter, kanit, montserrat, robotoMono } from "@/components/provider/font-provider";
+import { inter, kanit, montserrat, robotoMono } from "@/components/assets/provider/font-provider";
+
 import type { Metadata } from "next";
 
 // import { TagAttributeScript } from "@/components/assets/scripts/tag-attribute-script";
-import { ThemeProvider } from "@/components/provider/theme-provider";
-import { ThemeStateHidden } from "@/components/theme/theme-state-hidden";
+import { ThemeProvider } from "@/components/assets/provider/theme-provider";
+import { ThemeStateHidden } from "@/components/assets/theme/theme-state-hidden";
 import { ScrollToggle } from "@/components/assets/toggle/scroll-toggle";
 import { NavProvider } from "@/hooks/use-nav";
 
