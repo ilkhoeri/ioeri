@@ -1,12 +1,14 @@
 import Link from "next/link";
 import { IoeriIcon } from "@/modules";
-import { NavAside } from "@/components/assets/nav-aside/aside";
+import { getRoutes } from "@/routes/generates";
 import { Main } from "@/components/ui/components";
+import { NavAside } from "@/components/assets/nav-aside/aside";
 
-export default function NotFound() {
+export default async function NotFound() {
+  const routes = await getRoutes();
   return (
     <Main className="pb-0">
-      <NavAside />
+      <NavAside routes={routes} />
 
       <article className="h-dvh w-full max-w-full overflow-hidden flex flex-wrap items-start justify-center p-4 m-0 relative pt-20 after:content-[''] after:w-full after:h-[262px] after:absolute after:bottom-0 after:bg-gradient-to-t after:from-background">
         <figure className="absolute w-full h-full -top-40 bg-[url('/images/grid.svg')] bg-center bg-repeat z-0" />
