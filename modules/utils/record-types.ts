@@ -98,7 +98,7 @@ export type RecordBoolean<T extends string> = Partial<Record<T, boolean>>;
  *   />
  * ```
  */
-export type RecordNested<U extends string, T extends string, P = Record<string, any>> = {
+export type RecordNested<U extends string, T extends string, P = Record<string, unknown>> = {
   [K in U]?: (Partial<Record<T, string>> & P) | undefined;
 };
 

@@ -1,7 +1,7 @@
 import { getEvents } from "@/connections/get-event";
-import { TitlePage } from "@/components/clients/title-page";
 import { TableEvent } from "@/components/clients/includes/table-event";
 import { EventColumns } from "@/components/clients/includes/column-event";
+import { Article, Title } from "@/components/ui/components";
 
 export const metadata = {
   title: "Event",
@@ -12,9 +12,9 @@ export default async function Page() {
   const events = await getEvents();
 
   return (
-    <>
-      <TitlePage title="event" />
+    <Article>
+      <Title title="event" />
       <TableEvent searchKey="title" columns={EventColumns} data={events} />
-    </>
+    </Article>
   );
 }

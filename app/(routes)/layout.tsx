@@ -1,7 +1,8 @@
-import { Main } from "@/components/ui/component";
+import { Main } from "@/components/ui/components";
 import { NavAside } from "@/components/assets/nav-aside/aside";
 
 export const dynamic = "force-dynamic";
+// export const fetchCache = "only-no-store";
 
 export default function Layout({
   children,

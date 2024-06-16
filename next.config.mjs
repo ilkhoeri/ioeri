@@ -1,5 +1,5 @@
-// import process from "node:process";
-// Object.assign(process.env, { NEXT_TELEMETRY_DISABLED: "1" });
+import process from "node:process";
+Object.assign(process.env, { NEXT_TELEMETRY_DISABLED: "1" });
 
 /**
  * @typedef {import('next').NextConfig} NextConfig
@@ -8,7 +8,7 @@
 import nextPWA from "next-pwa";
 import remarkGfm from "remark-gfm";
 import createMDX from "@next/mdx";
-// import rehypeSlug from "rehype-slug";
+import rehypeSlug from "rehype-slug";
 import rehypePrettyCode from "rehype-pretty-code";
 import moonlightTheme from "./lib/moonlight-ii.json" with { type: "json" };
 
@@ -16,15 +16,22 @@ import moonlightTheme from "./lib/moonlight-ii.json" with { type: "json" };
 const options = {
   keepBackground: false,
   theme: moonlightTheme,
+  defaultLang: {
+    block: "plaintext",
+    inline: "plaintext",
+  },
+  tokensMap: {
+    fn: "entity.name.function",
+  },
 };
 
 const withMDX = createMDX({
-  // extension: /\.(md|mdx)$/,
+  extension: /\.(md|mdx)$/,
   options: {
     // as desired
     remarkPlugins: [remarkGfm],
-    // rehypePlugins: [[rehypePrettyCode, options], rehypeSlug],
-    rehypePlugins: [[rehypePrettyCode, options]],
+    rehypePlugins: [[rehypePrettyCode, options], rehypeSlug],
+    // rehypePlugins: [[rehypePrettyCode, options]],
   },
 });
 
@@ -71,11 +78,11 @@ const Config = withMDX({
     ];
   },
   reactStrictMode: true,
-  // poweredByHeader: false,
+  poweredByHeader: false,
   // output: "export", // must be exported function "generateStaticParams()", which is required with "output: export" config
-  // env: {
-  //   NEXT_TELEMETRY_DISABLED: "1",
-  // },
+  env: {
+    NEXT_TELEMETRY_DISABLED: "1",
+  },
   cleanDistDir: true,
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx", "css", "scss", "json"],
   experimental: {

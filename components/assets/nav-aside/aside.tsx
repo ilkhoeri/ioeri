@@ -59,7 +59,7 @@ export function NavAside({ classNames }: { classNames?: { aside?: string; overla
               <CollapsibleContent className="flex z-1">
                 {i.data.map((i, index) => (
                   <div key={index} className="h-full w-full flex flex-col">
-                    <h6 className="flex flex-row items-center gap-2 h-8 px-2 py-1 text-sm font-medium">
+                    <h6 className="flex flex-row items-center gap-2 h-8 pr-2 py-1 text-sm font-medium">
                       <span className="truncate">{i.title}</span>
                     </h6>
                     {i.data.map((i, index) => (

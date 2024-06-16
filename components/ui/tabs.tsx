@@ -18,7 +18,7 @@ const TabsList = React.forwardRef<
   <TabsPrimitive.List
     ref={ref}
     className={twMerge(
-      !unstyled && "inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground",
+      !unstyled && "inline-flex items-center justify-center rounded-md bg-muted p-1 text-muted-foreground",
       className,
     )}
     {...props}
@@ -50,7 +50,7 @@ const TabsContent = React.forwardRef<
     ref={ref}
     className={twMerge(
       !unstyled &&
-        "mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-muted-foreground focus-visible:ring-offset-2",
+        "mt-2 focus-visible:outline-none focus-visible:ring-0",
       className,
     )}
     {...props}

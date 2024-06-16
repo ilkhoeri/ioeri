@@ -1,6 +1,6 @@
 import { getBlogs } from "@/connections/get-blog";
 import { ListBlog } from "@/components/clients/includes/list-card-blog";
-import { TitlePage } from "@/components/clients/title-page";
+import { Article, Title } from "@/components/ui/components";
 
 export const metadata = {
   title: "Blog",
@@ -11,9 +11,9 @@ export default async function Page() {
   const blogs = await getBlogs();
 
   return (
-    <>
-      <TitlePage title="blog" />
+    <Article>
+      <Title title="blog" />
       <ListBlog data={blogs} />
-    </>
+    </Article>
   );
 }

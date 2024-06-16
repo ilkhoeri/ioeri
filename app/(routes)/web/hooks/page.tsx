@@ -1,4 +1,4 @@
-import { TitlePage } from "@/components/clients/title-page";
+import { Article, Title } from "@/components/ui/components";
 import { HooksPage } from "./try-page";
 
 export const metadata = {
@@ -8,12 +8,11 @@ export const metadata = {
 
 export default async function Page() {
   return (
-    <>
-      <TitlePage title="components" />
+    <Article>
+      <Title title="components" />
 
       <hr className="my-0.5" />
-
       <HooksPage />
-    </>
+    </Article>
   );
 }

@@ -1,7 +1,6 @@
 import { getBlogs } from "@/connections/get-blog";
 import { ListBlog } from "@/components/clients/includes/list-card-blog";
-import { TitlePage } from "@/components/clients/title-page";
-import { Article } from "@/components/ui/component";
+import { Article, Title } from "@/components/ui/components";
 
 export const metadata = {
   title: "Playground",
@@ -13,7 +12,7 @@ export default async function Page() {
 
   return (
     <Article>
-      <TitlePage title="playground" />
+      <Title title="playground" />
       <ListBlog data={blogs} />
     </Article>
   );

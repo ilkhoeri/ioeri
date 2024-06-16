@@ -1,7 +1,6 @@
 import { PostedTimes } from "../italic-time";
-import { TitlePageID } from "../title-page";
 import { ArticleInnerHTML } from "../article-inner-html";
-import { Article } from "@/components/ui/component";
+import { Article, Title } from "@/components/ui/components";
 
 import type { ContentsProps, ParamsPageTypes } from "@/types/connections";
 
@@ -10,7 +9,7 @@ import style from "@/styles/ioeri.module.css";
 export const PageParamsId: React.FC<ParamsPageTypes> = ({ data }) => {
   return (
     <Article>
-      <TitlePageID title={data?.title} />
+      <Title title={data?.title} />
       <h4 className={style.pg_params_ID_h4}>{data?.subtitle}</h4>
 
       <ContentParams contents={data?.contents} />

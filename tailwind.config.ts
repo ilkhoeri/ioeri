@@ -72,6 +72,12 @@ const config = {
             lineHeight: "1.35",
           },
         ],
+        paragraph: [
+          "clamp(0.725rem, 0.45rem + 0.5vw, 0.895rem)",
+          {
+            lineHeight: "1.35",
+          },
+        ],
       },
       borderRadius: {
         "2xl": "calc(var(--radius) + 4px)",

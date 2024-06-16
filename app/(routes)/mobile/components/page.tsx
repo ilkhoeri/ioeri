@@ -1,5 +1,5 @@
 import { NavLinkItem } from "@/components/assets/connections/nav-link";
-import { TitlePage } from "@/components/clients/title-page";
+import { Article, Title } from "@/components/ui/components";
 
 export const metadata = {
   title: "Components Native",
@@ -8,8 +8,8 @@ export const metadata = {
 
 export default async function Page() {
   return (
-    <>
-      <TitlePage title="components" />
+    <Article>
+      <Title title="components" />
 
       <hr className="my-0.5" />
 
@@ -59,7 +59,7 @@ export default async function Page() {
           </CollapsibleContent>
         </Collapsible>
       ))}
-    </>
+    </Article>
   );
 }
 

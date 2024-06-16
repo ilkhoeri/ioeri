@@ -398,6 +398,11 @@ img {
     --tw-ring-focus-width: 0px;
   }
 }
+div:focus,
+div:focus-visible {
+  --tw-ring-shadow: 0;
+  outline: 0;
+}
 
 a,
 button {

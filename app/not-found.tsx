@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { IoeriIcon } from "@/modules";
 import { NavAside } from "@/components/assets/nav-aside/aside";
-import { Main } from "@/components/ui/component";
+import { Main } from "@/components/ui/components";
 
 export default function NotFound() {
   return (

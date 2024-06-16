@@ -24,14 +24,41 @@
     @apply content-[''] absolute bg-[#1f6feb] rounded-full w-1 h-4/5 -left-1.5 inset-y-auto right-auto;
   }
 }
-
-.clb:hover {
+.clb {
   & svg[data-icon="area-code"] {
+    & path {
+      stroke-width: 2px;
+      transition:
+        stroke-width 0.5s,
+        transform 0.5s,
+        opacity 0.5s;
+    }
+    & path[d*="m18"] {
+      opacity: 1;
+    }
     & path[d*="m10"] {
-      animation: m10 2s;
+      transform: scale(1) translate(0, 0);
     }
     & path[d*="m13"] {
-      animation: m13 2s;
+      transform: scale(1) translate(0, 0);
+    }
+  }
+}
+.clb:hover {
+  & svg[data-icon="area-code"] {
+    & path {
+      stroke-width: 1.7px;
+    }
+    & path[d*="m18"] {
+      opacity: 0;
+    }
+    & path[d*="m10"] {
+      animation: m10 2s infinite;
+      transform: scale(1.5) translate(-15%, -44.5%);
+    }
+    & path[d*="m13"] {
+      animation: m13 2s infinite;
+      transform: scale(1.5) translate(-15%, -44.5%);
     }
   }
 }
@@ -61,15 +88,6 @@
   }
 }
 
-/* sheetnav */
-.sheetnav_active {
-  @apply text-color font-semibold bg-muted/40 lg:bg-muted;
-}
-
-.sign_out {
-  @apply border bg-background px-4 py-1 flex-nowrap flex-row justify-start min-w-max hover:bg-muted focus-visible:ring-offset-0 font-sans h-[32px] w-[128px] text-muted-foreground z-[1] text-sm font-semibold rounded-lg;
-}
-
 .aside_toggle {
   @apply centered md:hidden md:sr-only relative z-10 scale-100 lg:scale-0 opacity-100 lg:opacity-0 [transition:all_0.5s_ease] rounded-[4px] ring ring-transparent ring-offset-2 focus-visible:outline-0;
 
@@ -96,5 +114,3 @@
     }
   }
 }
-
-

@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Card } from "../card";
 import { FilteredData } from "../filtered-data";
-import { Article } from "@/components/ui/component";
+import { Article } from "@/components/ui/components";
 
 import type { Blog } from "@/types/connections";
 

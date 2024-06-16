@@ -1,26 +1,24 @@
-import { Metadata } from "next";
-import { Article } from "@/components/ui/component";
-import { TitlePageID } from "@/components/clients/title-page";
-import { MarkdownEditor } from "../playground-markdown-editor";
-import { getMdFile } from "@/script/read-md-file";
-// import { notFound } from "next/navigation";
-// import { getPath } from "@/script/get-path";
-import path from "node:path";
 import fs from "fs-extra";
+import path from "node:path";
 
-// type Params = { params: { playgroundId: string } };
+import { Playground } from "@/components/ui/playground";
+import { Article, Title } from "@/components/ui/components";
+import { CodeCustomizer } from "@/components/ui/code-customizer";
+
+import { capitalizeWords } from "@/modules";
+import { getMdFile } from "@/script/get-md-file";
+import type { Metadata } from "next";
+
 interface Params {
   params: {
-    [key: string]: string;
+    playgroundId: string;
   };
 }
 
-// export const fetchCache = "only-no-store";
-
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const url = process.env.NEXT_PUBLIC_DOMAIN_URL;
-  const slug = "Markdown Editor";
-  const namePage = "Markdown Editor | Playground";
+  const slug = params.playgroundId;
+  const namePage = slug + " | Playground";
   return {
     title: namePage ? namePage : "NotFound!",
     description: namePage,
@@ -34,18 +32,34 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   };
 }
 
-export default async function Page() {
+export default async function Page({ params }: Params) {
   const [edit, css, code] = await Promise.all([
     fs.readFile(path.join(process.cwd(), "/md/markdown.md"), "utf-8"),
     fs.readFile(path.join(process.cwd(), "/modules/utils/formatter/markdown.css"), "utf-8"),
     getMdFile("modules/utils/formatter/markdown-text.ts"),
   ]);
 
-  return (
-    <Article>
-      <TitlePageID title="Markdown Editor" />
+  const codePoly = await getMdFile("components/ui/element.tsx");
 
-      <MarkdownEditor edit={edit} code={code} css={css} />
+  let component;
+
+  if (params.playgroundId === "markdown-editor") {
+    component = (
+      <Playground
+        edit={edit}
+        childrens={{ code: <CodeCustomizer code={String(code)} />, css: <CodeCustomizer code={String(css)} /> }}
+      />
+    );
+  }
+  if (params.playgroundId === "polymorphic") {
+    component = <Playground defaultState="code" childrens={{ code: <CodeCustomizer code={String(codePoly)} /> }} />;
+  }
+
+  return (
+    <Article className="gap-12">
+      <Title type="tick" title={capitalizeWords(params.playgroundId)} />
+
+      {component}
     </Article>
   );
 }

@@ -1,16 +1,14 @@
 "use client";
 
 import * as React from "react";
-import { UnstyledButton } from "./button";
-import { ClipboardCheckIcon, ClipboardCopyIcon, useClipboard } from "@/modules";
+import { CopyToggle } from "./toggle";
 
 export function CodeCustomizer({ code }: { code: string }) {
-  const clipboard = useClipboard({ timeout: 1000 });
   return (
     <div data-rehype-pretty-code-fragment="">
-      <pre className="overflow-x-auto rounded-lg" data-language="tsx" data-theme="default">
+      <pre className="overflow-x-auto rounded-lg scrollbar" data-language="tsx" data-theme="default">
         <code
-          className="relative text-pre-wrap rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm"
+          className="relative text-pre-wrap w-max rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-paragraph"
           data-language="tsx"
           data-theme="default"
           // dangerouslySetInnerHTML={{ __html: code }}
@@ -18,17 +16,11 @@ export function CodeCustomizer({ code }: { code: string }) {
           {code}
         </code>
       </pre>
-
-      <UnstyledButton
-        tabIndex={-1}
-        onClick={() => clipboard.copy(code)}
-        className="centered p-1 rounded-md border bg-background-box absolute right-0 top-0 [&_svg]:sizer [--sz:20px]"
-      >
-        {clipboard.copied ? <ClipboardCheckIcon /> : <ClipboardCopyIcon />}
-      </UnstyledButton>
+      <CopyToggle text={code} />
     </div>
   );
 }
+
 
 export function markdownCustomizer(text: string): string {
   text = text.replace(/^(.*?)(\/\/.*)$/gm, (match, p1, p2) => {

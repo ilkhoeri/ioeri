@@ -4,15 +4,15 @@ import fs from "fs-extra";
 export async function getMdFile(sourcePath: string): Promise<string> {
   try {
     const filePath = path.resolve(process.cwd(), String(sourcePath));
-    // Tentukan path untuk file .md
-    const mdFilePath = path.resolve(process.cwd(), "md", path.basename(filePath).replace(/\.[^.]+$/, ".md"));
+    // Specify the path for the .md file
+    const mdFilePath = path.resolve(process.cwd(), "md/convert", path.basename(filePath).replace(/\.[^.]+$/, ".md"));
 
-    // Jika file .md belum ada, konversi dari file asli ke .md
+    // If the .md file doesn't exist yet, convert the original file to .md
     if (!(await fileExists(mdFilePath))) {
       await convertFileToMd(filePath);
     }
 
-    // Sekarang baca file .md
+    // Now read the .md file
     const content = await fs.readFile(mdFilePath, "utf-8");
     return content;
   } catch (error) {
@@ -23,13 +23,15 @@ export async function getMdFile(sourcePath: string): Promise<string> {
 
 async function convertFileToMd(filePath: string): Promise<string> {
   try {
-    // Baca isi file
+    // Read the contents of the file
     const fileContent = await fs.readFile(filePath, "utf-8");
 
-    // Tentukan nama dan path untuk file .md baru
-    const mdFilePath = path.resolve(process.cwd(), "md", path.basename(filePath).replace(/\.[^.]+$/, ".md"));
+    // Specify the name and path for the new .md file
+    const mdFilePath = path.resolve(process.cwd(), "md/convert", path.basename(filePath).replace(/\.[^.]+$/, ".md"));
 
-    // Tulis isi file ke dalam file .md baru
+    // Write the contents of the file into a new .md file
+    const targetDir = path.dirname(mdFilePath);
+    await fs.mkdir(targetDir, { recursive: true });
     await fs.writeFile(mdFilePath, fileContent, "utf-8");
 
     console.log(`File ${filePath} telah dikonversi menjadi ${mdFilePath}`);

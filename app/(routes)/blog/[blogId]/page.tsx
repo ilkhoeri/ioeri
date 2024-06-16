@@ -1,8 +1,7 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getBlogByID } from "@/connections/get-blog";
-import { TitlePageID } from "@/components/clients/title-page";
-import { Article } from "@/components/ui/component";
+import { Article, Title } from "@/components/ui/components";
 
 type BLOGID = { params: { blogId: string } };
 
@@ -32,7 +31,7 @@ export default async function Page({ params }: BLOGID) {
   }
   return (
     <Article>
-      <TitlePageID title={data?.title} />
+      <Title type="tick" title={data?.title} />
       {/* <ImagesArray images={data?.images} />
       <ArticleInnerHTML article={data?.description} />
 

@@ -1,9 +1,8 @@
 "use client";
 
 import { PostedTimes } from "../italic-time";
-import { TitlePageID } from "../title-page";
 import { ImagesArray } from "../images-array";
-import { Article } from "@/components/ui/component";
+import { Article, Title } from "@/components/ui/components";
 import { markdownInsertHTML } from "@/lib/clean-html";
 import { useImagePopup } from "@/modules";
 
@@ -14,7 +13,7 @@ export const PageEventId: React.FC<PageEventIdTypes> = ({ event }) => {
 
   return (
     <Article>
-      <TitlePageID title={event?.title} />
+      <Title title={event?.title} />
       <ImagesArray images={event?.images} />
       {event?.description && (
         <article

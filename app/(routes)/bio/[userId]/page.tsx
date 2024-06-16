@@ -7,7 +7,7 @@ import { getBlogs } from "@/connections/get-blog";
 import { getEvents } from "@/connections/get-event";
 import { getSocmed } from "@/connections/get-socmed";
 import { UserPageHeader } from "@/components/clients/pages/user/header";
-import { Article } from "@/components/ui/component";
+import { Article } from "@/components/ui/components";
 
 type USERID = { params: { userId: string } };
 
