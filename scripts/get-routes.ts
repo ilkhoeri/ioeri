@@ -4,14 +4,15 @@ import fs from "fs-extra";
 import path from "path";
 import { capitalizeFirst } from "@/modules";
 
-import type { InnerRoutes, NestedRoute } from "../routes/index";
+import type { NestedRoute, SingleRoute } from "../routes/index";
 
 function toCamelCase(str: string): string {
   return str.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
 }
 
+// Function to generate routes dynamically
 async function generateRoutes(sourcePath: string, basePath: string): Promise<{ title: string; href: string }[]> {
-  const routes: InnerRoutes[] = [];
+  const routes = [];
   try {
     const folders = await fs.readdir(basePath);
 
@@ -31,38 +32,15 @@ async function generateRoutes(sourcePath: string, basePath: string): Promise<{ t
   return routes;
 }
 
-export async function main() {
-  const title = "web-app";
-  const sourcePath = "hooks";
-
-  const routesPath = path.resolve(process.cwd(), `routes/${sourcePath}.json`);
-  const routeData = await generateRoutes(sourcePath, path.resolve(process.cwd(), `modules/${sourcePath}`));
-
-  const routesData = [
-    {
-      title: capitalizeFirst(title),
-      data: [
-        {
-          title: capitalizeFirst(sourcePath),
-          data: routeData,
-        },
-      ],
-    },
-  ];
-
+export async function getRoutes(sourcePath: string): Promise<SingleRoute[]> {
   try {
-    await fs.outputJson(routesPath, routesData, { spaces: 2 });
-    console.log("Routes generated and saved to", routesPath);
-  } catch (error) {
-    console.error("Error saving routes:", error);
-  }
-}
-
-export async function getRoutes(sourcePath: string): Promise<NestedRoute[]> {
-  try {
-    const routesPath = path.resolve(process.cwd(), `routes/${sourcePath}.json`);
-    const routesData = await fs.readJson(routesPath);
-    return routesData;
+    const routeData = await generateRoutes(sourcePath, path.resolve(process.cwd(), `modules/${sourcePath}`));
+    return [
+      {
+        title: capitalizeFirst(sourcePath),
+        data: routeData,
+      },
+    ];
   } catch (error) {
     console.error("Error generating routes:", error);
     return [];

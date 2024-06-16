@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getRoutes } from "@/scripts/generate-routes";
+import { getRoutes } from "@/scripts/get-routes";
 import { IoeriIcon } from "@/modules";
 import { Main } from "@/components/ui/components";
 import { NavAside } from "@/components/assets/nav-aside/aside";

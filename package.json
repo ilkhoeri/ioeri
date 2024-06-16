@@ -8,8 +8,8 @@
     "vercel": "vercel dev --listen 5005",
     "generate-routes": "ts-node scripts/generate-routes",
     "dev": "next dev",
-    "build": "pnpm run generate-routes && next build",
-    "start": "pnpm run generate-routes && next start",
+    "build": "next build",
+    "start": "next start",
     "lint": "next lint",
     "preinstall": "npx only-allow pnpm"
   },
