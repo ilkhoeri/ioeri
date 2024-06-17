@@ -11,7 +11,7 @@ interface OpenStateContextProps {
   setOpen: (value: boolean) => void;
   handleOpen: () => void;
   handleClose: () => void;
-  onClick: () => void;
+  onHandle: () => void;
   onMouseEnter: () => void;
   onMouseLeave: () => void;
   onKeyDown: () => void;
