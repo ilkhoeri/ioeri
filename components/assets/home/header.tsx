@@ -12,7 +12,7 @@ const links = [
     title: "Documentation",
     target: "_self",
     icon: BookOpen2Icon,
-    url: "",
+    url: "/components",
   },
   {
     title: "Repository",

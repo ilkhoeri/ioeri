@@ -6,6 +6,7 @@ import { IoeriLogoTextIcon, LineMenuBarIcon } from "@/modules";
 import { useHoveredElement } from "@/hooks/use-hovered-element";
 import { useNavContext } from "../../../hooks/use-nav";
 import { twMerge } from "tailwind-merge";
+import { services } from "@/routes";
 
 import style from "../nav-aside/aside.module.css";
 
@@ -34,39 +35,18 @@ export function Headnav() {
           className="max-md:ml-4 [transition:all_0.5s_ease] max-md:data-[state=open]:translate-x-[-32px] max-md:data-[state=open]:opacity-0"
         />
 
-        <div className="relative h-full hidden md:flex items-center justify-between text-muted-foreground font-medium text-sm ml-10 overflow-hidden rounded-sm mr-auto">
-          <div
-            role="button"
-            className="cursor-pointer select-none py-1 px-2 h-6 rounded-sm centered"
-            onMouseEnter={onMouseEnter}
-            onMouseLeave={onMouseLeave}
-          >
-            Products
-          </div>
-          <div
-            role="button"
-            className="cursor-pointer select-none py-1 px-2 h-6 rounded-sm centered"
-            onMouseEnter={onMouseEnter}
-            onMouseLeave={onMouseLeave}
-          >
-            Contacts
-          </div>
-          <div
-            role="button"
-            className="cursor-pointer select-none py-1 px-2 h-6 rounded-sm centered"
-            onMouseEnter={onMouseEnter}
-            onMouseLeave={onMouseLeave}
-          >
-            Generators
-          </div>
-          <div
-            role="button"
-            className="cursor-pointer select-none py-1 px-2 h-6 rounded-sm centered"
-            onMouseEnter={onMouseEnter}
-            onMouseLeave={onMouseLeave}
-          >
-            Docs
-          </div>
+        <div className="relative h-full hidden md:flex items-center justify-between font-medium text-sm ml-10 overflow-hidden rounded-sm mr-auto">
+          {services.map((i, index) => (
+            <div
+              key={index}
+              role="button"
+              className="cursor-pointer select-none py-1 px-2 h-6 rounded-sm centered text-muted-foreground hover:text-color transition-colors"
+              onMouseEnter={onMouseEnter}
+              onMouseLeave={onMouseLeave}
+            >
+              <span>{i.title}</span>
+            </div>
+          ))}
 
           {hovered && (
             <Element

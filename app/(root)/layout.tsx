@@ -20,7 +20,7 @@ export default async function Layout({
 }>) {
   const hooks = await loadRoutes("hooks");
   return (
-    <Element el="main" className={[style.main_home, "[--hex:#f2f2f2] dark:[--hex:#151515]"].join(" ")}>
+    <Element el="main" className={[style.main_home, "[--hex:#f2f2f2] dark:[--hex:#171717]"].join(" ")}>
       <NavAside routes={hooks} />
       {children}
     </Element>

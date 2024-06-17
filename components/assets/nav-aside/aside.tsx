@@ -42,7 +42,7 @@ export function NavAside({
         id="aside-nav"
         data-state={maxQuery ? (open ? "open" : "closed") : undefined}
         className={twMerge(
-          "m-0 bg-background overflow-hidden [transition:all_0.5s_ease] h-full w-0 focus-visible:outline-0 top-0 bottom-0 md:sticky md:top-[calc(var(--navbar)*1)] md:pr-6 md:pb-8 md:pl-4 md:left-0 md:w-[--aside] md:min-w-[--aside] md:max-w-[--aside] max-md:fixed max-md:pb-[6rem] max-md:z-[111] max-md:left-0 max-md:border-0 max-md:border-r-[0.04rem] max-md:border-r-muted/75",
+          "m-0 h-dvh max-h-dvh bg-background overflow-hidden [transition:all_0.5s_ease] w-0 focus-visible:outline-0 top-0 bottom-0 md:sticky md:top-[calc(var(--navbar)*1)] md:pr-6 pb-4 md:pl-4 md:left-0 md:w-[--aside] md:min-w-[--aside] md:max-w-[--aside] max-md:fixed max-md:z-[111] max-md:left-0 max-md:border-0 max-md:border-r-[0.04rem] max-md:border-r-muted/75",
           "max-md:data-[state=open]:w-[--aside] max-md:data-[state=open]:min-w-[--aside] max-md:data-[state=open]:max-w-[--aside] data-[state=open]:pl-6 data-[state=open]:pr-3 max-md:data-[state=closed]:pl-0 max-md:data-[state=closed]:pr-0 max-md:data-[state=closed]:opacity-0",
           classNames?.aside,
         )}
@@ -54,10 +54,10 @@ export function NavAside({
           </section>
         )}
 
-        <nav className="p-4 pr-0 relative flex items-start justify-start flex-col flex-nowrap gap-4 size-full max-md:pt-0 max-md:pr-0.5 max-md:overflow-y-auto md:overflow-y-hidden overflow-x-hidden webkit-scrollbar">
+        <nav className="p-4 pb-24 pr-0 relative flex items-start justify-start flex-col flex-nowrap gap-4 size-full max-md:pt-0 max-md:pr-0.5 overflow-y-auto overflow-x-hidden webkit-scrollbar">
           {fitures.map((i, index) => (
             <Collapsible key={index} defaultOpen className="h-auto w-full flex flex-col gap-1">
-              <CollapsibleTrigger className={style.clb}>
+              <CollapsibleTrigger className="font-semibold text-color focus-visible:ring-inset focus-visible:ring-offset-[-2px]">
                 <span className="truncate">{i.title}</span>
               </CollapsibleTrigger>
 
@@ -72,7 +72,7 @@ export function NavAside({
           {routes &&
             routes.map((i, index) => (
               <Collapsible key={index} defaultOpen className="h-auto w-full flex flex-col gap-1">
-                <CollapsibleTrigger className={style.clb}>
+                <CollapsibleTrigger className="font-semibold text-color focus-visible:ring-inset focus-visible:ring-offset-[-2px]">
                   <span className="truncate">{i.title}</span>
                 </CollapsibleTrigger>
 
@@ -83,7 +83,6 @@ export function NavAside({
                 </CollapsibleContent>
               </Collapsible>
             ))}
-
         </nav>
       </aside>
 

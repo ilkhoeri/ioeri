@@ -8,6 +8,21 @@ export type NestedRoute = TitleRoute & {
   data: SingleRoute[];
 };
 
+export const services: SingleRoute[] = [
+  {
+    title: "Products",
+    data: [],
+  },
+  {
+    title: "Generators",
+    data: [],
+  },
+  {
+    title: "Documentation",
+    data: [],
+  },
+];
+
 export const fitures: SingleRoute[] = [
   {
     title: "Playground",
@@ -22,34 +37,6 @@ export const fitures: SingleRoute[] = [
         href: "/playground/polymorphic",
       },
     ],
-  },
-];
-
-const Components = [
-  {
-    title: "Collapsible",
-    href: "/web/components",
-  },
-];
-
-const Hooks = [
-  {
-    title: "Open State",
-    href: "/web/hooks",
-  },
-];
-
-const NativeComponents = [
-  {
-    title: "A",
-    href: "/mobile/components",
-  },
-];
-
-const NativeHooks = [
-  {
-    title: "A",
-    href: "/mobile/hooks/a",
   },
 ];
 

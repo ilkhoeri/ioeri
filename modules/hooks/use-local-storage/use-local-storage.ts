@@ -6,19 +6,10 @@ import { useWindowEvent } from "../use-window-event/use-window-event";
 export type StorageType = "localStorage" | "sessionStorage";
 
 export interface StorageProperties<T> {
-  /** Storage key */
   key: string;
-
-  /** Default value that will be set if value is not found in storage */
   defaultValue?: T;
-
-  /** If set to true, value will be update is useEffect after mount */
   getInitialValueInEffect?: boolean;
-
-  /** Function to serialize value into string to be save in storage */
   serialize?(value: T): string;
-
-  /** Function to deserialize string value from storage to value */
   deserialize?(value: string | undefined): T;
 }
 

@@ -23,7 +23,7 @@ export const Main = React.forwardRef<HTMLElement, ElementType<HTMLElement>>(
       <Component
         ref={ref}
         className={twMerge(
-          !unstyled && "w-full relative flex flex-col md:flex-row mx-auto max-w-screen-3xl min-h-dvh pb-14",
+          !unstyled && "w-full relative flex flex-col md:flex-row mx-auto max-w-screen-3xl min-h-screen pb-14",
           className,
         )}
         {...props}
