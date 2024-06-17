@@ -3,11 +3,10 @@ import path from "node:path";
 
 import { Playground } from "@/components/ui/playground";
 import { Article, Title } from "@/components/ui/components";
-import { CodeCustomizer, markdownCustomizer } from "@/components/ui/code-customizer";
-
-import { capitalizeWords } from "@/modules";
+import { CodeCustomizer } from "@/components/ui/code-customizer";
 import { getMdFile } from "@/scripts/get-md-file";
-import { Code } from "@/components/ui/code";
+import { capitalizeWords } from "@/modules";
+
 import type { Metadata } from "next";
 
 interface Params {
@@ -34,22 +33,16 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 }
 
 export default async function Page({ params }: Params) {
-  const [edit, css, usage, code] = await Promise.all([
-    fs.readFile(path.join(process.cwd(), "/md/markdown-text-example.md"), "utf-8"),
-    fs.readFile(path.join(process.cwd(), "/modules/utils/formatter/markdown-text.css"), "utf-8"),
-    fs.readFile(path.join(process.cwd(), "/modules/utils/formatter/markdown-text-usage.md"), "utf-8"),
-    getMdFile("convert", "modules/utils/formatter/markdown-text.ts"),
-  ]);
-
-  const [codePoly, usagePoly] = await Promise.all([
-    // getMdFile("convert", "components/ui/element.tsx"),
-    fs.readFile(path.join(process.cwd(), "/components/ui/element.tsx"), "utf-8"),
-    fs.readFile(path.join(process.cwd(), "/components/ui/element-usage.md"), "utf-8"),
-  ]);
-
   let component;
 
   if (params.playgroundId === "markdown-editor") {
+    const [edit, css, usage, code] = await Promise.all([
+      fs.readFile(path.join(process.cwd(), "/md/markdown-text-example.md"), "utf-8"),
+      fs.readFile(path.join(process.cwd(), "/modules/utils/formatter/markdown-text.css"), "utf-8"),
+      fs.readFile(path.join(process.cwd(), "/modules/utils/formatter/markdown-text-usage.md"), "utf-8"),
+      getMdFile("convert", "modules/utils/formatter/markdown-text.ts"),
+    ]);
+
     component = (
       <Playground
         edit={edit}
@@ -62,6 +55,12 @@ export default async function Page({ params }: Params) {
     );
   }
   if (params.playgroundId === "polymorphic") {
+    const [codePoly, usagePoly] = await Promise.all([
+      // getMdFile("convert", "components/ui/element.tsx"),
+      fs.readFile(path.join(process.cwd(), "/components/ui/element.tsx"), "utf-8"),
+      fs.readFile(path.join(process.cwd(), "/components/ui/element-usage.md"), "utf-8"),
+    ]);
+
     component = (
       <Playground
         defaultState="code"
@@ -76,7 +75,6 @@ export default async function Page({ params }: Params) {
   return (
     <Article className="gap-12 pt-4">
       <Title type="tick" title={capitalizeWords(params.playgroundId)} />
-
       {component}
     </Article>
   );

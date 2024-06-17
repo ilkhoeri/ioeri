@@ -1,9 +1,6 @@
-import fs from "fs-extra";
-import path from "node:path";
-
 import { Playground } from "@/components/ui/playground";
 import { Article, Title } from "@/components/ui/components";
-import { CodeCustomizer, markdownCustomizer } from "@/components/ui/code-customizer";
+import { CodeCustomizer } from "@/components/ui/code-customizer";
 import { getFileContent } from "@/scripts/get-file-content";
 import { kebabToCamelCase } from "@/modules";
 
@@ -24,7 +21,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     openGraph: {
       title: namePage || "NotFound!",
       description: namePage || "NotFound!",
-      url: url + "/" + params.hookId,
+      url: url + "/" + namePage,
       locale: "id-ID",
       type: "website",
     },
@@ -34,11 +31,9 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 async function getCode(sourcePath: string): Promise<string | null> {
   return getFileContent(`/modules/hooks/${sourcePath}`, `${sourcePath}.ts`);
 }
-
 async function getUsage(sourcePath: string): Promise<string | null> {
   return getFileContent(`/modules/hooks/${sourcePath}`, `${sourcePath}-usage.md`);
 }
-
 async function getCss(sourcePath: string): Promise<string | null> {
   const cssPath = sourcePath.replace("use-", "");
   return getFileContent(`/modules/hooks/${sourcePath}`, `${cssPath}.css`);
@@ -54,7 +49,7 @@ export default async function Page({ params }: Params) {
   const childrens: { [key: string]: React.JSX.Element } = {};
 
   if (code) {
-    childrens.code = <CodeCustomizer setInnerHTML code={markdownCustomizer(code)} />;
+    childrens.code = <CodeCustomizer code={code} />;
   }
   if (css) {
     childrens.css = <CodeCustomizer code={css} />;
