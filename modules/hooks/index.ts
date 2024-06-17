@@ -4,24 +4,25 @@ export { useClickOutside } from "./use-click-outside/use-click-outside";
 export { useDidUpdate } from "./use-did-update/use-did-update";
 export { useDisclosure } from "./use-disclosure/use-disclosure";
 export { useFullscreen } from "./use-fullscreen/use-fullscreen";
-export { useHasScrollbar } from "./use-has-scrollbar/use-has-scrollbar";
-export type { Hotkey, HotkeyItemOptions, KeyboardModifiers } from "./use-hotkeys/parse-hotkey";
+export {
+  useHasScrollbar,
+  applyStateEffect,
+  setBodyProperty,
+  removeBodyProperty,
+  attributeState,
+  useWidthScrollbar,
+} from "./use-has-scrollbar/use-has-scrollbar";
 export { getHotkeyHandler, getHotkeyMatcher, parseHotkey } from "./use-hotkeys/parse-hotkey";
-export type { HotkeyItem } from "./use-hotkeys/use-hotkeys";
 export { useHotkeys } from "./use-hotkeys/use-hotkeys";
 export { useHover } from "./use-hover/use-hover";
 export { useIntersection } from "./use-intersection/use-intersection";
 export { useInterval } from "./use-interval/use-interval";
 export { useLocalStorage } from "./use-local-storage/use-local-storage";
-export type { UseMediaQueryOptions } from "./use-media-query/use-media-query";
 export { useMediaQuery } from "./use-media-query/use-media-query";
 export { assignRef, mergeRefs, useMergedRef } from "./use-merged-ref/use-merged-ref";
-export type { UseMovePosition } from "./use-move/use-move";
 export { clampUseMovePosition, useMove } from "./use-move/use-move";
 export { useMouse } from "./use-mouse/use-mouse";
-export type { UseOpenStateType } from "./use-open-state/use-open-state";
 export { useOpenState } from "./use-open-state/use-open-state";
-export type { PaginationParams } from "./use-pagination/use-pagination";
 export { DOTS, range, usePagination } from "./use-pagination/use-pagination";
 export { getRandomColor, useRandomColors } from "./use-random-colors/use-random-colors";
 export { useReducedMotion } from "./use-reduced-motion/use-reduced-motion";
@@ -36,9 +37,7 @@ export { useImagePopup } from "./use-image-popup/use-image-popup";
 export { useReactId } from "./use-id/use-react-id";
 export { useIsomorphicEffect } from "./use-isomorphic-effect/use-isomorphic-effect";
 export { getInputOnChange, useInputState } from "./use-input-state/use-input-state";
-export type { StateHistory, UseStateHistoryHandlers } from "./use-state-history/use-state-history";
 export { useSlide } from "./use-slide/use-slide";
-export type { ScrollDirectionType, UseSlideType } from "./use-slide/use-slide";
 export { useStateHistory } from "./use-state-history/use-state-history";
 export { useValidatedState } from "./use-validated-state/use-validated-state";
 export { useClipboard } from "./use-clipboard/use-clipboard";
@@ -52,3 +51,12 @@ export { useOrientation } from "./use-orientation/use-orientation";
 export { useReload } from "./use-reload/use-reload";
 export { usePWAInstaller } from "./use-pwa-installer/use-pwa-installer";
 export { useElementInfo } from "./use-element-info/use-element-info";
+
+export type { Hotkey, HotkeyItemOptions, KeyboardModifiers } from "./use-hotkeys/parse-hotkey";
+export type { HotkeyItem } from "./use-hotkeys/use-hotkeys";
+export type { UseMediaQueryOptions } from "./use-media-query/use-media-query";
+export type { UseMovePosition } from "./use-move/use-move";
+export type { UseOpenStateType } from "./use-open-state/use-open-state";
+export type { PaginationParams } from "./use-pagination/use-pagination";
+export type { StateHistory, UseStateHistoryHandlers } from "./use-state-history/use-state-history";
+export type { ScrollDirectionType, UseSlideType } from "./use-slide/use-slide";

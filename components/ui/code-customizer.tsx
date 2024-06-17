@@ -1,17 +1,17 @@
 import * as React from "react";
 import { CopyToggle } from "./toggle";
 
-export function CodeCustomizer({ code }: { code: string }) {
+export function CodeCustomizer({ code, setInnerHTML = false }: { code: string; setInnerHTML?: boolean }) {
   return (
     <div data-rehype-pretty-code-fragment="">
-      <pre className="overflow-x-auto rounded-lg scrollbar" data-language="tsx" data-theme="default">
+      <pre className="p-4 overflow-x-auto rounded-lg scrollbar" data-language="tsx" data-theme="default">
         <code
-          className="relative text-pre-wrap w-max rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-paragraph"
+          className="relative text-pre-wrap w-max rounded bg-muted font-mono text-paragraph"
           data-language="tsx"
           data-theme="default"
-          // dangerouslySetInnerHTML={{ __html: code }}
+          dangerouslySetInnerHTML={setInnerHTML ? { __html: code } : undefined}
         >
-          {code}
+          {setInnerHTML ? null : code}
         </code>
       </pre>
       <CopyToggle text={code} />
@@ -25,11 +25,13 @@ export function markdownCustomizer(text: string): string {
     const comment = p2.replace(/^\/\//, "").trim();
 
     if (beforeComment) {
-      return `<p class="text-muted">${beforeComment} <i>// ${comment}</i></p>`;
+      return `<p class="text-muted-foreground" style="margin-bottom: -12px;">${beforeComment} <i>// ${comment}</i></p>`;
     } else {
-      return `<p class="text-muted"><i>// ${comment}</i></p>`;
+      return `<p class="text-muted-foreground" style="margin-bottom: -12px;"><i>// ${comment}</i></p>`;
     }
   });
+
+  text = text.replace(/```(.*?)```/g, "<code>$1</code>");
 
   return text;
 }

@@ -18,7 +18,7 @@ export const CopyToggle = React.forwardRef<
       onClick={() => clipboard.copy(text)}
       disabled={!text}
       className={twMerge(
-        "centered p-1 rounded-md border bg-background-box absolute right-0 top-0 [&_svg]:sizer [--sz:20px]",
+        "centered p-1 rounded-md border bg-background-box absolute top-4 right-4 [&_svg]:sizer [--sz:20px]",
         className,
       )}
     >

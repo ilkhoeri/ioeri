@@ -1,6 +1,10 @@
 import React, { useEffect } from "react";
-import { useHasScrollbar } from "../use-has-scrollbar/use-has-scrollbar";
-import { attributeState, removeBodyProperty, setBodyProperty } from "../../function/attribute-property";
+import {
+  useHasScrollbar,
+  attributeState,
+  removeBodyProperty,
+  setBodyProperty,
+} from "../use-has-scrollbar/use-has-scrollbar";
 
 import "./image-popup.css";
 
@@ -21,8 +25,8 @@ export function useImagePopup({ selectors = ".embeded-image", timeRender = 350 }
         img.addEventListener("click", (event) => {
           const clickedImage = event.currentTarget as HTMLImageElement;
 
-          let section = document.querySelector(".image-popup-root") as HTMLElement;
-          if (!section) {
+          let figure = document.querySelector(".popup-figure") as HTMLElement;
+          if (!figure) {
             clickedImage.style.setProperty("filter", "opacity(0)");
             body.style.setProperty("overflow", "hidden");
 
@@ -32,13 +36,14 @@ export function useImagePopup({ selectors = ".embeded-image", timeRender = 350 }
 
             const rect = clickedImage.getBoundingClientRect();
 
-            section = document.createElement("section") as HTMLElement;
-            section.classList.add("image-popup-root");
-            body.appendChild(section);
+            figure = document.createElement("figure") as HTMLElement;
+            figure.classList.add("popup-figure");
+            figure.style.setProperty("--duration", `${timeRender - 50}ms`);
+            body.appendChild(figure);
 
             const overlay = document.createElement("div");
             overlay.classList.add("image-popup-overlay");
-            section.appendChild(overlay);
+            figure.appendChild(overlay);
 
             const imgPopup = document.createElement("img") as HTMLImageElement;
             imgPopup.src = clickedImage.src;
@@ -49,19 +54,14 @@ export function useImagePopup({ selectors = ".embeded-image", timeRender = 350 }
             imgPopup.setAttribute("draggable", "false");
             imgPopup.oncontextmenu = (e) => e.preventDefault();
 
-            // Set initial position and size
             imgPopup.style.position = "absolute";
-            // imgPopup.style.left = `${rect.left}px`;
-            // imgPopup.style.top = `${rect.top}px`;
             imgPopup.style.setProperty("--initial-w", `${rect.width}px`);
             imgPopup.style.setProperty("--initial-h", `${rect.height}px`);
 
-            section.appendChild(imgPopup);
+            figure.appendChild(imgPopup);
 
-            // Trigger reflow for the transition
             imgPopup.getBoundingClientRect();
 
-            // Animate to the center of the viewport
             imgPopup.style.setProperty(
               "--translate-in",
               `${(window.innerWidth / 2 - rect.left - rect.width / 2) * -1}px, ${(window.innerHeight / 2 - rect.top - rect.height / 2) * -1}px`,
@@ -74,7 +74,7 @@ export function useImagePopup({ selectors = ".embeded-image", timeRender = 350 }
               setTimeout(() => {
                 clickedImage.style.removeProperty("filter");
                 body.style.removeProperty("overflow");
-                section.remove();
+                figure.remove();
 
                 if (hasScrollbar) {
                   removeBodyProperty();
@@ -89,7 +89,7 @@ export function useImagePopup({ selectors = ".embeded-image", timeRender = 350 }
               setTimeout(() => {
                 clickedImage.style.removeProperty("filter");
                 body.style.removeProperty("overflow");
-                section.remove();
+                figure.remove();
 
                 if (hasScrollbar) {
                   removeBodyProperty();

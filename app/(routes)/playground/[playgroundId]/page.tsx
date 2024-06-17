@@ -34,13 +34,18 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 }
 
 export default async function Page({ params }: Params) {
-  const [edit, css, code] = await Promise.all([
-    fs.readFile(path.join(process.cwd(), "/md/markdown.md"), "utf-8"),
-    fs.readFile(path.join(process.cwd(), "/modules/utils/formatter/markdown.css"), "utf-8"),
+  const [edit, css, usage, code] = await Promise.all([
+    fs.readFile(path.join(process.cwd(), "/md/markdown-text-example.md"), "utf-8"),
+    fs.readFile(path.join(process.cwd(), "/modules/utils/formatter/markdown-text.css"), "utf-8"),
+    fs.readFile(path.join(process.cwd(), "/modules/utils/formatter/markdown-text-usage.md"), "utf-8"),
     getMdFile("convert", "modules/utils/formatter/markdown-text.ts"),
   ]);
 
-  const codePoly = await getMdFile("convert", "components/ui/element.tsx");
+  const [codePoly, usagePoly] = await Promise.all([
+    // getMdFile("convert", "components/ui/element.tsx"),
+    fs.readFile(path.join(process.cwd(), "/components/ui/element.tsx"), "utf-8"),
+    fs.readFile(path.join(process.cwd(), "/components/ui/element-usage.md"), "utf-8"),
+  ]);
 
   let component;
 
@@ -48,18 +53,28 @@ export default async function Page({ params }: Params) {
     component = (
       <Playground
         edit={edit}
-        childrens={{ code: <CodeCustomizer code={String(code)} />, css: <CodeCustomizer code={String(css)} /> }}
+        childrens={{
+          code: <CodeCustomizer code={String(code)} />,
+          css: <CodeCustomizer code={String(css)} />,
+          usage: <CodeCustomizer code={String(usage)} />,
+        }}
       />
     );
   }
   if (params.playgroundId === "polymorphic") {
     component = (
-      <Playground defaultState="code" childrens={{ code: <Code code={markdownCustomizer(String(codePoly))} /> }} />
+      <Playground
+        defaultState="code"
+        childrens={{
+          code: <CodeCustomizer code={String(codePoly)} />,
+          usage: <CodeCustomizer code={String(usagePoly)} />,
+        }}
+      />
     );
   }
 
   return (
-    <Article className="gap-12">
+    <Article className="gap-12 pt-4">
       <Title type="tick" title={capitalizeWords(params.playgroundId)} />
 
       {component}

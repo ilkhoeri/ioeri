@@ -9,12 +9,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { CopyToggle } from "@/components/ui/toggle";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import { cnx, markdownText, CodeIcon, CSSIcon, TailwindIcon } from "@/modules";
+import { cnx, markdownText, CodeIcon, CSSIcon, TailwindIcon, BracketsIcon } from "@/modules";
 
 type RecordNested<U extends string, T extends string, P = Record<string, unknown>> = {
   [K in U]?: Partial<Record<T, P>>;
 };
-type MarkdownValue = "code" | "tailwind" | "css";
+type MarkdownValue = "code" | "tailwind" | "css" | "usage";
 type PlaygroundType = Partial<Record<"edit", string | null>> &
   RecordNested<"childrens", MarkdownValue, React.ReactNode> & {
     defaultState?: "edit" | MarkdownValue;
@@ -36,11 +36,11 @@ export function Playground({ defaultState = "edit", edit, childrens }: Playgroun
       <TabsList className="w-full flex justify-between bg-background-box border">
         {edit && (
           <Element className="w-max flex flex-row items-center rounded-sm">
-            <TabsTrigger disabled={!edit} value="edit" className={classTrigger}>
+            <TabsTrigger disabled={!edit} value="edit" title="edit" className={classTrigger}>
               Edit
             </TabsTrigger>
 
-            <TabsTrigger disabled={!text} value="preview" className={classTrigger}>
+            <TabsTrigger disabled={!text} value="preview" title="preview" className={classTrigger}>
               Preview
             </TabsTrigger>
           </Element>
@@ -48,18 +48,23 @@ export function Playground({ defaultState = "edit", edit, childrens }: Playgroun
 
         <Element className="w-max flex flex-row items-center rounded-sm">
           {childrens?.code && (
-            <TabsTrigger value="code" className={classTrigger}>
+            <TabsTrigger value="code" title="code" className={classTrigger}>
               <CodeIcon />
             </TabsTrigger>
           )}
           {childrens?.tailwind && (
-            <TabsTrigger value="tailwind" className={classTrigger}>
+            <TabsTrigger value="tailwind" title="tailwind" className={classTrigger}>
               <TailwindIcon />
             </TabsTrigger>
           )}
           {childrens?.css && (
-            <TabsTrigger value="css" className={classTrigger}>
+            <TabsTrigger value="css" title="css" className={classTrigger}>
               <CSSIcon />
+            </TabsTrigger>
+          )}
+          {childrens.usage && (
+            <TabsTrigger value="usage" title="usage" className={classTrigger}>
+              <BracketsIcon />
             </TabsTrigger>
           )}
         </Element>
@@ -67,7 +72,7 @@ export function Playground({ defaultState = "edit", edit, childrens }: Playgroun
       {edit && (
         <>
           <TabsContent value="edit">
-            <Card>
+            <Card className="min-h-[62px]">
               <Textarea
                 name="playground"
                 id="playground"
@@ -80,12 +85,12 @@ export function Playground({ defaultState = "edit", edit, childrens }: Playgroun
                 value={text}
                 onChange={(e) => setText(e.currentTarget.value)}
               />
-              <CopyToggle text={text} className="top-4 right-4" />
+              <CopyToggle text={text} />
             </Card>
           </TabsContent>
 
           <TabsContent value="preview">
-            <Card>
+            <Card className="min-h-[62px]">
               <div
                 className="textarea_class !border-0 !bg-transparent text-preline flex-col markdown-body"
                 dangerouslySetInnerHTML={markdownHTML(markdownText(text))}
@@ -97,19 +102,25 @@ export function Playground({ defaultState = "edit", edit, childrens }: Playgroun
 
       {childrens?.code && (
         <TabsContent value="code">
-          <Card className="p-4">{childrens?.code}</Card>
+          <Card className="min-h-[62px]">{childrens?.code}</Card>
         </TabsContent>
       )}
 
       {childrens?.tailwind && (
         <TabsContent value="tailwind">
-          <Card className="p-4">{childrens?.tailwind}</Card>
+          <Card className="min-h-[62px]">{childrens?.tailwind}</Card>
         </TabsContent>
       )}
 
       {childrens?.css && (
         <TabsContent value="css">
-          <Card className="p-4">{childrens?.css}</Card>
+          <Card className="min-h-[62px]">{childrens?.css}</Card>
+        </TabsContent>
+      )}
+
+      {childrens?.usage && (
+        <TabsContent value="usage">
+          <Card className="min-h-[62px]">{childrens?.usage}</Card>
         </TabsContent>
       )}
     </Tabs>

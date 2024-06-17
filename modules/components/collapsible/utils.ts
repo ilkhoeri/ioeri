@@ -14,6 +14,7 @@ export function useCollapsible({
   const [internalOpen, internalSetOpen] = React.useState(defaultOpen);
   const open = externalOpen !== undefined ? externalOpen : internalOpen;
   const setOpen = externalSetOpen !== undefined ? externalSetOpen : internalSetOpen;
+  const [initialOpen, setInitialOpen] = React.useState(false);
   const [shouldRender, setShouldRender] = React.useState(open);
 
   const triggerRef = React.useRef<HTMLElement | null>(null);
@@ -32,6 +33,12 @@ export function useCollapsible({
   };
 
   const [triggerInfo, setTriggerInfo] = React.useState<ElementInfo>(defaultValueInfo);
+
+  React.useEffect(() => {
+    if (open !== defaultOpen) {
+      setInitialOpen(true);
+    }
+  }, [open, defaultOpen]);
 
   React.useEffect(() => {
     let timeoutId: NodeJS.Timeout | null = null;
@@ -108,7 +115,7 @@ export function useCollapsible({
   };
 
   const attr = (as: string) => ({
-    "data-state": open ? "open" : "closed",
+    "data-state": open ? (initialOpen ? "open" : "opened") : "closed",
     "data-side": side,
     "data-align": align,
     "data-collapse": as,

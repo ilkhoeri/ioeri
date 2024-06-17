@@ -117,6 +117,7 @@
   overflow: auto;
   font-size: 85%;
   line-height: 1.45;
+  min-height: 3.14rem;
   color: var(--highlight-color, hsl(var(--color)));
   background-color: var(--highlight-bg, hsl(var(--highlight)));
   border-radius: 6px;

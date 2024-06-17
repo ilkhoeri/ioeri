@@ -1,68 +1,71 @@
 function MyComponent() {
-const {open, ref, handleOpen} = useOpenState();
+  const {ref, render, handleOpen, handleClose} = useOpenState();
 
-return (
-<>
-<button onClick={handleOpen}>Open dropdown</button>
+  return (
+    <div>
+      <button type="button" onClick={handleOpen}>Open</button>
 
-        {open && (
-          <Paper ref={ref} shadow="sm">
-            <span>Click outside to close</span>
-          </Paper>
-        )}
-      </>
-
-);
+      {render && (
+        <article ref={ref}>
+          <button type="button" onClick={handleClose}>Close</button>
+          <span>Click outside to close</span>
+        </article>
+      )}
+    </div>
+  );
 }
 
-- @returns setOpen(false)
-  \*/
-  ref,
-  /\*\* // sample
+function MyComponent() {
+  const {render, onMouseEnter, onMouseLeave } = useOpenState({ trigger: "hover" });
 
-```js
-if (!render) {
-  return null;
-}
-```
+  return (
+    <>
+      <button
+        type="button"
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+      >
+        Tooltip
+      </button>
 
-_/
-render,
-/\*\* @return boolean _/
-open,
-/** `js
-     * <button
-     *   type="button"
-     *   onClick={() => {
-     *     if (!open) {
-           window.history.pushState({ open: true }, "");
-           }
-           setOpen(!open);
-     *   }}
-     * >
-     * Open
-     * </button>
-     * ` \*/
-setOpen,
-/**
-_ ```js
-const handleOpen = () => {
-if (trigger === "click") {
-if (!open) {
-window.history.pushState({ open: true }, "");
+      {render && (
+        <div>
+          <span>Content</span>
+        </div>
+      )}
+    </>
+  );
 }
-setOpen(!open);
+
+function MyComponent() {
+  const {render, handleOpen, handleClose, dataState} = useOpenState({ defaultOpen: true });
+
+  return (
+    <>
+      <button
+        type="button"
+        data-state={dataState}
+        onClick={handleOpen}
+      >
+        Tooltip
+      </button>
+
+      {render && (
+        <div data-state={dataState}>
+          <button type="button" onClick={handleClose}>Close</button>
+          <span>Content</span>
+        </div>
+      )}
+    </>
+  );
 }
-};
-_ ```
-_/
-handleOpen,
-handleClose,
-/\*\*
-_ _Sedikit berbeda dengan handleOpen_
-\*/
-onClick,
-handleBack,
-onMouseEnter,
-onMouseLeave,
-onKeyDown,
+
+// api
+const { open, setOpen } = useOpenState();
+
+// or
+const [open, setOpen] = useState(false);
+const { handleOpen, handleClose } = useOpenState({ open, setOpen });
+
+// handleOpen is slightly different with setOpen
+// handleOpen adds history.pushState with empty string, suitable when used for mobile devices

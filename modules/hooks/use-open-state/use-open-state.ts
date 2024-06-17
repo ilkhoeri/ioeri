@@ -1,60 +1,47 @@
 import { useEffect, useState } from "react";
 import { useClickOutside } from "../use-click-outside/use-click-outside";
-import { useHasScrollbar } from "../use-has-scrollbar/use-has-scrollbar";
+import { useHasScrollbar, useWidthScrollbar } from "../use-has-scrollbar/use-has-scrollbar";
 import { useHotkeys } from "../use-hotkeys/use-hotkeys";
-import { applyStateEffect, removeBodyProperty, setBodyProperty } from "../../function/attribute-property";
 
 export type OpenStateTriggerType = "hover" | "click";
 
 export type UseOpenStateType = {
+  defaultOpen?: boolean;
   open?: boolean;
   setOpen?: (value: boolean) => void;
-  /** @default 100 */
   durationClose?: number;
-  /** menambah margin-right pada body ketika device desktop
-   * @default false
-   */
   widthHasScrollbar?: boolean;
-  /**
-   * ```js
-  // ctrl + J and ⌘ + J to toggle color scheme
-  // ctrl + K and ⌘ + K to search
-    "/" | "M" | "ctrl+J" | "ctrl+K" | "alt+mod+shift+X"
-    ```
-  */
   hotKeys?: "/" | "M" | "ctrl+J" | "ctrl+K" | "alt+mod+shift+X" | (string & {});
   trigger?: OpenStateTriggerType;
 };
 
-/**
- * ```js
- * // usage
-  const { handleOpen, handleClose } = useOpenState();
- * // or
-  const [open, setOpen] = useState(false);
-  const { handleOpen, handleClose } = useOpenState({ open, setOpen });
-  
-  onClick={handleOpen}
-  onClick={handleClose}
- * ```
- * @returns ref, open, setOpen, handleOpen, handleClose
- */
-export function useOpenState({
-  open: externalOpen,
-  setOpen: externalSetOpen,
-  hotKeys = "",
-  trigger = "click",
-  durationClose = 100,
-  widthHasScrollbar = false,
-}: UseOpenStateType = {}) {
-  const [openState, setOpenState] = useState(false);
+export function useOpenState(OpenState: UseOpenStateType = {}) {
+  const {
+    defaultOpen = false,
+    open: externalOpen,
+    setOpen: externalSetOpen,
+    hotKeys = "",
+    trigger = "click",
+    durationClose = 100,
+    widthHasScrollbar = false,
+  } = OpenState;
+
+  const [openState, setOpenState] = useState(defaultOpen);
   const open = externalOpen !== undefined ? externalOpen : openState;
   const setOpen = externalSetOpen !== undefined ? externalSetOpen : setOpenState;
+
   const [render, setRender] = useState(open);
+  const [initialOpen, setInitialOpen] = useState(false);
   const [hasScrollbar, scrollbarWidth] = useHasScrollbar();
 
   const ref = useClickOutside(() => setOpen(false));
   useHotkeys([[hotKeys, () => setOpen(!open)]]);
+
+  useEffect(() => {
+    if (open !== defaultOpen) {
+      setInitialOpen(true);
+    }
+  }, [open, defaultOpen]);
 
   useEffect(() => {
     const historyPopState = () => {
@@ -99,7 +86,7 @@ export function useOpenState({
       setOpen(false);
     }
   };
-  const onClick = () => {
+  const onHandle = () => {
     if (!open) {
       window.history.pushState({ open: true }, "");
       setOpen(true);
@@ -128,59 +115,22 @@ export function useOpenState({
     (e: React.KeyboardEvent<HTMLElement>) => e.key === "Enter" && handleOpen();
   };
 
-  useEffectWidthScrollbar({ open, widthHasScrollbar, hasScrollbar, scrollbarWidth, durationClose });
+  useWidthScrollbar({ open, widthHasScrollbar, hasScrollbar, scrollbarWidth, durationClose });
+
+  const dataState = open ? (initialOpen ? "open" : "opened") : "closed";
 
   return {
     ref,
     render,
     open,
     setOpen,
+    onHandle,
+    handleBack,
     handleOpen,
     handleClose,
-    onClick,
-    handleBack,
     onMouseEnter,
     onMouseLeave,
     onKeyDown,
+    dataState,
   };
-}
-
-export function useEffectWidthScrollbar({
-  open,
-  widthHasScrollbar,
-  hasScrollbar,
-  scrollbarWidth,
-  durationClose,
-}: {
-  open: boolean;
-  widthHasScrollbar: boolean;
-  hasScrollbar: boolean;
-  scrollbarWidth: number;
-  durationClose: number;
-}) {
-  useEffect(() => {
-    let timeoutId: NodeJS.Timeout | null = null;
-
-    if (open) {
-      if (widthHasScrollbar !== false && hasScrollbar) {
-        setBodyProperty(scrollbarWidth);
-        applyStateEffect(true);
-      }
-    } else {
-      if (widthHasScrollbar !== false && hasScrollbar) {
-        removeBodyProperty();
-        applyStateEffect(false);
-      }
-    }
-
-    return () => {
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
-      if (widthHasScrollbar !== false && hasScrollbar) {
-        removeBodyProperty();
-        applyStateEffect(false);
-      }
-    };
-  }, [open, durationClose, widthHasScrollbar, hasScrollbar, scrollbarWidth]);
 }

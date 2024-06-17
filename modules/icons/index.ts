@@ -25,6 +25,7 @@ export { BookOpenIcon } from "./book-open";
 export { BookOpen2Icon } from "./book-open-2";
 export { BookmarkIcon } from "./bookmark";
 export { BookmarkedIcon } from "./bookmarked";
+export { BracketsIcon } from "./brackets";
 export { BuildingSkyscraperIcon } from "./building-skyscraper";
 export { CalendarDaysIcon } from "./calendar-days";
 export { CashIcon } from "./cash";

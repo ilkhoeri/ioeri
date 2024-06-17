@@ -1,6 +1,4 @@
-"use client";
-
-import "./markdown.css";
+import "./markdown-text.css";
 
 export function markdownText(text: string): string {
   // Replace ___ with <hr>

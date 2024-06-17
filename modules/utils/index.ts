@@ -38,6 +38,7 @@ export {
   sanitizedToParams,
   desanitizeFromParams,
   desanitizeParams,
+  kebabToCamelCase,
 } from "./text-transform";
 
 export { markdownText } from "./formatter/markdown-text";

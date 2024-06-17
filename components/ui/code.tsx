@@ -12,9 +12,9 @@ export async function Code({ code }: { code: string }) {
   const highlightedCode = await highlightCode(code);
   return (
     <div data-rehype-pretty-code-fragment="">
-      <pre className="overflow-x-auto rounded-lg scrollbar" data-language="tsx" data-theme="default">
+      <pre className="p-4 overflow-x-auto rounded-lg scrollbar" data-language="tsx" data-theme="default">
         <code
-          className="relative text-pre-wrap [&_*]:text-pre-wrap w-max rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-paragraph"
+          className="relative text-pre-wrap [&_*]:text-pre-wrap w-max rounded bg-muted font-mono text-paragraph"
           data-language="tsx"
           data-theme="github-dark-dimmed github-light"
           dangerouslySetInnerHTML={{

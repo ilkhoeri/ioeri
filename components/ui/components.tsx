@@ -94,8 +94,8 @@ export const Title = React.forwardRef<React.ElementRef<"h1">, TitleProps>(
       <h1
         ref={ref}
         className={twMerge(
-          type === "masive" && "overflow-hidden sticky top-6 -z-9 md:-mt-8 [font-size:clamp(42px,2px+10dvw,80px)]",
-          type === "tick" && "mb-3 text-h4 font-bold capitalize leading-none font-kanit",
+          type === "masive" && "overflow-hidden sticky top-0 -z-9 md:-mt-8 [font-size:clamp(42px,2px+10dvw,80px)]",
+          type === "tick" && "mb-3 text-h4 font-bold leading-none font-kanit",
           className,
         )}
         style={{ opacity, ...style }}
@@ -103,7 +103,7 @@ export const Title = React.forwardRef<React.ElementRef<"h1">, TitleProps>(
       >
         <span
           className={twMerge(
-            "uppercase select-none font-extrabold font-kanit text-muted-foreground w-0 max-w-0 [transition:all_250ms_ease]",
+            "select-none font-extrabold font-kanit text-muted-foreground w-0 max-w-0 [transition:all_250ms_ease]",
           )}
         >
           {title}
