@@ -56,8 +56,8 @@ export default async function Page({ params }: Params) {
   }
   if (params.playgroundId === "polymorphic") {
     const [codePoly, usagePoly] = await Promise.all([
-      // getMdFile("convert", "components/ui/element.tsx"),
-      fs.readFile(path.join(process.cwd(), "/components/ui/element.tsx"), "utf-8"),
+      getMdFile("convert", "components/ui/element.tsx"),
+      // fs.readFile(path.join(process.cwd(), "/components/ui/element.tsx"), "utf-8"),
       fs.readFile(path.join(process.cwd(), "/components/ui/element-usage.md"), "utf-8"),
     ]);
 
