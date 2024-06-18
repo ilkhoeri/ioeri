@@ -1,35 +1,29 @@
 import { notFound } from "next/navigation";
-import { SingleRoute, fitures } from "@/routes";
+import { getRoutes } from "@/scripts/get-routes";
 
 interface Params {
   children: React.ReactNode;
-  params: { playgroundId: string };
+  params: { hookId: string };
 }
 
-export const fetchCache = "only-no-store";
-
-export default function Layout({ children, params }: Readonly<Params>) {
-  const matchingRoute = findMatchingRoute(["playground", params.playgroundId], [...fitures]);
-
-  // if (!matchingRoute) {
-  //   notFound();
-  // }
-  return <>{children}</>;
-}
-
-const findMatchingRoute = (params: string[], routes: SingleRoute[]): boolean => {
-  const matcher = `/${params.join("/")}`;
-  for (const route of routes) {
-    if ("href" in route && route.href === matcher) {
-      return true;
-    }
-
+async function findMatchingRoute(slug: string, params: string): Promise<boolean> {
+  for (const route of await getRoutes(slug)) {
     if ("data" in route) {
-      const matchingData = route.data.some((data) => data.href === matcher);
+      const matchingData = route.data.some((data) => data.href === `/${slug}/${params}`);
       if (matchingData) {
         return true;
       }
     }
   }
   return false;
-};
+}
+
+export const fetchCache = "only-no-store";
+export default async function Layout({ children, params }: Readonly<Params>) {
+  const matchingRoute = await findMatchingRoute("hooks", params.hookId);
+
+  if (!matchingRoute) {
+    notFound();
+  }
+  return <>{children}</>;
+}

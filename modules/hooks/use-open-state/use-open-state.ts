@@ -1,22 +1,30 @@
-import { useEffect, useState } from "react";
-import { useClickOutside } from "../use-click-outside/use-click-outside";
-import { useHasScrollbar, useWidthScrollbar } from "../use-has-scrollbar/use-has-scrollbar";
-import { useHotkeys } from "../use-hotkeys/use-hotkeys";
+import { RefObject, useEffect, useState } from "react";
+import { useHasScrollbar, useWidthScrollbar, useHotkeys, createRefs } from "@/modules/hooks";
 
-export type OpenStateTriggerType = "hover" | "click";
+export enum OriginState {
+  Root = "root",
+  Trigger = "trigger",
+  Content = "content",
+  Overlay = "overlay",
+}
+export type TriggerType = "hover" | "click";
+export type OriginType = `${OriginState}`;
 
-export type UseOpenStateType = {
+export type UseOpenStateType<T> = {
   defaultOpen?: boolean;
   open?: boolean;
   setOpen?: (value: boolean) => void;
   durationClose?: number;
   widthHasScrollbar?: boolean;
+  clickOutsideToClose?: boolean;
   hotKeys?: "/" | "M" | "ctrl+J" | "ctrl+K" | "alt+mod+shift+X" | (string & {});
-  trigger?: OpenStateTriggerType;
+  trigger?: TriggerType;
+  ref?: RefObject<T>;
 };
 
-export function useOpenState(OpenState: UseOpenStateType = {}) {
+export function useOpenState<T>(OpenState: UseOpenStateType<T> = {}) {
   const {
+    ref,
     defaultOpen = false,
     open: externalOpen,
     setOpen: externalSetOpen,
@@ -24,6 +32,7 @@ export function useOpenState(OpenState: UseOpenStateType = {}) {
     trigger = "click",
     durationClose = 100,
     widthHasScrollbar = false,
+    clickOutsideToClose = false,
   } = OpenState;
 
   const [openState, setOpenState] = useState(defaultOpen);
@@ -34,7 +43,8 @@ export function useOpenState(OpenState: UseOpenStateType = {}) {
   const [initialOpen, setInitialOpen] = useState(false);
   const [hasScrollbar, scrollbarWidth] = useHasScrollbar();
 
-  const ref = useClickOutside(() => setOpen(false));
+  const refs = createRefs<T, OriginState>(Object.values(OriginState), ref);
+
   useHotkeys([[hotKeys, () => setOpen(!open)]]);
 
   useEffect(() => {
@@ -69,7 +79,32 @@ export function useOpenState(OpenState: UseOpenStateType = {}) {
         clearTimeout(timeoutId);
       }
     };
-  }, [open, durationClose, setRender]);
+  }, [open, durationClose, setRender, clickOutsideToClose]);
+
+  useEffect(() => {
+    const root = refs?.root?.current as HTMLElement;
+    const trigger = refs?.trigger?.current as HTMLElement;
+    const content = refs?.content?.current as HTMLElement;
+    const clickOutsideHandler = (event: MouseEvent) => {
+      if (
+        open &&
+        clickOutsideToClose &&
+        !root?.contains(event.target as Node) &&
+        !trigger?.contains(event.target as Node) &&
+        !content?.contains(event.target as Node)
+      ) {
+        setOpen(false);
+      }
+    };
+
+    if (open && clickOutsideToClose) {
+      document.addEventListener("click", clickOutsideHandler);
+    }
+
+    return () => {
+      document.removeEventListener("click", clickOutsideHandler);
+    };
+  }, [open, clickOutsideToClose, setOpen, refs.content, refs.root, refs.trigger]);
 
   const handleOpen = () => {
     if (trigger === "click") {
@@ -120,7 +155,7 @@ export function useOpenState(OpenState: UseOpenStateType = {}) {
   const dataState = open ? (initialOpen ? "open" : "opened") : "closed";
 
   return {
-    ref,
+    refs,
     render,
     open,
     setOpen,

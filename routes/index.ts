@@ -4,13 +4,11 @@ import { AppsIcon, AreaCodeIcon, DesktopCodeIcon, MobileCodeIcon } from "@/modul
 export type TitleRoute = { title: string; icon?: IconType };
 export type InnerRoutes = { title: string; href: string };
 export type SingleRoute = TitleRoute & { data: InnerRoutes[] };
-export type NestedRoute = TitleRoute & {
-  data: SingleRoute[];
-};
+export type NestedRoute = TitleRoute & { data: SingleRoute[] };
 
 export const services: SingleRoute[] = [
   {
-    title: "Products",
+    title: "Examples",
     data: [],
   },
   {
@@ -23,14 +21,14 @@ export const services: SingleRoute[] = [
   },
 ];
 
-export const fitures: SingleRoute[] = [
+export const fitures = [
   {
     title: "Playground",
     icon: AreaCodeIcon,
     data: [
       {
-        title: "Markdown Editor",
-        href: "/playground/markdown-editor",
+        title: "Markdown Text",
+        href: "/playground/markdown-text",
       },
       {
         title: "Polymorphic",
@@ -39,43 +37,33 @@ export const fitures: SingleRoute[] = [
     ],
   },
 ];
-
-export const routes: NestedRoute[] = [
+export const nested = [
   {
-    title: "Web app",
-    icon: DesktopCodeIcon,
+    title: "Components",
     data: [
       {
-        title: "Hooks",
-        icon: AppsIcon,
+        title: "Web",
         data: [
           {
-            title: "useClipboard",
-            href: "/web/hooks/use-clipboard",
+            title: "Collapsible",
+            href: "/components/web/collapsible",
           },
           {
-            title: "useOpenState",
-            href: "/web/hooks/use-open-state",
-          },
-          {
-            title: "useOption",
-            href: "/web/hooks/use-option",
+            title: "Element",
+            href: "/components/web/element",
           },
         ],
       },
-    ],
-  },
-  {
-    title: "Native app",
-    icon: MobileCodeIcon,
-    data: [
       {
-        title: "Hooks",
-        icon: AppsIcon,
+        title: "Mobile",
         data: [
           {
-            title: "Open State",
-            href: "/mobile/hooks",
+            title: "Popover",
+            href: "/components/mobile/popover",
+          },
+          {
+            title: "Slider",
+            href: "/components/mobile/slider",
           },
         ],
       },

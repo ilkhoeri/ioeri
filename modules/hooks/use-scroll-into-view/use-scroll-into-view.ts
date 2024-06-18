@@ -1,45 +1,129 @@
 import { useCallback, useEffect, useRef } from "react";
-import { useReducedMotion } from "../use-reduced-motion/use-reduced-motion";
-import { useWindowEvent } from "../use-window-event/use-window-event";
-import { easeInOutQuad } from "./utils/ease-in-out-quad";
-import { getRelativePosition } from "./utils/get-relative-position";
-import { getScrollStart } from "./utils/get-scroll-start";
-import { setScrollParam } from "./utils/set-scroll-param";
+import { useReducedMotion, useWindowEvent } from "@/modules/hooks";
 
 interface ScrollIntoViewAnimation {
-  /** target element alignment relatively to parent based on current axis */
   alignment?: "start" | "end" | "center";
 }
-
 interface ScrollIntoViewParams {
-  /** callback fired after scroll */
   onScrollFinish?: () => void;
-
-  /** duration of scroll in milliseconds */
   duration?: number;
-
-  /** axis of scroll */
   axis?: "x" | "y";
-
-  /** custom mathematical easing function */
   easing?: (t: number) => number;
-
-  /** additional distance between nearest edge and element */
   offset?: number;
-
-  /** indicator if animation may be interrupted by user scrolling */
   cancelable?: boolean;
-
-  /** prevents content jumping in scrolling lists with multiple targets */
   isList?: boolean;
 }
-
 interface ScrollIntoViewReturnType<Target extends HTMLElement, Parent extends HTMLElement | null = null> {
   scrollableRef: React.MutableRefObject<Parent>;
   targetRef: React.MutableRefObject<Target>;
   scrollIntoView: (params?: ScrollIntoViewAnimation) => void;
   cancel: () => void;
 }
+
+export const easeInOutQuad = (t: number) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t);
+
+export const getRelativePosition = ({ axis, target, parent, alignment, offset, isList }: any): number => {
+  if (!target || (!parent && typeof document === "undefined")) {
+    return 0;
+  }
+  const isCustomParent = !!parent;
+  const parentElement = parent || document.body;
+  const parentPosition = parentElement.getBoundingClientRect();
+  const targetPosition = target.getBoundingClientRect();
+
+  const getDiff = (property: "top" | "left"): number => targetPosition[property] - parentPosition[property];
+
+  if (axis === "y") {
+    const diff = getDiff("top");
+
+    if (diff === 0) return 0;
+
+    if (alignment === "start") {
+      const distance = diff - offset;
+      const shouldScroll = distance <= targetPosition.height * (isList ? 0 : 1) || !isList;
+
+      return shouldScroll ? distance : 0;
+    }
+
+    const parentHeight = isCustomParent ? parentPosition.height : window.innerHeight;
+
+    if (alignment === "end") {
+      const distance = diff + offset - parentHeight + targetPosition.height;
+      const shouldScroll = distance >= -targetPosition.height * (isList ? 0 : 1) || !isList;
+
+      return shouldScroll ? distance : 0;
+    }
+
+    if (alignment === "center") {
+      return diff - parentHeight / 2 + targetPosition.height / 2;
+    }
+
+    return 0;
+  }
+
+  if (axis === "x") {
+    const diff = getDiff("left");
+
+    if (diff === 0) return 0;
+
+    if (alignment === "start") {
+      const distance = diff - offset;
+      const shouldScroll = distance <= targetPosition.width || !isList;
+
+      return shouldScroll ? distance : 0;
+    }
+
+    const parentWidth = isCustomParent ? parentPosition.width : window.innerWidth;
+
+    if (alignment === "end") {
+      const distance = diff + offset - parentWidth + targetPosition.width;
+      const shouldScroll = distance >= -targetPosition.width || !isList;
+
+      return shouldScroll ? distance : 0;
+    }
+
+    if (alignment === "center") {
+      return diff - parentWidth / 2 + targetPosition.width / 2;
+    }
+
+    return 0;
+  }
+
+  return 0;
+};
+
+export const getScrollStart = ({ axis, parent }: any) => {
+  if (!parent && typeof document === "undefined") {
+    return 0;
+  }
+
+  const method = axis === "y" ? "scrollTop" : "scrollLeft";
+
+  if (parent) {
+    return parent[method];
+  }
+
+  const { body, documentElement } = document;
+
+  // while one of it has a value the second is equal 0
+  return body[method] + documentElement[method];
+};
+
+export const setScrollParam = ({ axis, parent, distance }: any) => {
+  if (!parent && typeof document === "undefined") {
+    return;
+  }
+
+  const method = axis === "y" ? "scrollTop" : "scrollLeft";
+
+  if (parent) {
+    parent[method] = distance;
+  } else {
+    const { body, documentElement } = document;
+    body[method] = distance;
+    documentElement[method] = distance;
+  }
+};
 
 export function useScrollIntoView<Target extends HTMLElement, Parent extends HTMLElement | null = null>({
   duration = 1250,

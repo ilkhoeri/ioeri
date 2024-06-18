@@ -1,11 +1,12 @@
 "use client";
 import React, { createContext, useContext, ReactNode } from "react";
 import { useOpenState } from "../../hooks/use-open-state/use-open-state";
-import type { UseOpenStateType } from "../../hooks/use-open-state/use-open-state";
+import type { UseOpenStateType, OriginState } from "../../hooks/use-open-state/use-open-state";
 
-interface OpenStateContextProps {
+interface OpenStateContextProps<T> {
   dataState: string;
   defaultOpen?: boolean;
+  clickOutsideToClose?: boolean;
   render: boolean;
   open: boolean;
   setOpen: (value: boolean) => void;
@@ -15,17 +16,17 @@ interface OpenStateContextProps {
   onMouseEnter: () => void;
   onMouseLeave: () => void;
   onKeyDown: () => void;
+  refs: Partial<Record<OriginState, React.MutableRefObject<T | null>>>;
 }
 
-interface OpenStateProviderProps extends UseOpenStateType {
+interface OpenStateProviderProps<T> extends UseOpenStateType<T> {
   children: ReactNode;
 }
 
-const OpenStateContext = createContext<OpenStateContextProps | undefined>(undefined);
+const OpenStateContext = createContext<OpenStateContextProps<HTMLElement> | undefined>(undefined);
 
-export const OpenStateProvider: React.FC<OpenStateProviderProps> = ({ children, defaultOpen, ...rest }) => {
-  const state = useOpenState({ ...rest });
-  const value = { defaultOpen, ...state };
+export const OpenStateProvider: React.FC<OpenStateProviderProps<HTMLElement>> = ({ children, ...rest }) => {
+  const value = useOpenState({ ...rest });
   return <OpenStateContext.Provider value={value}>{children}</OpenStateContext.Provider>;
 };
 

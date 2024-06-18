@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useIsomorphicEffect } from "../use-isomorphic-effect/use-isomorphic-effect";
+import { useIsomorphicEffect } from "@/modules";
 
 const __useId: () => string | undefined = (React as any)["useId".toString()] || (() => undefined);
 

@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useUncontrolled } from "../use-uncontrolled/use-uncontrolled";
+import { useUncontrolled } from "@/modules/hooks";
 
 export function range(start: number, end: number) {
   const length = end - start + 1;
@@ -11,19 +11,14 @@ export const DOTS = "dots";
 export interface PaginationParams {
   /** Page selected on initial render, defaults to 1 */
   initialPage?: number;
-
   /** Controlled active page number */
   page?: number;
-
   /** Total amount of pages */
   total: number;
-
   /** Siblings amount on left/right side of selected page, defaults to 1 */
   siblings?: number;
-
-  /** Amount of elements visible on left/right edges, defaults to 1  */
+  /** Amount of elements visible on left/right edges, defaults to 1 */
   boundaries?: number;
-
   /** Callback fired after change of each page */
   onChange?: (page: number) => void;
 }

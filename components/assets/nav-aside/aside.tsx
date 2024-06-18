@@ -1,9 +1,10 @@
 "use client";
 
 import React from "react";
-import { SingleRoute, fitures } from "@/routes";
+import { fitures } from "@/routes";
 import { NavLinkItem } from "../connections/nav-link";
 
+import type { SingleRoute, NestedRoute } from "@/routes";
 import { twMerge } from "tailwind-merge";
 import { useNavContext } from "@/hooks/use-nav";
 import { ButtonAside, LinkHome } from "../nav-head/headnav";
@@ -14,9 +15,11 @@ import style from "./aside.module.css";
 export function NavAside({
   classNames,
   routes,
+  nestedRoutes,
 }: {
   classNames?: { aside?: string; overlay?: string };
   routes: SingleRoute[] | null;
+  nestedRoutes: NestedRoute[] | null;
 }) {
   const { homeQuery, minQuery, maxQuery, open, setOpen, handleClose } = useNavContext();
 
@@ -68,6 +71,44 @@ export function NavAside({
               </CollapsibleContent>
             </Collapsible>
           ))}
+
+          {nestedRoutes &&
+            nestedRoutes.map((i, index) => (
+              <Collapsible key={index} defaultOpen className="h-auto w-full flex flex-col gap-1">
+                <CollapsibleTrigger className="font-semibold text-color focus-visible:ring-inset focus-visible:ring-offset-[-2px]">
+                  <span className="truncate">{i.title}</span>
+                </CollapsibleTrigger>
+
+                <CollapsibleContent className="flex z-1">
+                  {i.data.map((i, index) => (
+                    <Collapsible
+                      key={index}
+                      defaultOpen
+                      className="ml-2 h-auto w-[calc(100%-0.5rem)] flex flex-col gap-1"
+                    >
+                      <CollapsibleTrigger
+                        withArrow={false}
+                        className="font-semibold text-color focus-visible:ring-inset focus-visible:ring-offset-[-2px]"
+                      >
+                        <span className="truncate">{i.title}</span>
+                      </CollapsibleTrigger>
+
+                      <CollapsibleContent className="flex z-1">
+                        {i.data.map((i, index) => (
+                          <NavLinkItem
+                            key={index}
+                            href={i.href}
+                            title={i.title}
+                            className={[style.link, "capitalize"].join(" ")}
+                            {...attr}
+                          />
+                        ))}
+                      </CollapsibleContent>
+                    </Collapsible>
+                  ))}
+                </CollapsibleContent>
+              </Collapsible>
+            ))}
 
           {routes &&
             routes.map((i, index) => (

@@ -31,12 +31,6 @@ export interface SvgProps extends Omit<_SVGType, "children" | "eb"> {}
 export type InitialSize = "xxs" | "xxxs" | "xs" | "base" | "sm" | "md" | "lg" | "xl" | "xxl" | "xxxl";
 export type ArmSize = InitialSize | (string & {}) | number | undefined;
 export interface SizesProps {
-  /**
-   * @summary size
-   *```js
-   * type size?: "xxs" | "xxxs" | "xs" | "base" | "sm" | "md" | "lg" | "xl" | "xxl" | "xxxl" | (string & {}) | number | undefined
-   * ```
-   */
   size?: ArmSize;
   h?: string | number;
   w?: string | number;

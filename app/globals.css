@@ -1476,10 +1476,10 @@ body [data-sheet="box"] {
     & svg path {
       fill: hsl(var(--constructive-foreground) / 0.25);
     }
-    & svg path[data-path="line-top"] {
+    & svg path[data-d="line-top"] {
       fill: none;
     }
-    & svg path[data-path="line-bottom"] {
+    & svg path[data-d="line-bottom"] {
       fill: hsl(var(--background));
     }
   }
@@ -1493,13 +1493,13 @@ body [data-sheet="box"] {
   --zoom-to: 1;
   --duration: 1s;
 }
-.has_saved path[data-path="box"] {
+.has_saved path[data-d="box"] {
   animation: has-saved var(--duration) var(--ease) forwards;
 }
-.has_saved path[data-path="line-top"] {
+.has_saved path[data-d="line-top"] {
   animation: has-saved-line-top var(--duration) var(--ease) forwards;
 }
-.has_saved path[data-path="line-bottom"] {
+.has_saved path[data-d="line-bottom"] {
   animation:
     has-saved-line-bottom var(--duration) var(--ease) forwards,
     has-saved-line-bottom-2 calc(var(--duration) * 1) var(--ease) calc(var(--duration) * 0.75);

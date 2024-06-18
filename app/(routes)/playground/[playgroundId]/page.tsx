@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 export default async function Page({ params }: Params) {
   let component;
 
-  if (params.playgroundId === "markdown-editor") {
+  if (params.playgroundId === "markdown-text") {
     const [edit, css, usage, code] = await Promise.all([
       fs.readFile(path.join(process.cwd(), "/md/markdown-text-example.md"), "utf-8"),
       fs.readFile(path.join(process.cwd(), "/modules/utils/formatter/markdown-text.css"), "utf-8"),

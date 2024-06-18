@@ -11,15 +11,10 @@ import type { UseOpenStateType } from "@/modules";
 import { usePathname } from "next/navigation";
 
 interface MediaQuery {
-  /**
-   * ```js
-   * const query = useMediaQuery(`(max-width: ${mediaQuery})`)
-   * ```
-   * @default 768 */
   mediaQuery?: number;
 }
 
-interface NavContextProps extends MediaQuery {
+interface NavContextProps extends MediaQuery, UseOpenStateType<HTMLElement> {
   defaultOpen?: boolean;
   render: boolean;
   open: boolean;
@@ -34,10 +29,9 @@ interface NavContextProps extends MediaQuery {
   maxQuery: boolean | undefined;
   homeQuery: boolean | undefined;
   isHome: boolean | undefined;
-  ref: React.MutableRefObject<any>;
 }
 
-interface NavProviderProps extends UseOpenStateType, MediaQuery {
+interface NavProviderProps extends UseOpenStateType<HTMLElement>, MediaQuery {
   children: ReactNode;
 }
 

@@ -188,7 +188,7 @@ export default async function RootLayout({
       </head>
       <body {...attrBody}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <NavProvider hotKeys="S">
+          <NavProvider>
             <Headnav />
 
             {children}
