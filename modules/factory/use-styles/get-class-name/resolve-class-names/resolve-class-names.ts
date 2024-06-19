@@ -1,4 +1,4 @@
-import { cnx } from "@/modules/functions";
+import { cnx } from "@/modules";
 import { Theme } from "../../../transit";
 import type { _ClassNames } from "../get-class-name";
 

@@ -17,7 +17,7 @@ function cnx(...inputs: ClassValue[]): string
   <div className="h-6 w-6 bg-white" />
 
 // Example of using merge with tailwind-merge
-  import { cnx, type ClassValue } from "@/modules/functions";
+  import { cnx, type ClassValue } from "@/modules";
   import { twMerge } from "tailwind-merge";
 
   export function cn(...inputs: ClassValue[]) {

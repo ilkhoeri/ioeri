@@ -7,7 +7,6 @@ import { CompoundStylesApiProps } from "../../factory/styles-api.types";
 import { Factory, factory } from "../../factory";
 import { useSpotlightContext } from "./spotlight.context";
 import { spotlightActions } from "./spotlight.store";
-import { cnx } from "../../functions/cnx";
 
 import classes from "./spotlight.module.css";
 

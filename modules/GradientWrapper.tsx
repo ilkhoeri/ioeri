@@ -1,5 +1,5 @@
 import React from "react";
-import { cnx } from "./functions/cnx";
+import { cnx } from "./functions/cnx/cnx";
 
 export type GradientWrapperProps = { children?: React.ReactNode; className?: string };
 
