@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { getNestedRoutes, getRoutes } from "@/scripts/get-routes";
-import { IoeriIcon } from "@/modules";
+import { AsideLeft } from "@/components/assets/nav-aside/aside-left";
 import { Main } from "@/components/ui/components";
-import { NavAside } from "@/components/assets/nav-aside/aside";
+import { IoeriIcon } from "@/modules";
 
 import type { NestedRoute, SingleRoute } from "@/routes";
 
@@ -24,7 +24,7 @@ export default async function NotFound() {
 
   return (
     <Main className="pb-0">
-      <NavAside routes={[...functions, ...hooks]} nestedRoutes={nested} />
+      <AsideLeft routes={[...functions, ...hooks]} nestedRoutes={nested} />
 
       <article className="h-dvh w-full max-w-full overflow-hidden flex flex-wrap items-start justify-center p-4 m-0 relative pt-20 after:content-[''] after:w-full after:h-[262px] after:absolute after:bottom-0 after:bg-gradient-to-t after:from-background">
         <figure className="absolute w-full h-full -top-40 bg-[url('/images/grid.svg')] bg-center bg-repeat z-0" />

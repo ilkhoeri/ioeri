@@ -3,7 +3,6 @@ import * as React from "react";
 import { useDialog } from "@/modules/hooks/use-dialog/use-dialog";
 import type * as TYPE from "@/modules/hooks/use-dialog/use-dialog";
 
-import { ChevronDownSquareIcon } from "@/modules/icons";
 import { twMerge } from "tailwind-merge";
 
 import "./collapsible.css";
@@ -70,8 +69,8 @@ CollapsibleRoot.displayName = "CollapsibleTrigger";
 
 const CollapsibleTrigger = React.forwardRef<
   React.ElementRef<"button">,
-  React.ComponentPropsWithoutRef<"button"> & StylesType & { withArrow?: boolean }
->(({ type = "button", onClick, children, withArrow = true, className, style, unstyled, ...props }, ref) => {
+  React.ComponentPropsWithoutRef<"button"> & StylesType
+>(({ type = "button", onClick, className, style, unstyled, ...props }, ref) => {
   const { refs, open, setOpen, attrData, styles } = useCollapsibleContext<HTMLButtonElement>(ref);
   return (
     <button
@@ -92,10 +91,7 @@ const CollapsibleTrigger = React.forwardRef<
         }
       }}
       {...props}
-    >
-      {children}
-      {withArrow && <ChevronDownSquareIcon data-origin="arrow-trigger" className="size-[22px]" />}
-    </button>
+    />
   );
 });
 CollapsibleTrigger.displayName = "CollapsibleTrigger";

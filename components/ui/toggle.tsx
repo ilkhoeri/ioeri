@@ -7,7 +7,7 @@ import { UnstyledButton } from "./button";
 
 import { twMerge } from "tailwind-merge";
 import { useClipboard, useScroll } from "@/modules/hooks";
-import { ClipboardCheckIcon, ClipboardCopyIcon, ChevronDownSquareIcon, GithubIcon } from "@/modules/icons";
+import { ClipboardCheckIcon, ClipboardIcon, ChevronDownSquareIcon, GithubIcon } from "@/modules/icons";
 
 export const GetCodeToggle = React.forwardRef<
   React.ElementRef<typeof Anchor>,
@@ -40,7 +40,7 @@ export const CopyToggle = React.forwardRef<
   React.ElementRef<typeof UnstyledButton>,
   React.ComponentPropsWithoutRef<typeof UnstyledButton> & { text: string | null | undefined }
 >(({ text, className, ...props }, ref) => {
-  const clipboard = useClipboard({ timeout: 1000 });
+  const clipboard = useClipboard({ timeout: 1500 });
   return (
     <UnstyledButton
       ref={ref}
@@ -49,11 +49,12 @@ export const CopyToggle = React.forwardRef<
       onClick={() => clipboard.copy(text)}
       disabled={!text}
       className={twMerge(
-        "centered p-1 rounded-md border bg-background-box absolute top-4 right-4 [&_svg]:sizer [--sz:20px]",
+        "centered p-1 rounded-md border absolute top-4 right-4 [&_svg]:sizer [--sz:20px] text-color transition-colors",
+        clipboard.copied ? "bg-background" : "bg-background-box",
         className,
       )}
     >
-      {clipboard.copied ? <ClipboardCheckIcon /> : <ClipboardCopyIcon />}
+      {clipboard.copied ? <ClipboardCheckIcon /> : <ClipboardIcon />}
     </UnstyledButton>
   );
 });

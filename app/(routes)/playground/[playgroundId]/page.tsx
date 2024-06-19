@@ -1,8 +1,8 @@
 import fs from "fs-extra";
 import path from "node:path";
 
+import { Title } from "@/components/ui/components";
 import { Playground } from "@/components/ui/playground";
-import { Article, Title } from "@/components/ui/components";
 import { CodeCustomizer } from "@/components/ui/code-customizer";
 import { getMdFile } from "@/scripts/get-md-file";
 import { capitalizeWords } from "@/modules";
@@ -70,9 +70,9 @@ export default async function Page({ params }: Params) {
   }
 
   return (
-    <Article className="gap-12 pt-4">
+    <>
       <Title type="tick" title={capitalizeWords(params.playgroundId)} />
       {component}
-    </Article>
+    </>
   );
 }

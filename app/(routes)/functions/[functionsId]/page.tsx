@@ -1,5 +1,5 @@
+import { Title } from "@/components/ui/components";
 import { Playground } from "@/components/ui/playground";
-import { Article, Title } from "@/components/ui/components";
 import { CodeCustomizer } from "@/components/ui/code-customizer";
 import { getFileContent } from "@/scripts/get-file-content";
 import { getRepository } from "@/scripts/get-repository";
@@ -64,13 +64,13 @@ export default async function Page({ params }: Params) {
   }
 
   return (
-    <Article className="gap-12 pt-4">
+    <>
       <Title type="tick" title={kebabToCamelCase(params.functionsId)} />
       <Playground
         defaultState="code"
         childrens={childrens}
         linkCode={getRepository("functions", params.functionsId, "ts")}
       />
-    </Article>
+    </>
   );
 }

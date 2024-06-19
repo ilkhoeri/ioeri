@@ -1,4 +1,5 @@
-import { useOpenState, useRectInfo, type OriginType } from "@/modules/hooks";
+import { useEffect, useState } from "react";
+import { OriginState, createRefs, useRectInfo, type OriginType } from "@/modules/hooks";
 import { RectElement } from "../use-element-info/use-element-info";
 
 export type AlignValuesType = "center" | "start" | "end";
@@ -24,22 +25,59 @@ export interface UseDialogType<T> extends IntrinsicUseDialog, DestructureUseDial
 
 export interface DialogContextProps<T> extends UseDialogType<T> {
   refs: Partial<Record<OriginType, React.MutableRefObject<T | null>>>;
-  render: boolean;
+  render?: boolean;
   setOpen: (value: boolean) => void;
   attrData: (as: OriginType) => { [key: string]: string };
   styles: (as: OriginType) => { [key: string]: string };
 }
 
 export function useDialog<T extends HTMLElement>(Dialog: UseDialogType<T> = {}) {
-  const { side = "bottom", align = "center", open: externalOpen, setOpen: externalSetOpen, sideOffset = 0 } = Dialog;
-  const { refs, render, dataState, open, setOpen } = useOpenState<T>({
+  const {
+    ref,
+    side = "bottom",
+    align = "center",
+    sideOffset = 0,
+    defaultOpen,
     open: externalOpen,
     setOpen: externalSetOpen,
-    ...Dialog,
-  });
+    clickOutsideToClose = false,
+  } = Dialog;
+
+  const [openState, setOpenState] = useState(defaultOpen);
+  const open = externalOpen !== undefined ? externalOpen : openState;
+  const setOpen = externalSetOpen !== undefined ? externalSetOpen : setOpenState;
+
+  const [render, setRender] = useState(open);
+  const [initialOpen, setInitialOpen] = useState(false);
+
+  const refs = createRefs<T, OriginState>(Object.values(OriginState), ref);
 
   const triggerInfo = useRectInfo<T>(refs?.trigger?.current);
   const contentInfo = useRectInfo<T>(refs?.content?.current);
+
+  useEffect(() => {
+    if (open !== defaultOpen) {
+      setInitialOpen(true);
+    }
+  }, [open, defaultOpen]);
+
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout | null = null;
+    if (open) {
+      setRender(true);
+    } else {
+      timeoutId = setTimeout(() => {
+        setRender(false);
+      }, 100);
+    }
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [open, setRender, clickOutsideToClose]);
+
+  const dataState = open ? (initialOpen ? "open" : "opened") : "closed";
 
   const attrData = (as: OriginType): { [key: string]: string } => ({
     "data-state": dataState,

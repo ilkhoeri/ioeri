@@ -12,23 +12,6 @@
   padding-inline-end: var(--spotlight-root-pr, var(--spotlight-root-px, var(--spotlight-root-p, unset)));
 }
 
-.i {
-  width: 100%;
-  min-height: 40px;
-  display: flex;
-  align-items: center;
-  padding-block: 6px;
-  padding-left: 38px;
-  background-color: var(--input-bg, hsl(var(--background)));
-  font-size: 15px;
-  color: var(--input-cl, hsl(var(--color)));
-  font-weight: 500;
-  border-radius: var(--radius, 8px);
-  box-sizing: border-box;
-  position: relative;
-  border: none;
-  outline: 1px solid var(--input-ol);
-}
 
 .actionsList {
   padding-top: 1rem;

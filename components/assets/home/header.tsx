@@ -6,16 +6,17 @@ import { AnimText, BookOpen2Icon, GithubIcon, Transform } from "@/modules";
 
 import style from "./ioeri.module.css";
 import mainStyle from "@/styles/ioeri.module.css";
+const TYPING_DEFAULT = ["a team", "an idea", "a hook", "a component", "a spirit"];
 
 const links = [
   {
-    title: "Documentation",
+    title: "Getting Started",
     target: "_self",
     icon: BookOpen2Icon,
-    url: "/components",
+    url: "/getting-started",
   },
   {
-    title: "Repository",
+    title: "Documentation",
     target: "_blank",
     icon: GithubIcon,
     url: "https://github.com/ilkhoeri/modules",
@@ -36,7 +37,7 @@ export const HeaderHome: React.FC = () => {
       <article className={style.hero}>
         <Transform el="h1" hold={0}>
           <span>bring</span>
-          <AnimText el="span" anim="typing" placeholders={["a team", "an idea", "a spirit"]} />
+          <AnimText el="span" anim="typing" placeholders={TYPING_DEFAULT} />
           <span>together</span>
         </Transform>
 

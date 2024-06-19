@@ -41,7 +41,7 @@ export const Article = React.forwardRef<HTMLElement, ElementType<HTMLElement>>(
       <Component
         ref={ref}
         className={twMerge(
-          !unstyled && "w-full max-w-full overflow-x-hidden relative flex flex-col max-md:pl-6 pr-6 md:pr-9 xl:pr-12",
+          !unstyled && "w-full max-w-full overflow-x-hidden relative flex flex-col max-md:pl-6 pt-9",
           className,
         )}
         {...props}

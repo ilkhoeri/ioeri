@@ -1,5 +1,5 @@
 import Element from "@/components/ui/element";
-import { NavAside } from "@/components/assets/nav-aside/aside";
+import { AsideLeft } from "@/components/assets/nav-aside/aside-left";
 import { getNestedRoutes, getRoutes } from "@/scripts/get-routes";
 import type { NestedRoute, SingleRoute } from "@/routes";
 
@@ -27,7 +27,7 @@ export default async function Layout({
 
   return (
     <Element el="main" className={[style.main_home, "[--hex:#f2f2f2] dark:[--hex:#171717]"].join(" ")}>
-      <NavAside routes={[...functions, ...hooks]} nestedRoutes={nested} />
+      <AsideLeft routes={[...functions, ...hooks]} nestedRoutes={nested} />
       {children}
     </Element>
   );

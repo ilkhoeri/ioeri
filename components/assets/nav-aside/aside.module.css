@@ -2,7 +2,7 @@
 .link[data-path="active"] {
   @apply text-muted-foreground text-sm rounded-sm py-1 flex items-center flex-nowrap flex-row justify-start min-w-max h-7 px-4 transition-colors focus-visible:ring-inset focus-visible:ring-offset-[-2px] hover:text-color hover:bg-background-box;
   &::before {
-    @apply content-[''] absolute bg-muted-foreground rounded-none w-[0.6px] h-full left-[5.7px] inset-y-0 right-auto;
+    @apply content-[''] absolute bg-muted rounded-none w-[0.6px] h-full left-[5.7px] inset-y-0 right-auto;
   }
 
   & > svg {
@@ -11,9 +11,9 @@
 }
 
 .link[data-path="active"] {
-  @apply font-medium text-color bg-background-box [box-shadow:0_0_0_1px_inset_hsl(var(--muted-foreground))];
+  @apply text-color bg-background-box [box-shadow:0_0_0_1px_inset_hsl(var(--muted))];
   &::after {
-    @apply content-[''] absolute z-2 bg-background rounded-full w-1 h-4/5 left-1 inset-y-auto right-auto [box-shadow:0_0_0_1px_hsl(var(--muted-foreground))];
+    @apply content-[''] absolute z-2 bg-background rounded-full w-1 h-4/5 left-1 inset-y-auto right-auto [box-shadow:0_0_0_1px_hsl(var(--muted))];
   }
 }
 
