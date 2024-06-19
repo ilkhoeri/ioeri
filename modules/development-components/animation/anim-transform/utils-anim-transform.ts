@@ -1,4 +1,3 @@
-import { StyleProp } from "../../../utils/record-types";
 import type { TransformProps } from "./types-anim-transform";
 
 export const observeIntersection = (
