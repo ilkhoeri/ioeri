@@ -1,4 +1,5 @@
-export { Svg, Svg as SVGParent } from "./utils/Svg";
+export * as Svg from "./utils";
+export { Svg as SVGParent } from "./utils";
 export { IoeriIcon } from "./ioeri";
 export { IoeriLogoTextIcon } from "./ioeri-logo-text";
 export { IoeriTextIcon } from "./ioeri-text";

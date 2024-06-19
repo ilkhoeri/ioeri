@@ -34,23 +34,28 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 }
 
 async function getCode(sourcePath: string[]): Promise<string | null> {
-  return getFileContent(`/modules/components/${sourcePath.join("/")}`, `${slug(sourcePath)}.tsx`);
+  const path = sourcePath !== undefined ? sourcePath.join("/") : "";
+  return getFileContent(`/modules/components/${path}`, `${slug(sourcePath)}.tsx`);
 }
 async function getUsage(sourcePath: string[]): Promise<string | null> {
-  return getFileContent(`/modules/components/${sourcePath.join("/")}`, `${slug(sourcePath)}-usage.md`);
+  const path = sourcePath !== undefined ? sourcePath.join("/") : "";
+  return getFileContent(`/modules/components/${path}`, `${slug(sourcePath)}-usage.md`);
 }
 async function getCss(sourcePath: string[]): Promise<string | null> {
-  return getFileContent(`/modules/components/${sourcePath.join("/")}`, `${slug(sourcePath)}.css`);
+  const path = sourcePath !== undefined ? sourcePath.join("/") : "";
+  return getFileContent(`/modules/components/${path}`, `${slug(sourcePath)}.css`);
 }
 
 export default async function Page({ params }: Params) {
+  const sourcePath =
+    params.component !== undefined ? remakeTitle(params.component) : "Components is under constructions";
   const [code, css, usage] = await Promise.all([
     getCode(params.component),
     getCss(params.component),
     getUsage(params.component),
   ]);
 
-  const childrens: { [key: string]: React.JSX.Element } = {};
+  const childrens: { [key: string]: React.JSX.Element | null } = {};
 
   if (code) {
     childrens.code = <CodeCustomizer code={code} />;
@@ -62,16 +67,13 @@ export default async function Page({ params }: Params) {
     childrens.usage = <CodeCustomizer code={usage} />;
   }
 
-  if (!code && !css && !usage) {
-    return (
-      <Title type="tick" title={`${remakeTitle(params.component)} is under constructions`} className="mt-16 mx-auto" />
-    );
+  if (params.component === undefined) {
+    return <Title type="tick" title={String(sourcePath)} className="mt-16 mx-auto" />;
   }
 
   return (
     <Article className="gap-12 pt-4">
-      <Title type="tick" title={remakeTitle(params.component)} />
-
+      <Title type="tick" title={String(sourcePath)} />
       <Playground defaultState="code" childrens={childrens} />
     </Article>
   );
@@ -79,12 +81,12 @@ export default async function Page({ params }: Params) {
 
 function remakeTitle(texts: string[] | undefined) {
   const length = texts?.length;
-  const secondLast = length ? texts[texts?.length - 2] : "";
-  const last = length ? texts[texts?.length - 1] : "";
+  const secondLast = length ? texts[texts?.length - 2] : " ";
+  const last = length ? texts[texts?.length - 1] : " ";
   const text = texts === undefined ? "Components" : `${capitalizeWords(secondLast)} / ${capitalizeWords(last)}`;
   return text;
 }
 
 function slug(texts: string[] | undefined) {
-  return texts === undefined ? "" : texts[texts.length - 1];
+  return texts === undefined ? " " : texts[texts.length - 1];
 }
