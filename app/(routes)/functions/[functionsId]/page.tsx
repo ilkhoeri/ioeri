@@ -6,6 +6,7 @@ import { getRepository } from "@/scripts/get-repository";
 import { kebabToCamelCase } from "@/modules";
 
 import type { Metadata } from "next";
+import { getMdFile } from "@/scripts/get-md-file";
 
 interface Params {
   params: { functionsId: string };
@@ -27,6 +28,9 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   };
 }
 
+async function getReserveCode(sourcePath: string): Promise<string | null> {
+  return getMdFile("reserve", `modules/functions/${sourcePath}/${sourcePath}.ts`);
+}
 async function getCode(sourcePath: string): Promise<string | null> {
   return getFileContent(`/modules/functions/${sourcePath}`, `${sourcePath}.ts`);
 }
@@ -38,16 +42,19 @@ async function getUsage(sourcePath: string): Promise<string | null> {
 }
 
 export default async function Page({ params }: Params) {
-  const [code, css, usage] = await Promise.all([
+  const [code, css, usage, reserveCode] = await Promise.all([
     getCode(params.functionsId),
     getCss(params.functionsId),
     getUsage(params.functionsId),
+    getReserveCode(params.functionsId),
   ]);
 
   const childrens: { [key: string]: React.JSX.Element } = {};
 
   if (code) {
     childrens.code = <CodeCustomizer code={code} />;
+  } else if (code === null && reserveCode) {
+    childrens.code = <CodeCustomizer code={reserveCode} />;
   }
   if (css) {
     childrens.css = <CodeCustomizer code={css} />;
@@ -59,7 +66,6 @@ export default async function Page({ params }: Params) {
   return (
     <Article className="gap-12 pt-4">
       <Title type="tick" title={kebabToCamelCase(params.functionsId)} />
-      {String(code)}
       <Playground
         defaultState="code"
         childrens={childrens}
