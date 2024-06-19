@@ -31,8 +31,7 @@ async function getCode(sourcePath: string): Promise<string | null> {
   return getFileContent(`/modules/functions/${sourcePath}`, `${sourcePath}.ts`);
 }
 async function getCss(sourcePath: string): Promise<string | null> {
-  const cssPath = sourcePath.replace("use-", "");
-  return getFileContent(`/modules/functions/${sourcePath}`, `${cssPath}.css`);
+  return getFileContent(`/modules/functions/${sourcePath}`, `${sourcePath}.css`);
 }
 async function getUsage(sourcePath: string): Promise<string | null> {
   return getFileContent(`/modules/functions/${sourcePath}`, `${sourcePath}-usage.md`);
@@ -60,6 +59,7 @@ export default async function Page({ params }: Params) {
   return (
     <Article className="gap-12 pt-4">
       <Title type="tick" title={kebabToCamelCase(params.functionsId)} />
+      {String(code)}
       <Playground
         defaultState="code"
         childrens={childrens}
