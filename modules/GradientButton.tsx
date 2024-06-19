@@ -25,7 +25,7 @@ export const GradientButton = (props: GradientButtonAllProps) => {
   const { label, core, children, ...rest } = props;
 
   const classCore =
-    "shadow-[0_4px_4px_0_#00000040] bg-theme bg-clip-padding border-[3px] border-solid border-transparent transition-all duration-300 h-full max-h-full w-full max-w-full rounded-2xl backdrop-blur-sm p-[0_12px] centered relative active:scale-[0.96]";
+    "shadow-[0_4px_4px_0_#00000040] bg-white/65 bg-clip-padding border-[3px] border-solid border-transparent transition-all duration-300 size-full max-h-full max-w-full rounded-[8px] backdrop-blur-sm p-[4px_12px] flex items-center justify-center relative active:scale-[0.96] cursor-pointer font-semibold z-[20]";
 
   if (core === "anchor") {
     const { href, target, ...anchorProps } = rest as hand_AnchorProps & GradientButtonProps;
@@ -39,7 +39,7 @@ export const GradientButton = (props: GradientButtonAllProps) => {
           className={classCore}
           {...anchorProps}
         >
-          {children ?? (label && <span className="truncate inline-block font-medium">{label}</span>)}
+          {children || (label && <span className="truncate inline-block font-medium">{label}</span>)}
         </Link>
       </GradientWrapper>
     );
@@ -55,7 +55,7 @@ export const GradientButton = (props: GradientButtonAllProps) => {
           className={classCore}
           {...buttonProps}
         >
-          {children ?? (label && <span className="truncate inline-block font-medium">{label}</span>)}
+          {children || (label && <span className="truncate inline-block font-medium animate-pulse-4 duration-700 delay-150">{label}</span>)}
         </button>
       </GradientWrapper>
     );
