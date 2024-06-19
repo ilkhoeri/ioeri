@@ -18,7 +18,7 @@ const links = [
     title: "Repository",
     target: "_blank",
     icon: GithubIcon,
-    url: "https://github.com/ioeridev",
+    url: "https://github.com/ilkhoeri/modules",
   },
 ];
 

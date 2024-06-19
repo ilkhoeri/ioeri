@@ -1,20 +1,14 @@
-import fs from "fs-extra";
-import path from "node:path";
-
 import { Playground } from "@/components/ui/playground";
 import { Article, Title } from "@/components/ui/components";
-import { CodeCustomizer, markdownCustomizer } from "@/components/ui/code-customizer";
-
-import { capitalizeWords } from "@/modules";
-import { getMdFile } from "@/scripts/get-md-file";
-import { Code } from "@/components/ui/code";
-import type { Metadata } from "next";
+import { CodeCustomizer } from "@/components/ui/code-customizer";
 import { getFileContent } from "@/scripts/get-file-content";
+import { getRepository } from "@/scripts/get-repository";
+import { capitalizeWords } from "@/modules";
+
+import type { Metadata } from "next";
 
 interface Params {
-  params: {
-    component: string[];
-  };
+  params: { component: string[] };
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
@@ -74,7 +68,11 @@ export default async function Page({ params }: Params) {
   return (
     <Article className="gap-12 pt-4">
       <Title type="tick" title={String(sourcePath)} />
-      <Playground defaultState="code" childrens={childrens} />
+      <Playground
+        defaultState="code"
+        childrens={childrens}
+        linkCode={getRepository("components", params.component, "tsx")}
+      />
     </Article>
   );
 }

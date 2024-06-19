@@ -1,5 +1,7 @@
-export { cnx, getCSX } from "./cnx";
-export type { ClassValue, ClassDictionary, ClassArray, CSXType } from "./cnx";
+export { getCSX } from "./cnx";
+export type { CSXType } from "./cnx";
+
+export { onChangeStartsWith, destructureAnchorHref } from "./onchange-startwith-input";
 
 export { attr, extendedAttr, getStyleObject } from "./record-types";
 

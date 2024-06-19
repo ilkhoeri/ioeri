@@ -10,9 +10,7 @@ import { capitalizeWords } from "@/modules";
 import type { Metadata } from "next";
 
 interface Params {
-  params: {
-    playgroundId: string;
-  };
+  params: { playgroundId: string };
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
@@ -54,10 +52,9 @@ export default async function Page({ params }: Params) {
       />
     );
   }
-  if (params.playgroundId === "polymorphic") {
+  if (params.playgroundId === "polymorphic-slot") {
     const [codePoly, usagePoly] = await Promise.all([
       getMdFile("convert", "components/ui/element.tsx"),
-      // fs.readFile(path.join(process.cwd(), "/components/ui/element.tsx"), "utf-8"),
       fs.readFile(path.join(process.cwd(), "/components/ui/element-usage.md"), "utf-8"),
     ]);
 

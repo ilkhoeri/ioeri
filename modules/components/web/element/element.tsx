@@ -1,9 +1,4 @@
 import * as React from "react";
-import { Slot } from "@radix-ui/react-slot";
-
-interface CSSProperties extends React.CSSProperties {
-  [key: string]: any;
-}
 
 export type PolymorphicRef<T extends React.ElementType> = React.ComponentPropsWithRef<T>["ref"];
 
@@ -12,20 +7,20 @@ export type PolymorphicWithoutRef<T extends React.ElementType, Except extends st
   "ref" | "style" | Except
 > & {
   el?: T;
-  style?: CSSProperties;
+  style?: React.CSSProperties & {
+    [key: string]: any;
+  };
 };
 
-export type ElementType<T extends React.ElementType> = PolymorphicWithoutRef<T> & { asChild?: boolean };
-
 const Element = <T extends React.ElementType = "div">(
-  { asChild = false, el, ...props }: ElementType<T>,
+  { el, ...props }: PolymorphicWithoutRef<T>,
   ref: PolymorphicRef<T>,
 ) => {
-  const Component = asChild ? Slot : ((el || "div") as React.ElementType);
-
+  const Component = (el || "div") as React.ElementType;
   return <Component ref={ref} {...props} />;
 };
 
 export default React.forwardRef(Element) as <T extends React.ElementType = "div">(
-  props: ElementType<T> & { ref?: PolymorphicRef<T> },
+  props: PolymorphicWithoutRef<T> & { ref?: PolymorphicRef<T> },
 ) => React.ReactElement | null;
+

@@ -1,4 +1,4 @@
-import { cnx } from "@/modules/utils";
+import { cnx } from "@/modules/functions";
 import { Theme } from "../../transit";
 import { GetStylesApiOptions } from "../../styles-api.types";
 import { getGlobalClassNames } from "./get-global-class-names/get-global-class-names";

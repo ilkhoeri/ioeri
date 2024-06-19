@@ -31,8 +31,8 @@ export const fitures = [
         href: "/playground/markdown-text",
       },
       {
-        title: "Polymorphic",
-        href: "/playground/polymorphic",
+        title: "Polymorphic Slot",
+        href: "/playground/polymorphic-slot",
       },
     ],
   },

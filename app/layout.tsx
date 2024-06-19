@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 // import { TagAttributeScript } from "@/components/assets/scripts/tag-attribute-script";
 import { ThemeProvider } from "@/components/assets/provider/theme-provider";
 import { ThemeStateHidden } from "@/components/assets/theme/theme-state-hidden";
-import { ScrollToggle } from "@/components/assets/toggle/scroll-toggle";
+import { ScrollToggle } from "@/components/ui/toggle";
 import { NavProvider } from "@/hooks/use-nav";
 
 import { Headnav } from "@/components/assets/nav-head/headnav";

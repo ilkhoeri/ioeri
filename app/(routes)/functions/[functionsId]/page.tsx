@@ -8,12 +8,12 @@ import { kebabToCamelCase } from "@/modules";
 import type { Metadata } from "next";
 
 interface Params {
-  params: { hookId: string };
+  params: { functionsId: string };
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const url = process.env.NEXT_PUBLIC_DOMAIN_URL;
-  const namePage = params.hookId;
+  const namePage = params.functionsId;
   return {
     title: namePage ? namePage : "NotFound!",
     description: namePage,
@@ -28,21 +28,21 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 }
 
 async function getCode(sourcePath: string): Promise<string | null> {
-  return getFileContent(`/modules/hooks/${sourcePath}`, `${sourcePath}.ts`);
-}
-async function getUsage(sourcePath: string): Promise<string | null> {
-  return getFileContent(`/modules/hooks/${sourcePath}`, `${sourcePath}-usage.md`);
+  return getFileContent(`/modules/functions/${sourcePath}`, `${sourcePath}.ts`);
 }
 async function getCss(sourcePath: string): Promise<string | null> {
   const cssPath = sourcePath.replace("use-", "");
-  return getFileContent(`/modules/hooks/${sourcePath}`, `${cssPath}.css`);
+  return getFileContent(`/modules/functions/${sourcePath}`, `${cssPath}.css`);
+}
+async function getUsage(sourcePath: string): Promise<string | null> {
+  return getFileContent(`/modules/functions/${sourcePath}`, `${sourcePath}-usage.md`);
 }
 
 export default async function Page({ params }: Params) {
   const [code, css, usage] = await Promise.all([
-    getCode(params.hookId),
-    getCss(params.hookId),
-    getUsage(params.hookId),
+    getCode(params.functionsId),
+    getCss(params.functionsId),
+    getUsage(params.functionsId),
   ]);
 
   const childrens: { [key: string]: React.JSX.Element } = {};
@@ -59,9 +59,12 @@ export default async function Page({ params }: Params) {
 
   return (
     <Article className="gap-12 pt-4">
-      <Title type="tick" title={kebabToCamelCase(params.hookId)} />
-
-      <Playground defaultState="code" childrens={childrens} linkCode={getRepository("hooks", params.hookId, "ts")} />
+      <Title type="tick" title={kebabToCamelCase(params.functionsId)} />
+      <Playground
+        defaultState="code"
+        childrens={childrens}
+        linkCode={getRepository("functions", params.functionsId, "ts")}
+      />
     </Article>
   );
 }

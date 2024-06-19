@@ -8,15 +8,7 @@ export interface AnchorProps
     AnchorTargets {}
 
 export const Anchor = React.forwardRef<HTMLAnchorElement, AnchorProps>(
-  ({ target, rel = "noopener noreferrer nofollow", ...props }, ref) => {
-    const link = {
-      ref,
-      rel,
-      target,
-      ...props,
-    };
-    return <Link {...link} />;
-  },
+  ({ rel = "noopener noreferrer nofollow", ...props }, ref) => <Link ref={ref} rel={rel} {...props} />,
 );
 Anchor.displayName = "Anchor";
 

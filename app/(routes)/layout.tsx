@@ -20,11 +20,12 @@ export default async function Layout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const hooks = await loadRoutes("hooks");
   const nested = await loadNestedRoutes("components");
+  const functions = await loadRoutes("functions");
+  const hooks = await loadRoutes("hooks");
   return (
     <Main>
-      <NavAside routes={hooks} nestedRoutes={nested} />
+      <NavAside routes={[...functions, ...hooks]} nestedRoutes={nested} />
       {children}
     </Main>
   );

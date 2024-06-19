@@ -18,12 +18,13 @@ async function loadNestedRoutes(sourcePath: string): Promise<NestedRoute[]> {
 }
 
 export default async function NotFound() {
-  const hooks = await loadRoutes("hooks");
   const nested = await loadNestedRoutes("components");
+  const functions = await loadRoutes("functions");
+  const hooks = await loadRoutes("hooks");
 
   return (
     <Main className="pb-0">
-      <NavAside routes={hooks} nestedRoutes={nested} />
+      <NavAside routes={[...functions, ...hooks]} nestedRoutes={nested} />
 
       <article className="h-dvh w-full max-w-full overflow-hidden flex flex-wrap items-start justify-center p-4 m-0 relative pt-20 after:content-[''] after:w-full after:h-[262px] after:absolute after:bottom-0 after:bg-gradient-to-t after:from-background">
         <figure className="absolute w-full h-full -top-40 bg-[url('/images/grid.svg')] bg-center bg-repeat z-0" />

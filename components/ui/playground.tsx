@@ -6,7 +6,7 @@ import { markdownHTML } from "@/lib/clean-html";
 import Element from "@/components/ui/element";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { CopyToggle } from "@/components/ui/toggle";
+import { CopyToggle, GetCodeToggle } from "@/components/ui/toggle";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { cnx, markdownText, CodeIcon, CSSIcon, TailwindIcon, BracketsIcon } from "@/modules";
@@ -15,12 +15,13 @@ type RecordNested<U extends string, T extends string, P = Record<string, unknown
   [K in U]?: Partial<Record<T, P>>;
 };
 type MarkdownValue = "code" | "tailwind" | "css" | "usage";
-type PlaygroundType = Partial<Record<"edit", string | null>> &
+type PlaygroundType = Partial<Record<"edit" | "linkCode", string | null>> &
   RecordNested<"childrens", MarkdownValue, React.ReactNode> & {
     defaultState?: "edit" | MarkdownValue;
   };
 
-export function Playground({ defaultState = "edit", edit, childrens }: PlaygroundType) {
+export function Playground(Play: PlaygroundType) {
+  const { defaultState = "edit", edit, childrens, linkCode } = Play;
   const [text, setText] = useState<string>(edit || "");
 
   if (!childrens) {
@@ -102,7 +103,9 @@ export function Playground({ defaultState = "edit", edit, childrens }: Playgroun
 
       {childrens?.code && (
         <TabsContent value="code">
-          <Card className="min-h-[62px]">{childrens?.code}</Card>
+          <Card className="min-h-[62px]">
+            {childrens?.code} {linkCode && <GetCodeToggle linkCode={linkCode} />}
+          </Card>
         </TabsContent>
       )}
 

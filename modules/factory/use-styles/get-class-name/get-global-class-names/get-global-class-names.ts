@@ -1,4 +1,4 @@
-import { cnx } from "@/modules/utils";
+import { cnx } from "@/modules/functions";
 import { GetStylesApiOptions } from "../../../styles-api.types";
 import { Theme } from "@/modules/factory/transit";
 

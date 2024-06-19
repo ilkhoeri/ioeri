@@ -12,7 +12,7 @@ import { usePositionFixed } from "./use-position-fixed";
 import { useSnapPoints } from "./use-snap-points";
 
 import type { DrawerDirection } from "./types";
-import type { CSSProperties } from "../../../utils/record-types";
+import type { CSSProperties } from "../../utils/record-types";
 
 import "./style.css";
 
