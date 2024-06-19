@@ -3,10 +3,10 @@ import { Article, Title } from "@/components/ui/components";
 import { CodeCustomizer } from "@/components/ui/code-customizer";
 import { getFileContent } from "@/scripts/get-file-content";
 import { getRepository } from "@/scripts/get-repository";
+import { getMdFile } from "@/scripts/get-md-file";
 import { kebabToCamelCase } from "@/modules";
 
 import type { Metadata } from "next";
-import { getMdFile } from "@/scripts/get-md-file";
 
 interface Params {
   params: { functionsId: string };

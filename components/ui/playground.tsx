@@ -73,7 +73,7 @@ export function Playground(Play: PlaygroundType) {
       {edit && (
         <>
           <TabsContent value="edit">
-            <Card className="min-h-[62px]">
+            <Card className="min-h-[62px] bg-background-box">
               <Textarea
                 name="playground"
                 id="playground"
@@ -91,7 +91,7 @@ export function Playground(Play: PlaygroundType) {
           </TabsContent>
 
           <TabsContent value="preview">
-            <Card className="min-h-[62px]">
+            <Card className="min-h-[62px] bg-background-box">
               <div
                 className="textarea_class !border-0 !bg-transparent text-preline flex-col markdown-body"
                 dangerouslySetInnerHTML={markdownHTML(markdownText(text))}
@@ -103,7 +103,7 @@ export function Playground(Play: PlaygroundType) {
 
       {childrens?.code && (
         <TabsContent value="code">
-          <Card className="min-h-[62px]">
+          <Card className="min-h-[62px] bg-background-box">
             {childrens?.code} {linkCode && <GetCodeToggle linkCode={linkCode} />}
           </Card>
         </TabsContent>
@@ -111,19 +111,19 @@ export function Playground(Play: PlaygroundType) {
 
       {childrens?.tailwind && (
         <TabsContent value="tailwind">
-          <Card className="min-h-[62px]">{childrens?.tailwind}</Card>
+          <Card className="min-h-[62px] bg-background-box">{childrens?.tailwind}</Card>
         </TabsContent>
       )}
 
       {childrens?.css && (
         <TabsContent value="css">
-          <Card className="min-h-[62px]">{childrens?.css}</Card>
+          <Card className="min-h-[62px] bg-background-box">{childrens?.css}</Card>
         </TabsContent>
       )}
 
       {childrens?.usage && (
         <TabsContent value="usage">
-          <Card className="min-h-[62px]">{childrens?.usage}</Card>
+          <Card className="min-h-[62px] bg-background-box">{childrens?.usage}</Card>
         </TabsContent>
       )}
     </Tabs>
