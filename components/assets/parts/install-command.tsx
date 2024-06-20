@@ -39,7 +39,7 @@ export function InstallCommand() {
               />
             </hgroup>
 
-            <pre className="relative rounded-b-md overflow-x-auto webkit-scrollbar p-4 leading-[19px] text-color bg-background border border-transparent whitespace-nowrap flex flex-col">
+            <pre className="relative rounded-b-md overflow-x-auto webkit-scrollbar p-4 pl-1.5 leading-[19px] text-color bg-background border border-transparent whitespace-nowrap flex flex-col">
               <code className="w-max leading-normal flex flex-row items-center text-nowrap whitespace-pre bg-transparent border-none text-color relative overflow-hidden box-border">
                 <p className="text-muted-foreground">-&nbsp;</p>
                 <p className="text-[#e34ba9]">npx&nbsp;</p>
