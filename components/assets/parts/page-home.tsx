@@ -21,7 +21,7 @@ export function PageHome() {
               Crafting and share relevant functionals, styles, and hooks recommendations for react.js applications.
             </p>
           </div>
-          <div className="relative mt-16 bg-background grid overflow-hidden rounded-xl border text-muted-foreground sm:grid-cols-2 lg:grid-cols-4 lg:divide-y-0 xl:grid-cols-4">
+          <div className="relative mt-16 mb-12 bg-background grid overflow-hidden rounded-xl border text-muted-foreground sm:grid-cols-2 lg:grid-cols-4 lg:divide-y-0 xl:grid-cols-4">
             <FeaturesList features={features} />
           </div>
         </div>

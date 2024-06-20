@@ -4,7 +4,6 @@ import { CodeCustomizer } from "@/components/ui/code-customizer";
 import { getFileContent } from "@/scripts/get-file-content";
 import { getRepository } from "@/scripts/get-repository";
 import { capitalizeWords } from "@/modules";
-import { getMdFile } from "@/scripts/get-md-file";
 
 import type { Metadata } from "next";
 
@@ -28,10 +27,6 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   };
 }
 
-async function getReserveCode(sourcePath: string[]): Promise<string | null> {
-  const path = sourcePath !== undefined ? sourcePath.join("/") : "";
-  return getMdFile("reserve", `modules/components/${path}/${slug(sourcePath)}.tsx`);
-}
 async function getCode(sourcePath: string[]): Promise<string | null> {
   const path = sourcePath !== undefined ? sourcePath.join("/") : "";
   return getFileContent(`/modules/components/${path}`, `${slug(sourcePath)}.tsx`);
@@ -48,19 +43,16 @@ async function getCss(sourcePath: string[]): Promise<string | null> {
 export default async function Page({ params }: Params) {
   const sourcePath =
     params.component !== undefined ? remakeTitle(params.component) : "Components is under constructions";
-  const [code, css, usage, reserveCode] = await Promise.all([
+  const [code, css, usage] = await Promise.all([
     getCode(params.component),
     getCss(params.component),
     getUsage(params.component),
-    getReserveCode(params.component),
   ]);
 
   const childrens: { [key: string]: React.JSX.Element | null } = {};
 
   if (code) {
     childrens.code = <CodeCustomizer code={code} />;
-  } else if (code === null && reserveCode) {
-    childrens.code = <CodeCustomizer code={reserveCode} />;
   }
   if (css) {
     childrens.css = <CodeCustomizer code={css} />;
