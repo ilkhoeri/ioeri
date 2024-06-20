@@ -79,7 +79,7 @@ const config = {
           },
         ],
         span: [
-          "clamp(0.725rem, 0.45rem + 0.5vw, 0.895rem)",
+          "clamp(0.75rem, 0.65rem + 0.65vw, 0.9rem)",
           {
             lineHeight: "1.35",
           },
