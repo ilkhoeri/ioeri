@@ -7,20 +7,12 @@ export type AnimatedTypingWordsType = {
   el?: React.ElementType;
   ref?: React.Ref<HTMLElement>;
   style?: CSSProperties;
-  /**
-   *```js
-   * // sample
-   * placeholders={['one', 'two', 'three', 'four', 'five']}
-   *```
-   */
   placeholders: string[];
   duration?: {
-    /** @default ``` 1000 ``` */
-    after?: number;
-    /** @default ``` 200 ``` */
-    max?: number;
-    /** @default ``` 200 ``` */
-    min?: number;
+    /** @default 1000 */
+    break?: number;
+    /** @default 200 */
+    typing?: number;
   };
 } & DispatchType &
   Omit<React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>, "style" | "children"> & {
@@ -56,7 +48,7 @@ export function useAnimatedTypingWords({ duration, placeholders }: AnimatedTypin
           setTextContent(element, currentText.join(""));
           animTextTyping(currentText, remainingText, element, onAnimationEnd);
         },
-        getRandomDelayBetween(duration?.min || 200, duration?.max || 200),
+        getRandomDelayBetween(duration?.typing || 200, duration?.typing || 200),
       );
     };
 
@@ -77,7 +69,7 @@ export function useAnimatedTypingWords({ duration, placeholders }: AnimatedTypin
         } while (placeholder === newPlaceholder);
 
         animatePlaceholder(element, newPlaceholder, onAnimationEnd);
-      }, duration?.after || 1000);
+      }, duration?.break || 1000);
     };
 
     if (elementRef.current) {

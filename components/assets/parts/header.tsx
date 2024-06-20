@@ -13,7 +13,7 @@ const links = [
     title: "Getting Started",
     target: "_self",
     icon: BookOpen2Icon,
-    url: "/getting-started",
+    url: "/started",
   },
   {
     title: "Documentation",

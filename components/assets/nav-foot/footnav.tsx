@@ -35,14 +35,14 @@ const mainroutes = [
   },
 ];
 
-const URL = `${process.env.SECRET_API_CLIENT}/${process.env.SECRET_API_ID}`;
-async function getParams(): Promise<Params[]> {
-  const res = await fetch(`${URL}/params`, { cache: "no-store" });
-  return await res.json();
-}
+// const URL = `${process.env.SECRET_API_CLIENT}/${process.env.SECRET_API_ID}`;
+// async function getParams(): Promise<Params[]> {
+//   const res = await fetch(`${URL}/params`, { cache: "no-store" });
+//   return await res.json();
+// }
 
 export async function FootNav({ className }: FooterProps) {
-  const pages = await getParams();
+  // const pages = await getParams();
   const currentYear = new Date().getFullYear();
 
   return (
@@ -58,7 +58,7 @@ export async function FootNav({ className }: FooterProps) {
         <Element el="nav" className={f.inner_right}>
           <ul className={f.ul}>
             <FootLink items={mainroutes} />
-            <FootLinkMark items={pages} />
+            {/* <FootLinkMark items={pages} /> */}
           </ul>
         </Element>
       </Element>

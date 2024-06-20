@@ -26,13 +26,14 @@ export default async function Layout({
   const nested = await loadNestedRoutes("components");
   const functions = await loadRoutes("functions");
   const hooks = await loadRoutes("hooks");
+  const dispatchNested = nested.map((i) => i.data).flat();
   return (
     <Main>
       <AsideLeft routes={[...functions, ...hooks]} nestedRoutes={nested} />
       <Article>
         <NavigationBreadcrumb />
         {children}
-        <NavBottom />
+        <NavBottom routes={[...dispatchNested, ...functions, ...hooks]} />
       </Article>
       <AsideRight />
     </Main>

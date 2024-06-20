@@ -1,9 +1,5 @@
 import * as React from "react";
 
-interface CSSProperties extends React.CSSProperties {
-  [key: string]: any;
-}
-
 export interface IconTree {
   tag: string;
   child: IconTree[];
@@ -12,8 +8,8 @@ export interface IconTree {
 
 export interface DetailedSvg extends React.SVGAttributes<SVGElement>, SizesProps {
   color?: Colors;
-  style?: CSSProperties;
   ref?: React.Ref<SVGSVGElement>;
+  style?: React.CSSProperties & { [key: string]: any };
   currentFill?: "fill" | "stroke" | "fill-stroke";
 }
 

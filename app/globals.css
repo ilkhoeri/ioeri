@@ -73,10 +73,10 @@
   --geyser: 215deg 19% 85%;
 }
 :root * * {
-  --state: var(--state-light);
+  --state: var(--light);
 }
 html[class="dark"]:root * * {
-  --state: var(--state-dark);
+  --state: var(--dark);
 }
 :root {
   --color: var(--pure-black);

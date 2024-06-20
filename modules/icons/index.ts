@@ -128,6 +128,7 @@ export { SunIcon } from "./sun";
 export { TagIcon } from "./tag";
 export { TagsIcon } from "./tags";
 export { TailwindIcon } from "./tailwind";
+export { TerminalOutlineIcon } from "./terminal-outline";
 export { TerminalIcon } from "./terminal";
 export { ThumbIcon } from "./thumb";
 export { TimelineEventIcon } from "./timeline-event";

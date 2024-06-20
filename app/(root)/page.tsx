@@ -1,5 +1,5 @@
-import { PageHome } from "@/components/assets/home/page-home";
-import { HeaderHome } from "@/components/assets/home/header";
+import { PageHome } from "@/components/assets/parts/page-home";
+import { HeaderHome } from "@/components/assets/parts/header";
 
 export default function Home() {
   return (

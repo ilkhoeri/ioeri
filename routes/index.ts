@@ -1,10 +1,31 @@
 import { IconType } from "@/modules/icons/utils";
-import { AppsIcon, AreaCodeIcon, DesktopCodeIcon, MobileCodeIcon } from "@/modules";
+import { AreaCodeIcon, ExpoIcon, ReactIcon, NextjsIcon } from "@/modules";
 
-export type TitleRoute = { title: string; icon?: IconType };
 export type InnerRoutes = { title: string; href: string };
-export type SingleRoute = TitleRoute & { data: InnerRoutes[] };
-export type NestedRoute = TitleRoute & { data: SingleRoute[] };
+export type SingleRoute = { title: string; data: InnerRoutes[] };
+export type NestedRoute = { title: string; data: SingleRoute[] };
+export type Frameworks = { title: string; href: string; cmd: string; icon: IconType };
+
+export const frameworks: Frameworks[] = [
+  {
+    title: "React",
+    href: "https://react.dev/learn/installation",
+    cmd: "create-react-app@latest",
+    icon: ReactIcon,
+  },
+  {
+    title: "Next.js",
+    href: "https://nextjs.org/",
+    cmd: "create-next-app@latest",
+    icon: NextjsIcon,
+  },
+  {
+    title: "Expo",
+    href: "https://docs.expo.dev/",
+    cmd: "create-expo-app@latest",
+    icon: ExpoIcon,
+  },
+];
 
 export const services: SingleRoute[] = [
   {

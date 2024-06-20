@@ -60,7 +60,7 @@ export function AsideLeft({
 
         <nav className="relative flex items-start justify-start flex-col flex-nowrap size-full pr-0 px-4 pt-8 pb-24 max-md:pt-0 max-md:pr-0.5 overflow-y-auto overflow-x-hidden webkit-scrollbar">
           <NavLinkItem
-            href="/getting-started"
+            href="/started"
             title="Getting Started"
             className="w-full flex flex-nowrap flex-row items-center justify-between text-sm select-none z-9 rounded-sm py-1 font-semibold focus-visible:ring-inset focus-visible:ring-offset-[-2px] text-muted-foreground data-[path=active]:text-color"
             {...attr}

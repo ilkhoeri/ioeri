@@ -1,3 +1,63 @@
+/* install-command */
+.cmd {
+  height: 19px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+.cmd::before {
+  content: attr(data-cmd);
+  position: relative;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  background-color: transparent;
+  animation: inputs 8s steps(11) infinite;
+}
+.cmd::after {
+  content: "";
+  position: relative;
+  display: block;
+  height: 100%;
+  overflow: hidden;
+  background-color: transparent;
+  border-right: 0.15em solid #e34ba9;
+  animation:
+    cursor 0.5s step-end infinite alternate,
+    blinking 0.5s infinite;
+}
+
+@keyframes blinking {
+  20%,
+  80% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0);
+  }
+}
+@keyframes cursor {
+  50% {
+    border-right-color: transparent;
+  }
+}
+@keyframes inputs {
+  0%,
+  100% {
+    width: 0;
+  }
+  10%,
+  90% {
+    width: 105px;
+  }
+  30%,
+  70% {
+    width: 205px;
+    max-width: max-content;
+  }
+}
+
 /* header */
 .header_home {
   @apply relative flex flex-col items-center justify-around w-full max-w-7xl h-[90vh] max-h-[42.5rem] px-6 [--sz-rx:2.25rem] [--sz-ry:7.5rem] [--sz-circle:clamp(3rem,1rem+5dvw,5rem)] [transition:height_185ms_ease];
@@ -236,7 +296,7 @@
     }
   }
   & .tgl + .tgl_btn {
-    @apply cursor-pointer select-none relative size-full block p-[--pad] outline-0 bg-color rounded-full [border-width:--bd] border-muted-foreground transition-all [--state-light:0] [--state-dark:--checked];
+    @apply cursor-pointer select-none relative size-full block p-[--pad] outline-0 bg-color rounded-full [border-width:--bd] border-muted-foreground transition-all [--light:0] [--dark:--checked];
 
     &:active::after {
       --w-switch: calc(var(--sz-circle) * 1.25);

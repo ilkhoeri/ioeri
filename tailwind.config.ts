@@ -73,6 +73,12 @@ const config = {
           },
         ],
         paragraph: [
+          "clamp(0.725rem, 0.45rem + 0.75vw, 1.0625rem)",
+          {
+            lineHeight: "1.75rem",
+          },
+        ],
+        span: [
           "clamp(0.725rem, 0.45rem + 0.5vw, 0.895rem)",
           {
             lineHeight: "1.35",

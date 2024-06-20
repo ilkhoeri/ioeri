@@ -11,7 +11,6 @@ export interface BreadcrumbDropdownProps {
 
 export function NavigationBreadcrumb() {
   const pathname = usePathname();
-
   // Memecah pathname menjadi bagian-bagian yang dipisahkan oleh '/'
   // const path = pathname.split("/").filter((part) => part !== ""); // Filter untuk menghapus bagian yang kosong
   const paths = pathname.split("/").filter(Boolean);
@@ -37,7 +36,7 @@ export function NavigationBreadcrumb() {
           return (
             <Fragment key={path}>
               <BreadcrumbItem>
-                <BreadcrumbLink href={href} active={active} aria-disabled={active ? "true" : "false"}>
+                <BreadcrumbLink href={href} active={active} aria-disabled="true">
                   {capitalizeWords(path)}
                 </BreadcrumbLink>
               </BreadcrumbItem>
