@@ -193,12 +193,12 @@
   & a {
     @apply relative flex w-[clamp(10.375rem,1.25rem+2dvw,100%)] h-[clamp(2.25rem,1.25rem+2dvw,2.75rem)] items-center justify-center px-6 active:duration-75 hover:before:scale-105 active:before:scale-95;
 
-    &[data-link="documentation"] {
+    &[data-link="docs"] {
       &::before {
         @apply bg-color ring-2 ring-offset-4 ring-color;
       }
     }
-    &[data-link="repository"] {
+    &[data-link="repo"] {
       &::before {
         @apply bg-conservative ring-2 ring-offset-4 ring-conservative;
       }

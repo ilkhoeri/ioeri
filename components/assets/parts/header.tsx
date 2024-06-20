@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useTheme } from "next-themes";
-import { AnimText, BookOpen2Icon, GithubIcon, Transform } from "@/modules";
+import { AnimText, BookOpen2Icon, GithubIcon, Transform, sanitizedToParams } from "@/modules";
 
 import style from "./ioeri.module.css";
 import mainStyle from "@/styles/ioeri.module.css";
@@ -10,13 +10,13 @@ const TYPING_DEFAULT = ["a team", "an idea", "a hook", "a component", "a spirit"
 
 const links = [
   {
-    title: "Getting Started",
+    title: "Docs",
     target: "_self",
     icon: BookOpen2Icon,
     url: "/started",
   },
   {
-    title: "Documentation",
+    title: "Repo",
     target: "_blank",
     icon: GithubIcon,
     url: "https://github.com/ilkhoeri/modules",
@@ -57,7 +57,7 @@ export const HeaderHome: React.FC = () => {
           transform={{ before: "translateY(9rem)", after: "translateY(0)", origin: "bottom center" }}
         >
           {links.map((i, index) => (
-            <Link key={index} href={i.url} target={i.target} data-link={i.title.toLowerCase().replace(" ", "")}>
+            <Link key={index} href={i.url} target={i.target} data-link={sanitizedToParams(i.title)}>
               <span>
                 <i.icon /> {i.title}
               </span>
