@@ -37,15 +37,16 @@ export function Headnav() {
 
         <div className="relative h-full hidden md:flex items-center justify-between font-medium text-sm ml-10 overflow-hidden rounded-sm mr-auto">
           {services.map((i, index) => (
-            <div
+            <Link
               key={index}
+              href={i.href}
               role="button"
               className="cursor-pointer select-none py-1 px-2 h-6 rounded-sm centered text-muted-foreground hover:text-color transition-colors"
               onMouseEnter={onMouseEnter}
               onMouseLeave={onMouseLeave}
             >
               <span>{i.title}</span>
-            </div>
+            </Link>
           ))}
 
           {hovered && (

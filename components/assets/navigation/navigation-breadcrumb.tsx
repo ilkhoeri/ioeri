@@ -16,7 +16,7 @@ export function NavigationBreadcrumb() {
   const paths = pathname.split("/").filter(Boolean);
 
   return (
-    <Breadcrumb className="mb-4">
+    <Breadcrumb className="mb-8">
       <BreadcrumbList className="flex-nowrap">
         {paths.length <= 1 && (
           <>
@@ -37,7 +37,7 @@ export function NavigationBreadcrumb() {
             <Fragment key={path}>
               <BreadcrumbItem>
                 <BreadcrumbLink href={href} active={active} aria-disabled="true">
-                  {capitalizeWords(path)}
+                  {capitalizeWords(path.replace("use", ""))}
                 </BreadcrumbLink>
               </BreadcrumbItem>
 

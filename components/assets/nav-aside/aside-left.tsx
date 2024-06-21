@@ -12,6 +12,39 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/modules/c
 import type { SingleRoute, NestedRoute } from "@/routes";
 
 import style from "./aside.module.css";
+import Styles from "./aside-styles";
+
+type KEYS = { [key: string]: string };
+type keys = "trigger" | "default" | "aside" | "nav";
+function createVariantClass(keys: { [key: string]: string }) {
+  const vars: { [key: string]: string } = {};
+
+  // switch (keys) {
+  //   case "trigger":
+  //     vars["trigger"] = "font-semibold text-muted-foreground";
+  //     break;
+
+  //   case "default":
+  //     vars[""] = "";
+  //     break;
+
+  //   case "aside":
+  //     vars[""] = "";
+  //     break;
+
+  //   case "nav":
+  //     vars[""] = "";
+  //     break;
+  // }
+
+  return keys;
+}
+
+const classNames = createVariantClass({
+  trigger: "font-semibold text-muted-foreground",
+});
+
+const y = classNames;
 
 export function AsideLeft({
   classNames,
@@ -45,20 +78,16 @@ export function AsideLeft({
       <aside
         id="aside-nav"
         data-state={maxQuery ? (open ? "open" : "closed") : undefined}
-        className={twMerge(
-          "m-0 h-dvh max-h-dvh bg-background overflow-hidden [transition:all_0.5s_ease] w-0 focus-visible:outline-0 top-0 bottom-0 md:sticky md:top-[calc(var(--navbar)*1)] md:pr-6 md:pl-4 md:left-0 [--aside-lx:calc(var(--aside)+2rem)] md:w-[--aside-lx] md:min-w-[--aside-lx] md:max-w-[--aside-lx] max-md:fixed max-md:z-[111] max-md:left-0 max-md:border-0 max-md:border-r-[0.04rem] max-md:border-r-muted/75",
-          "max-md:data-[state=open]:w-[--aside-lx] max-md:data-[state=open]:min-w-[--aside-lx] max-md:data-[state=open]:max-w-[--aside-lx] data-[state=open]:pl-6 data-[state=open]:pr-3 max-md:data-[state=closed]:pl-0 max-md:data-[state=closed]:pr-0 max-md:data-[state=closed]:opacity-0",
-          classNames?.aside,
-        )}
+        className={twMerge(Styles({ style: "aside", aside: "left" }), classNames?.aside)}
       >
         {maxQuery && (
-          <section className="flex flex-row items-center justify-between h-[--navbar] mb-4 md:hidden md:sr-only">
+          <hgroup className={Styles({ style: "hgroup" })}>
             <LinkHome />
             <ButtonAside query={minQuery} open={open} onClick={handleClose} className="mr-1.5" />
-          </section>
+          </hgroup>
         )}
 
-        <nav className="relative flex items-start justify-start flex-col flex-nowrap size-full pr-0 px-4 pt-8 pb-24 max-md:pt-0 max-md:pr-0.5 overflow-y-auto overflow-x-hidden webkit-scrollbar">
+        <nav className={Styles({ style: "nav" })}>
           <NavLinkItem
             href="/started"
             title="Getting Started"
@@ -67,7 +96,7 @@ export function AsideLeft({
           />
           {fitures.map((i, index) => (
             <Collapsible key={index} defaultOpen className="h-auto w-full flex flex-col gap-1">
-              <CollapsibleTrigger className="font-semibold text-color focus-visible:ring-inset focus-visible:ring-offset-[-2px]">
+              <CollapsibleTrigger className={Styles({ style: "trigger" })}>
                 <span className="truncate">{i.title}</span>
               </CollapsibleTrigger>
 
@@ -82,14 +111,14 @@ export function AsideLeft({
           {nestedRoutes &&
             nestedRoutes.map((i, index) => (
               <Collapsible key={index} defaultOpen className="h-auto w-full flex flex-col">
-                <CollapsibleTrigger className="font-semibold text-color focus-visible:ring-inset focus-visible:ring-offset-[-2px]">
+                <CollapsibleTrigger className={Styles({ style: "trigger" })}>
                   <span className="truncate">{i.title}</span>
                 </CollapsibleTrigger>
 
                 <CollapsibleContent className="flex z-1">
                   {i.data.map((i, index) => (
                     <Collapsible key={index} defaultOpen>
-                      <CollapsibleTrigger className="font-semibold text-color focus-visible:ring-inset focus-visible:ring-offset-[-2px]">
+                      <CollapsibleTrigger className={Styles({ style: "trigger" })}>
                         <span className="truncate">{i.title}</span>
                       </CollapsibleTrigger>
 
@@ -113,7 +142,7 @@ export function AsideLeft({
           {routes &&
             routes.map((i, index) => (
               <Collapsible key={index} defaultOpen className="h-auto w-full flex flex-col gap-1">
-                <CollapsibleTrigger className="font-semibold text-color focus-visible:ring-inset focus-visible:ring-offset-[-2px]">
+                <CollapsibleTrigger className={Styles({ style: "trigger" })}>
                   <span className="truncate">{i.title}</span>
                 </CollapsibleTrigger>
 
@@ -146,30 +175,5 @@ function Overlay({
   if (minQuery || !open) {
     return null;
   }
-  return (
-    <span
-      onClick={() => setOpen(false)}
-      className={twMerge(
-        "md:hidden md:sr-only fixed max-md:z-[95] w-full h-full min-w-full min-h-full inset-y-0 inset-x-0 backdrop-blur-[0.5px] bg-background/15 supports-[backdrop-filter]:bg-background/15",
-        className,
-      )}
-    />
-  );
-}
-
-function Icon() {
-  return (
-    <svg
-      stroke="currentColor"
-      fill="currentColor"
-      strokeWidth="0"
-      viewBox="0 0 256 256"
-      height="1em"
-      width="1em"
-      xmlns="http://www.w3.org/2000/svg"
-      className="size-5"
-    >
-      <path d="M218.68,125.46a12,12,0,1,0-21.37-10.92,75.15,75.15,0,0,1-27.66,29.64l-13.5-30.39A44,44,0,0,0,140,37.68V24a12,12,0,0,0-24,0V37.68a44,44,0,0,0-16.15,76.11L53,219.12A12,12,0,0,0,59.13,235,11.86,11.86,0,0,0,64,236a12,12,0,0,0,11-7.13l23.67-53.26A99.52,99.52,0,0,0,128,180a102.81,102.81,0,0,0,29.39-4.32L181,228.87A12,12,0,0,0,192,236a11.85,11.85,0,0,0,4.86-1A12,12,0,0,0,203,219.12l-23.51-52.9A99.39,99.39,0,0,0,218.68,125.46ZM128,60a20,20,0,1,1-20,20A20,20,0,0,1,128,60Zm0,96a75.8,75.8,0,0,1-19.52-2.53l13.3-29.92a43.21,43.21,0,0,0,12.44,0l13.33,30A79.11,79.11,0,0,1,128,156Z" />
-    </svg>
-  );
+  return <span onClick={() => setOpen(false)} className={twMerge(Styles({ style: "overlay" }), className)} />;
 }

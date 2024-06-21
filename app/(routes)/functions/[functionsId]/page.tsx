@@ -65,7 +65,7 @@ export default async function Page({ params }: Params) {
 
   return (
     <>
-      <Title type="tick" title={kebabToCamelCase(params.functionsId)} />
+      <Title type="drive" title={kebabToCamelCase(params.functionsId)} className="mt-0 mb-12" />
       <Playground
         defaultState="code"
         childrens={childrens}

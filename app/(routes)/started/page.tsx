@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { ExpoIcon, NextjsIcon, ReactIcon, Svg, TerminalOutlineIcon } from "@/modules";
-import type { Metadata } from "next";
+import { Svg } from "@/modules";
 import { frameworks } from "@/routes";
 import { Paragraph, Title } from "@/components/ui/components";
-import { CopyToggle } from "@/components/ui/toggle";
 import { InstallCommand } from "@/components/assets/parts/install-command";
+
+import type { Metadata } from "next";
 
 export async function generateMetadata(): Promise<Metadata> {
   const url = process.env.NEXT_PUBLIC_DOMAIN_URL;
@@ -27,31 +27,39 @@ export default async function Page() {
     <>
       <div className="mx-auto w-full min-w-0">
         <div className="space-y-2">
-          <h1 className="scroll-m-20 text-4xl font-bold tracking-tight">Getting Started</h1>
-          <p className="text-lg text-muted-foreground">
-            <span>Create your project and compactness the required dependencies.</span>
-          </p>
+          <Title el="h1" type="drive" id="started" className="border-b-0 pb-0">
+            Getting Started
+          </Title>
+          <Paragraph>Create your project and compactness the required dependencies.</Paragraph>
         </div>
-        <div className="pt-8">
-          <div className="mdx">
-            <QuickInstallation />
 
-            <FrameworksCard />
-
-            <div className="mt-12">
-              <Title el="h2" type="drive" id="typescript">
-                <TypingIcon />
-                TypeScript
-              </Title>
-
-              <Paragraph>
-                This project and the components are written in TypeScript. We recommend using TypeScript for your
-                project as well.
-              </Paragraph>
-            </div>
-          </div>
+        <div className="mt-12">
+          <QuickInstallation />
+          <FrameworksCard />
+          <TypingNotes />
         </div>
       </div>
+    </>
+  );
+}
+
+function A({ href, title }: { href: string; title: string }) {
+  return (
+    <Link href={href} className="underline underline-offset-2 decoration-muted hover:decoration-muted-foreground">
+      {title}
+    </Link>
+  );
+}
+
+function QuickInstallation() {
+  return (
+    <>
+      <Title el="h2" type="drive" id="installation">
+        <StromIcon />
+        Quick Installation
+      </Title>
+
+      <InstallCommand />
     </>
   );
 }
@@ -98,24 +106,19 @@ function FrameworksCard() {
   );
 }
 
-function A({ href, title }: { href: string; title: string }) {
+function TypingNotes() {
   return (
-    <Link href={href} className="underline underline-offset-2 decoration-muted hover:decoration-muted-foreground">
-      {title}
-    </Link>
-  );
-}
-
-function QuickInstallation() {
-  return (
-    <>
-      <Title el="h2" type="drive" id="installation">
-        <StromIcon />
-        Quick Installation
+    <div className="mt-12">
+      <Title el="h2" type="drive" id="typescript">
+        <TypingIcon />
+        TypeScript
       </Title>
 
-      <InstallCommand />
-    </>
+      <Paragraph>
+        This project and the components are written in TypeScript. We recommend using TypeScript for your project as
+        well.
+      </Paragraph>
+    </div>
   );
 }
 
@@ -133,14 +136,14 @@ function BoxIcon() {
         fill="#F2C012"
         d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"
       />
-      <polyline stroke="hsl(var(--background))" points="3.29 7 12 12 20.71 7" />
-      <line stroke="hsl(var(--background))" x1="12" x2="12" y1="22" y2="12" />
+      <polyline stroke="hsl(var(--background))" strokeWidth={3} points="3.29 7 12 12 20.71 7" />
+      <line stroke="hsl(var(--background))" strokeWidth={3} x1="12" x2="12" y1="22" y2="12" />
     </Svg>
   );
 }
 function TypingIcon() {
   return (
-    <Svg viewBox="0 0 512 512" fill="#F2C012" stroke="none" className="mr-3 mt-1.5 size-[24px] float-left">
+    <Svg viewBox="0 0 512 512" fill="#3178c6" stroke="none" className="mr-3 mt-1.5 size-[24px] float-left">
       <rect width="512" height="512" rx="15%" />
       <path
         fill="hsl(var(--background))"

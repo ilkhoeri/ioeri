@@ -71,7 +71,7 @@ export default async function Page({ params }: Params) {
 
   return (
     <>
-      <Title type="tick" title={capitalizeWords(params.playgroundId)} />
+      <Title type="drive" title={capitalizeWords(params.playgroundId)} className="mt-0 mb-12" />
       {component}
     </>
   );

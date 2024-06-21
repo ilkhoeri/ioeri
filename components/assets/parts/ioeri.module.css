@@ -13,7 +13,7 @@
   white-space: nowrap;
   overflow: hidden;
   background-color: transparent;
-  animation: inputs 8s steps(11) infinite;
+  animation: inputs 8s steps(22) infinite;
 }
 .cmd::after {
   content: "";

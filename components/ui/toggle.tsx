@@ -26,7 +26,7 @@ export const GetCodeToggle = React.forwardRef<
       href={href || `https://github.com/ilkhoeri/modules/blob/main${linkCode}`}
       tabIndex={-1}
       className={twMerge(
-        "centered p-1 rounded-md border bg-background-box absolute top-4 right-14 left-auto [&_svg]:sizer [--sz:20px]",
+        "centered p-1 rounded-md border bg-background-box absolute top-4 right-14 left-auto [&_svg]:sizer [--sz:20px] transition-colors text-muted-foreground hover:text-color",
         className,
       )}
     >
@@ -49,7 +49,7 @@ export const CopyToggle = React.forwardRef<
       onClick={() => clipboard.copy(text)}
       disabled={!text}
       className={twMerge(
-        "centered p-1 rounded-md border absolute top-4 right-4 [&_svg]:sizer [--sz:20px] text-color transition-colors",
+        "centered p-1 rounded-md border absolute top-4 right-4 [&_svg]:sizer [--sz:20px] transition-colors text-muted-foreground hover:text-color",
         clipboard.copied ? "bg-background" : "bg-background-box",
         className,
       )}

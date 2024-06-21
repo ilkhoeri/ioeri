@@ -23,3 +23,9 @@ function cnx(...inputs: ClassValue[]): string
   export function cn(...inputs: ClassValue[]) {
     return twMerge(cnx(inputs));
   }
+
+// configuration vscode settings.json
+  "tailwindCSS.experimental.classRegex": [
+    ["cnx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
+    ["twMerge\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
+  ],

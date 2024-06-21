@@ -8,12 +8,6 @@ export type Frameworks = { title: string; href: string; cmd: string; icon: IconT
 
 export const frameworks: Frameworks[] = [
   {
-    title: "React",
-    href: "https://react.dev/learn/installation",
-    cmd: "create-react-app@latest",
-    icon: ReactIcon,
-  },
-  {
     title: "Next.js",
     href: "https://nextjs.org/",
     cmd: "create-next-app@latest",
@@ -25,20 +19,26 @@ export const frameworks: Frameworks[] = [
     cmd: "create-expo-app@latest",
     icon: ExpoIcon,
   },
+  {
+    title: "React",
+    href: "https://react.dev/learn/installation",
+    cmd: "create-react-app@latest",
+    icon: ReactIcon,
+  },
 ];
 
-export const services: SingleRoute[] = [
+export const services = [
   {
     title: "Examples",
-    data: [],
+    href: "/playground/markdown-text",
   },
-  {
-    title: "Generators",
-    data: [],
-  },
+  // {
+  //   title: "Generators",
+  //   href: "",
+  // },
   {
     title: "Documentation",
-    data: [],
+    href: "/started",
   },
 ];
 

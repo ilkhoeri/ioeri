@@ -2,6 +2,7 @@ import * as React from "react";
 import Link, { type LinkProps } from "next/link";
 
 import { twMerge } from "tailwind-merge";
+import { cn } from "@/lib/utils";
 
 import { SlashIcon } from "@/modules";
 import { type IconType } from "@/modules";
@@ -50,8 +51,8 @@ const BreadcrumbLink = React.forwardRef<
       tabIndex={-1}
       scroll={scroll}
       data-path={active ? "active" : "inactive"}
-      className={twMerge(
-        "transition-colors text-sm leading-tight text-muted-foreground rounded-md max-w-max inline-flex truncate border-0 max-md:active:bg-primitive/35 max-md:active:border-primitive-emphasis md:hover:bg-primitive/35 md:hover:border-primitive-emphasis data-[path=active]:font-semibold",
+      className={cn(
+        "[font-size:clamp(0.925rem,0.925rem+1vw,1rem)] leading-tight transition-colors text-muted-foreground rounded-md max-w-max inline-flex truncate border-0 max-md:active:bg-primitive/35 max-md:active:border-primitive-emphasis md:hover:bg-primitive/35 md:hover:border-primitive-emphasis data-[path=active]:font-semibold",
         className,
       )}
       {...props}

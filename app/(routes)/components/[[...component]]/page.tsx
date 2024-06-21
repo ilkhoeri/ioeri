@@ -56,25 +56,25 @@ export default async function Page({ params }: Params) {
 
   const childrens: { [key: string]: React.JSX.Element | null } = {};
 
-   if (code) {
-     childrens.code = <CodeCustomizer code={code} />;
-   } else if (reserveCode) {
-     childrens.code = <CodeCustomizer code={reserveCode} />;
-   }
-   if (css) {
-     childrens.css = <CodeCustomizer code={css} />;
-   }
-   if (usage) {
-     childrens.usage = <CodeCustomizer code={usage} />;
-   }
+  if (code) {
+    childrens.code = <CodeCustomizer code={code} />;
+  } else if (reserveCode) {
+    childrens.code = <CodeCustomizer code={reserveCode} />;
+  }
+  if (css) {
+    childrens.css = <CodeCustomizer code={css} />;
+  }
+  if (usage) {
+    childrens.usage = <CodeCustomizer code={usage} />;
+  }
 
-   if (!params.component) {
-     return <Title type="tick" title={String(sourcePath)} className="mt-16 mx-auto" />;
-   }
+  if (!params.component) {
+    return <Title type="tick" title={String(sourcePath)} className="mt-16 mx-auto" />;
+  }
 
   return (
     <>
-      <Title type="tick" title={String(sourcePath)} />
+      <Title type="drive" title={String(sourcePath)} className="mt-0 mb-12" />
       <Playground
         defaultState="code"
         childrens={childrens}
@@ -88,7 +88,7 @@ function remakeTitle(texts: string[] | undefined) {
   const length = texts?.length;
   const secondLast = length ? texts[texts?.length - 2] : " ";
   const last = length ? texts[texts?.length - 1] : " ";
-  const text = texts === undefined ? "Components" : `${capitalizeWords(secondLast)} / ${capitalizeWords(last)}`;
+  const text = texts === undefined ? "Components" : `${capitalizeWords(last)}`;
   return text;
 }
 
