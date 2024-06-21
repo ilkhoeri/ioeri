@@ -48,30 +48,29 @@ async function getCss(sourcePath: string[]): Promise<string | null> {
 export default async function Page({ params }: Params) {
   const sourcePath =
     params.component !== undefined ? remakeTitle(params.component) : "Components is under constructions";
-  const [code, css, usage, reserveCode] = await Promise.all([
-    getCode(params.component),
-    getCss(params.component),
-    getUsage(params.component),
-    getReserveCode(params.component),
-  ]);
+
+  const code = await getCode(params.component);
+  const reserveCode = code === null ? await getReserveCode(params.component) : null;
+
+  const [css, usage] = await Promise.all([getCss(params.component), getUsage(params.component)]);
 
   const childrens: { [key: string]: React.JSX.Element | null } = {};
 
-  if (code) {
-    childrens.code = <CodeCustomizer code={code} />;
-  } else if (code === null && reserveCode) {
-    childrens.code = <CodeCustomizer code={reserveCode} />;
-  }
-  if (css) {
-    childrens.css = <CodeCustomizer code={css} />;
-  }
-  if (usage) {
-    childrens.usage = <CodeCustomizer code={usage} />;
-  }
+   if (code) {
+     childrens.code = <CodeCustomizer code={code} />;
+   } else if (reserveCode) {
+     childrens.code = <CodeCustomizer code={reserveCode} />;
+   }
+   if (css) {
+     childrens.css = <CodeCustomizer code={css} />;
+   }
+   if (usage) {
+     childrens.usage = <CodeCustomizer code={usage} />;
+   }
 
-  if (params.component === undefined) {
-    return <Title type="tick" title={String(sourcePath)} className="mt-16 mx-auto" />;
-  }
+   if (!params.component) {
+     return <Title type="tick" title={String(sourcePath)} className="mt-16 mx-auto" />;
+   }
 
   return (
     <>
