@@ -177,7 +177,7 @@ export default async function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      data-fontid="sans"
+      data-fontid="inter"
       data-themeid-light="default"
       data-themeid-dark="default"
       data-theme="default"

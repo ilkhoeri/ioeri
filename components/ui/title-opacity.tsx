@@ -2,14 +2,27 @@
 
 import * as React from "react";
 import { twMerge } from "tailwind-merge";
+import { cvx, type VariantsType } from "@/modules";
+
+const variantTitle = cvx({
+  variants: {
+    type: {
+      masive: "overflow-hidden sticky top-0 -z-9 md:-mt-8 [font-size:clamp(42px,2px+10dvw,80px)]",
+      drive: "font-heading mt-12 scroll-m-20 border-b pb-2 text-2xl font-semibold tracking-tight first:mt-0",
+      tick: "mb-3 text-h4 font-bold leading-none font-kanit",
+    },
+  },
+});
 
 type ComponentType<T> = React.ComponentType<React.HTMLAttributes<T>>;
 
-interface HeadingElement extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement> {
+interface HeadingElement
+  extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement>,
+    VariantsType<typeof variantTitle> {
   el?: React.ElementType;
   scrollUpto?: number;
-  type?: "masive" | "drive" | "tick";
 }
+
 export const Title = React.forwardRef<HTMLHeadingElement, HeadingElement>(
   ({ el = "h1", children, title, scrollUpto = 200, type = "masive", className, style, ...props }, ref) => {
     const [opacity, setOpacity] = React.useState(1);
@@ -31,13 +44,7 @@ export const Title = React.forwardRef<HTMLHeadingElement, HeadingElement>(
     return (
       <Component
         ref={ref}
-        className={twMerge(
-          type === "masive" && "overflow-hidden sticky top-0 -z-9 md:-mt-8 [font-size:clamp(42px,2px+10dvw,80px)]",
-          type === "drive" &&
-            "font-heading mt-12 scroll-m-20 border-b pb-2 text-2xl font-semibold tracking-tight first:mt-0",
-          type === "tick" && "mb-3 text-h4 font-bold leading-none font-kanit",
-          className,
-        )}
+        className={twMerge(variantTitle({ type }), className)}
         style={{ opacity: type === "masive" ? opacity : undefined, ...style }}
         {...props}
       >

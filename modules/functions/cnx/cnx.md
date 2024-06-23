@@ -1,3 +1,13 @@
+#title
+className x
+
+#description
+cnx is inspired by clsx, the arguments you give in cn or clsx you can put into cnx, so that you can think of ‵cnx as clsx from another universe‵.
+
+#installation
+Berikut adalah cara untuk install Create Variant ....
+
+#usage
 function cnx(...inputs: ClassValue[]): string
 
 // usage
@@ -13,8 +23,8 @@ function cnx(...inputs: ClassValue[]): string
 
 // Example of use in the parent component
   <div className={cnx(['h-6', 'w-6'])} />
+  <div className={cnx("h-6 w-6 bg-white")} />
   <div className={cnx('h-6', isOpen && 'w-6', isDark ? 'bg-black' : 'bg-white')} />
-  <div className="h-6 w-6 bg-white" />
 
 // Example of using merge with tailwind-merge
   import { cnx, type ClassValue } from "@/modules";

@@ -93,7 +93,7 @@ export function Playground(Play: PlaygroundType) {
           <TabsContent value="preview">
             <Card className="min-h-[62px] bg-background-box">
               <div
-                className="textarea_class !border-0 !bg-transparent text-preline flex-col markdown-body"
+                className="textarea_class !border-0 !bg-transparent white-space-pre-line flex-col markdown-body"
                 dangerouslySetInnerHTML={markdownHTML(markdownText(text))}
               />
             </Card>

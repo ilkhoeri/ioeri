@@ -120,7 +120,7 @@
         @apply pb-14 text-center text-[90%] max-w-[600px];
       }
       & .resume {
-        @apply border-t pt-8 pb-14 text-wrap text-pre-line text-sm md:text-[15px] leading-normal text-justify text-muted-foreground lg:max-w-[56rem];
+        @apply border-t pt-8 pb-14 text-wrap white-space-pre-line text-sm md:text-[15px] leading-normal text-justify text-muted-foreground lg:max-w-[56rem];
       }
     }
   }

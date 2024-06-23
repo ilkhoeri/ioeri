@@ -1,20 +1,21 @@
 "use client";
 
 import * as React from "react";
-import { attr } from "@/modules";
+import { attr, cvx } from "@/modules";
 import { twMerge } from "tailwind-merge";
 
 type Variants = "inputBase" | "inputPassword" | "inputPin";
-const inputVariants = ({ variant }: { variant: Variants }): string | undefined => {
-  const variants: { [key: string]: string } = {
-    inputBase: "input_classt",
-    inputPassword: "input_class",
-    inputPin:
-      "block focus:placeholder:opacity-0 placeholder:text-muted-foreground/80 placeholder:text-[24px] text-[20px] leading-[20px] font-bold text-center h-10 w-10 max-w-full rounded-md p-0 border border-input bg-transparent shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-0 focus-visible:border-transparent focus-visible:ring-2 focus-visible:ring-[#2f81f7] focus-visible:ring-offset-0",
-  };
 
-  return variants[variant] || undefined;
-};
+const inputVariants = cvx({
+  variants: {
+    variant: {
+      inputBase: "input_classt",
+      inputPassword: "input_class",
+      inputPin:
+        "block focus:placeholder:opacity-0 placeholder:text-muted-foreground/80 placeholder:text-[24px] text-[20px] leading-[20px] font-bold text-center h-10 w-10 max-w-full rounded-md p-0 border border-input bg-transparent shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-0 focus-visible:border-transparent focus-visible:ring-2 focus-visible:ring-[#2f81f7] focus-visible:ring-offset-0",
+    },
+  },
+});
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   unstyled?: boolean;

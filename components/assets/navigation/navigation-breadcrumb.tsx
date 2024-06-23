@@ -3,7 +3,6 @@
 import React, { Fragment } from "react";
 import { usePathname } from "next/navigation";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "../../ui/breadcrumb";
-import { capitalizeWords } from "@/modules";
 
 export interface BreadcrumbDropdownProps {
   paths: string[];
@@ -37,7 +36,7 @@ export function NavigationBreadcrumb() {
             <Fragment key={path}>
               <BreadcrumbItem>
                 <BreadcrumbLink href={href} active={active} aria-disabled="true">
-                  {capitalizeWords(path.replace("use", ""))}
+                  {reTitle(path)}
                 </BreadcrumbLink>
               </BreadcrumbItem>
 
@@ -48,4 +47,11 @@ export function NavigationBreadcrumb() {
       </BreadcrumbList>
     </Breadcrumb>
   );
+}
+
+function reTitle(str: string) {
+  str = str.replace("use", "");
+  str = str.replace("use-", "");
+  str = str.replace(/-/g, " ");
+  return str;
 }

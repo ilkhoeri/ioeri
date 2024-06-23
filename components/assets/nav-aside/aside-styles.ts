@@ -1,6 +1,6 @@
-import { cva } from "class-variance-authority";
+import { cvx } from "@/modules";
 
-const Styles = cva("", {
+const Styles = cvx({
   variants: {
     style: {
       aside:

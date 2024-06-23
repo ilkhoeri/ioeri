@@ -370,13 +370,13 @@ const config = {
         ".decoration-none": {
           textDecoration: "none",
         },
-        ".text-pre-line": {
+        ".white-space-pre-line": {
           whiteSpace: "pre-line",
         },
-        ".text-pre-wrap": {
+        ".white-space-pre-wrap": {
           whiteSpace: "pre-wrap",
         },
-        ".text-break-spaces": {
+        ".white-space-break-spaces": {
           whiteSpace: "break-spaces",
         },
         ".filter-icon": {

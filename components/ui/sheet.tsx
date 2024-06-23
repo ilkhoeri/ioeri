@@ -3,7 +3,7 @@
 import * as React from "react";
 import * as SheetPrimitive from "@radix-ui/react-dialog";
 
-import { cva, type VariantProps } from "class-variance-authority";
+import { Svg, cvx, type VariantsType } from "@/modules";
 import { twMerge } from "tailwind-merge";
 
 export type SheetTrees = "overlay" | "content" | "close" | "header" | "title" | "footer" | "description";
@@ -36,25 +36,61 @@ const SheetOverlay = React.forwardRef<
 ));
 SheetOverlay.displayName = SheetPrimitive.Overlay.displayName;
 
-export const sheetVariants = cva(
-  "fixed z-[999] w-full h-full overflow-hidden bg-white dark:bg-black border-solid select-none [&_*]:select-none focus-visible:ring-0 transition-all duration-300 data-[state=open]:animate-in data-[state=open]:duration-300 data-[state=closed]:animate-out data-[state=closed]:duration-300",
-  {
-    variants: {
-      side: {
-        top: "flex-col-reverse top-0 inset-x-0 rounded-b-[16px] max-h-[70dvh] pt-[26px] [box-shadow:0_1px_0_0_hsl(var(--color))] data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top",
-        bottom:
-          "flex-col bottom-0 inset-x-0 rounded-t-[16px] max-h-[70dvh] pb-[26px] [box-shadow:0_-1px_0_0_hsl(var(--color))] data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom",
-        left: "flex-row-reverse left-0 inset-y-0 rounded-r-[16px] max-w-[316px] px-[26px] pb-[26px] [box-shadow:1px_0_0_0_hsl(var(--color))] data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left",
-        right:
-          "flex-row right-0 inset-y-0 rounded-l-[16px] max-w-[316px] px-[26px] pb-[26px] [box-shadow:-1px_0_0_0_hsl(var(--color))] data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right",
-      },
+export const sheetVariants = cvx({
+  assign:
+    "fixed z-[999] w-full h-full overflow-hidden bg-white dark:bg-black border-solid select-none [&_*]:select-none focus-visible:ring-0 transition-all duration-300 data-[state=open]:animate-in data-[state=open]:duration-300 data-[state=closed]:animate-out data-[state=closed]:duration-300",
+  variants: {
+    side: {
+      top: "flex-col-reverse top-0 inset-x-0 rounded-b-[16px] max-h-[70dvh] pt-[26px] [box-shadow:0_1px_0_0_hsl(var(--color))] data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top",
+      bottom:
+        "flex-col bottom-0 inset-x-0 rounded-t-[16px] max-h-[70dvh] pb-[26px] [box-shadow:0_-1px_0_0_hsl(var(--color))] data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom",
+      left: "flex-row-reverse left-0 inset-y-0 rounded-r-[16px] max-w-[316px] px-[26px] pb-[26px] [box-shadow:1px_0_0_0_hsl(var(--color))] data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left",
+      right:
+        "flex-row right-0 inset-y-0 rounded-l-[16px] max-w-[316px] px-[26px] pb-[26px] [box-shadow:-1px_0_0_0_hsl(var(--color))] data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right",
     },
   },
-);
+});
+export const sheetHead = cvx({
+  assign:
+    "absolute flex items-center justify-between z-11 right-0 left-0 w-full max-w-full min-w-max px-4 bg-white dark:bg-black",
+  variants: {
+    side: {
+      top: "h-[40px] min-h-[40px] max-h-[40px] bottom-0 border-t border-solid border-t-gray-300 dark:border-t-[#1f1f1f]",
+      bottom:
+        "h-[40px] min-h-[40px] max-h-[40px] bottom-0 border-t border-solid border-t-gray-300 dark:border-t-[#1f1f1f]",
+      left: "h-[var(--h-top)] min-h-[var(--h-top)] max-h-[var(--h-top)] top-0 flex-flow-row-reverse",
+      right: "h-[var(--h-top)] min-h-[var(--h-top)] max-h-[var(--h-top)] top-0 flex-flow-row",
+    },
+  },
+});
+export const sheetClose = cvx({
+  assign:
+    "centered h-[32px] min-h-[32px] w-[32px] min-w-[32px] !bg-transparent focus:outline-0 focus:ring-0 focus-visible:[outline:2px_solid_#1971c2] focus-visible:outline-offset-0 disabled:pointer-events-none data-[state=open]:bg-secondary",
+  variants: {
+    side: {
+      top: "py-1 w-full rounded-lg active:bg-[#f3f3f3] dark:active:bg-[#0e0e0e] relative group flex flex-flow-row items-center justify-center gap-2",
+      bottom:
+        "py-1 w-full rounded-lg active:bg-[#f3f3f3] dark:active:bg-[#0e0e0e] relative group flex flex-flow-row items-center justify-center gap-2",
+      left: "flex-flow-row-reverse mr-auto ml-0 rounded-[10px]",
+      right: "flex-flow-row ml-auto mr-0 rounded-[10px]",
+    },
+  },
+});
+export const sheetIndicator = cvx({
+  assign: "absolute rounded-full bg-muted cursor-pointer",
+  variants: {
+    side: {
+      top: "mx-auto my-3 sizer [--sz-w:100px] [--sz-h:8px]",
+      bottom: "mx-auto my-3 sizer [--sz-w:100px] [--sz-h:8px]",
+      left: "inset-y-[calc(50%-calc(var(--sz-h)/2))] right-2 ml-[10px] sizer [--sz-w:8px] [--sz-h:100px]",
+      right: "inset-y-[calc(50%-calc(var(--sz-h)/2))] left-2 mr-[10px] sizer [--sz-w:8px] [--sz-h:100px]",
+    },
+  },
+});
 
 interface SheetContentProps
   extends React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content>,
-    VariantProps<typeof sheetVariants> {
+    VariantsType<typeof sheetVariants> {
   header?: React.ReactNode;
 }
 
@@ -75,92 +111,26 @@ const SheetContent = React.forwardRef<
         className={twMerge(sheetVariants({ side }), className, classNames?.content)}
         {...props}
       >
-        <SheetHeader
-          className={twMerge(
-            "absolute flex items-center justify-between z-11 right-0 left-0 w-full max-w-full min-w-max px-4 bg-white dark:bg-black",
-            side === "top" &&
-              "h-[40px] min-h-[40px] max-h-[40px] bottom-0 border-t border-solid border-t-gray-300 dark:border-t-[#1f1f1f] ",
-            side === "bottom" &&
-              "h-[40px] min-h-[40px] max-h-[40px] bottom-0 border-t border-solid border-t-gray-300 dark:border-t-[#1f1f1f] ",
-            side === "left" && "h-[var(--h-top)] min-h-[var(--h-top)] max-h-[var(--h-top)] top-0 flex-flow-row-reverse",
-            side === "right" && "h-[var(--h-top)] min-h-[var(--h-top)] max-h-[var(--h-top)] top-0 flex-flow-row",
-            classNames?.header,
-          )}
-        >
+        <SheetHeader className={twMerge(sheetHead({ side }), classNames?.header)}>
           {(side === "left" || side === "right") && header}
-          <SheetPrimitive.Close
-            className={twMerge(
-              "centered h-[32px] min-h-[32px] w-[32px] min-w-[32px] !bg-transparent focus:outline-0 focus:ring-0 focus-visible:[outline:2px_solid_#1971c2] focus-visible:outline-offset-0 disabled:pointer-events-none data-[state=open]:bg-secondary",
-              side === "top" &&
-                "py-1 w-full rounded-lg active:bg-[#f3f3f3] dark:active:bg-[#0e0e0e] relative group flex flex-flow-row items-center justify-center gap-2",
-              side === "bottom" &&
-                "py-1 w-full rounded-lg active:bg-[#f3f3f3] dark:active:bg-[#0e0e0e] relative group flex flex-flow-row items-center justify-center gap-2",
-              side === "right" && "flex-flow-row ml-auto mr-0 rounded-[10px]",
-              side === "left" && "flex-flow-row-reverse mr-auto ml-0 rounded-[10px]",
-              classNames?.close,
-            )}
-          >
+          <SheetPrimitive.Close className={twMerge(sheetClose({ side }), classNames?.close)}>
             {(side === "top" || side === "bottom") && (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                height={30}
-                width={30}
-                className={side === "bottom" ? "rotate-180" : "rotate-0"}
-              >
-                <path
-                  d="M4,14.5l8-5,8,5"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1.7}
-                  className="transition-all duration-75 opacity-100 group-hover:opacity-0"
-                />
-                <path
-                  d="M4,14.5H20"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1.7}
-                  className="transition-all duration-75 opacity-0 group-hover:opacity-100"
-                />
-              </svg>
+              <Svg height={30} width={30} strokeWidth={1.7} className={side === "bottom" ? "rotate-180" : "rotate-0"}>
+                <path d="M4,14.5l8-5,8,5" className="transition-all duration-75 opacity-100 group-hover:opacity-0" />
+                <path d="M4,14.5H20" className="transition-all duration-75 opacity-0 group-hover:opacity-100" />
+              </Svg>
             )}
 
             {(side === "left" || side === "right") && (
-              <svg
-                stroke="currentColor"
-                fill="none"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                height="16"
-                width="16"
-                className="sizer [--sz:16px] h-4 w-4"
-                xmlns="http://www.w3.org/2000/svg"
-              >
+              <Svg className="sizer [--sz:16px] h-4 w-4">
                 <path d="M18 6 6 18" />
                 <path d="m6 6 12 12" />
-              </svg>
+              </Svg>
             )}
           </SheetPrimitive.Close>
         </SheetHeader>
 
-        <SheetPrimitive.Close
-          aria-label="close"
-          className={twMerge(
-            "absolute rounded-full bg-muted cursor-pointer",
-            side === "top" && "mx-auto my-3 sizer [--sz-w:100px] [--sz-h:8px]",
-            side === "bottom" && "mx-auto my-3 sizer [--sz-w:100px] [--sz-h:8px]",
-            side === "left" &&
-              "inset-y-[calc(50%-calc(var(--sz-h)/2))] right-2 ml-[10px] sizer [--sz-w:8px] [--sz-h:100px]",
-            side === "right" &&
-              "inset-y-[calc(50%-calc(var(--sz-h)/2))] left-2 mr-[10px] sizer [--sz-w:8px] [--sz-h:100px]",
-          )}
-        />
+        <SheetPrimitive.Close aria-label="close" className={sheetIndicator({ side })} />
 
         {children}
       </SheetPrimitive.Content>

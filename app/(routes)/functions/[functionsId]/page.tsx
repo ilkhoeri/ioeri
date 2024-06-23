@@ -1,7 +1,7 @@
-import { Title } from "@/components/ui/components";
+import { Paragraph, Title } from "@/components/ui/components";
 import { Playground } from "@/components/ui/playground";
 import { CodeCustomizer } from "@/components/ui/code-customizer";
-import { getFileContent } from "@/scripts/get-file-content";
+import { getContent, getFileContent } from "@/scripts/get-file-content";
 import { getRepository } from "@/scripts/get-repository";
 import { getMdFile } from "@/scripts/get-md-file";
 import { kebabToCamelCase } from "@/modules";
@@ -37,23 +37,26 @@ async function getCode(sourcePath: string): Promise<string | null> {
 async function getCss(sourcePath: string): Promise<string | null> {
   return getFileContent(`/modules/functions/${sourcePath}`, `${sourcePath}.css`);
 }
-async function getUsage(sourcePath: string): Promise<string | null> {
-  return getFileContent(`/modules/functions/${sourcePath}`, `${sourcePath}-usage.md`);
+async function getSection(sourcePath: string, sectionId: string): Promise<string | null> {
+  return getContent(`/modules/functions/${sourcePath}`, `${sourcePath}.md`, sectionId);
 }
 
 export default async function Page({ params }: Params) {
-  const [code, css, usage, reserveCode] = await Promise.all([
-    getCode(params.functionsId),
+  const code = await getCode(params.functionsId);
+  const reserveCode = code === null ? await getReserveCode(params.functionsId) : null;
+
+  const [css, title, description, usage] = await Promise.all([
     getCss(params.functionsId),
-    getUsage(params.functionsId),
-    getReserveCode(params.functionsId),
+    getSection(params.functionsId, "title"),
+    getSection(params.functionsId, "description"),
+    getSection(params.functionsId, "usage"),
   ]);
 
   const childrens: { [key: string]: React.JSX.Element } = {};
 
   if (code) {
     childrens.code = <CodeCustomizer code={code} />;
-  } else if (code === null && reserveCode) {
+  } else if (reserveCode) {
     childrens.code = <CodeCustomizer code={reserveCode} />;
   }
   if (css) {
@@ -65,7 +68,13 @@ export default async function Page({ params }: Params) {
 
   return (
     <>
-      <Title type="drive" title={kebabToCamelCase(params.functionsId)} className="mt-0 mb-12" />
+      <Title
+        type="drive"
+        title={title || kebabToCamelCase(params.functionsId)}
+        className={title ? "mt-0" : "mt-0 mb-12"}
+      />
+      {description && <Paragraph className="mt-0 mb-12">{description}</Paragraph>}
+
       <Playground
         defaultState="code"
         childrens={childrens}

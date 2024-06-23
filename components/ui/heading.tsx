@@ -1,21 +1,12 @@
 import * as React from "react";
 import { twMerge } from "tailwind-merge";
+import { cvx, type VariantsType } from "@/modules";
 
-const headingVariants = ({ size }: { size: HeadingList }): string | undefined => {
-  const variants: { [key: string]: string } = {
-    h1: "text-h1",
-    h2: "text-h2",
-    h3: "text-h3",
-    h4: "text-h4",
-    h5: "text-h5",
-    h6: "text-h6",
-  };
-
-  return variants[size] || undefined;
-};
+const headingVariants = cvx({
+  variants: { size: { h1: "text-h1", h2: "text-h2", h3: "text-h3", h4: "text-h4", h5: "text-h5", h6: "text-h6" } },
+});
 
 type HeadingList = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
-
 export interface HeadingProps
   extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement> {
   el: HeadingList;

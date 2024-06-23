@@ -99,7 +99,10 @@ export const Paragraph = React.forwardRef<HTMLElement, ElementType<HTMLElement>>
     return (
       <Component
         ref={ref}
-        className={twMerge(!unstyled && "text-paragraph text-muted-foreground [&:not(:first-child)]:mt-3", className)}
+        className={twMerge(
+          !unstyled && "text-paragraph text-muted-foreground white-space-pre-wrap [&:not(:first-child)]:mt-3",
+          className,
+        )}
         {...props}
       />
     );

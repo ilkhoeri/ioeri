@@ -14,38 +14,6 @@ import type { SingleRoute, NestedRoute } from "@/routes";
 import style from "./aside.module.css";
 import Styles from "./aside-styles";
 
-type KEYS = { [key: string]: string };
-type keys = "trigger" | "default" | "aside" | "nav";
-function createVariantClass(keys: { [key: string]: string }) {
-  const vars: { [key: string]: string } = {};
-
-  // switch (keys) {
-  //   case "trigger":
-  //     vars["trigger"] = "font-semibold text-muted-foreground";
-  //     break;
-
-  //   case "default":
-  //     vars[""] = "";
-  //     break;
-
-  //   case "aside":
-  //     vars[""] = "";
-  //     break;
-
-  //   case "nav":
-  //     vars[""] = "";
-  //     break;
-  // }
-
-  return keys;
-}
-
-const classNames = createVariantClass({
-  trigger: "font-semibold text-muted-foreground",
-});
-
-const y = classNames;
-
 export function AsideLeft({
   classNames,
   routes,
