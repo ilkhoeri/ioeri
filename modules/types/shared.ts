@@ -3,9 +3,9 @@ import * as React from "react";
 export interface CSSProperties extends React.CSSProperties {
   [key: string]: any;
 }
-export type ElementType<T extends React.ElementType, Except extends string = never> = Omit<
+export type ElementType<T extends React.ElementType, Exclude extends string = never> = Omit<
   React.ComponentPropsWithoutRef<T>,
-  "style" | Except
+  "style" | Exclude
 > & {
   style?: CSSProperties;
 };

@@ -35,6 +35,11 @@ yarn-error.log*
 # vscode
 .vscode
 
+.git
+.gitattributes
+*.git
+*.gitattributes
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

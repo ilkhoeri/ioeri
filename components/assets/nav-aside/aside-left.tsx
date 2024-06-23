@@ -13,6 +13,7 @@ import type { SingleRoute, NestedRoute } from "@/routes";
 
 import style from "./aside.module.css";
 import Styles from "./aside-styles";
+import Element from "@/components/ui/element";
 
 export function AsideLeft({
   classNames,
@@ -55,7 +56,11 @@ export function AsideLeft({
           </hgroup>
         )}
 
-        <nav className={Styles({ style: "nav" })}>
+        <Element
+          el="nav"
+          className={Styles({ style: "nav" })}
+          style={{ "--scroll-color-hover": "hsl(var(--color) / 0.25)", "--scroll-sz": "8px" }}
+        >
           <NavLinkItem
             href="/started"
             title="Getting Started"
@@ -121,7 +126,7 @@ export function AsideLeft({
                 </CollapsibleContent>
               </Collapsible>
             ))}
-        </nav>
+        </Element>
       </aside>
 
       <Overlay minQuery={minQuery} open={open} setOpen={setOpen} className={classNames?.overlay} />

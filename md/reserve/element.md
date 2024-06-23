@@ -2,9 +2,9 @@ import * as React from "react";
 
 export type PolymorphicRef<T extends React.ElementType> = React.ComponentPropsWithRef<T>["ref"];
 
-export type PolymorphicWithoutRef<T extends React.ElementType, Except extends string = never> = Omit<
+export type PolymorphicWithoutRef<T extends React.ElementType, Exclude extends string = never> = Omit<
   React.ComponentProps<T>,
-  "ref" | "style" | Except
+  "ref" | "style" | Exclude
 > & {
   el?: T;
   style?: React.CSSProperties & {

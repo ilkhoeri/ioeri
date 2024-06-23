@@ -1083,9 +1083,6 @@ hr {
 
 .box_alert,
 .dialog_pop {
-  /* --l-dialog-set: var(--l-dialog, calc(var(--with-remove-scrollbar) / 2));
-  --r-dialog-set: var(--r-dialog, 50%);
-  --t-dialog-set: var(--t-dialog, 45%); */
   --l-dialog-set: var(--l-dialog, 50%);
   --r-dialog-set: var(--r-dialog, 50%);
   --t-dialog-set: var(--t-dialog, 45%);

@@ -270,16 +270,23 @@ const config = {
           "&::-webkit-scrollbar": {
             width: "var(--scroll-sz, 0px)",
             height: "var(--scroll-sz, 0px)",
-            borderRadius:
-              "var(--scroll-rd-tl, var(--scroll-rd-t, var(--scroll-rd-l, var(--scroll-rd, 999px)))) var(--scroll-rd-tr, var(--scroll-rd-t, var(--scroll-rd-r, var(--scroll-rd, 999px)))) var(--scroll-rd-br, var(--scroll-rd-b, var(--scroll-rd-r, var(--scroll-rd, 999px)))) var(--scroll-rd-bl, var(--scroll-rd-b, var(--scroll-rd-l, var(--scroll-rd, 999px))))",
+            borderRadius: "var(--scroll-rounded, 9999px)",
           },
           "&::-webkit-scrollbar-track": {
             background: "var(--scroll-bg, #0000)",
           },
           "&::-webkit-scrollbar-thumb": {
+            cursor: "grab",
             background: "var(--scroll-color, #0000)",
-            borderRadius:
-              "var(--scroll-rd-tl, var(--scroll-rd-t, var(--scroll-rd-l, var(--scroll-rd, 999px)))) var(--scroll-rd-tr, var(--scroll-rd-t, var(--scroll-rd-r, var(--scroll-rd, 999px)))) var(--scroll-rd-br, var(--scroll-rd-b, var(--scroll-rd-r, var(--scroll-rd, 999px)))) var(--scroll-rd-bl, var(--scroll-rd-b, var(--scroll-rd-l, var(--scroll-rd, 999px))))",
+            borderRadius: "var(--scroll-rounded, 9999px)",
+          },
+          "&:hover": {
+            "&::-webkit-scrollbar-thumb": {
+              background: "var(--scroll-color-hover, var(--scroll-color, #0000))",
+            },
+          },
+          "&::-webkit-scrollbar-thumb:active": {
+            cursor: "grabbing",
           },
         },
         ".sizer": {
