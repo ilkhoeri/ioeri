@@ -4,16 +4,15 @@ import React from "react";
 import { fitures } from "@/routes";
 import { NavLinkItem } from "../navigation/nav-link";
 
-import { twMerge } from "tailwind-merge";
 import { useNavContext } from "@/hooks/use-nav";
+import { twMerge } from "tailwind-merge";
 import { ButtonAside, LinkHome } from "../nav-head/headnav";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/modules/components";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger, Scrollbar } from "@/modules/components";
 
 import type { SingleRoute, NestedRoute } from "@/routes";
 
 import style from "./aside.module.css";
 import Styles from "./aside-styles";
-import Element from "@/components/ui/element";
 
 export function AsideLeft({
   classNames,
@@ -56,11 +55,7 @@ export function AsideLeft({
           </hgroup>
         )}
 
-        <Element
-          el="nav"
-          className={Styles({ style: "nav" })}
-          style={{ "--scroll-color-hover": "hsl(var(--color) / 0.25)", "--scroll-sz": "8px" }}
-        >
+        <Scrollbar el="nav" className={Styles({ style: "nav" })}>
           <NavLinkItem
             href="/started"
             title="Getting Started"
@@ -126,7 +121,7 @@ export function AsideLeft({
                 </CollapsibleContent>
               </Collapsible>
             ))}
-        </Element>
+        </Scrollbar>
       </aside>
 
       <Overlay minQuery={minQuery} open={open} setOpen={setOpen} className={classNames?.overlay} />

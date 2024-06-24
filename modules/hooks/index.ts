@@ -57,6 +57,7 @@ export { useOrientation } from "./use-orientation/use-orientation";
 export { useReload } from "./use-reload/use-reload";
 export { usePWAInstaller } from "./use-pwa-installer/use-pwa-installer";
 export { useElementInfo, useRectInfo } from "./use-element-info/use-element-info";
+export { useKitScrollbar, type UseKitScrollbarType } from "./use-kit-scrollbar/use-kit-scrollbar";
 
 export type { Hotkey, HotkeyItemOptions, KeyboardModifiers } from "./use-hotkeys/parse-hotkey";
 export type { HotkeyItem } from "./use-hotkeys/use-hotkeys";

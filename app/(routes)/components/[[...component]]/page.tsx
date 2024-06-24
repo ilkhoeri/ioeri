@@ -1,7 +1,7 @@
 import { Title } from "@/components/ui/components";
 import { Playground } from "@/components/ui/playground";
 import { CodeCustomizer } from "@/components/ui/code-customizer";
-import { getFileContent } from "@/scripts/get-file-content";
+import { getContent, getFileContent } from "@/scripts/get-file-content";
 import { getRepository } from "@/scripts/get-repository";
 import { capitalizeWords } from "@/modules";
 import { getMdFile } from "@/scripts/get-md-file";
@@ -44,6 +44,10 @@ async function getCss(sourcePath: string[]): Promise<string | null> {
   const path = sourcePath !== undefined ? sourcePath.join("/") : "";
   return getFileContent(`/modules/components/${path}`, `${slug(sourcePath)}.css`);
 }
+async function getSection(sourcePath: string[], sectionId: string): Promise<string | null> {
+  const path = sourcePath !== undefined ? sourcePath.join("/") : "";
+  return getContent(`/modules/components/${path}`, `${slug(sourcePath)}.md`, sectionId);
+}
 
 export default async function Page({ params }: Params) {
   const sourcePath =
@@ -52,7 +56,7 @@ export default async function Page({ params }: Params) {
   const code = await getCode(params.component);
   const reserveCode = code === null ? await getReserveCode(params.component) : null;
 
-  const [css, usage] = await Promise.all([getCss(params.component), getUsage(params.component)]);
+  const [css, usage] = await Promise.all([getCss(params.component), getSection(params.component, "usage")]);
 
   const childrens: { [key: string]: React.JSX.Element | null } = {};
 
