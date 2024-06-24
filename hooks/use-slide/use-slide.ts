@@ -112,50 +112,12 @@ export function useSlide({ threshold = 50, speedThreshold = 5 }: UseSlideType = 
   return {
     scroll,
     setProps,
-    /**
-     * ```js
-     * setOpen(!open);
-     * ```
-     */
     handleOpen,
-    /**
-     * ```js
-     * setOpen(false);
-     * ```
-     */
     handleClose,
-    /**
-     * ```js
-     * // Saat pengguna mulai menyentuh layar, catat posisi sentuhan
-     * setTouchStartY(e.touches[0].clientY);
-     * ```
-     */
     onTouchStart,
-    /**
-     * ```js
-     * // Saat pengguna menggerakkan jari di layar
-     * const touchEndY = e.touches[0].clientY;
-     * const deltaY = touchEndY - touchStartY;
-     * ```
-     */
     onTouchMove,
-    /**
-     * ```ts
-     * const scrollUp = scrollDirection === "up";
-     * ```
-     */
     isScrollUp,
-    /**
-     * ```ts
-     * const scrollDown = scrollDirection === "down";
-     * ```
-     */
     isScrollDown,
-    /**
-     * ```js
-     * [open, ...] = useState(false)
-     * ```
-     */
     open,
     setOpen,
     scrollDirection,

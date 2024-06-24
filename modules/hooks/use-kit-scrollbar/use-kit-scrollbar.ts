@@ -11,6 +11,7 @@ export function useKitScrollbar({ overflow = "y" }: UseKitScrollbarType = {}) {
   const thumbRef = useRef<HTMLElement>(null);
   const [thumbSize, setThumbSize] = useState<number>(0);
   const [thumbPosition, setThumbPosition] = useState<number>(0);
+  const [scrollable, setScrollable] = useState<boolean>(false);
 
   useEffect(() => {
     const Y = overflow === "y";
@@ -26,6 +27,7 @@ export function useKitScrollbar({ overflow = "y" }: UseKitScrollbarType = {}) {
 
         setThumbSize(thumbSize);
         setThumbPosition(thumbPosition);
+        setScrollable(scrollSize > clientSize);
       }
     };
 
@@ -33,13 +35,22 @@ export function useKitScrollbar({ overflow = "y" }: UseKitScrollbarType = {}) {
     if (scrollContent) {
       scrollContent.classList.add("scroll-content");
       scrollContent.addEventListener("scroll", handleScroll);
-      handleScroll(); // Initialize thumb size and position
+      handleScroll();
+    }
+
+    const resizeObserver = new ResizeObserver(() => {
+      handleScroll();
+    });
+
+    if (scrollContent) {
+      resizeObserver.observe(scrollContent);
     }
 
     return () => {
       if (scrollContent) {
         scrollContent.classList.remove("scroll-content");
         scrollContent.removeEventListener("scroll", handleScroll);
+        resizeObserver.unobserve(scrollContent);
       }
     };
   }, [overflow]);
@@ -88,20 +99,24 @@ export function useKitScrollbar({ overflow = "y" }: UseKitScrollbarType = {}) {
       document.addEventListener("mouseup", handleMouseUp);
     };
 
-    thumbElement.classList.add("thumb");
-    thumbElement.setAttribute("data-overflow", overflow);
-    thumbElement.style.setProperty(Y ? "top" : "left", `${thumbPosition}px`);
-    thumbElement.style.setProperty(Y ? "height" : "width", `${thumbSize}px`);
-    thumbElement.addEventListener("mousedown", handleThumbMouseDown);
+    if (scrollable) {
+      thumbElement.classList.add("thumb");
+      thumbElement.setAttribute("data-overflow", overflow);
+      thumbElement.style.setProperty(Y ? "top" : "left", `${thumbPosition}px`);
+      thumbElement.style.setProperty(Y ? "height" : "width", `${thumbSize}px`);
+      thumbElement.addEventListener("mousedown", handleThumbMouseDown);
+    }
 
     return () => {
-      thumbElement.classList.remove("thumb");
-      thumbElement.removeAttribute("data-overflow");
-      thumbElement.style.removeProperty(Y ? "top" : "left");
-      thumbElement.style.removeProperty(Y ? "height" : "width");
-      thumbElement.removeEventListener("mousedown", handleThumbMouseDown);
+      if (scrollable) {
+        thumbElement.classList.remove("thumb");
+        thumbElement.removeAttribute("data-overflow");
+        thumbElement.style.removeProperty(Y ? "top" : "left");
+        thumbElement.style.removeProperty(Y ? "height" : "width");
+        thumbElement.removeEventListener("mousedown", handleThumbMouseDown);
+      }
     };
-  }, [thumbSize, thumbPosition, overflow]);
+  }, [thumbSize, thumbPosition, overflow, scrollable]);
 
-  return { scrollContentRef, thumbRef, thumbSize, thumbPosition, overflow };
+  return { scrollContentRef, thumbRef, thumbSize, thumbPosition, scrollable, overflow };
 }

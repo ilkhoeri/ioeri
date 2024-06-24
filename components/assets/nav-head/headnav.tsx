@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import Element from "@/components/ui/element";
-import { IoeriLogoTextIcon, LineMenuBarIcon } from "@/modules";
+import { DiscordIcon, GithubIcon, IoeriLogoTextIcon, LineMenuBarIcon } from "@/modules";
 import { useHoveredElement } from "@/hooks/use-hovered-element";
 import { useNavContext } from "../../../hooks/use-nav";
 import { twMerge } from "tailwind-merge";
 import { services } from "@/routes";
 
 import style from "../nav-aside/aside.module.css";
+import { NavLinkItem } from "../navigation/nav-link";
 
 export function Headnav() {
   const { minQuery, handleOpen, isHome, open } = useNavContext();
@@ -63,7 +64,23 @@ export function Headnav() {
             />
           )}
         </div>
-        <div />
+
+        <div className="relative flex items-center justify-center gap-4 ml-auto">
+          <NavLinkItem
+            icon={GithubIcon}
+            target="_blank"
+            aria-label="github repository"
+            href="https://github.com/ilkhoeri/ioeri"
+            className="centered transition-colors p-1 rounded-lg border border-muted text-muted-foreground hover:text-color [&_svg]:size-6"
+          />
+          <NavLinkItem
+            icon={DiscordIcon}
+            target="_blank"
+            aria-label="discord community"
+            href="https://discord.gg/Xct5BBPDZ9"
+            className="centered transition-colors p-1 rounded-lg border border-muted text-muted-foreground hover:text-color [&_svg]:size-6"
+          />
+        </div>
       </Element>
     </header>
   );

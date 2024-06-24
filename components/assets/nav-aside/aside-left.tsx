@@ -55,15 +55,16 @@ export function AsideLeft({
           </hgroup>
         )}
 
-        <Scrollbar el="nav" className={Styles({ style: "nav" })}>
+        <Scrollbar el="nav" classNames={{ content: Styles({ style: "nav" }), thumb: "max-md:hidden max-md:sr-only" }}>
           <NavLinkItem
             href="/started"
             title="Getting Started"
             className="w-full flex flex-nowrap flex-row items-center justify-between text-sm select-none z-9 rounded-sm py-1 font-semibold focus-visible:ring-inset focus-visible:ring-offset-[-2px] text-muted-foreground data-[path=active]:text-color"
             {...attr}
           />
+
           {fitures.map((i, index) => (
-            <Collapsible key={index} defaultOpen className="h-auto w-full flex flex-col gap-1">
+            <Collapsible key={index} defaultOpen={false} className="h-auto w-full flex flex-col gap-1">
               <CollapsibleTrigger className={Styles({ style: "trigger" })}>
                 <span className="truncate">{i.title}</span>
               </CollapsibleTrigger>

@@ -9,7 +9,7 @@ const variantTitle = cvx({
     type: {
       masive: "overflow-hidden sticky top-0 -z-9 md:-mt-8 [font-size:clamp(42px,2px+10dvw,80px)]",
       drive: "font-heading mt-12 scroll-m-20 border-b pb-2 text-2xl font-semibold tracking-tight first:mt-0",
-      tick: "mb-3 text-h4 font-bold leading-none font-kanit",
+      tick: "mb-3 size-h4 font-bold leading-none font-kanit",
     },
   },
 });

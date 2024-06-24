@@ -5,6 +5,7 @@ import { Paragraph, Title } from "@/components/ui/components";
 import { InstallCommand } from "@/components/assets/parts/install-command";
 
 import type { Metadata } from "next";
+import React, { Fragment } from "react";
 
 export async function generateMetadata(): Promise<Metadata> {
   const url = process.env.NEXT_PUBLIC_DOMAIN_URL;
@@ -26,11 +27,11 @@ export default async function Page() {
   return (
     <>
       <div className="mx-auto w-full min-w-0">
-        <div className="space-y-2">
+        <div>
           <Title el="h1" type="drive" id="started" className="border-b-0 pb-0">
             Getting Started
           </Title>
-          <Paragraph>Create your project and compactness the required dependencies.</Paragraph>
+          <Paragraph className="mt-2">Create your project and compactness the required dependencies.</Paragraph>
         </div>
 
         <div className="mt-12">
@@ -45,7 +46,7 @@ export default async function Page() {
 
 function A({ href, title }: { href: string; title: string }) {
   return (
-    <Link href={href} className="underline underline-offset-2 decoration-muted hover:decoration-muted-foreground">
+    <Link href={href} className="underline underline-offset-2 decoration-color-muted hover:text-color hover:decoration-color">
       {title}
     </Link>
   );
@@ -58,8 +59,22 @@ function QuickInstallation() {
         <StromIcon />
         Quick Installation
       </Title>
-
+      <Paragraph>
+        You can use npx to install the React library framework. The npx CLI ships with npm. This lets you install
+        packages and run commands in one step. You can use the following command to start creating a new project.
+      </Paragraph>
       <InstallCommand />
+      <div className="flex items-center flex-row my-8 py-6 pl-12 pr-4 isolate [unicode-bidi:isolate] bg-background-box rounded-xl relative before:content-[''] before:absolute before:w-1 before:h-4/5 before:bg-[#202425] before:z-[10] before:left-6">
+        <Paragraph>
+          <span className="font-semibold">Note:</span> npx requires npm version 5.2 or later. If you’ve installed the
+          latest versions of Node and npm, you should also have npx. Otherwise, you should upgrade Node and/or npm.
+        </Paragraph>
+      </div>
+      <Paragraph>
+        Once the installation completes, you can run&nbsp;
+        <code className="py-1 px-2 rounded-sm bg-background-box">http://localhost:3000</code>&nbsp;with your browser to
+        start editing the project and using ioeri modules utility.
+      </Paragraph>
     </>
   );
 }
@@ -69,7 +84,7 @@ function FrameworksCard() {
     <>
       <Title el="h2" type="drive" id="frameworks">
         <BoxIcon />
-        Learn Frameworks
+        Learn
       </Title>
 
       <Paragraph>
@@ -84,24 +99,34 @@ function FrameworksCard() {
         <A title="Remix" href="https://remix.run/docs/" />
         , or&nbsp;
         <A title="Gatsby" href="https://www.gatsbyjs.com/docs/" />
-        &nbsp;framework. On mobile app projects we recommend using&nbsp;
+        &nbsp;framework. On native projects we recommend using&nbsp;
         <A title="Expo" href="https://docs.expo.dev/" />
         &nbsp;framework.
       </Paragraph>
 
-      <div className="grid sm:grid-cols-2 gap-4 mt-8 sm:gap-6">
-        {frameworks.map((i) => (
-          <Link
-            key={i.title}
-            href={i.href}
-            target="_blank"
-            className="flex w-full flex-col items-center rounded-xl border bg-card p-6 text-card-foreground shadow transition-colors hover:bg-muted/50 sm:p-10"
-          >
-            <i.icon className="size-10" />
-            <p className="font-medium mt-2">{i.title}</p>
-          </Link>
-        ))}
-      </div>
+      {frameworks.map((i) => (
+        <Fragment key={i.title}>
+          <Title el="h2" type="drive" id={i.title} className="border-b-0 pb-0 size-h6">
+            {i.title}
+          </Title>
+
+          <Paragraph>{i.description}</Paragraph>
+
+          <div className="grid sm:grid-cols-2 gap-4 mt-8 sm:gap-6">
+            {i.data.map((i) => (
+              <Link
+                key={i.title}
+                href={i.href}
+                target="_blank"
+                className="flex w-full flex-col items-center rounded-xl border bg-card p-6 text-card-foreground shadow transition-colors hover:bg-muted/50 sm:p-10"
+              >
+                <i.icon className="size-10" />
+                <p className="font-medium mt-2">{i.title}</p>
+              </Link>
+            ))}
+          </div>
+        </Fragment>
+      ))}
     </>
   );
 }
@@ -124,16 +149,23 @@ function TypingNotes() {
 
 function StromIcon() {
   return (
-    <Svg width="18" height="23" viewBox="0 0 18 23" fill="#FFF5B1" stroke="#F2C012" className="mr-3 mt-1.5 float-left">
+    <Svg
+      width="18"
+      height="23"
+      viewBox="0 0 18 23"
+      fill="hsl(var(--background))"
+      stroke="#F2C012"
+      className="mr-3 mt-1.5 float-left"
+    >
       <path d="M12.3953 1.65402L1.11071 11.5713L8.35515 13.5124L5.39339 21.3461L16.678 11.4289L9.43357 9.48772L12.3953 1.65402Z" />
     </Svg>
   );
 }
 function BoxIcon() {
   return (
-    <Svg stroke="#F2C012" className="mr-3 mt-1.5 size-[25px] float-left">
+    <Svg stroke="#58c4dc" className="mr-3 mt-1.5 size-[25px] float-left">
       <path
-        fill="#F2C012"
+        fill="#58c4dc"
         d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"
       />
       <polyline stroke="hsl(var(--background))" strokeWidth={3} points="3.29 7 12 12 20.71 7" />

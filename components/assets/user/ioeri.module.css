@@ -3,7 +3,7 @@
   @apply -mt-14 md:-mt-20 xl:-mt-24 relative w-full max-w-full h-dvh min-h-dvh max-h-dvh flex items-center justify-center flex-col after:content-[''] after:w-[100dvw] after:h-1/2 after:bg-gradient-to-t after:from-background after:absolute after:z-[+1] after:bottom-0 after:inset-x-0 after:-mb-[98px] after:mx-0;
 
   & > article {
-    @apply min-h-dvh h-dvh w-full flex items-center justify-center text-h3 font-semibold font-montserrat absolute;
+    @apply min-h-dvh h-dvh w-full flex items-center justify-center size-h3 font-semibold font-montserrat absolute;
   }
 
   & > figure {
@@ -94,7 +94,7 @@
         @apply text-base text-muted-foreground font-semibold;
       }
       & figcaption {
-        @apply text-h3 font-bold leading-normal text-color;
+        @apply size-h3 font-bold leading-normal text-color;
       }
 
       & .portfolio_birth {
@@ -102,10 +102,10 @@
       }
 
       & h4 {
-        @apply text-h6 font-bold text-wrap flex flex-col items-center justify-center text-center;
+        @apply size-h6 font-bold text-wrap flex flex-col items-center justify-center text-center;
 
         & span:nth-child(1) {
-          @apply text-h2;
+          @apply size-h2;
         }
         & span:nth-child(2) {
           @apply bg-clip-text text-transparent bg-gradient-to-r from-purple-800 via-pink-700 to-orange-600;

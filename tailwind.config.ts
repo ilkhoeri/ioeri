@@ -35,56 +35,6 @@ const config = {
       maxWidth: {
         var: "var(--max-w-1, var(--max-w-2, var(--max-w-3, var(--max-w-sub))))",
       },
-      fontSize: {
-        h1: [
-          "clamp(18px, 17px + 4vw, 4rem)",
-          {
-            lineHeight: "1.35",
-          },
-        ],
-        h2: [
-          "clamp(16px, 16px + 3.5vw, 3.5rem)",
-          {
-            lineHeight: "1.25",
-          },
-        ],
-        h3: [
-          "clamp(14px, 14px + 3vw, 3rem)",
-          {
-            lineHeight: "1.2",
-          },
-        ],
-        h4: [
-          "clamp(13px, 12px + 2.75vw, 2rem)",
-          {
-            lineHeight: "1.2",
-          },
-        ],
-        h5: [
-          "clamp(13px, 10px + 2vw, 1.5rem)",
-          {
-            lineHeight: "1.25",
-          },
-        ],
-        h6: [
-          "clamp(13px, 10px + 1vw, 1.25rem)",
-          {
-            lineHeight: "1.35",
-          },
-        ],
-        paragraph: [
-          "clamp(0.925rem, 0.925rem + 1vw, 1rem)",
-          {
-            lineHeight: "1.75rem",
-          },
-        ],
-        span: [
-          "clamp(0.75rem, 0.65rem + 0.65vw, 0.9rem)",
-          {
-            lineHeight: "1.35",
-          },
-        ],
-      },
       borderRadius: {
         "2xl": "calc(var(--radius) + 4px)",
         xl: "calc(var(--radius) + 2px)",
@@ -349,6 +299,38 @@ const config = {
           display: "flex",
           alignItems: "flex-end",
           justifyContent: "center",
+        },
+        ".size-h1": {
+          fontSize: "clamp(18px, 17px + 4vw, 4rem)",
+          lineHeight: "1.35",
+        },
+        ".size-h2": {
+          fontSize: "clamp(16px, 16px + 3.5vw, 3.5rem)",
+          lineHeight: "1.25",
+        },
+        ".size-h3": {
+          fontSize: "clamp(14px, 14px + 3vw, 3rem)",
+          lineHeight: "1.2",
+        },
+        ".size-h4": {
+          fontSize: "clamp(13px, 12px + 2.75vw, 2rem)",
+          lineHeight: "1.2",
+        },
+        ".size-h5": {
+          fontSize: "clamp(13px, 10px + 2vw, 1.5rem)",
+          lineHeight: "1.25",
+        },
+        ".size-h6": {
+          fontSize: "clamp(13px, 10px + 1vw, 1.25rem)",
+          lineHeight: "1.35",
+        },
+        ".size-paragraph": {
+          fontSize: "clamp(0.925rem, 0.925rem + 1vw, 1rem)",
+          lineHeight: "1.75rem",
+        },
+        ".size-span": {
+          fontSize: "clamp(0.75rem, 0.65rem + 0.65vw, 0.9rem)",
+          lineHeight: "1.35",
         },
         ".h-inherit": {
           height: "inherit",

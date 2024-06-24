@@ -80,7 +80,7 @@ export const Title = React.forwardRef<HTMLHeadingElement, HeadingElement>(
           type === "masive" && "overflow-hidden [font-size:clamp(42px,2px+10dvw,80px)]",
           type === "drive" &&
             "font-heading mt-12 scroll-m-20 border-b pb-2 text-2xl font-semibold tracking-tight first:mt-0",
-          type === "tick" && "mb-3 text-h4 font-bold leading-none font-kanit",
+          type === "tick" && "mb-3 size-h4 font-bold leading-none font-kanit",
           className,
         )}
         {...props}
@@ -100,7 +100,7 @@ export const Paragraph = React.forwardRef<HTMLElement, ElementType<HTMLElement>>
       <Component
         ref={ref}
         className={twMerge(
-          !unstyled && "text-paragraph text-muted-foreground white-space-pre-wrap [&:not(:first-child)]:mt-3",
+          !unstyled && "size-paragraph text-muted-foreground white-space-pre-wrap [&:not(:first-child)]:mt-3",
           className,
         )}
         {...props}

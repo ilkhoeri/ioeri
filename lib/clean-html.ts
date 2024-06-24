@@ -1,7 +1,7 @@
 import DOMPurify from "dompurify";
 
 const config = {
-  ADD_TAGS: ["iframe", "use"], // Izinkan elemen <iframe>
+  ADD_TAGS: ["iframe", "use"],
   // ALLOWED_TAGS: ["b", "span"],
   // ALLOWED_ATTR: ["style"],
 };

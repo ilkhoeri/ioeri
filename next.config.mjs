@@ -79,11 +79,11 @@ const Config = withMDX({
   },
   reactStrictMode: true,
   poweredByHeader: false,
+  // cleanDistDir: true,
   // output: "export", // must be exported function "generateStaticParams()", which is required with "output: export" config
   // env: {
   //   NEXT_TELEMETRY_DISABLED: "1",
   // },
-  // cleanDistDir: true,
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx", "css", "scss", "json"],
   experimental: {
     mdxRs: true,

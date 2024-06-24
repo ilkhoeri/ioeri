@@ -6,7 +6,8 @@ import { AnimText, BookOpen2Icon, GithubIcon, Transform, sanitizedToParams } fro
 
 import style from "./ioeri.module.css";
 import mainStyle from "@/styles/ioeri.module.css";
-const TYPING_DEFAULT = ["a team", "an idea", "a hook", "a component", "a spirit"];
+
+const TYPING_DEFAULT = ["a team", "an idea", "a solution", "a spirit"];
 
 const links = [
   {

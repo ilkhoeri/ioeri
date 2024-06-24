@@ -3,7 +3,7 @@ import { twMerge } from "tailwind-merge";
 import { cvx, type VariantsType } from "@/modules";
 
 const headingVariants = cvx({
-  variants: { size: { h1: "text-h1", h2: "text-h2", h3: "text-h3", h4: "text-h4", h5: "text-h5", h6: "text-h6" } },
+  variants: { size: { h1: "size-h1", h2: "size-h2", h3: "size-h3", h4: "size-h4", h5: "size-h5", h6: "size-h6" } },
 });
 
 type HeadingList = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";

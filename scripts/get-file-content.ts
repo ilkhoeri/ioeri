@@ -25,37 +25,6 @@ async function getCode(sourcePath: string) {
 }
  */
 
-export async function getContentFile(basePath: string, filePath: string, id: string): Promise<string | null> {
-  try {
-    const fullPath = path.join(process.cwd(), basePath, filePath);
-    const fileStream = fs.createReadStream(fullPath, "utf-8");
-
-    let content = "";
-    let capturing = false;
-
-    for await (const chunk of fileStream) {
-      const lines = chunk.split("\n");
-      for (const line of lines) {
-        if (line.trim() === `#${id}`) {
-          capturing = true;
-        } else if (line.startsWith("#") && capturing) {
-          // If another section starts, stop capturing
-          capturing = false;
-        }
-
-        if (capturing) {
-          content += line + "\n";
-        }
-      }
-    }
-
-    return content.trim() ? content : null;
-  } catch (error) {
-    return null;
-  }
-}
-
-
 export async function getContent(basePath: string, filePath: string, sectionId?: string): Promise<string | null> {
   try {
     const fullPath = path.join(process.cwd(), basePath, filePath);
