@@ -1,7 +1,9 @@
-export * from "./button-link";
 export * from "./animation";
 export * from "./spotlight";
 export * from "./loader";
+
+export { LinkButton, variantLinkButton } from "./button-link/button-link";
+export type { ButtonType, DivType, LinkType, LinkButtonProps } from "./button-link/button-link";
 
 export { HighlightText } from "./highlight-text";
 
