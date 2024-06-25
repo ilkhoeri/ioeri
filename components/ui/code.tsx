@@ -14,7 +14,7 @@ export async function Code({ code }: { code: string }) {
     <div data-rehype-pretty-code-fragment="">
       <pre className="p-4 overflow-x-auto rounded-lg scrollbar" data-language="tsx" data-theme="default">
         <code
-          className="relative white-space-pre-wrap [&_*]:white-space-pre-wrap w-max rounded bg-muted font-mono size-paragraph"
+          className="relative white-space-pre-wrap [&_*]:white-space-pre-wrap w-max rounded bg-muted font-mono text-paragraph"
           data-language="tsx"
           data-theme="github-dark-dimmed github-light"
           dangerouslySetInnerHTML={{

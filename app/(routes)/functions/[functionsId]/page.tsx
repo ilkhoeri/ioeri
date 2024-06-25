@@ -69,7 +69,6 @@ export default async function Page({ params }: Params) {
   return (
     <>
       <Title
-        type="drive"
         title={title || kebabToCamelCase(params.functionsId)}
         className={title ? "mt-0" : "mt-0 mb-12"}
       />

@@ -15,5 +15,5 @@ export function cnx(...inputs: ClassValue[]): string {
     }
   });
 
-  return combinedClassNames.join(" ");
+  return combinedClassNames.filter(Boolean).join(" ");
 }

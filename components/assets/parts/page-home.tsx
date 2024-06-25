@@ -14,7 +14,7 @@ export function PageHome() {
               <use href="/images/icons.svg#stars" />
             </svg>
 
-            <h2 className="mt-4 mb-2 size-h6 font-bold text-color">
+            <h2 className="mt-4 mb-2 text-h6 font-bold text-color">
               A community of web and mobile applications developers based on React.js
             </h2>
             <p className="text-muted-foreground text-xs md:text-sm 2xl:text-base">
@@ -46,7 +46,7 @@ function FeaturesList({
         </svg>
 
         <div className="space-y-1">
-          {i?.title && <h5 className="size-h6 font-semibold text-color transition">{i.title}</h5>}
+          {i?.title && <h5 className="text-h6 font-semibold text-color transition">{i.title}</h5>}
           {i?.notes && <p className="text-muted-foreground text-xs md:text-sm 2xl:text-base">{i.notes}</p>}
         </div>
         {i?.slug && (

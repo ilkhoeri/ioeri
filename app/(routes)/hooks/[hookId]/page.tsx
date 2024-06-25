@@ -59,7 +59,7 @@ export default async function Page({ params }: Params) {
 
   return (
     <>
-      <Title type="drive" title={kebabToCamelCase(params.hookId)} className="mt-0 mb-12" />
+      <Title title={kebabToCamelCase(params.hookId)} className="mt-0 mb-12" />
       <Playground defaultState="code" childrens={childrens} linkCode={getRepository("hooks", params.hookId, "ts")} />
     </>
   );

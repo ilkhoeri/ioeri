@@ -1,6 +1,8 @@
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { twMerge } from "tailwind-merge";
+import { cn } from "@/lib/utils";
+import { VariantsType, cvx } from "@/modules";
 
 type ElementType<T> = {
   el?: React.ElementType;
@@ -65,26 +67,35 @@ export const Container = React.forwardRef<HTMLElement, ContainerProps>(
 );
 Container.displayName = "Container";
 
-interface HeadingElement extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement> {
-  el?: React.ElementType;
-  type?: "masive" | "drive" | "tick";
+const variantHeading = cvx({
+  assign: "scroll-m-20 tracking-tight first:mt-0",
+  variants: {
+    variant: {
+      title: "border-b mt-12 font-bold pb-2",
+      section: "border-0 mt-8 font-semibold pb-0",
+      article: "mb-4 font-medium",
+    },
+    size: { h1: "text-h1", h2: "text-h2", h3: "text-h3", h4: "text-h4", h5: "text-h5", h6: "text-h6" },
+  },
+  defaultVariants: {
+    variant: "title",
+    size: "h3",
+  },
+});
+type HeadingList = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+interface HeadingElement
+  extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement>,
+    VariantsType<typeof variantHeading> {
+  el?: HeadingList;
+  unstyled?: boolean;
 }
 export const Title = React.forwardRef<HTMLHeadingElement, HeadingElement>(
-  ({ el = "h1", children, title, type = "masive", className, ...props }, ref) => {
-    let Component: ComponentType<HTMLElement> = el as ComponentType<HTMLElement>;
+  ({ el = "h1", children, title, unstyled, className, variant, size, ...props }, ref) => {
+    let Component: React.ElementType = el;
+    
 
     return (
-      <Component
-        ref={ref}
-        className={twMerge(
-          type === "masive" && "overflow-hidden [font-size:clamp(42px,2px+10dvw,80px)]",
-          type === "drive" &&
-            "font-heading mt-12 scroll-m-20 border-b pb-2 text-2xl font-semibold tracking-tight first:mt-0",
-          type === "tick" && "mb-3 size-h4 font-bold leading-none font-kanit",
-          className,
-        )}
-        {...props}
-      >
+      <Component ref={ref} className={cn(!unstyled && variantHeading({ variant, size }), className)} {...props}>
         {children || title}
       </Component>
     );
@@ -92,22 +103,26 @@ export const Title = React.forwardRef<HTMLHeadingElement, HeadingElement>(
 );
 Title.displayName = "Title";
 
-export const Paragraph = React.forwardRef<HTMLElement, ElementType<HTMLElement>>(
-  ({ className, el = "p", unstyled = false, ...props }, ref) => {
-    let Component: ComponentType<HTMLElement> = el as ComponentType<HTMLElement>;
-
-    return (
-      <Component
-        ref={ref}
-        className={twMerge(
-          !unstyled && "size-paragraph text-muted-foreground white-space-pre-wrap [&:not(:first-child)]:mt-3",
-          className,
-        )}
-        {...props}
-      />
-    );
+const variantParagraph = cvx({
+  assign: "text-paragraph white-space-pre-wrap [&:not(:first-child)]:mt-3",
+  variants: {
+    variant: {
+      default: "text-color",
+      muted: "text-muted-foreground",
+    },
   },
-);
+  defaultVariants: {
+    variant: "muted",
+  },
+});
+export const Paragraph = React.forwardRef<
+  HTMLElement,
+  ElementType<HTMLElement> & VariantsType<typeof variantParagraph>
+>(({ className, el = "p", unstyled = false, variant, ...props }, ref) => {
+  let Component: ComponentType<HTMLElement> = el as ComponentType<HTMLElement>;
+
+  return <Component ref={ref} className={twMerge(!unstyled && variantParagraph({ variant }), className)} {...props} />;
+});
 Paragraph.displayName = "Paragraph";
 
 /**

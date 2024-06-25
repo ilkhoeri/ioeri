@@ -28,10 +28,10 @@ export default async function Page() {
     <>
       <div className="mx-auto w-full min-w-0">
         <div>
-          <Title el="h1" type="drive" id="started" className="border-b-0 pb-0">
+          <Title el="h1" id="started" className="border-b-0 pb-0">
             Getting Started
           </Title>
-          <Paragraph className="mt-2">Create your project and compactness the required dependencies.</Paragraph>
+          <Paragraph className="mt-2 text-color">Create your project and compactness the required dependencies.</Paragraph>
         </div>
 
         <div className="mt-12">
@@ -46,7 +46,10 @@ export default async function Page() {
 
 function A({ href, title }: { href: string; title: string }) {
   return (
-    <Link href={href} className="underline underline-offset-2 decoration-color-muted hover:text-color hover:decoration-color">
+    <Link
+      href={href}
+      className="underline underline-offset-2 decoration-color-muted hover:text-color hover:decoration-color"
+    >
       {title}
     </Link>
   );
@@ -55,7 +58,7 @@ function A({ href, title }: { href: string; title: string }) {
 function QuickInstallation() {
   return (
     <>
-      <Title el="h2" type="drive" id="installation">
+      <Title el="h2" id="installation">
         <StromIcon />
         Quick Installation
       </Title>
@@ -82,7 +85,7 @@ function QuickInstallation() {
 function FrameworksCard() {
   return (
     <>
-      <Title el="h2" type="drive" id="frameworks">
+      <Title el="h2" id="frameworks">
         <BoxIcon />
         Learn
       </Title>
@@ -106,13 +109,13 @@ function FrameworksCard() {
 
       {frameworks.map((i) => (
         <Fragment key={i.title}>
-          <Title el="h2" type="drive" id={i.title} className="border-b-0 pb-0 size-h6">
+          <Title el="h3" id={i.title} size="h4" variant="section">
             {i.title}
           </Title>
 
           <Paragraph>{i.description}</Paragraph>
 
-          <div className="grid sm:grid-cols-2 gap-4 mt-8 sm:gap-6">
+          <div className="grid sm:grid-cols-2 gap-4 mt-5 sm:gap-6">
             {i.data.map((i) => (
               <Link
                 key={i.title}
@@ -134,7 +137,7 @@ function FrameworksCard() {
 function TypingNotes() {
   return (
     <div className="mt-12">
-      <Title el="h2" type="drive" id="typescript">
+      <Title el="h2" id="typescript">
         <TypingIcon />
         TypeScript
       </Title>

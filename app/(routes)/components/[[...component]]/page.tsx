@@ -73,12 +73,12 @@ export default async function Page({ params }: Params) {
   }
 
   if (!params.component) {
-    return <Title type="tick" title={String(sourcePath)} className="mt-16 mx-auto" />;
+    return <Title title={String(sourcePath)} className="mt-16 mx-auto" />;
   }
 
   return (
     <>
-      <Title type="drive" title={String(sourcePath)} className="mt-0 mb-12" />
+      <Title title={String(sourcePath)} className="mt-0 mb-12" />
       <Playground
         defaultState="code"
         childrens={childrens}

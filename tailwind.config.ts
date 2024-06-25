@@ -300,35 +300,35 @@ const config = {
           alignItems: "flex-end",
           justifyContent: "center",
         },
-        ".size-h1": {
-          fontSize: "clamp(18px, 17px + 4vw, 4rem)",
-          lineHeight: "1.35",
+        ".text-h1": {
+          fontSize: "clamp(20px, 0.75rem + 4vw, 2.25rem)",
+          lineHeight: "2.5rem",
         },
-        ".size-h2": {
-          fontSize: "clamp(16px, 16px + 3.5vw, 3.5rem)",
-          lineHeight: "1.25",
+        ".text-h2": {
+          fontSize: "clamp(18px, 11px + 3.5vw, 1.875rem)",
+          lineHeight: "2.25rem",
         },
-        ".size-h3": {
-          fontSize: "clamp(14px, 14px + 3vw, 3rem)",
-          lineHeight: "1.2",
+        ".text-h3": {
+          fontSize: "clamp(17px, 14px + 3vw, 1.5rem)",
+          lineHeight: "2rem",
         },
-        ".size-h4": {
-          fontSize: "clamp(13px, 12px + 2.75vw, 2rem)",
-          lineHeight: "1.2",
+        ".text-h4": {
+          fontSize: "clamp(1rem, 0.75rem + 2vw, 1.35rem)",
+          lineHeight: "1.75rem",
         },
-        ".size-h5": {
-          fontSize: "clamp(13px, 10px + 2vw, 1.5rem)",
-          lineHeight: "1.25",
+        ".text-h5": {
+          fontSize: "clamp(1rem, 0.85rem + 2vw, 1.3rem)",
+          lineHeight: "1.5",
         },
-        ".size-h6": {
-          fontSize: "clamp(13px, 10px + 1vw, 1.25rem)",
-          lineHeight: "1.35",
+        ".text-h6": {
+          fontSize: "clamp(1rem, 0.75rem + 1vw, 1.25rem)",
+          lineHeight: "1.5",
         },
-        ".size-paragraph": {
+        ".text-paragraph": {
           fontSize: "clamp(0.925rem, 0.925rem + 1vw, 1rem)",
           lineHeight: "1.75rem",
         },
-        ".size-span": {
+        ".text-span": {
           fontSize: "clamp(0.75rem, 0.65rem + 0.65vw, 0.9rem)",
           lineHeight: "1.35",
         },
