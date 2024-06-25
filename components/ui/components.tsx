@@ -67,35 +67,30 @@ export const Container = React.forwardRef<HTMLElement, ContainerProps>(
 );
 Container.displayName = "Container";
 
-const variantHeading = cvx({
-  assign: "scroll-m-20 tracking-tight first:mt-0",
+const variantH = cvx({
+  assign: "scroll-m-20 first:mt-0",
   variants: {
     variant: {
-      title: "border-b mt-12 font-bold pb-2",
-      section: "border-0 mt-8 font-semibold pb-0",
+      title: "border-b mt-12 font-bold tracking-normal pb-2",
+      section: "border-0 mt-8 font-semibold tracking-tight pb-0",
       article: "mb-4 font-medium",
     },
     size: { h1: "text-h1", h2: "text-h2", h3: "text-h3", h4: "text-h4", h5: "text-h5", h6: "text-h6" },
   },
-  defaultVariants: {
-    variant: "title",
-    size: "h3",
-  },
+  defaultVariants: { variant: "title", size: "h3" },
 });
 type HeadingList = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 interface HeadingElement
   extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement>,
-    VariantsType<typeof variantHeading> {
+    VariantsType<typeof variantH> {
   el?: HeadingList;
   unstyled?: boolean;
 }
 export const Title = React.forwardRef<HTMLHeadingElement, HeadingElement>(
   ({ el = "h1", children, title, unstyled, className, variant, size, ...props }, ref) => {
     let Component: React.ElementType = el;
-    
-
     return (
-      <Component ref={ref} className={cn(!unstyled && variantHeading({ variant, size }), className)} {...props}>
+      <Component ref={ref} className={cn(!unstyled && variantH({ variant, size }), className)} {...props}>
         {children || title}
       </Component>
     );
@@ -103,26 +98,23 @@ export const Title = React.forwardRef<HTMLHeadingElement, HeadingElement>(
 );
 Title.displayName = "Title";
 
-const variantParagraph = cvx({
+const variantP = cvx({
   assign: "text-paragraph white-space-pre-wrap [&:not(:first-child)]:mt-3",
   variants: {
-    variant: {
-      default: "text-color",
+    color: {
+      color: "text-color",
       muted: "text-muted-foreground",
     },
   },
-  defaultVariants: {
-    variant: "muted",
-  },
+  defaultVariants: { color: "muted" },
 });
-export const Paragraph = React.forwardRef<
-  HTMLElement,
-  ElementType<HTMLElement> & VariantsType<typeof variantParagraph>
->(({ className, el = "p", unstyled = false, variant, ...props }, ref) => {
-  let Component: ComponentType<HTMLElement> = el as ComponentType<HTMLElement>;
+export const Paragraph = React.forwardRef<HTMLElement, ElementType<HTMLElement> & VariantsType<typeof variantP>>(
+  ({ className, el = "p", unstyled = false, color, ...props }, ref) => {
+    let Component: ComponentType<HTMLElement> = el as ComponentType<HTMLElement>;
 
-  return <Component ref={ref} className={twMerge(!unstyled && variantParagraph({ variant }), className)} {...props} />;
-});
+    return <Component ref={ref} className={twMerge(!unstyled && variantP({ color }), className)} {...props} />;
+  },
+);
 Paragraph.displayName = "Paragraph";
 
 /**

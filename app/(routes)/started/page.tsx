@@ -62,10 +62,14 @@ function QuickInstallation() {
         <StromIcon />
         Quick Installation
       </Title>
-      <Paragraph>
-        You can use npx to install the React library framework. The npx CLI ships with npm. This lets you install
-        packages and run commands in one step. You can use the following command to start creating a new project.
+
+      <Paragraph color="color">
+        You can use npx CLI to install the React library framework. The npx ships with npm.
       </Paragraph>
+      <Paragraph color="color">
+        This lets you install packages and run commands in one step. You can use the following command to start creating a new project.
+      </Paragraph>
+
       <InstallCommand />
       <div className="flex items-center flex-row my-8 py-6 pl-12 pr-4 isolate [unicode-bidi:isolate] bg-background-box rounded-xl relative before:content-[''] before:absolute before:w-1 before:h-4/5 before:bg-[#202425] before:z-[10] before:left-6">
         <Paragraph>
@@ -90,12 +94,12 @@ function FrameworksCard() {
         Learn
       </Title>
 
-      <Paragraph>
+      <Paragraph color="color">
         This project is based on the&nbsp;
         <A title="React.js" href="https://react.dev/learn/" />
         &nbsp;library.
       </Paragraph>
-      <Paragraph>
+      <Paragraph color="color">
         On web projects we recommend using&nbsp;
         <A title="Next.js" href="https://nextjs.org/" />
         , or&nbsp;
@@ -142,7 +146,7 @@ function TypingNotes() {
         TypeScript
       </Title>
 
-      <Paragraph>
+      <Paragraph color="color">
         This project and the components are written in TypeScript. We recommend using TypeScript for your project as
         well.
       </Paragraph>
