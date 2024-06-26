@@ -10,7 +10,7 @@ import remarkGfm from "remark-gfm";
 import createMDX from "@next/mdx";
 import rehypeSlug from "rehype-slug";
 import rehypePrettyCode from "rehype-pretty-code";
-import moonlightTheme from "./lib/moonlight-ii.json" with { type: "json" };
+import moonlightTheme from "./library/utils/moonlight-ii.json" with { type: "json" };
 
 /** @type {import('rehype-pretty-code').Options} */
 const options = {

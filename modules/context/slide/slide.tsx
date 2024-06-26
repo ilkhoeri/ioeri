@@ -1,6 +1,6 @@
 "use client";
 
-import { ScrollDirectionType, UseSlideType, useSlide } from "@/hooks/use-slide/use-slide";
+import { ScrollDirectionType, UseSlideType, useSlide } from "@/library/hooks/use-slide/use-slide";
 import { createContext, useContext } from "react";
 
 export type DispatchUseSlide = {

@@ -736,6 +736,13 @@ hr {
   }
 }
 
+.a_blank {
+  @apply underline underline-offset-2 decoration-color-muted hover:text-color hover:decoration-color;
+}
+.block_code {
+  @apply py-0.5 px-1.5 rounded-sm bg-background-box [font-size:95%];
+}
+
 .indicator_::before {
   position: absolute;
   content: var(--indicator-content, "");

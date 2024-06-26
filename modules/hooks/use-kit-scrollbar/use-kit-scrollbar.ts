@@ -1,6 +1,6 @@
 import { useRef, useEffect, useState } from "react";
 
-import "./kit-scrollbar.css";
+import "./use-kit-scrollbar.css";
 
 export type UseKitScrollbarType = {
   overflow?: "y" | "x";

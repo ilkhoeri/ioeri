@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useHasScrollbar, attributeState, removeBodyProperty, setBodyProperty } from "@/modules";
 
-import "./image-popup.css";
+import "./use-image-popup.css";
 
 interface UseImagePopupProps {
   selectors?: React.ElementType | (string & {});

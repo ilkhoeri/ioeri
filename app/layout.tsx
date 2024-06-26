@@ -1,15 +1,16 @@
-import { inter, kanit, montserrat, robotoMono } from "@/components/assets/provider/font-provider";
+import { AppProvider } from "@/library/context/app-context";
+import { inter, kanit, montserrat, robotoMono } from "@/library/assets/provider/font-provider";
 
 import type { Metadata } from "next";
 
 // import { TagAttributeScript } from "@/components/assets/scripts/tag-attribute-script";
-import { ThemeProvider } from "@/components/assets/provider/theme-provider";
-import { ThemeStateHidden } from "@/components/assets/theme/theme-state-hidden";
-import { ScrollToggle } from "@/components/ui/toggle";
-import { NavProvider } from "@/hooks/use-nav";
+import { ThemeProvider } from "@/library/assets/provider/theme-provider";
+import { ThemeStateHidden } from "@/library/assets/theme/theme-state-hidden";
+import { ScrollToggle } from "@/library/components/toggle";
+import { NavProvider } from "@/library/hooks/use-nav";
 
-import { Headnav } from "@/components/assets/nav-head/headnav";
-import { FootNav } from "@/components/assets/nav-foot/footnav";
+import { Headnav } from "@/library/assets/nav-head/headnav";
+import { FootNav } from "@/library/assets/nav-foot/footnav";
 
 import "./globals.css";
 import "./themeid-default.css";
@@ -17,7 +18,7 @@ import "./themeid-deulysiea.css";
 import "./themeid-lyona.css";
 import "./themeid-protanopia.css";
 
-import "../styles/mdx.css";
+import "../library/styles/mdx.css";
 
 export const metadata: Metadata = {
   title: {
@@ -174,34 +175,36 @@ export default async function RootLayout({
     ].join(" "),
   };
   return (
-    <html
-      lang="en"
-      suppressHydrationWarning
-      data-fontid="inter"
-      data-themeid-light="default"
-      data-themeid-dark="default"
-      data-theme="default"
-    >
-      <head>
-        <link rel="icon" sizes="any" href="/favicon.ico" />
-        <link rel="shortcut icon" href="/favicon.ico" />
-      </head>
-      <body {...attrBody}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <NavProvider>
-            <Headnav />
+    <AppProvider>
+      <html
+        lang="en"
+        suppressHydrationWarning
+        data-fontid="inter"
+        data-themeid-light="default"
+        data-themeid-dark="default"
+        data-theme="default"
+      >
+        <head>
+          <link rel="icon" sizes="any" href="/favicon.ico" />
+          <link rel="shortcut icon" href="/favicon.ico" />
+        </head>
+        <body {...attrBody}>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+            <NavProvider>
+              <Headnav />
 
-            {children}
+              {children}
 
-            <FootNav />
-          </NavProvider>
-          <ThemeStateHidden />
+              <FootNav />
+            </NavProvider>
+            <ThemeStateHidden />
 
-          <ScrollToggle />
-        </ThemeProvider>
+            <ScrollToggle />
+          </ThemeProvider>
 
-        {/* <TagAttributeScript /> */}
-      </body>
-    </html>
+          {/* <TagAttributeScript /> */}
+        </body>
+      </html>
+    </AppProvider>
   );
 }

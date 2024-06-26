@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { getNestedRoutes, getRoutes } from "@/scripts/get-routes";
-import { AsideLeft } from "@/components/assets/nav-aside/aside-left";
-import { Main } from "@/components/ui/components";
+import { getNestedRoutes, getRoutes } from "@/library/scripts/get-routes";
+import { AsideLeft } from "@/library/assets/nav-aside/aside-left";
+import { Main } from "@/library/components/components";
 import { IoeriIcon } from "@/modules";
 
-import type { NestedRoute, SingleRoute } from "@/routes";
+import type { NestedRoute, SingleRoute } from "@/library/routes";
 
 export const dynamic = "force-dynamic";
 export const dynamicParams = true;
@@ -19,18 +19,17 @@ async function loadNestedRoutes(sourcePath: string): Promise<NestedRoute[]> {
 
 export default async function NotFound() {
   const nested = await loadNestedRoutes("components");
-  const functions = await loadRoutes("functions");
+  const utility = await loadRoutes("utility");
   const hooks = await loadRoutes("hooks");
 
   return (
     <Main className="pb-0">
-      <AsideLeft routes={[...functions, ...hooks]} nestedRoutes={nested} />
+      <AsideLeft topRoutes={[...utility]} routes={[...hooks]} nestedRoutes={nested} />
 
       <article className="h-dvh w-full max-w-full overflow-hidden flex flex-wrap items-start justify-center p-4 m-0 relative pt-20 after:content-[''] after:w-full after:h-[262px] after:absolute after:bottom-0 after:bg-gradient-to-t after:from-background">
-        <figure className="absolute w-full h-full -top-40 bg-[url('/images/grid.svg')] bg-center bg-repeat z-0" />
         <h1
           role="presentation"
-          className="absolute flex flex-col flex-nowrap min-w-max text-left w-full h-full text-[224px] sm:text-[288px] md:text-[350px] lg:text-[425px] transition1s pointer-events-none leading-[0.727] font-[900] text-[#ebebeb] dark:text-[#2e2e2e] z-[-1] tracking-[-26px] top-4 -left-7"
+          className="absolute flex flex-col flex-nowrap min-w-max text-left w-full h-full text-[clamp(52px,47px_+_25vw,30rem)] pointer-events-none leading-[0.727] font-[900] text-[#ebebeb] dark:text-[#2e2e2e] z-[-1] tracking-[-26px] left-0"
         >
           <span>Not -</span>
           <span>Found</span>

@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/modules/components";
 import { AlignValuesType, SideValuesType } from "@/modules";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/modules/components";
 
 function CollapsibleExample() {
   const [side, setSide] = useState<SideValuesType>("bottom");

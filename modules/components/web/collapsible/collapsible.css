@@ -1,17 +1,15 @@
 [data-origin="root"] [data-origin="arrow-trigger"] {
   position: relative;
-  margin-left: var(--ml-arrow-trigger, auto);
-  transition: transform 180ms cubic-bezier(0.4, 0, 0.2, 1);
+  margin-left: var(--ml-icon, auto);
   color: hsl(var(--color) / 0.7);
-  width: var(--sz-icon-trigger-collapse, var(--sz-icon-trigger-collapse-pop));
-  min-width: var(--sz-icon-trigger-collapse, var(--sz-icon-trigger-collapse-pop));
-  max-width: var(--sz-icon-trigger-collapse, var(--sz-icon-trigger-collapse-pop));
-  height: var(--sz-icon-trigger-collapse, var(--sz-icon-trigger-collapse-pop));
-  min-height: var(--sz-icon-trigger-collapse, var(--sz-icon-trigger-collapse-pop));
-  max-height: var(--sz-icon-trigger-collapse, var(--sz-icon-trigger-collapse-pop));
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x))
-    skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-  --sz-icon-trigger-collapse-pop: 20px;
+  width: var(--sz-icon, 20px);
+  min-width: var(--sz-icon, 20px);
+  max-width: var(--sz-icon, 20px);
+  height: var(--sz-icon, 20px);
+  min-height: var(--sz-icon, 20px);
+  max-height: var(--sz-icon, 20px);
+  transform: rotate(var(--tw-rotate));
+  transition: transform 180ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 [data-origin="root"][data-side="top"] [data-origin="arrow-trigger"] {
