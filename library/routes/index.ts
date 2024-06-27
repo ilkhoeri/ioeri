@@ -1,5 +1,5 @@
-import { IconType } from "@/modules/components/web/svg/icons/utils";
-import { AreaCodeIcon, ExpoIcon, ReactIcon, NextjsIcon, GatsbyIcon, RemixIcon, ViteIcon } from "@/modules";
+import { IconType } from "@/modules/components/web/svg/svg";
+import { ExpoIcon, ReactIcon, NextjsIcon, GatsbyIcon, RemixIcon, ViteIcon } from "@/modules";
 
 export type InnerRoutes = { title: string; href: string };
 export type SingleRoute = { title: string; data: InnerRoutes[] };
@@ -95,39 +95,6 @@ export const fitures = [
       {
         title: "Markdown Text",
         href: "/examples/playground/markdown-text",
-      },
-    ],
-  },
-];
-export const nested = [
-  {
-    title: "Components",
-    data: [
-      {
-        title: "Web",
-        data: [
-          {
-            title: "Collapsible",
-            href: "/components/web/collapsible",
-          },
-          {
-            title: "Element",
-            href: "/components/web/element",
-          },
-        ],
-      },
-      {
-        title: "Mobile",
-        data: [
-          {
-            title: "Popover",
-            href: "/components/mobile/popover",
-          },
-          {
-            title: "Slider",
-            href: "/components/mobile/slider",
-          },
-        ],
       },
     ],
   },

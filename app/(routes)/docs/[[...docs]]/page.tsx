@@ -1,12 +1,10 @@
 import Docs from "./docs";
-
 import { Tabs } from "@/library/components/tabs";
 import { retitled, sourceFiles } from "@/library/utils";
 import { Playground } from "@/library/components/playground";
 import { CodeCustomizer } from "@/library/components/code-customizer";
 import { Container, Paragraph, Title } from "@/library/components/components";
 import { getMdx, getContExt, type ContExt } from "@/library/scripts/get-file-content";
-
 import { sanitizedToParams } from "@/modules";
 
 import type { Metadata } from "next";
