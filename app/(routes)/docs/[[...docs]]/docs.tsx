@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import Svg from "@/modules/components/web/svg/svg";
+import { Svg } from "@/modules/components/web";
 import { frameworks } from "@/library/routes";
 import { sanitizedToParams } from "@/modules";
 import { Container, Paragraph, Title } from "@/library/components/components";
