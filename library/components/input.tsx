@@ -1,10 +1,9 @@
 "use client";
 
 import * as React from "react";
-import { attr, cvx } from "@/modules";
+import { attr } from "@/modules";
 import { twMerge } from "tailwind-merge";
-
-type Variants = "inputBase" | "inputPassword" | "inputPin";
+import { cvx } from "@/modules/utility/cvx/cvx";
 
 const inputVariants = cvx({
   variants: {

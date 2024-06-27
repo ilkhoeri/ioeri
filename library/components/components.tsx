@@ -1,9 +1,9 @@
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
-import { twMerge } from "tailwind-merge";
 import { cn } from "@/library/utils";
-import { VariantsType, cvx } from "@/modules";
 import { ChildWrapper } from "@/library/context/app-context";
+import { cvx, type VariantsType } from "@/modules/utility/cvx/cvx";
+import { twMerge } from "tailwind-merge";
 
 type ElementType<T> = {
   el?: React.ElementType;

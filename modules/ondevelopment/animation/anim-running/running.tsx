@@ -2,7 +2,7 @@
 import * as React from "react";
 
 import { useRunning } from "./utils-running";
-import { cnx } from "@/modules";
+import { cnx } from "@/modules/utility/cnx/cnx";
 
 import type { CSSProperties } from "../../../types/shared";
 import type { RunningType } from "./types-running";

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Element from "@/library/components/element";
+import Element from "@/modules/components/web/element/element";
 import { ThemeToggle } from "@/library/assets/theme/theme-toggle";
 import { twMerge } from "tailwind-merge";
 

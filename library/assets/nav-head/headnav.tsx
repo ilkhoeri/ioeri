@@ -1,15 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import Element from "@/library/components/element";
+import Element from "@/modules/components/web/element/element";
 import { DiscordIcon, GithubIcon, IoeriLogoTextIcon, LineMenuBarIcon } from "@/modules";
 import { useHoveredElement } from "@/library/hooks/use-hovered-element";
 import { useNavContext } from "../../hooks/use-nav";
-import { twMerge } from "tailwind-merge";
+import { NavLinkItem } from "../navigation/nav-link";
 import { services } from "@/library/routes";
+import { twMerge } from "tailwind-merge";
 
 import style from "../nav-aside/aside.module.css";
-import { NavLinkItem } from "../navigation/nav-link";
 
 export function Headnav() {
   const { minQuery, handleOpen, isHome, open } = useNavContext();

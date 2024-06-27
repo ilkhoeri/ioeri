@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
-import { cvx, type VariantsType } from "@/modules";
+import { cvx, type VariantsType } from "@/modules/utility/cvx/cvx";
 
 import { CSSProperties, Spinner } from "@/modules";
 import { twMerge } from "tailwind-merge";

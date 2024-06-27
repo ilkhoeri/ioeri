@@ -1,4 +1,5 @@
-import { CSSProperties, cnx } from "@/modules";
+import { CSSProperties } from "@/modules";
+import { cnx } from "@/modules/utility/cnx/cnx";
 import type { Commons, NamedColor } from "@/modules/types/shared";
 
 import s from "./loader.module.css";

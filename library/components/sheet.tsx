@@ -3,7 +3,8 @@
 import * as React from "react";
 import * as SheetPrimitive from "@radix-ui/react-dialog";
 
-import { Svg, cvx, type VariantsType } from "@/modules";
+import { Svg } from "@/modules/icons/utils";
+import { cvx, type VariantsType } from "@/modules/utility/cvx/cvx";
 import { twMerge } from "tailwind-merge";
 
 export type SheetTrees = "overlay" | "content" | "close" | "header" | "title" | "footer" | "description";

@@ -1,4 +1,5 @@
-import { capitalizeWords, cnx, type ClassValue } from "@/modules";
+import { cnx, type ClassValue } from "@/modules/utility/cnx/cnx";
+import { capitalizeWords } from "@/modules";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {

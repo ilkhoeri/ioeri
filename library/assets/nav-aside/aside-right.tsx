@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import Element from "@/library/components/element";
+import Element from "@/modules/components/web/element/element";
 import { useAppContext } from "@/library/context/app-context";
 import { capitalizeWords } from "@/modules";
 import { cn } from "@/library/utils";

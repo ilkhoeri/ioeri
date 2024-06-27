@@ -1,4 +1,4 @@
-import { cnx } from "@/modules";
+import { cnx } from "@/modules/utility/cnx/cnx";
 
 import s from "./loader.module.css";
 

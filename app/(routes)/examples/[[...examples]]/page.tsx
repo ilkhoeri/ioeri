@@ -88,11 +88,10 @@ async function loadMarkdownTextExample({ params }: Params) {
   );
 }
 
-async function loadPolymorphicSlotExample() {
+async function loadPolymorphicSlotExample({ params }: Params) {
   const [codePoly, usagePoly] = await Promise.all([
-    // getMdFile("convert", "library/components/element", [".tsx", ".ts"]),
-    fs.readFile(path.join(process.cwd(), "/library/components/element.tsx"), "utf-8"),
-    fs.readFile(path.join(process.cwd(), "/library/components/element-usage.md"), "utf-8"),
+    getCode({ params }).then((res) => res.content),
+    getCss({ params }).then((res) => res.content),
   ]);
 
   return (
@@ -110,7 +109,7 @@ async function loadPolymorphicSlotExample() {
 
 const exampleLoaders: { [key: string]: (params: Params) => Promise<React.JSX.Element> } = {
   "markdown-text": loadMarkdownTextExample,
-  "polymorphic-slot": loadPolymorphicSlotExample,
+  // "polymorphic-slot": loadPolymorphicSlotExample,
 };
 
 export default async function Page({ params }: Params) {
