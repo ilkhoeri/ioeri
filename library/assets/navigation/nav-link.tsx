@@ -8,8 +8,8 @@ import { PLACEHOLDER_IMAGESRC } from "@/modules";
 import { twMerge } from "tailwind-merge";
 
 import type { RecordClasses } from "@/modules";
-import type { IconType } from "@/modules/icons/utils";
 import type { AnchorProps } from "@/library/components/anchor";
+import type { IconType } from "@/modules/components/web/svg/svg";
 
 type NavLinkTrees = "link" | "active" | "svg" | "img" | "mark";
 export type NavLinkClass = RecordClasses<NavLinkTrees>;

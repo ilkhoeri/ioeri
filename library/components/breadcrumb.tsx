@@ -5,7 +5,7 @@ import { twMerge } from "tailwind-merge";
 import { cn } from "@/library/utils";
 
 import { SlashIcon } from "@/modules";
-import { type IconType } from "@/modules";
+import type { IconType } from "@/modules/components/web/svg/svg";
 
 type Unstyled = { unstyled?: boolean };
 
