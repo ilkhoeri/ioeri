@@ -1,7 +1,7 @@
 import path from "node:path";
 import fs from "fs-extra";
 
-export async function getMdFile(toPath: string, sourcePath: string): Promise<string> {
+export async function getMdFileOld(toPath: string, sourcePath: string): Promise<string> {
   try {
     const filePath = path.resolve(process.cwd(), String(sourcePath));
     // Specify the path for the .md file
@@ -21,7 +21,7 @@ export async function getMdFile(toPath: string, sourcePath: string): Promise<str
   }
 }
 
-export async function getMdFileOld(
+export async function getMdFile(
   toPath: string,
   sourcePath: string,
   extensions: string[] = [".tsx", ".ts"],
@@ -29,10 +29,8 @@ export async function getMdFileOld(
   try {
     for (const ext of extensions) {
       const filePath = path.resolve(process.cwd(), `${sourcePath}${ext}`);
-      console.log(`File not found with supported extensions in ${sourcePath}${ext}`);
 
       const mdFilePath = path.resolve(process.cwd(), "md", toPath, path.basename(filePath).replace(/\.[^.]+$/, ".md"));
-      console.log("mdFilePath", mdFilePath);
 
       if (await fileExists(filePath)) {
         if (!(await fileExists(mdFilePath))) {
@@ -50,7 +48,7 @@ export async function getMdFileOld(
   }
 }
 
-async function convertFileToMd(toPath: string, filePath: string): Promise<string> {
+async function convertFileToMdOld(toPath: string, filePath: string): Promise<string> {
   try {
     const fileContent = await fs.readFile(filePath, "utf-8");
 
@@ -68,7 +66,7 @@ async function convertFileToMd(toPath: string, filePath: string): Promise<string
   }
 }
 
-async function convertFileToMdOld(toPath: string, sourcePath: string): Promise<void> {
+async function convertFileToMd(toPath: string, sourcePath: string): Promise<void> {
   // Placeholder implementation for file conversion
   const mdFilePath = path.resolve(process.cwd(), "md", toPath, path.basename(sourcePath).replace(/\.[^.]+$/, ".md"));
   const content = await fs.readFile(sourcePath, "utf-8");

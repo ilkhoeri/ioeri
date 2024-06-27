@@ -8,7 +8,6 @@ import { getMdx, getContExt, type ContExt } from "@/library/scripts/get-file-con
 import { sanitizedToParams } from "@/modules";
 
 import type { Metadata } from "next";
-import { getMdFile } from "@/library/scripts/get-md-file";
 
 interface DocsParams {
   params: {
