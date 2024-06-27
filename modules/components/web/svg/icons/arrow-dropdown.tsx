@@ -1,4 +1,4 @@
-import { SvgProps } from "./utils";
+import type { SvgProps } from "../svg";
 
 export const ArrowDropdownIcon = ({
   fill = "currentColor",

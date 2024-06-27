@@ -10,7 +10,7 @@ import { AnimText, Confetti, StyleObject, getRandomColor, getTimeAgo } from "@/m
 
 import type { Address, Blog, Socmed, User, UserProps } from "../types";
 
-import style from "../user.module.css";
+import style from "./user.module.css";
 
 interface LengthDatasProps {
   blog: Blog[] | null;
