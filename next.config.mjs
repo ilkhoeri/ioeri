@@ -1,5 +1,7 @@
 // import process from "node:process";
 // Object.assign(process.env, { NEXT_TELEMETRY_DISABLED: "1" });
+// import moonlightTheme from "./library/utils/moonlight-ii.json" with { type: "json" };
+// import rehypeSlug from "rehype-slug";
 
 /**
  * @typedef {import('next').NextConfig} NextConfig
@@ -8,14 +10,12 @@
 import nextPWA from "next-pwa";
 import remarkGfm from "remark-gfm";
 import createMDX from "@next/mdx";
-import rehypeSlug from "rehype-slug";
 import rehypePrettyCode from "rehype-pretty-code";
-// import moonlightTheme from "./library/utils/moonlight-ii.json" with { type: "json" };
 
 /** @type {import('rehype-pretty-code').Options} */
 const options = {
-  keepBackground: false,
   // theme: moonlightTheme,
+  keepBackground: false,
   defaultLang: {
     block: "plaintext",
     inline: "plaintext",
@@ -28,10 +28,9 @@ const options = {
 const withMDX = createMDX({
   extension: /\.(md|mdx)$/,
   options: {
-    // as desired
     remarkPlugins: [remarkGfm],
-    rehypePlugins: [[rehypePrettyCode, options], rehypeSlug],
-    // rehypePlugins: [[rehypePrettyCode, options]],
+    // rehypePlugins: [[rehypePrettyCode, options], rehypeSlug],
+    rehypePlugins: [[rehypePrettyCode, options]],
   },
 });
 

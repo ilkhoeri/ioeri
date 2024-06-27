@@ -27,6 +27,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "./modules/*",
+    "modules/components/native",
+    "modules/components/web",
     "modules/ondevelopment/utils",
     "modules/ondevelopment/factory"
   ],
