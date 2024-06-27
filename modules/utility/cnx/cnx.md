@@ -1,22 +1,43 @@
-$title
+$:title
 className x
 
-$description
+$:description
 cnx is inspired by clsx, the arguments you give in cn or clsx you can put into cnx, so that you can think of <a href="https://www.npmjs.com/package/clsx" target="_blank" class="a_blank">cnx as clsx from another universe</a>.
 
 $installation
 Berikut adalah cara untuk install Create Variant ....
 
-$usage
+$:usage
 function cnx(...inputs: ClassValue[]): string
 
-// usage
 // Allows receiving more than one First value and Second value
   const className = cnx(
   ['class_root', `variant-${variant}`, `size-${props.size}`, !(variant === 'unstyled') && classes.root],
   classNames?.root,
   className
   );
+
+// with boolean value
+  function MyComponent({ children }: { children?: React.ReactNode }) {
+    const [open, setOpen] = useState<boolean>(false);
+
+    return (
+      <div
+        className={cnx("min-h-[62px] bg-background-box relative transition-[width,height,color]", {
+          "h-[20rem] max-h-[20rem] overflow-hidden text-muted-foreground/50": !open,
+        })}
+      >
+        {children}
+        <Button
+          variant="outline"
+          className="absolute inset-x-[calc(50%-1.5rem)] bottom-4 z-[99] px-3 min-w-20 w-max"
+          onClick={() => setOpen(!open)}
+        >
+          {open ? "Collapse" : "Expand"}
+        </Button>
+      </div>
+    );
+  }
 
 // Example with many First values ​​and Second values
   <div className={cnx(['class1', 'class2'], classLight, classDark, classNames?.root, className)} />

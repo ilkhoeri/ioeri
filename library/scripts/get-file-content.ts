@@ -86,11 +86,11 @@ export async function getMdx(basePath: string, sectionId?: string): Promise<stri
       return text.trim() ? text : null;
     }
 
-    const sectionRegex = new RegExp(`\\$${sectionId}[\\s\\S]*?(?=\\$|$)`, "g");
+    const sectionRegex = new RegExp(`\\$:${sectionId}[\\s\\S]*?(?=\\$:|$)`, "g");
     const match = text.match(sectionRegex);
 
     if (match) {
-      return match[0].replace(`$${sectionId}`, "").trim();
+      return match[0].replace(`$:${sectionId}`, "").trim();
     } else {
       return null;
     }

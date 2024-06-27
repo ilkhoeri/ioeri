@@ -1,4 +1,4 @@
-$usage
+$:usage
 // by default selectors using className ".embeded-image"
 function MyComponent() {
   useImagePopup();

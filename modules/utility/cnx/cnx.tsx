@@ -3,17 +3,21 @@ export type ClassDictionary = Record<string, any>;
 export type ClassArray = ClassValue[];
 
 export function cnx(...inputs: ClassValue[]): string {
-  let classNamesArray = Array.isArray(inputs) ? inputs : [inputs];
+  const classes: string[] = [];
 
-  classNamesArray = classNamesArray.filter((className) => typeof className === "string");
+  inputs.forEach((input) => {
+    if (!input) return;
 
-  const combinedClassNames = [...classNamesArray];
-
-  inputs.forEach((className) => {
-    if (className) {
-      combinedClassNames.push(className);
+    if (typeof input === "string" || typeof input === "number") {
+      classes.push(String(input));
+    } else if (Array.isArray(input)) {
+      classes.push(cnx(...input));
+    } else if (typeof input === "object") {
+      for (const [key, value] of Object.entries(input)) {
+        if (value) classes.push(key);
+      }
     }
   });
 
-  return combinedClassNames.filter(Boolean).join(" ");
+  return classes.join(" ");
 }

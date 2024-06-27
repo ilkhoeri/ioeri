@@ -1,4 +1,4 @@
-$usage
+$:usage
 import { Svg, SvgProps } from "@/modules/components";
 
 export const CheckIcon = ({ ...props }: SvgProps) => {

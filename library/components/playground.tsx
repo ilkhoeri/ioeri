@@ -106,27 +106,27 @@ export function Playground(Play: PlaygroundType) {
 
       {childrens?.code && (
         <TabsContent value="code">
-          <Card className="min-h-[62px] bg-background-box">
+          <CardContent>
             {childrens?.code} {repo && <GetCodeToggle repo={repo} />}
-          </Card>
+          </CardContent>
         </TabsContent>
       )}
 
       {childrens?.tailwind && (
         <TabsContent value="tailwind">
-          <Card className="min-h-[62px] bg-background-box">{childrens?.tailwind}</Card>
+          <CardContent>{childrens?.tailwind}</CardContent>
         </TabsContent>
       )}
 
       {childrens?.css && (
         <TabsContent value="css">
-          <Card className="min-h-[62px] bg-background-box">{childrens?.css}</Card>
+          <CardContent>{childrens?.css}</CardContent>
         </TabsContent>
       )}
 
       {childrens?.usage && (
         <TabsContent value="usage">
-          <Card className="min-h-[62px] bg-background-box">{childrens?.usage}</Card>
+          <CardContent>{childrens?.usage}</CardContent>
         </TabsContent>
       )}
     </>
@@ -138,12 +138,10 @@ function CardContent({ children }: { children?: React.ReactNode }) {
 
   return (
     <Card
-      className={cnx(
-        "min-h-[62px] bg-background-box relative transition-[width,height,color]",
-        open
-          ? "h-full max-h-full"
-          : "h-[20rem] max-h-[20rem] overflow-hidden text-muted-foreground/50 before:content-[''] before:absolute before:bottom-0 before:inset-x-0 before:size-full before:bg-gradient-to-t before:from-background before:z-9",
-      )}
+      className={cnx("min-h-[20rem] bg-background-box relative transition-[width,height,color]", {
+        "h-[20rem] max-h-[20rem] overflow-hidden text-muted-foreground/50 before:content-[''] before:absolute before:bottom-0 before:inset-x-0 before:size-full before:bg-gradient-to-t before:from-background before:z-9":
+          !open,
+      })}
     >
       {children}
       <Button

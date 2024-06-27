@@ -1,4 +1,4 @@
-$usage
+$:usage
 // ref and all props default as div, DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>
 function MyComponent() {
   return (

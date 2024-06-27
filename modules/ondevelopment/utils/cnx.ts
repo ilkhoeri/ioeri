@@ -5,7 +5,6 @@ export type ClassValue = ClassArray | ClassDictionary | string | number | null |
 export type ClassDictionary = Record<string, any>;
 export type ClassArray = ClassValue[];
 
-
 /**
  * Memungkinkan menerima lebih dari satu nilaiPertama dan nilaiKedua:
  *- Kami menggunakan rest parameter `...additionalClassNames` yang mengizinkan lebih dari satu argumen untuk nilaiKedua.
@@ -27,23 +26,25 @@ export type ClassArray = ClassValue[];
  *- Dengan ini, fungsi cnx dapat menerima lebih dari satu nilaiPertama dan nilaiKedua untuk menggabungkan kelas-kelas dengan lebih fleksibel.
  *>
  */
-export function cnx(
-  ...inputs: ClassValue[]
-): string {
-  let classNamesArray = Array.isArray(inputs) ? inputs : [inputs];
 
-  // Filtering untuk menghapus nilai false dan undefined
-  classNamesArray = classNamesArray.filter((className) => typeof className === "string");
+export function cnx(...inputs: ClassValue[]): string {
+  const classes: string[] = [];
 
-  const combinedClassNames = [...classNamesArray];
+  inputs.forEach((input) => {
+    if (!input) return;
 
-  inputs.forEach((className) => {
-    if (className) {
-      combinedClassNames.push(className);
+    if (typeof input === "string" || typeof input === "number") {
+      classes.push(String(input));
+    } else if (Array.isArray(input)) {
+      classes.push(cnx(...input));
+    } else if (typeof input === "object") {
+      for (const [key, value] of Object.entries(input)) {
+        if (value) classes.push(key);
+      }
     }
   });
 
-  return combinedClassNames.join(" ");
+  return classes.join(" ");
 }
 
 export type CSXType = { className?: string | string[]; style?: CSSProperties };
