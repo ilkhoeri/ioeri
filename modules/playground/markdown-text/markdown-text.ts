@@ -1,3 +1,5 @@
+"use client";
+
 import "./markdown-text.css";
 
 export function markdownText(text: string): string {
