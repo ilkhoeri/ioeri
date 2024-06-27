@@ -1,4 +1,4 @@
-import { IconType } from "@/modules/icons/utils";
+import { IconType } from "@/modules/components/web/svg/icons/utils";
 import { AreaCodeIcon, ExpoIcon, ReactIcon, NextjsIcon, GatsbyIcon, RemixIcon, ViteIcon } from "@/modules";
 
 export type InnerRoutes = { title: string; href: string };

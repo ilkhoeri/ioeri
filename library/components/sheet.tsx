@@ -3,7 +3,7 @@
 import * as React from "react";
 import * as SheetPrimitive from "@radix-ui/react-dialog";
 
-import { Svg } from "@/modules/icons/utils";
+import Svg from "@/modules/components/web/svg/svg";
 import { cvx, type VariantsType } from "@/modules/utility/cvx/cvx";
 import { twMerge } from "tailwind-merge";
 

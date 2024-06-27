@@ -17,21 +17,21 @@ interface Params {
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
-  const url = process.env.NEXT_PUBLIC_DOMAIN_URL;
-  const slug = retitled(params.examples);
-  const namePage = slug + " | Playground";
+  const domain = process.env.NEXT_PUBLIC_DOMAIN_URL;
+  const namePage = retitled(params.examples) || "NotFound!";
+  const urlOpenGraph = `${domain}/examples/${params.examples.join("/")}`;
   return {
-    title: namePage ? namePage : "NotFound!",
+    title: namePage,
     description: namePage,
     openGraph: {
-      title: namePage || "NotFound!",
-      description: namePage || "NotFound!",
-      url: url + "/" + slug,
-      locale: "id-ID",
+      title: namePage,
+      description: namePage,
+      url: urlOpenGraph,
       type: "website",
     },
   };
 }
+
 async function loadFiles(paths: string[]): Promise<(string | null)[]> {
   return Promise.all(
     paths.map(async (filePath) => {
@@ -126,7 +126,6 @@ export default async function Page({ params }: Params) {
 
   return (
     <Container>
-      <h4 className="text-h3 font-bold">{String(sourceFiles(params.examples))}</h4>
       <Title
         title={retitled(params.examples)}
         id={sanitizedToParams(retitled(params.examples))}

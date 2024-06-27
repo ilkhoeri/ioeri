@@ -3,10 +3,13 @@ import "./markdown-text.css";
 export function markdownText(text: string): string {
   // Replace ___ with <hr>
   text = text.replace(/___/g, "<hr>");
+
   // Replace _..._ with <i>...</i>
   text = text.replace(/_(.*?)_/g, "<i>$1</i>");
+
   // Replace ~...~ with <s>...</s>
   text = text.replace(/~(.*?)~/g, "<s>$1</s>");
+
   // Replace *...* with <strong>...</strong>
   text = text.replace(/\*(.*?)\*/g, "<strong>$1</strong>");
 
@@ -44,8 +47,10 @@ export function markdownText(text: string): string {
     (_, p1) =>
       `<div data-area="clipboard" class="clipboard-content notranslate position-relative overflow-auto"><pre class="notranslate"><code>${p1.trim()}</code></pre><span role="button" aria-label="Copy" class="clipboard-button" data-value="${stripHtml(p1)}" tabindex="0"><svg width="16" height="16" class="clipboard-icons size-4"><use class="icons-path" href="/images/icons.svg#copy"></use></svg></span></div>`,
   );
+
   // Replace `...` with <code>...</code>
   text = text.replace(/`(.*?)`/g, "<code>$1</code>");
+
   // Replace ```...``` with <code>...</code>
   text = text.replace(/```(.*?)```/g, "<code>$1</code>");
 

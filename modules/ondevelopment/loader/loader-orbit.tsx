@@ -1,4 +1,4 @@
-import { IconType } from "../../icons/utils";
+import { IconType } from "../../components/web/svg/svg";
 
 import style from "./loader.module.css";
 

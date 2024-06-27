@@ -7,7 +7,12 @@ import { UnstyledButton } from "./button";
 
 import { twMerge } from "tailwind-merge";
 import { useClipboard, useScroll } from "@/modules/hooks";
-import { ClipboardCopyIcon, ClipboardCheckIcon, ChevronDownSquareIcon, GithubIcon } from "@/modules/icons";
+import {
+  ClipboardCopyIcon,
+  ClipboardCheckIcon,
+  ChevronDownSquareIcon,
+  GithubIcon,
+} from "@/modules/components/web/svg/icons";
 
 export const GetCodeToggle = React.forwardRef<
   React.ElementRef<typeof Anchor>,
