@@ -43,7 +43,7 @@ const withPWA = nextPWA({
 /** @type {import('next').NextConfig} */
 const Config = withMDX({
   // cleanDistDir: true,
-  output: "export",
+  // output: "export", // must be exported function "generateStaticParams()", which is required with "output: export" config
   reactStrictMode: true,
   poweredByHeader: false,
   images: {
@@ -85,7 +85,6 @@ const Config = withMDX({
       },
     ];
   },
-  // output: "export", // must be exported function "generateStaticParams()", which is required with "output: export" config
   // env: {
   //   NEXT_TELEMETRY_DISABLED: "1",
   // },

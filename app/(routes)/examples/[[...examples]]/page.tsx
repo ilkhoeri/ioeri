@@ -112,6 +112,10 @@ const exampleLoaders: { [key: string]: (params: Params) => Promise<React.JSX.Ele
   // "polymorphic-slot": loadPolymorphicSlotExample,
 };
 
+export function generateStaticParams() {
+  return [{ examples: ["a", "1"] }, { examples: ["b", "2"] }, { examples: ["c", "3"] }];
+}
+
 export default async function Page({ params }: Params) {
   const components = await Promise.all(
     params.examples.map(async (example) => {
