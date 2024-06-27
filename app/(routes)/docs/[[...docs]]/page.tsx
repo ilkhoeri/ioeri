@@ -49,7 +49,7 @@ async function getSection({ params }: DocsParams, sectionId: string): Promise<st
 
 async function docsPage({ params }: DocsParams): Promise<React.JSX.Element> {
   const { content: code, extension: codeExt } = await getCode({ params });
-  const XTS = codeExt || "tsx";
+  const XTS = codeExt || ".tsx";
   const reserveCode = code === null ? await getReserveCode({ params }, `${XTS}`) : null;
 
   const [css, title, description, usage] = await Promise.all([

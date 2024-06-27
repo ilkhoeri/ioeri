@@ -1,4 +1,4 @@
-import { cnx, type ClassValue } from "@/modules/utility/cnx/cnx";
+import { cnx, type ClassValue } from "@/modules/ondevelopment/utils/cnx";
 import { capitalizeWords } from "@/modules";
 import { twMerge } from "tailwind-merge";
 

@@ -1,4 +1,4 @@
-import { cnx } from "@/modules/utility/cnx/cnx";
+import { cnx } from "../../../../utils/cnx";
 import { Theme } from "../../../transit";
 import type { _ClassNames } from "../get-class-name";
 

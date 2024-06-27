@@ -12,7 +12,7 @@ import { Button } from "@/library/components/button";
 import Element from "@/modules/components/web/element/element";
 import { CodeIcon, CSSIcon, TailwindIcon, BracketsIcon } from "@/modules";
 import { markdownText } from "@/modules/playground";
-import { cnx } from "@/modules/utility/cnx/cnx";
+import { cnx } from "@/modules/ondevelopment/utils/cnx";
 
 type RecordNested<U extends string, T extends string, P = Record<string, unknown>> = {
   [K in U]?: Partial<Record<T, P>>;

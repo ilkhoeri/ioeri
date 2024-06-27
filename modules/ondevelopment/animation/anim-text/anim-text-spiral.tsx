@@ -1,7 +1,7 @@
 "use client";
 import * as React from "react";
 
-import { cnx } from "@/modules/utility/cnx/cnx";
+import { cnx } from "../../utils/cnx";
 import { useAnimatedSpiralWords, type AnimatedSpiralWordsType } from "./use-animated-spiral-words";
 
 import type { CSSProperties } from "../../../types/shared";

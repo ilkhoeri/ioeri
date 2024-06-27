@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 
 import { ChevronLeftIcon, ChevronRightIcon } from "@/modules";
 import { InnerRoutes, SingleRoute } from "@/library/routes";
-import { cnx } from "@/modules/utility/cnx/cnx";
+import { cnx } from "@/modules/ondevelopment/utils/cnx";
 
 export function NavBottom({ routes }: { routes: SingleRoute[] | null }) {
   const pathname = usePathname();
