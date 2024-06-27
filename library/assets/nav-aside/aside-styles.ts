@@ -6,7 +6,7 @@ const Styles = cvx({
       aside:
         "m-0 h-[--aside-h] max-h-[--aside-h] [--aside-h:100dvh] md:[--aside-h:calc(100dvh-2rem)] md:mt-[2rem] top-0 bottom-0 md:sticky md:top-[calc(var(--navbar)+2rem)] max-md:data-[state=closed]:opacity-0 bg-background overflow-hidden [transition:all_0.5s_ease] w-0 focus-visible:outline-0",
       hgroup: "flex flex-row items-center justify-between h-[--navbar] mb-4 md:hidden md:sr-only",
-      nav: "relative flex items-start justify-start flex-col flex-nowrap max-md:pb-24 max-md:pt-0 overflow-y-auto overflow-x-hidden webkit-scrollbar",
+      nav: "relative flex items-start justify-start flex-col flex-nowrap max-md:pb-24 md:pb-6 max-md:pt-0 overflow-y-auto overflow-x-hidden webkit-scrollbar",
       overlay:
         "md:hidden md:sr-only fixed max-md:z-[95] w-full h-full min-w-full min-h-full inset-y-0 inset-x-0 backdrop-blur-[0.5px] bg-background/15 supports-[backdrop-filter]:bg-background/15",
       trigger:

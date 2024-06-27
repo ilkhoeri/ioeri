@@ -1,5 +1,5 @@
 $:title
-create variants x
+Create Variants X
 
 $:description
 If you have ever used <a href="https://cva.style/docs" target="_blank" class="a_blank">class variance authority</a>, you are also familiar with the cvx function. You can think of cvx as a simpler or lite version.

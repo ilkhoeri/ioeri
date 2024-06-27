@@ -15,7 +15,7 @@ interface FootLinkProps {
   includePath?: boolean;
 }
 
-function FootLink({ items, includePath = true }: FootLinkProps) {
+function FootLink({ items, includePath = false }: FootLinkProps) {
   const pathname = usePathname();
 
   // Helper function to split pathname into segments
@@ -35,7 +35,7 @@ function FootLink({ items, includePath = true }: FootLinkProps) {
   });
 }
 
-function FootLinkMark({ items, includePath = true }: FootLinkProps) {
+function FootLinkMark({ items, includePath = false }: FootLinkProps) {
   const pathname = usePathname();
 
   const getPathSegments = (path: string) => path.split("/").filter(Boolean);

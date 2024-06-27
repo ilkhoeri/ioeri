@@ -15,9 +15,9 @@ export function AsideRight() {
 
   return (
     <aside className={Styles({ style: "aside", aside: "right" })}>
-      <nav className={cn(Styles({ style: "nav" }), "fixed")}>
+      <nav className={cn(Styles({ style: "nav" }), "fixed pl-3")}>
         <hgroup>
-          <h4 role="presentation" className="font-medium text-paragraph mb-2 pl-3">
+          <h4 role="presentation" className="font-medium text-paragraph mb-2">
             On This Page
           </h4>
         </hgroup>
@@ -32,7 +32,7 @@ export function AsideRight() {
                   className={cn("text-muted-foreground hover:text-color transition-colors")}
                   style={{
                     paddingLeft: `${depth * 12}px`,
-                    color: idInView === id ? "hsl(var(--constructive))" : "inherit",
+                    color: idInView === id ? "hsl(var(--constructive))" : "hsl(var(--muted-foreground))",
                   }}
                 >
                   <Link href={`#${id}`}>{capitalizeWords(id)}</Link>

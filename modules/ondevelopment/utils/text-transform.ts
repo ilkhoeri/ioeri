@@ -251,13 +251,12 @@ const output = camelToKebab(input);
 console.log(output); // Output: actions-select-list-0a
  * ```
  */
-export function camelToKebab(n: string | undefined): string | undefined {
+export function camelToKebab(n: string): string {
   if (n === undefined) {
-    return;
+    return "";
   }
   return n.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
 }
-
 
 export function kebabToCamelCase(str: string): string {
   return str.replace(/-([a-z])/g, (g) => g[1].toUpperCase());

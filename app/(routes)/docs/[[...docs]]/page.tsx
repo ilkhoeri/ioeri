@@ -1,4 +1,3 @@
-import Docs from "./docs";
 import { Tabs } from "@/library/components/tabs";
 import { retitled, sourceFiles } from "@/library/utils";
 import { Playground } from "@/library/components/playground";
@@ -47,7 +46,7 @@ async function getSection({ params }: DocsParams, sectionId: string): Promise<st
   return getMdx(`/modules/${sourceFiles(params.docs)}`, sectionId);
 }
 
-async function docsPage({ params }: DocsParams): Promise<React.JSX.Element> {
+export default async function Page({ params }: DocsParams) {
   const { content: code, extension: codeExt } = await getCode({ params });
   const XTS = codeExt || ".tsx";
   const reserveCode = code === null ? await getReserveCode({ params }, `${XTS}`) : null;
@@ -75,8 +74,6 @@ async function docsPage({ params }: DocsParams): Promise<React.JSX.Element> {
 
   return (
     <Container>
-      {/* <h4 className="text-h3 font-bold">{String(sourceFiles(params.docs))}</h4> */}
-
       <Title
         title={title || retitled(params.docs)}
         id={sanitizedToParams(retitled(params.docs))}
@@ -85,38 +82,11 @@ async function docsPage({ params }: DocsParams): Promise<React.JSX.Element> {
 
       {description && <Paragraph className="mt-0 mb-12" dangerouslySetInnerHTML={{ __html: description }} />}
 
-      <Tabs defaultValue="code" id="code" className="w-full scroll-m-20">
+      <Tabs defaultValue="code" id="code" className="w-full">
         <Playground childrens={childrens} repo={`${sourceFiles(params.docs)}${XTS}`} />
       </Tabs>
     </Container>
   );
-}
-
-async function loadPage({ params }: DocsParams): Promise<React.JSX.Element> {
-  return (
-    <Container>
-      <h4 className="text-h3 font-bold">{String(sourceFiles(params.docs))}</h4>
-
-      <h4 className="text-h3 font-bold">Length: {String(params.docs.length)}</h4>
-      <Title
-        title={String(slug(params.docs))}
-        id={sanitizedToParams(String(slug(params.docs)))}
-        className="mt-0 mb-12"
-      />
-    </Container>
-  );
-}
-
-export default async function Page({ params }: DocsParams) {
-  if (params.docs === undefined) {
-    return <Docs />;
-  } else {
-    if (params.docs.length === 1) {
-      return loadPage({ params });
-    } else {
-      return docsPage({ params });
-    }
-  }
 }
 
 function slug(texts: string[] | undefined) {

@@ -25,15 +25,9 @@ export function Headnav() {
       )}
     >
       <Element className="w-full relative flex items-center mx-auto max-w-screen-3xl px-4 3xl:px-20">
-        <ButtonAside
-          query={minQuery}
-          open={open}
-          onClick={handleOpen}
-          className="max-md:data-[state=open]:translate-x-[212px] max-md:data-[state=open]:opacity-0"
-        />
         <LinkHome
           open={open}
-          className="max-md:ml-4 [transition:all_0.5s_ease] max-md:data-[state=open]:translate-x-[-32px] max-md:data-[state=open]:opacity-0"
+          className="[transition:all_0.5s_ease] max-md:data-[state=open]:translate-x-[-32px] max-md:data-[state=open]:opacity-0"
         />
 
         <div className="relative h-full hidden md:flex items-center justify-between font-medium text-sm ml-10 overflow-hidden rounded-sm mr-auto">
@@ -81,6 +75,13 @@ export function Headnav() {
             className="centered transition-colors p-1 rounded-lg border border-muted text-muted-foreground hover:text-color [&_svg]:size-6"
           />
         </div>
+
+        <ButtonAside
+          query={minQuery}
+          open={open}
+          onClick={handleOpen}
+          className="max-md:ml-4 max-md:data-[state=open]:translate-x-[212px] max-md:data-[state=open]:opacity-0"
+        />
       </Element>
     </header>
   );

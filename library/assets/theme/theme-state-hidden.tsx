@@ -14,6 +14,11 @@ export function ThemeStateHidden() {
       <rp className="sr-only" tabIndex={-1} hidden aria-hidden>
         THEMING_SHORTCUT (⌘/ctrl + J)
       </rp>
+
+      <span
+        aria-label="helper-css"
+        className="hidden sr-only grid sm:grid-cols-2 lg:grid-cols-3 3xl:grid-cols-4 gap-4 mt-5 sm:gap-6"
+      />
     </ruby>
   );
 }

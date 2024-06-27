@@ -1,15 +1,15 @@
 import React from "react";
 import Link from "next/link";
-import { Svg } from "@/modules/components/web";
 import { frameworks } from "@/library/routes";
-import { sanitizedToParams } from "@/modules";
-import { Container, Paragraph, Title } from "@/library/components/components";
 import { InstallCommand } from "@/library/assets/parts/install-command";
+import { Container, Paragraph, Title } from "@/library/components/components";
+import { sanitizedToParams } from "@/modules/ondevelopment/utils";
+import { Svg } from "@/modules/components/web";
 
 export default function Docs() {
   return (
     <Container>
-      <Title el="h1" id="started" className="border-b-0 pb-0">
+      <Title el="h1" className="border-b-0 pb-0 mt-0">
         Getting Started
       </Title>
       <Paragraph className="mt-2 text-color">Create your project and compactness the required dependencies.</Paragraph>

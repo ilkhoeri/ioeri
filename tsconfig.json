@@ -18,7 +18,8 @@
     "plugins": [{ "name": "next" }],
     "paths": {
       "@/*": ["./*"],
-      "modules/*": ["./modules/*"]
+      "#/*": ["./library/*"],
+      "$/*": ["./modules/*"]
     },
     "typeRoots": ["./modules/*", "./node_modules/@types"]
   },

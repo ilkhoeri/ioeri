@@ -7,10 +7,11 @@ import { usePathname } from "next/navigation";
 import { ChevronLeftIcon, ChevronRightIcon } from "@/modules";
 import { InnerRoutes, SingleRoute } from "@/library/routes";
 import { cnx } from "@/modules/ondevelopment/utils/cnx";
+import { displayName } from "../../utils";
 
 export function NavBottom({ routes }: { routes: SingleRoute[] | null }) {
   const pathname = usePathname();
-  const paths = pathname.split("/").filter(Boolean);
+  // const paths = pathname.split("/").filter(Boolean);
 
   let currentRoutes: InnerRoutes[] = [];
 
@@ -19,8 +20,8 @@ export function NavBottom({ routes }: { routes: SingleRoute[] | null }) {
       currentRoutes = (routes as SingleRoute[]).flatMap((section) =>
         section.data.map((route) => ({
           title: route.title,
-          // href: `/${section.title.toLowerCase()}/${route.href.split("/").slice(2).join("/")}`,
           href: route.href,
+          // href: `/${section.title.toLowerCase()}/${route.href.split("/").slice(2).join("/")}`,
         })),
       );
     }
@@ -39,13 +40,13 @@ export function NavBottom({ routes }: { routes: SingleRoute[] | null }) {
       {previousRoute && (
         <Link className={cnx(classLink, "pr-4 pl-3")} href={previousRoute ? previousRoute.href : ""}>
           <ChevronLeftIcon className="size-4" />
-          <span className="truncate">{previousRoute ? previousRoute.title : "Previous"}</span>
+          <span className="truncate">{previousRoute ? displayName(previousRoute.title) : "Previous"}</span>
         </Link>
       )}
 
       {nextRoute && (
         <Link className={cnx(classLink, "pl-4 pr-3 ml-auto")} href={nextRoute ? nextRoute.href : ""}>
-          <span className="truncate">{nextRoute ? nextRoute.title : "Next"}</span>
+          <span className="truncate">{nextRoute ? displayName(nextRoute.title) : "Next"}</span>
           <ChevronRightIcon className="size-4" />
         </Link>
       )}

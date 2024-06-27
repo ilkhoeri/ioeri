@@ -1,5 +1,5 @@
 import { cnx, type ClassValue } from "@/modules/ondevelopment/utils/cnx";
-import { capitalizeWords } from "@/modules";
+import { camelToKebab, capitalizeWords } from "@/modules";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -12,6 +12,14 @@ export function retitled(texts: string[] | undefined, defaultText: string = "Doc
   const secondLast = length ? texts[texts?.length - 2] : " ";
   const last = length ? texts[texts?.length - 1] : " ";
   return capitalizeWords(last.replace("use", ""));
+}
+
+export function displayName(str: string) {
+  str = str.replace("use", "");
+  str = camelToKebab(str);
+  str = capitalizeWords(str);
+  str = str.replace(/-/g, " ");
+  return str;
 }
 
 export function sourceFiles(texts: string[] | undefined) {

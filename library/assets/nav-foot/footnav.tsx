@@ -18,20 +18,20 @@ interface FooterProps {
 
 const mainroutes = [
   {
+    title: "Started",
+    slug: "docs",
+  },
+  {
     title: "Components",
-    slug: "components",
+    slug: "docs/components",
   },
   {
-    title: "Playground",
-    slug: "playground/markdown-editor",
+    title: "Hooks",
+    slug: "docs/hooks",
   },
   {
-    title: "Web app",
-    slug: "components/web",
-  },
-  {
-    title: "Native app",
-    slug: "components/mobile",
+    title: "Examples",
+    slug: "examples",
   },
 ];
 

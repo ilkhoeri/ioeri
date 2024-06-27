@@ -9,6 +9,7 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "../../components/breadcrumb";
+import { displayName } from "../../utils";
 
 export interface BreadcrumbDropdownProps {
   paths: string[];
@@ -23,18 +24,6 @@ export function NavigationBreadcrumb() {
   return (
     <Breadcrumb className="mb-8">
       <BreadcrumbList className="flex-nowrap">
-        {paths.length <= 1 && (
-          <>
-            <BreadcrumbItem>
-              <BreadcrumbLink href="" aria-disabled="true">
-                Docs
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-
-            <BreadcrumbSeparator />
-          </>
-        )}
-
         {paths.map((path, index) => {
           const active = index === paths.length - 1;
           const href = active ? "" : `/${paths.slice(0, index + 1).join("/")}`;
@@ -42,7 +31,7 @@ export function NavigationBreadcrumb() {
             <Fragment key={path}>
               <BreadcrumbItem>
                 <BreadcrumbLink href={href} active={active} aria-disabled="true">
-                  {reTitle(path)}
+                  {displayName(path)}
                 </BreadcrumbLink>
               </BreadcrumbItem>
 
@@ -53,11 +42,4 @@ export function NavigationBreadcrumb() {
       </BreadcrumbList>
     </Breadcrumb>
   );
-}
-
-function reTitle(str: string) {
-  str = str.replace("use", "");
-  str = str.replace("use-", "");
-  str = str.replace(/-/g, " ");
-  return str;
 }

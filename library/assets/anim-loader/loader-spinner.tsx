@@ -6,7 +6,7 @@ type SpinnerTrees = "spinner" | "bar";
 
 type SpinnerProps = {
   size?: string | number;
-  classNames?: Record<SpinnerTrees, string>;
+  classNames?: Partial<Record<SpinnerTrees, string>>;
 };
 
 const variables = ({ size }: SpinnerProps): { [key: string]: string } => {

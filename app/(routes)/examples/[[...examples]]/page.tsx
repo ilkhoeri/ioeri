@@ -1,16 +1,16 @@
 import fs from "fs-extra";
 import path from "node:path";
 
-import { Container, Title } from "@/library/components/components";
-import { Playground } from "@/library/components/playground";
-import { CodeCustomizer } from "@/library/components/code-customizer";
-import { getMdFile } from "@/library/scripts/get-md-file";
-import { sanitizedToParams } from "@/modules";
+import { Tabs } from "@/library/components/tabs";
 import { retitled, sourceFiles } from "@/library/utils";
+import { getMdFile } from "@/library/scripts/get-md-file";
+import { Playground } from "@/library/components/playground";
+import { Container,Title } from "@/library/components/components";
+import { CodeCustomizer } from "@/library/components/code-customizer";
+import { getContExt, getMdx, type ContExt } from "@/library/scripts/get-file-content";
+import { sanitizedToParams } from "@/modules";
 
 import type { Metadata } from "next";
-import { Tabs } from "@/library/components/tabs";
-import { getContExt, getMdx, type ContExt } from "@/library/scripts/get-file-content";
 
 interface Params {
   params: { examples: string[] };

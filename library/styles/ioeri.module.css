@@ -36,7 +36,6 @@
 }
 
 .aura {
-  @apply absolute w-full h-full max-w-full dark:opacity-20;
   &::before,
   &::after {
     @apply content-[''] absolute rounded-full;

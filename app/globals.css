@@ -264,6 +264,10 @@ img {
   user-select: none;
   -webkit-user-drag: none;
 }
+[id] {
+  scroll-margin: 5rem; /* 80px */
+}
+
 @media (min-width: 768px) {
   :root {
     --navbar: 56px;

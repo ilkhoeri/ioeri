@@ -1,6 +1,8 @@
+import Docs from "./docs";
 import { getNestedRoutes, getRoutes } from "@/library/scripts/get-routes";
 import { InnerRoutes, NestedRoute, SingleRoute } from "@/library/routes";
 import { notFound } from "next/navigation";
+import { RestDocsPage } from "./dynamic-page";
 
 // export function generateStaticParams() {
 //   return [{ docs: ["hooks", "use-clipboard"] }, { docs: ["b", "2"] }, { docs: ["c", "3"] }];
@@ -13,25 +15,29 @@ async function loadNestedRoutes(sourcePath: string): Promise<NestedRoute[]> {
   return await getNestedRoutes(sourcePath);
 }
 
-interface LayoutDocs {
+interface DocsParams {
   children: React.ReactNode;
   params: {
     docs: string[];
   };
 }
 
-export default async function Layout({ children, params }: Readonly<LayoutDocs>) {
+export default async function Layout({ children, params }: Readonly<DocsParams>) {
   const nested = await loadNestedRoutes("components");
   const components = nested.map((i) => i.data).flat();
   const utility = await loadRoutes("utility");
   const hooks = await loadRoutes("hooks");
 
-  if (params.docs !== undefined) {
-    const matchingRoutes = findMatchingRoute(params.docs, [...components, ...utility, ...hooks]);
-    if (!matchingRoutes) notFound();
-
-    return <>{children}</>;
+  if (!params.docs) {
+    return <Docs />;
   }
+
+  if (params.docs.length === 1) {
+    return <RestDocsPage params={params} />;
+  }
+
+  const matchingRoutes = findMatchingRoute(params.docs, [...components, ...utility, ...hooks]);
+  if (!matchingRoutes) notFound();
 
   return <>{children}</>;
 }

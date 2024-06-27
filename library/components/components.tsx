@@ -11,7 +11,7 @@ type ElementType<T> = {
 } & React.DetailedHTMLProps<React.HTMLAttributes<T>, T>;
 
 type ContainerProps = {
-  asChild?: boolean;
+  child?: "wrap-only" | "container-only" | "complete";
 } & ElementType<HTMLElement>;
 
 type ComponentType<T> = React.ComponentType<React.HTMLAttributes<T>>;
@@ -53,14 +53,15 @@ export const Section = React.forwardRef<HTMLElement, ElementType<HTMLElement>>(
 Section.displayName = "Section";
 
 export const Container = React.forwardRef<HTMLElement, ContainerProps>(
-  ({ className, el = "article", unstyled = false, asChild = false, ...props }, ref) => {
-    let Dispatch: ComponentType<HTMLElement> = el as ComponentType<HTMLElement>;
-    const Component = asChild ? Slot : Dispatch;
-
+  ({ className, el = "article", unstyled = false, child = "complete", children, ...props }, ref) => {
+    let Component: ComponentType<HTMLElement> = el as ComponentType<HTMLElement>;
+    if (child === "wrap-only") {
+      return <ChildWrapper>{children}</ChildWrapper>;
+    }
     return (
-      <ChildWrapper>
-        <Component ref={ref} className={twMerge(!unstyled && "relative mx-auto w-full", className)} {...props} />
-      </ChildWrapper>
+      <Component ref={ref} className={twMerge(!unstyled && "relative mx-auto w-full", className)} {...props}>
+        {child === "container-only" ? children : <ChildWrapper>{children}</ChildWrapper>}
+      </Component>
     );
   },
 );

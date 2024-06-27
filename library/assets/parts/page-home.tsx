@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import { cn } from "@/library/utils";
 import { useTheme } from "next-themes";
 import { AnimText, BookOpen2Icon, GithubIcon, Transform, sanitizedToParams, ArrowsSquareIcon } from "@/modules";
 
@@ -16,10 +17,10 @@ export function PageHome() {
       <section id="header-section" className={style.header_home}>
         <i
           aria-hidden="true"
-          className={[
+          className={cn(
+            "absolute w-full h-full max-w-full opacity-[0.65] before:top-[-10%] before:left-[-2%] after:bottom-[5%] after:right-[-5%]",
             mainStyle.aura,
-            "opacity-[0.65] before:top-[-10%] before:left-[-2%] after:bottom-[5%] after:right-[-5%]",
-          ].join(" ")}
+          )}
         />
 
         <article className={style.hero}>
@@ -112,24 +113,30 @@ export function PageHome() {
         </Transform>
       </section>
 
-      <section className="w-full min-w-full space-y-40 mb-20">
-        <div id="features">
-          <div className="max-w-7xl mx-auto px-6 md:px-12 xl:px-6">
-            <div className="md:w-2/3 lg:w-1/2">
-              <svg width="64" height="64" className="text-color size-10" onContextMenu={(e) => e.preventDefault()}>
-                <use href="/images/icons.svg#stars" />
-              </svg>
+      <section id="features" className="relative w-full min-w-full space-y-40 mb-20">
+        <i
+          aria-hidden="true"
+          className={cn(
+            "absolute w-full h-full max-w-full-20 opacity-[0.65] before:bottom-[-10%] before:left-[-2%] after:top-[5%] after:right-[-5%]",
+            mainStyle.aura,
+          )}
+        />
 
-              <h2 className="mt-4 mb-2 text-h6 font-bold text-color">
-                A community of web and mobile applications developers based on React.js
-              </h2>
-              <p className="text-muted-foreground text-xs md:text-sm 2xl:text-base">
-                Crafting and share relevant functionals, styles, and hooks recommendations for react.js applications.
-              </p>
-            </div>
-            <div className="relative mt-16 mb-12 bg-background grid overflow-hidden rounded-xl border text-muted-foreground sm:grid-cols-2 lg:grid-cols-4 lg:divide-y-0 xl:grid-cols-4">
-              <FeaturesList features={features} />
-            </div>
+        <div className="relative z-9 max-w-7xl mx-auto px-6 md:px-12 xl:px-6">
+          <div className="md:w-2/3 lg:w-1/2">
+            <svg width="64" height="64" className="text-color size-10" onContextMenu={(e) => e.preventDefault()}>
+              <use href="/images/icons.svg#stars" />
+            </svg>
+
+            <h2 className="mt-4 mb-2 text-h6 font-bold text-color">
+              A community of web and mobile applications developers based on React.js
+            </h2>
+            <p className="text-muted-foreground text-xs md:text-sm 2xl:text-base">
+              Crafting and share relevant functionals, styles, and hooks recommendations for react.js applications.
+            </p>
+          </div>
+          <div className="relative mt-16 mb-12 bg-background grid overflow-hidden rounded-xl border text-muted-foreground sm:grid-cols-2 lg:grid-cols-4 lg:divide-y-0 xl:grid-cols-4">
+            <FeaturesList features={features} />
           </div>
         </div>
       </section>
