@@ -49,7 +49,8 @@ async function getSection({ params }: DocsParams, sectionId: string): Promise<st
 
 async function docsPage({ params }: DocsParams): Promise<React.JSX.Element> {
   const { content: code, extension: codeExt } = await getCode({ params });
-  const reserveCode = code === null ? await getReserveCode({ params }, `${codeExt}`) : null;
+  const XTS = codeExt || "tsx";
+  const reserveCode = code === null ? await getReserveCode({ params }, `${XTS}`) : null;
 
   const [css, title, description, usage] = await Promise.all([
     getCss({ params }).then((res) => res.content),
@@ -85,7 +86,7 @@ async function docsPage({ params }: DocsParams): Promise<React.JSX.Element> {
       {description && <Paragraph className="mt-0 mb-12" dangerouslySetInnerHTML={{ __html: description }} />}
 
       <Tabs defaultValue="code" id="code" className="w-full scroll-m-20">
-        <Playground childrens={childrens} repo={`${sourceFiles(params.docs)}${codeExt}`} />
+        <Playground childrens={childrens} repo={`${sourceFiles(params.docs)}${XTS}`} />
       </Tabs>
     </Container>
   );

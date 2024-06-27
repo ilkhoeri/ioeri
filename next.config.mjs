@@ -98,10 +98,10 @@ const Config = withMDX({
         ...config.resolve,
         fallback: {
           ...config.resolve.fallback,
-          child_process: false,
           fs: false,
-          "builtin-modules": false,
-          worker_threads: false,
+          // child_process: false,
+          // "builtin-modules": false,
+          // worker_threads: false,
         },
       };
     }
