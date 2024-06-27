@@ -8,6 +8,7 @@ import { getMdx, getContExt, type ContExt } from "@/library/scripts/get-file-con
 import { sanitizedToParams } from "@/modules";
 
 import type { Metadata } from "next";
+import { getMdFile } from "@/library/scripts/get-md-file";
 
 interface DocsParams {
   params: {
@@ -31,6 +32,12 @@ export async function generateMetadata({ params }: DocsParams): Promise<Metadata
   };
 }
 
+async function getReserveCode({ params }: DocsParams, extension: string): Promise<string | null> {
+  const res = await fetch(
+    `https://raw.githubusercontent.com/ilkhoeri/modules/main/${sourceFiles(params.docs)}${extension}`,
+  );
+  return await res.text();
+}
 async function getCode({ params }: DocsParams): Promise<ContExt> {
   return getContExt(`/modules/${sourceFiles(params.docs)}`, [".tsx", ".ts"]);
 }
@@ -42,8 +49,10 @@ async function getSection({ params }: DocsParams, sectionId: string): Promise<st
 }
 
 async function docsPage({ params }: DocsParams): Promise<React.JSX.Element> {
-  const [{ content: code, extension: codeExt }, css, title, description, usage] = await Promise.all([
-    getCode({ params }),
+  const { content: code, extension: codeExt } = await getCode({ params });
+  const reserveCode = code === null ? await getReserveCode({ params }, `${codeExt}`) : null;
+
+  const [css, title, description, usage] = await Promise.all([
     getCss({ params }).then((res) => res.content),
     getSection({ params }, "title"),
     getSection({ params }, "description"),
@@ -57,6 +66,8 @@ async function docsPage({ params }: DocsParams): Promise<React.JSX.Element> {
   }
   if (code) {
     childrens.code = <CodeCustomizer code={code} />;
+  } else if (reserveCode) {
+    childrens.code = <CodeCustomizer code={reserveCode} />;
   }
   if (css) {
     childrens.css = <CodeCustomizer code={css} />;
