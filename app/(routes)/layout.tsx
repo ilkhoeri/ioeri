@@ -3,7 +3,7 @@ import { AsideLeft } from "@/library/assets/nav-aside/aside-left";
 import { AsideRight } from "@/library/assets/nav-aside/aside-right";
 import { NavBottom } from "@/library/assets/nav-bottom/nav-bottom";
 import { getNestedRoutes, getRoutes } from "@/library/scripts/get-routes";
-import { InnerRoutes, NestedRoute, SingleRoute } from "@/library/routes";
+import { NestedRoute, SingleRoute } from "@/library/routes";
 import { NavigationBreadcrumb } from "@/library/assets/navigation/navigation-breadcrumb";
 
 export const runtime = "nodejs";
@@ -18,7 +18,7 @@ async function loadNestedRoutes(sourcePath: string): Promise<NestedRoute[]> {
   return await getNestedRoutes(sourcePath);
 }
 
-export default async function Layout({ children }: { children: React.ReactNode }) {
+export default async function Layout({ children }: Readonly<{ children: React.ReactNode }>) {
   const nested = await loadNestedRoutes("components");
   const utility = await loadRoutes("utility");
   const hooks = await loadRoutes("hooks");
@@ -36,23 +36,3 @@ export default async function Layout({ children }: { children: React.ReactNode }
     </Main>
   );
 }
-
-type Route = InnerRoutes | SingleRoute;
-
-export const findMatchingRoute = (params: string[], routes: Route[]): boolean => {
-  const matcher = `/${params.join("/")}`;
-
-  for (const route of routes) {
-    if ("href" in route && route.href === matcher) {
-      return true;
-    }
-
-    if ("data" in route) {
-      const matchingData = route.data.some((data) => data.href === matcher);
-      if (matchingData) {
-        return true;
-      }
-    }
-  }
-  return false;
-};

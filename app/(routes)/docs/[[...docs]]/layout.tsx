@@ -1,10 +1,10 @@
-import { Section, Main } from "@/library/components/components";
-import { AsideLeft } from "@/library/assets/nav-aside/aside-left";
-import { AsideRight } from "@/library/assets/nav-aside/aside-right";
-import { NavBottom } from "@/library/assets/nav-bottom/nav-bottom";
 import { getNestedRoutes, getRoutes } from "@/library/scripts/get-routes";
 import { InnerRoutes, NestedRoute, SingleRoute } from "@/library/routes";
-import { NavigationBreadcrumb } from "@/library/assets/navigation/navigation-breadcrumb";
+import { notFound } from "next/navigation";
+
+// export function generateStaticParams() {
+//   return [{ docs: ["hooks", "use-clipboard"] }, { docs: ["b", "2"] }, { docs: ["c", "3"] }];
+// }
 
 async function loadRoutes(sourcePath: string): Promise<SingleRoute[]> {
   return await getRoutes(sourcePath);
@@ -13,22 +13,31 @@ async function loadNestedRoutes(sourcePath: string): Promise<NestedRoute[]> {
   return await getNestedRoutes(sourcePath);
 }
 
-// export function generateStaticParams() {
-//   return [{ docs: ["hooks", "use-clipboard"] }, { docs: ["b", "2"] }, { docs: ["c", "3"] }];
-// }
+interface LayoutDocs {
+  children: React.ReactNode;
+  params: {
+    docs: string[];
+  };
+}
 
-export default async function Layout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default async function Layout({ children, params }: Readonly<LayoutDocs>) {
   const nested = await loadNestedRoutes("components");
+  const components = nested.map((i) => i.data).flat();
   const utility = await loadRoutes("utility");
   const hooks = await loadRoutes("hooks");
-  const components = nested.map((i) => i.data).flat();
+
+  if (params.docs !== undefined) {
+    const matchingRoutes = findMatchingRoute(params.docs, [...components, ...utility, ...hooks]);
+    if (!matchingRoutes) notFound();
+
+    return <>{children}</>;
+  }
+
   return <>{children}</>;
 }
 
-type Route = InnerRoutes | SingleRoute;
-
-export const findMatchingRoute = (params: string[], routes: Route[]): boolean => {
-  const matcher = `/${params.join("/")}`;
+const findMatchingRoute = (slug: string[], routes: (InnerRoutes | SingleRoute)[]): boolean => {
+  const matcher = `/docs/${slug.join("/")}`;
 
   for (const route of routes) {
     if ("href" in route && route.href === matcher) {

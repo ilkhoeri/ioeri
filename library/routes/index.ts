@@ -91,15 +91,10 @@ export const services = [
 export const fitures = [
   {
     title: "Examples",
-    icon: AreaCodeIcon,
     data: [
       {
         title: "Markdown Text",
         href: "/examples/playground/markdown-text",
-      },
-      {
-        title: "Polymorphic Slot",
-        href: "/examples/polymorphic-slot",
       },
     ],
   },
