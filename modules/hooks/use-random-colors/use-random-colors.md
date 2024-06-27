@@ -1,4 +1,4 @@
-#usage
+$usage
 type StyleObject = { [key: string]: string }
 
 function variables(): StyleObject {

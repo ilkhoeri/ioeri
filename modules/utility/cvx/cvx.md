@@ -1,15 +1,15 @@
-#title
+$title
 create variants x
 
-#description
+$description
 If you have ever used <a href="https://cva.style/docs" target="_blank" class="a_blank">class variance authority</a>, you are also familiar with the cvx function. You can think of cvx as a simpler or lite version.
 
 cva uses the first argument as a constant that will be distributed throughout the variance, in cvx this argument is moved to the <code class="block_code">assign</code> parameter. cvx does not or has not passed the <code class="block_code">class</code> and <code class="block_code">className</code> parameters. cvx was created just as a simple function to pass a string with various variants that you create.
 
-#installation
+$installation
 Berikut adalah cara untuk install Create Variant ....
 
-#usage
+$usage
 import { cvx, type VariantsType } from "@/modules";
 
 const classes = cvx({

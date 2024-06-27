@@ -75,6 +75,11 @@ const Config = withMDX({
         destination: "/mobile/:slug",
         permanent: true,
       },
+      {
+        source: "/examples",
+        destination: "/examples/playground/markdown-text",
+        permanent: true,
+      },
     ];
   },
   reactStrictMode: true,

@@ -21,6 +21,14 @@
       "modules/*": ["./modules/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "./modules/*"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "./modules/*",
+    "modules/ondevelopment/utils",
+    "modules/ondevelopment/factory"
+  ],
   "exclude": ["node_modules"]
 }

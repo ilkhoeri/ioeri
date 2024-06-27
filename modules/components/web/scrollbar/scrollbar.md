@@ -1,5 +1,5 @@
 
-#usage
+$usage
 import { Scrollbar } from "@/modules";
 
 function MyComponent() {

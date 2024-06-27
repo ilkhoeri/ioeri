@@ -36,16 +36,14 @@ export async function getMdFile(
   try {
     for (const ext of extensions) {
       const filePath = path.resolve(process.cwd(), `${sourcePath}${ext}`);
-      // Specify the path for the .md file
+
       const mdFilePath = path.resolve(process.cwd(), "md", toPath, path.basename(filePath).replace(/\.[^.]+$/, ".md"));
 
       if (await fileExists(filePath)) {
-        // If the .md file doesn't exist yet, convert the original file to .md
         if (!(await fileExists(mdFilePath))) {
           await convertFileToMd(toPath, filePath);
         }
 
-        // Now read the .md file
         const content = await fs.readFile(mdFilePath, "utf-8");
         return content;
       }

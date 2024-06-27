@@ -13,11 +13,9 @@ function MyComponent() {
   )
 }
 
-// Pass ref and properties to first child component
+// Pass ref and attributes to first child element
 function MyComponent() {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  // containerRef functions
+  const containerRef = useRef<HTMLElement>(null); // if usage with ref
 
   return (
     <Element
@@ -32,7 +30,6 @@ function MyComponent() {
     >
       <aside>
         <h6>Title</h6>
-
         <section>Content</section>
         <section>Content</section>
       </aside>

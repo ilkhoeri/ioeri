@@ -5,8 +5,8 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(cnx(...inputs));
 }
 
-export function retitled(texts: string[] | undefined) {
-  if (texts === undefined) return "";
+export function retitled(texts: string[] | undefined, defaultText: string = "Docs") {
+  if (texts === undefined) return defaultText;
   const length = texts?.length;
   const secondLast = length ? texts[texts?.length - 2] : " ";
   const last = length ? texts[texts?.length - 1] : " ";

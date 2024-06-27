@@ -10,6 +10,7 @@ import { retitled, sourceFiles } from "@/library/utils";
 
 import type { Metadata } from "next";
 import { Tabs } from "@/library/components/tabs";
+import { getContExt, getMdx, type ContExt } from "@/library/scripts/get-file-content";
 
 interface Params {
   params: { examples: string[] };
@@ -55,18 +56,28 @@ async function loadComponentFiles(
   return { code, usage };
 }
 
-async function loadMarkdownTextExample() {
-  const [edit, css, usage, code] = await Promise.all([
-    fs.readFile(path.join(process.cwd(), "/md/markdown-text-example.md"), "utf-8"),
-    fs.readFile(path.join(process.cwd(), "/modules/utils/formatter/markdown-text.css"), "utf-8"),
-    fs.readFile(path.join(process.cwd(), "/modules/utils/formatter/markdown-text-usage.md"), "utf-8"),
-    getMdFile("convert", "modules/utils/formatter/markdown-text", [".tsx", ".ts"]),
+async function getCode({ params }: Params): Promise<ContExt> {
+  return getContExt(`/modules/${sourceFiles(params.examples)}`, [".tsx", ".ts"]);
+}
+async function getCss({ params }: Params): Promise<ContExt> {
+  return getContExt(`/modules/${sourceFiles(params.examples)}`, [".css"]);
+}
+async function getSection({ params }: Params, sectionId: string): Promise<string | null> {
+  return getMdx(`/modules/${sourceFiles(params.examples)}`, sectionId);
+}
+
+async function loadMarkdownTextExample({ params }: Params) {
+  const [example, code, css, usage] = await Promise.all([
+    getSection({ params }, "example"),
+    getCode({ params }).then((res) => res.content),
+    getCss({ params }).then((res) => res.content),
+    getSection({ params }, "usage"),
   ]);
 
   return (
     <Tabs defaultValue="code" id="code" className="w-full scroll-m-20">
       <Playground
-        edit={edit}
+        edit={example}
         childrens={{
           code: <CodeCustomizer code={String(code)} />,
           css: <CodeCustomizer code={String(css)} />,
@@ -97,7 +108,7 @@ async function loadPolymorphicSlotExample() {
   );
 }
 
-const exampleLoaders: { [key: string]: () => Promise<React.JSX.Element> } = {
+const exampleLoaders: { [key: string]: (params: Params) => Promise<React.JSX.Element> } = {
   "markdown-text": loadMarkdownTextExample,
   "polymorphic-slot": loadPolymorphicSlotExample,
 };
@@ -106,7 +117,7 @@ export default async function Page({ params }: Params) {
   const components = await Promise.all(
     params.examples.map(async (example) => {
       const loader = exampleLoaders[example];
-      return loader ? loader() : null;
+      return loader ? loader({ params }) : null;
     }),
   );
 

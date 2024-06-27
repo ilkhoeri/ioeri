@@ -1,6 +1,6 @@
 "use client";
-import { clamp } from "../../factory/clamp";
-import { createStore, useStore, StoreValue } from "../../factory/store";
+import { clamp } from "../factory/clamp";
+import { createStore, useStore, StoreValue } from "../factory/store";
 
 export interface SpotlightState {
   opened: boolean;

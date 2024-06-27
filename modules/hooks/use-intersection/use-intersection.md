@@ -1,4 +1,4 @@
-#usage
+$usage
 import { useRef } from 'react';
 
 function MyComponent() {

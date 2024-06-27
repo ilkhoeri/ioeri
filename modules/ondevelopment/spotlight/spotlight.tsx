@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
 import { useUncontrolled } from "../../hooks";
-import { Factory } from "../../factory";
-import { useProps } from "../../factory/use-props";
-import { factory } from "../../factory/factory";
+import { Factory } from "../factory";
+import { useProps } from "../factory/use-props";
+import { factory } from "../factory/factory";
 import { spotlightStore, spotlight } from "./spotlight.store";
 import { SpotlightSearch, SpotlightSearchProps } from "./spotlight-search";
 import { SpotlightActionsList } from "./spotlight-actions-list";

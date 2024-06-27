@@ -1,15 +1,15 @@
 "use client";
 import React from "react";
-import { Factory, factory } from "../../factory";
-import { useProps } from "../../factory/use-props";
+import { Factory, factory } from "../factory";
+import { useProps } from "../factory/use-props";
 import { SpotlightProvider } from "./spotlight.context";
 import { useSpotlight, SpotlightStore, spotlightStore, spotlightActions } from "./spotlight.store";
 import { getHotkeys } from "./get-hotkeys";
-import { StylesApiProps } from "../../factory/styles-api.types";
+import { StylesApiProps } from "../factory/styles-api.types";
 import { useDidUpdate } from "../../hooks/use-did-update/use-did-update";
 import { useHotkeys } from "../../hooks/use-hotkeys/use-hotkeys";
-import { useStyles } from "../../factory/use-styles/use-styles";
-import { CSSProperties } from "../../utils/record-types";
+import { useStyles } from "../factory/use-styles/use-styles";
+import { CSSProperties } from "../utils/record-types";
 
 import classes from "./spotlight.module.css";
 

@@ -1,10 +1,10 @@
 "use client";
-import { FactoryPayload } from "../../factory";
-import { GetStylesApiOptions } from "../../factory/styles-api.types";
-import { createSafeContext } from "../../factory/transit";
+import { FactoryPayload } from "../factory";
+import { GetStylesApiOptions } from "../factory/styles-api.types";
+import { createSafeContext } from "../factory/transit";
 import { SpotlightRootFactory } from "./spotlight-root";
 import { SpotlightStore } from "./spotlight.store";
-import type { CSSProperties } from "../../utils/record-types";
+import type { CSSProperties } from "../utils/record-types";
 
 export type GetStylesApi<Payload extends FactoryPayload> = (
   selector: NonNullable<Payload["stylesNames"]>,

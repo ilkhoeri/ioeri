@@ -76,21 +76,21 @@ export const frameworks = [
 export const services = [
   {
     title: "Examples",
-    href: "/examples/playground/markdown-text",
+    href: "/examples",
+  },
+  {
+    title: "Documentation",
+    href: "/docs",
   },
   // {
   //   title: "Generators",
   //   href: "",
   // },
-  {
-    title: "Documentation",
-    href: "/docs",
-  },
 ];
 
 export const fitures = [
   {
-    title: "Playground",
+    title: "Examples",
     icon: AreaCodeIcon,
     data: [
       {
@@ -99,7 +99,7 @@ export const fitures = [
       },
       {
         title: "Polymorphic Slot",
-        href: "/examples/playground/polymorphic-slot",
+        href: "/examples/polymorphic-slot",
       },
     ],
   },

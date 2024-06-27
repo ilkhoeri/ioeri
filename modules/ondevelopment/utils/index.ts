@@ -43,7 +43,7 @@ export {
   kebabToCamelCase,
 } from "./text-transform";
 
-export { markdownText } from "./formatter/markdown-text";
+export { markdownText } from "../../playground/markdown-text/markdown-text";
 export { parseText, processParseText } from "./formatter/parse-text";
 export { convertBytesToMB } from "./formatter/bytes";
 export { formatPrice, formatterIDR, formatterIDRK, formatterLong } from "./formatter/currency";

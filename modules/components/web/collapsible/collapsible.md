@@ -1,4 +1,4 @@
-#usage
+$usage
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/modules";
 
 function MyComponent() {

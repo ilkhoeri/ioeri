@@ -1,13 +1,13 @@
-#title
+$title
 className x
 
-#description
+$description
 cnx is inspired by clsx, the arguments you give in cn or clsx you can put into cnx, so that you can think of <a href="https://www.npmjs.com/package/clsx" target="_blank" class="a_blank">cnx as clsx from another universe</a>.
 
-#installation
+$installation
 Berikut adalah cara untuk install Create Variant ....
 
-#usage
+$usage
 function cnx(...inputs: ClassValue[]): string
 
 // usage

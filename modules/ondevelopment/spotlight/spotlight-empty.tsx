@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
-import { ElementProps } from "../../factory/transit";
-import { CompoundStylesApiProps } from "../../factory/styles-api.types";
-import { Factory, factory } from "../../factory";
-import { useProps } from "../../factory/use-props";
+import { ElementProps } from "../factory/transit";
+import { CompoundStylesApiProps } from "../factory/styles-api.types";
+import { Factory, factory } from "../factory";
+import { useProps } from "../factory/use-props";
 import { useSpotlightContext } from "./spotlight.context";
 
 export type SpotlightEmptyStylesNames = "empty";

@@ -1,5 +1,5 @@
 
-#usage
+$usage
 import { useKitScrollbar } from "@/modules";
 
 function MyComponent() {

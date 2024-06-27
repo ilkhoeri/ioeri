@@ -3,10 +3,10 @@
 import React from "react";
 import Link, { LinkProps } from "next/link";
 
-import { CSSProperties, ElementProps } from "../../factory/transit";
-import { CompoundStylesApiProps } from "../../factory/styles-api.types";
-import { Factory, factory } from "../../factory";
-import { useProps } from "../../factory/use-props";
+import { CSSProperties, ElementProps } from "../factory/transit";
+import { CompoundStylesApiProps } from "../factory/styles-api.types";
+import { Factory, factory } from "../factory";
+import { useProps } from "../factory/use-props";
 import { useSpotlightContext } from "./spotlight.context";
 import { spotlightActions } from "./spotlight.store";
 

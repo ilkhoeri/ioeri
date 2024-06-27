@@ -1,4 +1,4 @@
-#usage
+$usage
 function MyComponent() {
   const [opened, setOpened] = useState(false);
   const ref = useClickOutside(() => setOpened(false));

@@ -1,6 +1,6 @@
 import { cnx } from "@/modules";
 import { GetStylesApiOptions } from "../../../styles-api.types";
-import { Theme } from "@/modules/factory/transit";
+import { Theme } from "@/modules/ondevelopment/factory/transit";
 
 interface GetGlobalClassNamesOptions {
   theme: Theme;

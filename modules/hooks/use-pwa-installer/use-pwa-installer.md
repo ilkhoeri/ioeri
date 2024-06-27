@@ -1,4 +1,4 @@
-#usage
+$usage
 function MyComponent() {
   const { prompt, installer } = usePWAInstaller();
 

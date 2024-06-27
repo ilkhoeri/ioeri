@@ -1,4 +1,4 @@
-#usage
+$usage
 function MyComponent() {
   const {ref, render, handleOpen, handleClose} = useOpenState();
 
