@@ -1,8 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { Suspense, lazy } from "react";
-import { ClientOnly } from "@/library/components/client-only";
+import { Suspense } from "react";
 import { Spinner } from "@/library/assets/anim-loader";
 
 interface DocsParams {

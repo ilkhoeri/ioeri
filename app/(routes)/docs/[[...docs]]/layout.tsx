@@ -2,7 +2,7 @@ import Docs from "./docs";
 import { getNestedRoutes, getRoutes } from "@/library/scripts/get-routes";
 import { InnerRoutes, NestedRoute, SingleRoute } from "@/library/routes";
 import { notFound } from "next/navigation";
-import { RestDocsPage } from "./dynamic-page";
+import { RestDocsPage } from "./client";
 
 // export function generateStaticParams() {
 //   return [{ docs: ["hooks", "use-clipboard"] }, { docs: ["b", "2"] }, { docs: ["c", "3"] }];
@@ -33,7 +33,13 @@ export default async function Layout({ children, params }: Readonly<DocsParams>)
   }
 
   if (params.docs.length === 1) {
-    return <RestDocsPage params={params} />;
+    const routesMap: { [key: string]: any } = {
+      components: components,
+      utility: utility,
+      hooks: hooks,
+    };
+    const routes = routesMap[params.docs[0]];
+    return <RestDocsPage id={params.docs[0]} routes={routes} />;
   }
 
   const matchingRoutes = findMatchingRoute(params.docs, [...components, ...utility, ...hooks]);

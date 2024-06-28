@@ -17,7 +17,7 @@ export function ThemeStateHidden() {
 
       <span
         aria-label="helper-css"
-        className="hidden sr-only grid sm:grid-cols-2 lg:grid-cols-3 3xl:grid-cols-4 gap-4 mt-5 sm:gap-6"
+        className="hidden sr-only sm:grid-cols-2 lg:grid-cols-3 3xl:grid-cols-4 gap-4 mt-5 sm:gap-6 transition-transform absolute transition-all translate-y-0 peer peer-focus-visible:-translate-y-full transition-colors focus-visible:border-b-color peer-focus-visible:text-[100%] text-[100%] pb-4 pb-3 placeholder:min-h-8"
       />
     </ruby>
   );

@@ -1,9 +1,10 @@
 "use client";
 
 import * as React from "react";
-import { attr } from "@/modules";
+import { attr, capitalizeWords, sanitizedToParams } from "@/modules";
 import { twMerge } from "tailwind-merge";
 import { cvx } from "@/modules/utility/cvx/cvx";
+import { cn } from "../utils";
 
 const inputVariants = cvx({
   variants: {
@@ -20,7 +21,7 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
   unstyled?: boolean;
 }
 
-const Input = React.forwardRef<HTMLInputElement, InputProps>(
+export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, value, disabled, onChange, autoComplete = "off", unstyled, ...props }, ref) => {
     const [numb, setNumb] = React.useState(value ?? "");
 
@@ -58,4 +59,35 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 );
 Input.displayName = "Input";
 
-export { Input };
+export function InputFilter({
+  id,
+  value,
+  onChange,
+}: {
+  id: string;
+  value: string;
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
+}) {
+  return (
+    <>
+      <input
+        type="text"
+        name={sanitizedToParams(id)}
+        id={sanitizedToParams(id)}
+        value={value}
+        onChange={onChange}
+        className="peer w-full min-w-full leading-none placeholder:leading-none placeholder:min-h-8 border-b pb-3 mt-1 mb-12 bg-transparent transition-colors focus-visible:ring-0 focus-visible:outline-0 focus-visible:border-b-color autofill:bg-transparent valid:bg-transparent placeholder-shown:bg-transparent focus:bg-transparent"
+      />
+      <label
+        role="presentation"
+        htmlFor={sanitizedToParams(id)}
+        className={cn(
+          "font-bold tracking-normal cursor-pointer absolute z-9 left-0 transition-all",
+          value ? "text-[100%] -translate-y-[28px]" : "text-h3 translate-y-0 peer-focus:text-[100%] peer-focus:-translate-y-[28px] peer-focus-visible:text-[100%] peer-focus-visible:-translate-y-[28px]",
+        )}
+      >
+        {capitalizeWords(id)}
+      </label>
+    </>
+  );
+}

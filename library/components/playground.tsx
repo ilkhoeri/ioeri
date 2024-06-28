@@ -146,7 +146,7 @@ function CardContent({ children }: { children?: React.ReactNode }) {
       {children}
       <Button
         variant="outline"
-        className="absolute inset-x-[calc(50%-1.5rem)] bottom-4 z-[99] px-3 min-w-20 w-max"
+        className="absolute inset-x-[calc(50%-3rem)] bottom-4 z-[99] px-3 min-w-24 w-max"
         onClick={() => setOpen(!open)}
       >
         {open ? "Collapse" : "Expand"}
