@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense } from "react";
 import { Spinner } from "@/library/assets/anim-loader";
 import { FileIcon } from "@/modules";
 
@@ -11,11 +11,11 @@ interface DocsParams {
   };
 }
 
-export const FallbackComponent = () => (
+export const FallbackComponent = ({ params }: DocsParams) => (
   <div>
     <p className=" border-b pt-2 pb-1">Component not found</p>
     <a
-      href=""
+      href={`https://github.com/ilkhoeri/ioeri/blob/main/examples/${params.docs.join("/")}.mdx`}
       target="_blank"
       className="w-max text-muted-foreground hover:text-constructive transition-colors text-sm pt-3 pb-1.5 gap-2 justify-start underline-hover"
     >
@@ -31,11 +31,11 @@ export const loadComponent = ({ params }: DocsParams) =>
         .then((mod) => mod.Example)
         .catch((err) => {
           console.error("Error loading component:", err);
-          return FallbackComponent;
+          return FallbackComponent({ params });
         }),
     {
       ssr: false,
-      loading: () => <Spinner size={22} classNames={{ spinner: "my-auto" }} />,
+      loading: () => <Spinner size={22} classNames={{ root: "my-auto" }} />,
     },
   );
 
@@ -47,7 +47,7 @@ export function Examples({ params }: DocsParams) {
       data-rehype-pretty-code-fragment=""
       className="relative min-h-[32rem] mx-auto size-full flex flex-col items-center justify-center"
     >
-      <Suspense fallback={<Spinner size={22} classNames={{ spinner: "my-auto" }} />}>
+      <Suspense fallback={<Spinner size={22} classNames={{ root: "my-auto" }} />}>
         <Component />
       </Suspense>
     </article>

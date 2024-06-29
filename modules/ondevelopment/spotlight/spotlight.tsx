@@ -87,8 +87,9 @@ const defaultProps: Partial<SpotlightProps> = {
 type SpotlightType = SpotlightFactory & DetailsSpotlightRoot;
 
 export const Spotlight = factory<SpotlightType>((_props, ref) => {
-  const props = useProps("Spotlight", defaultProps, _props);
-  const { searchProps, filter, query, onQueryChange, actions, nothingFound, highlightQuery, limit, ...others } = props;
+  const posprops = useProps("Spotlight", defaultProps, _props);
+  const { searchProps, filter, query, onQueryChange, actions, nothingFound, highlightQuery, limit, ...others } =
+    posprops;
 
   const [_query, setQuery] = useUncontrolled({
     value: query,

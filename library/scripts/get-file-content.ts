@@ -30,13 +30,26 @@ export async function getFileContent(basePath: string, extensions: string[] = ["
   }
 }
 
+async function filterContent(content: string): Promise<string> {
+  // Split the content by lines
+  const lines = content.split("\n");
+  // Filter out lines containing the specific keywords
+  const filteredLines = lines.filter(
+    (line) => !line.includes("__props") && !line.includes("const props") && !line.includes("<Props"),
+  );
+  // Join the filtered lines back into a single string
+  return filteredLines.join("\n");
+}
+
 export type ContExt = { content: string | null; extension: string | null };
 export async function getContExt(basePath: string, extensions: string[] = [".tsx", ".ts"]): Promise<ContExt> {
   try {
     for (const ext of extensions) {
       const fullPath = path.join(process.cwd(), `${basePath}${ext}`);
       try {
-        const text = await fs.readFile(fullPath, "utf-8");
+        // const text = await fs.readFile(fullPath, "utf-8"); // without filtered
+        let text = await fs.readFile(fullPath, "utf-8");
+        text = await filterContent(text);
         return { content: text.trim() ? text : null, extension: ext };
       } catch (error) {
         // Continue to the next extension if file is not found

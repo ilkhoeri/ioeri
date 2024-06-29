@@ -1,8 +1,9 @@
 $:usage
+// set class `markdown-body` in wrapper
 function MyComponent() {
   return (
     <div
-      className="markdown-body" // set class `markdown-body` in wrapper
+      className="markdown-body" 
       dangerouslySetInnerHTML={{ __html: markdownText(text) }}
     />
   )

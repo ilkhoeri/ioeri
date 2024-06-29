@@ -27,7 +27,7 @@ export async function Code({ code }: { code: string }) {
   );
 }
 
-async function highlightCode(code: string) {
+export async function highlightCode(code: string) {
   const file = await unified()
     .use(remarkParse) // Convert into markdown AST
     .use(remarkRehype) // Transform to HTML AST

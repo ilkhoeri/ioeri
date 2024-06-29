@@ -5,8 +5,8 @@ import { Tabs } from "@/library/components/tabs";
 import { retitled, sourceFiles } from "@/library/utils";
 import { getMdFile } from "@/library/scripts/get-md-file";
 import { Playground } from "@/library/components/playground";
-import { Container,Title } from "@/library/components/components";
-import { CodeCustomizer } from "@/library/components/code-customizer";
+import { Container, Title } from "@/library/components/components";
+import { CodeCustomizer, escapeCode } from "@/library/components/code-customizer";
 import { getContExt, getMdx, type ContExt } from "@/library/scripts/get-file-content";
 import { sanitizedToParams } from "@/modules";
 
@@ -74,16 +74,21 @@ async function loadMarkdownTextExample({ params }: Params) {
     getSection({ params }, "usage"),
   ]);
 
+  const childrens: { [key: string]: React.JSX.Element | null } = {};
+
+  if (code) {
+    childrens.code = <CodeCustomizer setInnerHTML code={escapeCode(code)} />;
+  }
+  if (css) {
+    childrens.css = <CodeCustomizer code={String(css)} />;
+  }
+  if (usage) {
+    childrens.usage = <CodeCustomizer setInnerHTML code={escapeCode(usage)} />;
+  }
+
   return (
     <Tabs defaultValue="code" id="code" className="w-full scroll-m-20">
-      <Playground
-        edit={example}
-        childrens={{
-          code: <CodeCustomizer code={String(code)} />,
-          css: <CodeCustomizer code={String(css)} />,
-          usage: <CodeCustomizer code={String(usage)} />,
-        }}
-      />
+      <Playground edit={example} childrens={childrens} />
     </Tabs>
   );
 }

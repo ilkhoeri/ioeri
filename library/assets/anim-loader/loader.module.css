@@ -42,22 +42,26 @@
 /* SPINNER */
 .spinner {
   height: var(--spinner-size, 20px);
+  min-height: var(--spinner-size, 20px);
+  max-height: var(--spinner-size, 20px);
   width: var(--spinner-size, 20px);
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  min-width: var(--spinner-size, 20px);
+  max-width: var(--spinner-size, 20px);
+  position: var(--spinner-pos, relative);
+  display: var(--spinner-display, flex);
+  justify-content: var(--spinner-justify, center);
+  align-items: var(--spinner-items, center);
   flex-wrap: nowrap;
-  color: inherit;
+  color: transparent;
 }
 
 .bar {
-  animation: spin 1.2s linear infinite;
-  background: var(--spinner-color, white);
-  border-radius: var(--geist-radius, 999px);
   height: 8%;
-  position: absolute;
   width: 24%;
+  position: absolute;
+  animation: spin 1.2s linear infinite;
+  background: var(--spinner-color, var(--spinner-color-set, white));
+  border-radius: var(--geist-radius, 999px);
 }
 
 .bar:first-child {
@@ -126,5 +130,85 @@
   }
   to {
     opacity: 0.15;
+  }
+}
+
+/* loader-orbit */
+.loader_root {
+  position: relative;
+  z-index: 999;
+  margin: 0rem;
+  display: flex;
+  height: 100dvh;
+  min-height: 100dvh;
+  width: 100%;
+  min-width: 100%;
+  align-items: center;
+  justify-content: center;
+  /* filter: drop-shadow(0px 0px 2px hsl(var(--background-theme))); */
+
+  & .loader_wrap {
+    position: relative;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+
+    & .orbit_rotate_wrap {
+      --Loader-size: 36px;
+      --Loader-color: hsl(var(--color));
+      position: absolute;
+      animation: 2s linear 0s infinite normal none running orbitRotate-loader-first-animation;
+    }
+    & .orbit {
+      position: absolute;
+      height: var(--Loader-size);
+      width: var(--Loader-size);
+      background-color: var(--Loader-color);
+      border-radius: 9999px;
+    }
+    & .orbit:nth-child(1) {
+      top: 0px;
+      right: 0px;
+      animation: 2s linear infinite normal none running orbitRotate-loader-second-animation;
+    }
+    & .orbit:nth-child(2) {
+      bottom: 0px;
+      left: 0px;
+      animation: 2s linear infinite normal none running orbitRotate-loader-third-animation;
+    }
+
+    & svg {
+      color: hsl(var(--color));
+    }
+  }
+}
+
+@keyframes orbitRotate-loader-first-animation {
+  100% {
+    rotate: 360deg;
+  }
+}
+
+@keyframes orbitRotate-loader-second-animation {
+  0%,
+  100% {
+    transform: scale(0.5);
+  }
+  50% {
+    transform: scale(0);
+  }
+}
+
+@keyframes orbitRotate-loader-third-animation {
+  0%,
+  100% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(0.5);
   }
 }

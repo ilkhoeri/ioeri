@@ -94,7 +94,7 @@ const defaultProps: Partial<SpotlightRootProps> = {
 };
 
 export const SpotlightRoot = factory<SpotlightRootFactory>((_props, ref) => {
-  const props = useProps("SpotlightRoot", defaultProps, _props);
+  const posprops = useProps("SpotlightRoot", defaultProps, _props);
   const {
     store,
     children,
@@ -118,7 +118,7 @@ export const SpotlightRoot = factory<SpotlightRootFactory>((_props, ref) => {
     variant,
     vars,
     ...others
-  } = props;
+  } = posprops;
   const { className, style, id, ...rest } = others;
 
   const { opened, query: storeQuery } = useSpotlight(store!);
@@ -131,8 +131,8 @@ export const SpotlightRoot = factory<SpotlightRootFactory>((_props, ref) => {
   const getStyles = useStyles<SpotlightRootFactory>({
     // classNamesPrefix:'spotlight',
     name: "spotlight",
+    props: posprops,
     classes,
-    props,
     classNames,
     styles,
     unstyled,

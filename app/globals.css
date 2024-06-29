@@ -531,7 +531,37 @@ form {
   align-items: center;
 }
 
-/* === range theme and appearance === */
+/* === input[type="color"] === */
+input[type="color"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  border-radius: 9999px;
+  clip-path: circle(32px at center);
+	background: none;
+}
+input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+  margin: 0;
+  border-radius: 9999px;
+  overflow: hidden;
+  border: 1px solid hsl(var(--color-muted));
+}
+input[type="color"]::-webkit-color-swatch {
+  border-radius: 9999px;
+  outline-offset: 0px;
+  border: none;
+  outline: none;
+}
+input[type="color"]::-moz-color-swatch {
+  border-radius: 9999px;
+  outline-offset: 0px;
+  border: none;
+  outline: none;
+}
+
+/* === input[type="range"] === */
 input[type="range"] {
   font-size: 1rem;
   width: 100%;

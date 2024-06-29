@@ -13,6 +13,7 @@ import {
   ChevronDownSquareIcon,
   GithubIcon,
 } from "@/modules/components/web/svg/icons";
+import { recallHtml } from "./code-customizer";
 
 export const GetCodeToggle = React.forwardRef<
   React.ElementRef<typeof Anchor>,
@@ -53,7 +54,11 @@ export const CopyToggle = React.forwardRef<
       {...props}
       tabIndex={-1}
       title="Copy"
-      onClick={() => clipboard.copy(text)}
+      onClick={() => {
+        if (text) {
+          clipboard.copy(recallHtml(text));
+        }
+      }}
       disabled={!text}
       className={twMerge(
         "centered p-1 rounded-md border absolute top-4 right-4 [&_svg]:sizer [--sz:20px] transition-colors text-muted-foreground hover:text-color",

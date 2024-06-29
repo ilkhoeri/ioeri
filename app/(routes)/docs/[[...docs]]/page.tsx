@@ -1,13 +1,13 @@
 import { Tabs } from "@/library/components/tabs";
 import { retitled, sourceFiles } from "@/library/utils";
 import { Playground } from "@/library/components/playground";
-import { CodeCustomizer } from "@/library/components/code-customizer";
+import { CodeCustomizer, escapeCode } from "@/library/components/code-customizer";
 import { Container, Paragraph, Title } from "@/library/components/components";
 import { getMdx, getContExt, type ContExt } from "@/library/scripts/get-file-content";
 import { sanitizedToParams } from "@/modules";
 
 import type { Metadata } from "next";
-import { Examples, FallbackComponent } from "./dynamic-examples";
+import { Examples, FallbackComponent } from "./examples";
 
 interface DocsParams {
   params: {
@@ -37,6 +37,9 @@ async function getReserveCode({ params }: DocsParams, extension: string): Promis
   );
   return await res.text();
 }
+async function getReserveUsage({ params }: DocsParams): Promise<string | null> {
+  return getMdx(`/modules/${sourceFiles(params.docs)}`, "usage");
+}
 async function getUsage({ params }: DocsParams): Promise<ContExt> {
   return getContExt(`/examples/${params.docs.join("/")}`, [".tsx", ".ts"]);
 }
@@ -52,15 +55,18 @@ async function getSection({ params }: DocsParams, sectionId: string): Promise<st
 
 export default async function Page({ params }: DocsParams) {
   const { content: code, extension: codeExt } = await getCode({ params });
+  const usage = await getUsage({ params }).then((res) => res.content);
+
   const XTS = codeExt || ".tsx";
   const reserveCode = code === null ? await getReserveCode({ params }, `${XTS}`) : null;
+  const reserveUsage = usage === null ? await getReserveUsage({ params }) : null;
 
-  const [css, title, description, usage] = await Promise.all([
+  const [css, title, description] = await Promise.all([
     getCss({ params }).then((res) => res.content),
     getSection({ params }, "title"),
     getSection({ params }, "description"),
-    getUsage({ params }).then((res) => res.content),
     // getSection({ params }, "usage"),
+    ,
   ]);
 
   const childrens: { [key: string]: React.JSX.Element | null } = {};
@@ -68,7 +74,9 @@ export default async function Page({ params }: DocsParams) {
 
   if (usage) {
     childrens.preview = <Examples params={params} />;
-    childrens.usage = <CodeCustomizer code={usage} />;
+    childrens.usage = <CodeCustomizer setInnerHTML code={escapeCode(usage)} />;
+  } else if (reserveUsage) {
+    childrens.usage = <CodeCustomizer setInnerHTML code={escapeCode(reserveUsage)} />;
   }
 
   if (css) {
@@ -94,7 +102,7 @@ export default async function Page({ params }: DocsParams) {
         <Paragraph color="default" className="mt-0 mb-12 text-base" dangerouslySetInnerHTML={{ __html: description }} />
       )}
 
-      {usage && (
+      {(usage || reserveUsage) && (
         <Tabs defaultValue="usage" id="usage" className="w-full">
           <Playground childrens={childrens} />
         </Tabs>

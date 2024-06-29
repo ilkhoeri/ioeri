@@ -18,6 +18,9 @@
   counter-reset: line;
   box-decoration-break: clone;
 }
+[data-rehype-pretty-code-fragment] [data-fragment="comment"] {
+  @apply text-color-muted h-5 mt-3 -mb-3;
+}
 [data-rehype-pretty-code-fragment] .line {
   @apply px-4 min-h-[1rem] py-0.5 w-full inline-block;
 }

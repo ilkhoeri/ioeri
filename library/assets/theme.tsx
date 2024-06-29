@@ -57,9 +57,9 @@ export function ThemeStateHidden() {
         THEMING_SHORTCUT (⌘/ctrl + J)
       </rp>
 
-      <span
+      <rt
         aria-label="helper-css"
-        className="hidden sr-only h-[15rem] w-52 w-64 h-80 max-h-full p-4 hover:bg-muted-foreground peer-hover:bg-muted-foreground data-[scroll=active]:bg-color right-1 left-1 right-4 left-4 min-w-20 md:flex-row md:flex-col top-4 min-w-26 p-2 [&_span]:font-mono [&_span]:text-nowrap min-w-36 last-of-type:border-b-0"
+        className="hidden sr-only h-[15rem] tex-xs size-9 w-8 min-w-8 min-w-9 h-9 min-h-9 w-52 w-64 h-80 max-h-full p-4 hover:bg-muted-foreground peer-hover:bg-muted-foreground data-[scroll=active]:bg-color right-1 left-1 right-4 left-4 min-w-20 md:flex-row md:flex-col top-4 min-w-26 p-2 [&_span]:font-mono [&_span]:text-nowrap min-w-36 min-w-max last-of-type:border-b-0 w-1/2 rounded-none w-80 gap-2 data-[side=top]:flex-col-reverse data-[side=bottom]:flex-col data-[side=left]:flex-row-reverse data-[side=right]:flex-row data-[side=top]:overflow-y-auto data-[side=bottom]:overflow-y-auto data-[side=left]:overflow-x-auto data-[side=right]:overflow-x-auto min-w-full text-sm group-data-[side=top]:border-t group-data-[side=bottom]:border-b group-data-[side=left]:border-l group-data-[side=right]:border-r data-[side=top]:w-80 data-[side=bottom]:w-80 data-[side=left]:w-14 data-[side=right]:w-14 data-[side=left]:w-max data-[side=right]:w-max last-of-type:border-b-0 min-w-max data-[side=top]:h-64 data-[side=top]:w-80 data-[side=bottom]:h-64 data-[side=bottom]:w-80 data-[side=left]:w-64 data-[side=left]:h-[--trigger-h] data-[side=right]:w-64 data-[side=right]:h-[--trigger-h]"
       />
     </ruby>
   );

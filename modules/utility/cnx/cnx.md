@@ -10,48 +10,17 @@ Berikut adalah cara untuk install Create Variant ....
 $:usage
 function cnx(...inputs: ClassValue[]): string
 
-// Allows receiving more than one First value and Second value
-  const className = cnx(
-  ['class_root', `variant-${variant}`, `size-${props.size}`, !(variant === 'unstyled') && classes.root],
-  classNames?.root,
-  className
-  );
+// allows receiving more than one value
+  const className = cnx(['', props, !(props === 'foo') && bar], {'': !props}, '');
 
-// with boolean value
-  function MyComponent({ children }: { children?: React.ReactNode }) {
-    const [open, setOpen] = useState<boolean>(false);
+// with many First values ​​and Second values
+  cnx(['', ''], classLight, classDark)
 
-    return (
-      <div
-        className={cnx("min-h-[62px] bg-background-box relative transition-[width,height,color]", {
-          "h-[20rem] max-h-[20rem] overflow-hidden text-muted-foreground/50": !open,
-        })}
-      >
-        {children}
-        <Button
-          variant="outline"
-          className="absolute inset-x-[calc(50%-1.5rem)] bottom-4 z-[99] px-3 min-w-20 w-max"
-          onClick={() => setOpen(!open)}
-        >
-          {open ? "Collapse" : "Expand"}
-        </Button>
-      </div>
-    );
-  }
+// ""
+  cnx(Boolean, Object, undefined, null, '', 0, NaN)
 
-// Example with many First values ​​and Second values
-  <div className={cnx(['class1', 'class2'], classLight, classDark, classNames?.root, className)} />
-
-// Example of use in the parent component
-  <div className={cnx(['h-6', 'w-6'])} />
-  <div className={cnx("h-6 w-6 bg-white")} />
-  <div className={cnx('h-6', isOpen && 'w-6', isDark ? 'bg-black' : 'bg-white')} />
-
-// Example of using merge with tailwind-merge
-  import { cnx, type ClassValue } from "@/modules";
-  import { twMerge } from "tailwind-merge";
-
-  export function cn(...inputs: ClassValue[]) {
+// merge with tailwind-merge
+  function cn(...inputs: ClassValue[]) {
     return twMerge(cnx(...inputs));
   }
 

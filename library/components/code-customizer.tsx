@@ -22,21 +22,44 @@ export function CodeCustomizer({ code, setInnerHTML = false }: { code: string; s
   );
 }
 
-export function markdownCustomizer(text: string): string {
+export function escapeCode(text: string): string {
+  text = escapeHtml(text);
+
   text = text.replace(/^(.*?)(\/\/.*)$/gm, (match, p1, p2) => {
     const beforeComment = p1.trim();
     const comment = p2.replace(/^\/\//, "").trim();
 
     if (beforeComment) {
-      return `<p class="text-muted-foreground" style="margin-bottom: -12px;">${beforeComment} <i>// ${comment}</i></p>`;
+      return `<p>${beforeComment} <i data-fragment="comment">// ${comment}</i></p>`;
     } else {
-      return `<p class="text-muted-foreground" style="margin-bottom: -12px;"><i>// ${comment}</i></p>`;
+      return `<p data-fragment="comment"><i>// ${comment}</i></p>`;
     }
   });
 
-  text = text.replace(/```(.*?)```/g, "<code>$1</code>");
+  // text = text.replace(/```(.*?)```/g, "<code>$1</code>");
 
   return text;
+}
+
+export function escapeHtml(html: string): string {
+  return html
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;")
+    .replace(/{/g, "&#123;")
+    .replace(/}/g, "&#125;");
+}
+export function recallHtml(html: string): string {
+  return html
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#039;/g, "'")
+    .replace(/&#123;/g, "{")
+    .replace(/&#125;/g, "}");
 }
 
 // Helper function to strip HTML tags

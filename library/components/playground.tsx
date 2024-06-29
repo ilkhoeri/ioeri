@@ -76,7 +76,7 @@ export function Playground(Play: PlaygroundType) {
 
       {edit && (
         <TabsContent value="edit">
-          <CardContent {...rest}>
+          <Card className="min-h-[62px] bg-background-box">
             <Textarea
               name="playground"
               data-rehype-pretty-code-fragment=""
@@ -91,7 +91,7 @@ export function Playground(Play: PlaygroundType) {
               onChange={(e) => setText(e.currentTarget.value)}
             />
             <CopyToggle text={text} />
-          </CardContent>
+          </Card>
         </TabsContent>
       )}
 
