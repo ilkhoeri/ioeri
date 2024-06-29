@@ -5,7 +5,7 @@ import style from "@/library/styles/ioeri.module.css";
 
 export default function Loading() {
   return (
-    <main className={style.loader}>
+    <main className="w-full min-h-screen h-screen flex items-center justify-center relative bg-background">
       <Spinner size={24} />
     </main>
   );

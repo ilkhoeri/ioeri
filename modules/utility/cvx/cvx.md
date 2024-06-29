@@ -60,3 +60,30 @@ type MyVariantsComponentType = {
 // with twMerge
   <div className={twMerge(classes({ clr: "red", sz: "md" }), "text-background font-extrabold border-0")}>MY COMPONENT</div>
 
+// merge with twMerge
+  import { cvx, type VariantsType } from "@/modules/utility";
+  import { twMerge } from "tailwind-merge";
+
+  export const compoundStyle = cvx({
+    variants: {
+      toggle: {
+        group: "flex items-center",
+        item: "inline-flex items-center justify-center rounded-md ring-offset-background transition-colors hover:bg-muted hover:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-background focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=on]:text-color",
+      },
+      theme: {
+        default: "bg-transparent",
+        outline: "border bg-transparent hover:bg-muted hover:text-color",
+      },
+      size: {
+        default: "h-10 px-3",
+        sm: "h-9 px-2.5",
+        lg: "h-11 px-5",
+      },
+    },
+  });
+
+  export default function globalStyle(variants: VariantsType<typeof compoundStyle>, className?: string) {
+    return twMerge(compoundStyle(variants), className);
+  }
+
+  <div className={globalStyle({ toggle: "group" }, "ml-auto [&_svg]:size-5")} />

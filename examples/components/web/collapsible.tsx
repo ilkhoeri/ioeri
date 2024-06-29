@@ -1,31 +1,28 @@
 "use client";
 
-import { useState } from "react";
-import { AlignValuesType, SideValuesType } from "@/modules";
+import { SetAttrCollapsible, useSetAttrCollapsible } from "./__clients";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/modules/components/web";
 
-function CollapsibleExample() {
-  const [side, setSide] = useState<SideValuesType>("bottom");
-  const [align, setAlign] = useState<AlignValuesType>("center");
+export function Example() {
+  const set = useSetAttrCollapsible();
 
   return (
-    <div>
-      <button type="button" onClick={() => setSide("left")}>
-        Side
-      </button>
-      <button type="button">Align</button>
-      <Collapsible defaultOpen align={align} side={side}>
-        <CollapsibleTrigger className="font-semibold text-color focus-visible:ring-inset focus-visible:ring-offset-[-2px]">
+    <>
+      <Collapsible align={set.align} side={set.side} sideOffset={set.offset} clickOutsideToClose={set.clickOutside}>
+        <CollapsibleTrigger className="font-semibold w-max px-2 py-1 border rounded-sm hover:bg-muted">
           <span className="truncate">Open</span>
         </CollapsibleTrigger>
 
-        <CollapsibleContent>
-          <h6>Title</h6>
-          <div>Contents</div>
+        <CollapsibleContent className="overflow-y-auto bg-background rounded-md border p-2 h-80 w-64 collapsible-content-class">
+          {[...Array(30)].map((_, index) => (
+            <p key={index} className="text-sm pt-3 pb-1.5 border-b last-of-type:border-b-0 gap-2 flex items-center">
+              Lorem ipsum...
+            </p>
+          ))}
         </CollapsibleContent>
       </Collapsible>
-    </div>
+
+      <SetAttrCollapsible {...set} />
+    </>
   );
 }
-
-export default CollapsibleExample;

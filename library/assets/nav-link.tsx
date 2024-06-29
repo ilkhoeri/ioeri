@@ -60,6 +60,7 @@ export function NavLinkItem({
         href={href}
         scroll={scroll}
         data-path={pathActive ? "active" : ""}
+        data-mark={isNew ? "true" : undefined}
         className={twMerge(className, classNames?.link, pathActive && classNames?.active)}
         {...props}
       >

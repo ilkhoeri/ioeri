@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { getNestedRoutes, getRoutes } from "@/library/scripts/get-routes";
-import { AsideLeft } from "@/library/assets/nav-aside/aside-left";
+import { AsideLeft } from "@/library/assets/nav-aside-left";
 import { Main } from "@/library/components/components";
 import { IoeriIcon } from "@/modules";
 

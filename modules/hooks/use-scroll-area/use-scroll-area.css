@@ -1,0 +1,24 @@
+body[data-scroll="active"] * *,
+.thumb:active {
+  cursor: grabbing;
+  user-select: none;
+}
+.thumb {
+  position: absolute;
+  transition-property: background-color, width, transform, right, bottom;
+  transition-duration: 300ms;
+  z-index: 9999;
+  cursor: grab;
+}
+.scroll-area-content::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+  border-radius: 9999px;
+}
+.scroll-area-content::-webkit-scrollbar-track {
+  background: #0000;
+}
+.scroll-area-content::-webkit-scrollbar-thumb {
+  background: #0000;
+  border-radius: 9999px;
+}

@@ -3,19 +3,22 @@ import { CopyToggle } from "./toggle";
 
 export function CodeCustomizer({ code, setInnerHTML = false }: { code: string; setInnerHTML?: boolean }) {
   return (
-    <div data-rehype-pretty-code-fragment="">
-      <pre className="p-4 overflow-x-auto rounded-lg scrollbar" data-language="tsx" data-theme="default">
-        <code
-          className="relative white-space-pre-wrap w-max rounded bg-muted font-mono text-span"
-          data-language="tsx"
-          data-theme="default"
-          dangerouslySetInnerHTML={setInnerHTML ? { __html: code } : undefined}
-        >
-          {setInnerHTML ? null : code}
-        </code>
-      </pre>
+    <>
+      <div data-rehype-pretty-code-fragment="" className="scrollbar">
+        <pre className="p-4 rounded-lg" data-language="tsx" data-theme="default">
+          <code
+            className="relative white-space-pre-wrap w-max rounded bg-muted font-mono text-span"
+            data-language="tsx"
+            data-theme="default"
+            dangerouslySetInnerHTML={setInnerHTML ? { __html: code } : undefined}
+          >
+            {setInnerHTML ? null : code}
+          </code>
+        </pre>
+      </div>
+
       <CopyToggle text={code} />
-    </div>
+    </>
   );
 }
 

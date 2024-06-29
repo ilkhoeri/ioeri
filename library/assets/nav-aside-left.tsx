@@ -1,13 +1,13 @@
 "use client";
 
 import React from "react";
-import { fitures } from "@/library/routes";
+import { appRoutes } from "@/library/routes";
 import { useNavContext } from "@/library/hooks/use-nav";
-import { NavLinkItem } from "../navigation/nav-link";
+import { NavLinkItem } from "./nav-link";
 
 import { twMerge } from "tailwind-merge";
-import { ButtonAside, LinkHome } from "../nav-head/headnav";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger, Scrollbar } from "@/modules/components/web";
+import { ButtonAside, LinkHome } from "./nav-head";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger, ScrollArea } from "@/modules/components/web";
 
 import type { SingleRoute, NestedRoute } from "@/library/routes";
 
@@ -57,7 +57,7 @@ export function AsideLeft({
           </hgroup>
         )}
 
-        <Scrollbar
+        <ScrollArea
           el="nav"
           classNames={{
             content: twMerge(Styles({ style: "nav" }), "size-full pl-4 pr-1.5"),
@@ -73,7 +73,7 @@ export function AsideLeft({
 
           {topRoutes &&
             topRoutes.map((i, index) => (
-              <Collapsible key={index} defaultOpen className="h-auto w-full flex flex-col gap-1">
+              <Collapsible key={index} defaultOpen align="start" className="h-auto w-full flex flex-col gap-1">
                 <CollapsibleTrigger className={Styles({ style: "trigger" })}>
                   <span className="truncate">{i.title}</span>
                 </CollapsibleTrigger>
@@ -88,14 +88,14 @@ export function AsideLeft({
 
           {nestedRoutes &&
             nestedRoutes.map((i, index) => (
-              <Collapsible key={index} defaultOpen className="h-auto w-full flex flex-col">
+              <Collapsible key={index} defaultOpen align="start" className="h-auto w-full flex flex-col">
                 <CollapsibleTrigger className={Styles({ style: "trigger" })}>
                   <span className="truncate">{i.title}</span>
                 </CollapsibleTrigger>
 
                 <CollapsibleContent className="flex z-1 [--space-l:8px] ml-[--space-l] w-[calc(100%-var(--space-l))]">
                   {i.data.map((i, index) => (
-                    <Collapsible key={index} defaultOpen>
+                    <Collapsible key={index} defaultOpen align="start">
                       <CollapsibleTrigger className={Styles({ style: "trigger" })}>
                         <span className="truncate">{i.title}</span>
                       </CollapsibleTrigger>
@@ -119,7 +119,7 @@ export function AsideLeft({
 
           {routes &&
             routes.map((i, index) => (
-              <Collapsible key={index} defaultOpen className="h-auto w-full flex flex-col gap-1">
+              <Collapsible key={index} defaultOpen align="start" className="h-auto w-full flex flex-col gap-1">
                 <CollapsibleTrigger className={Styles({ style: "trigger" })}>
                   <span className="truncate">{i.title}</span>
                 </CollapsibleTrigger>
@@ -132,8 +132,8 @@ export function AsideLeft({
               </Collapsible>
             ))}
 
-          {fitures.map((i, index) => (
-            <Collapsible key={index} defaultOpen className="h-auto w-full flex flex-col gap-1">
+          {appRoutes["fitures"].map((i, index) => (
+            <Collapsible key={index} defaultOpen align="start" className="h-auto w-full flex flex-col gap-1">
               <CollapsibleTrigger className={Styles({ style: "trigger" })}>
                 <span className="truncate">{i.title}</span>
               </CollapsibleTrigger>
@@ -145,7 +145,7 @@ export function AsideLeft({
               </CollapsibleContent>
             </Collapsible>
           ))}
-        </Scrollbar>
+        </ScrollArea>
       </aside>
 
       <Overlay minQuery={minQuery} open={open} setOpen={setOpen} className={classNames?.overlay} />

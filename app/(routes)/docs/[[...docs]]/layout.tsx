@@ -34,7 +34,7 @@ export default async function Layout({ children, params }: Readonly<DocsParams>)
 
   if (params.docs.length === 1) {
     const routesMap: { [key: string]: any } = {
-      components: components,
+      components: nested,
       utility: utility,
       hooks: hooks,
     };

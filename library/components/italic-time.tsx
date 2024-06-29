@@ -36,7 +36,10 @@ const ItalicTime: React.FC<{ time: string | undefined; util: "created" | "update
       withArrow
       asChild={false}
       align="start"
-      classNames={{ root: style.italic_time, trigger: style.italic_time_tooltip }}
+      classNames={{
+        root: "w-max cursor-default my-2 font-mono",
+        trigger: "flex flex-row flex-nowrap items-center text-sm text-muted-foreground space-x-2",
+      }}
       tooltip={util}
     >
       <svg
@@ -49,6 +52,7 @@ const ItalicTime: React.FC<{ time: string | undefined; util: "created" | "update
         height="28"
         width="28"
         xmlns="http://www.w3.org/2000/svg"
+        className="border rounded-lg p-[3px]"
       >
         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
         {timeCreated && (
@@ -66,7 +70,10 @@ const ItalicTime: React.FC<{ time: string | undefined; util: "created" | "update
           </>
         )}
       </svg>
-      <time dateTime={String(time)}>{dateTime}</time>.
+      <time dateTime={String(time)} className="italic">
+        {dateTime}
+      </time>
+      .
     </Tooltip>
   );
 };

@@ -1,12 +1,12 @@
 import { useRef, useEffect, useState } from "react";
 
-import "./use-kit-scrollbar.css";
+import "./use-scroll-area.css";
 
-export type UseKitScrollbarType = {
+export type UseScrollAreaType = {
   overflow?: "y" | "x";
 };
 
-export function useKitScrollbar({ overflow = "y" }: UseKitScrollbarType = {}) {
+export function useScrollArea({ overflow = "y" }: UseScrollAreaType = {}) {
   const scrollContentRef = useRef<HTMLDivElement>(null);
   const thumbRef = useRef<HTMLElement>(null);
   const [thumbSize, setThumbSize] = useState<number>(0);
@@ -33,7 +33,7 @@ export function useKitScrollbar({ overflow = "y" }: UseKitScrollbarType = {}) {
 
     const scrollContent = scrollContentRef.current;
     if (scrollContent) {
-      scrollContent.classList.add("scroll-content");
+      scrollContent.classList.add("scroll-area-content");
       scrollContent.addEventListener("scroll", handleScroll);
       handleScroll();
     }
@@ -48,7 +48,7 @@ export function useKitScrollbar({ overflow = "y" }: UseKitScrollbarType = {}) {
 
     return () => {
       if (scrollContent) {
-        scrollContent.classList.remove("scroll-content");
+        scrollContent.classList.remove("scroll-area-content");
         scrollContent.removeEventListener("scroll", handleScroll);
         resizeObserver.unobserve(scrollContent);
       }

@@ -1,5 +1,5 @@
 import Element from "@/modules/components/web/element/element";
-import { AsideLeft } from "@/library/assets/nav-aside/aside-left";
+import { AsideLeft } from "@/library/assets/nav-aside-left";
 import { getNestedRoutes, getRoutes } from "@/library/scripts/get-routes";
 import type { NestedRoute, SingleRoute } from "@/library/routes";
 

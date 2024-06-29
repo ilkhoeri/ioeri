@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
-import { frameworks } from "@/library/routes";
-import { InstallCommand } from "@/library/assets/parts/install-command";
+import { appRoutes } from "@/library/routes";
+import { InstallCommand } from "@/library/assets/install-command";
 import { Container, Paragraph, Title } from "@/library/components/components";
 import { sanitizedToParams } from "@/modules/ondevelopment/utils";
 import { Svg } from "@/modules/components/web";
@@ -37,10 +37,10 @@ function QuickInstallation() {
         Quick Installation
       </Title>
 
-      <Paragraph color="color">
+      <Paragraph color="default">
         You can use npx CLI to install the React library framework. The npx ships with npm.
       </Paragraph>
-      <Paragraph color="color">
+      <Paragraph color="default">
         This lets you install packages and run commands in one step. You can use the following command to start creating
         a new project.
       </Paragraph>
@@ -69,12 +69,12 @@ function FrameworksCard() {
         Learn
       </Title>
 
-      <Paragraph color="color">
+      <Paragraph color="default">
         This project is based on the&nbsp;
         <A title="React.js" href="https://react.dev/learn/" />
         &nbsp;library.
       </Paragraph>
-      <Paragraph color="color">
+      <Paragraph color="default">
         On web projects we recommend using&nbsp;
         <A title="Next.js" href="https://nextjs.org/" />
         , or&nbsp;
@@ -86,7 +86,7 @@ function FrameworksCard() {
         &nbsp;framework.
       </Paragraph>
 
-      {frameworks.map((i) => (
+      {appRoutes["frameworks"].map((i) => (
         <div key={i.title} className="mt-8">
           <Title el="h3" id={sanitizedToParams(i.title)} size="h4" variant="section">
             {i.title}
@@ -121,7 +121,7 @@ function TypingNotes() {
         TypeScript
       </Title>
 
-      <Paragraph color="color" className="mb-40">
+      <Paragraph color="default" className="mb-52">
         This project and the components are written in TypeScript. We recommend using TypeScript for your project as
         well.
       </Paragraph>

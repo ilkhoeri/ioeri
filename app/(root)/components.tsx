@@ -6,20 +6,25 @@ import { cn } from "@/library/utils";
 import { useTheme } from "next-themes";
 import { AnimText, BookOpen2Icon, GithubIcon, Transform, sanitizedToParams, ArrowsSquareIcon } from "@/modules";
 
-import style from "./ioeri.module.css";
-import mainStyle from "@/library/styles/ioeri.module.css";
+import style from "@/library/styles/ioeri.module.css";
 
 const TYPING_DEFAULT = ["a team", "an idea", "a solution", "a spirit"];
 
 export function PageHome() {
   return (
     <>
-      <section id="header-section" className={style.header_home}>
+      <section
+        id="header-section"
+        className={cn(
+          "relative flex flex-col items-center justify-around w-full max-w-7xl h-[90vh] max-h-[42.5rem] px-6 [--sz-rx:2.25rem] [--sz-ry:7.5rem] [--sz-circle:clamp(3rem,1rem+5dvw,5rem)] [transition:height_185ms_ease]",
+          style.header_home,
+        )}
+      >
         <i
           aria-hidden="true"
           className={cn(
             "absolute w-full h-full max-w-full opacity-[0.65] before:top-[-10%] before:left-[-2%] after:bottom-[5%] after:right-[-5%]",
-            mainStyle.aura,
+            style.aura,
           )}
         />
 
@@ -118,7 +123,7 @@ export function PageHome() {
           aria-hidden="true"
           className={cn(
             "absolute w-full h-full max-w-full-20 opacity-[0.65] before:bottom-[-10%] before:left-[-2%] after:top-[5%] after:right-[-5%]",
-            mainStyle.aura,
+            style.aura,
           )}
         />
 

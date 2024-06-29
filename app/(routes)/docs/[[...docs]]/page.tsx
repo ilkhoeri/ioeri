@@ -7,6 +7,7 @@ import { getMdx, getContExt, type ContExt } from "@/library/scripts/get-file-con
 import { sanitizedToParams } from "@/modules";
 
 import type { Metadata } from "next";
+import { Examples, FallbackComponent } from "./dynamic-examples";
 
 interface DocsParams {
   params: {
@@ -36,6 +37,9 @@ async function getReserveCode({ params }: DocsParams, extension: string): Promis
   );
   return await res.text();
 }
+async function getUsage({ params }: DocsParams): Promise<ContExt> {
+  return getContExt(`/examples/${params.docs.join("/")}`, [".tsx", ".ts"]);
+}
 async function getCode({ params }: DocsParams): Promise<ContExt> {
   return getContExt(`/modules/${sourceFiles(params.docs)}`, [".tsx", ".ts"]);
 }
@@ -55,35 +59,49 @@ export default async function Page({ params }: DocsParams) {
     getCss({ params }).then((res) => res.content),
     getSection({ params }, "title"),
     getSection({ params }, "description"),
-    getSection({ params }, "usage"),
+    getUsage({ params }).then((res) => res.content),
+    // getSection({ params }, "usage"),
   ]);
 
   const childrens: { [key: string]: React.JSX.Element | null } = {};
+  const codes: { [key: string]: React.JSX.Element | null } = {};
 
   if (usage) {
+    childrens.preview = <Examples params={params} />;
     childrens.usage = <CodeCustomizer code={usage} />;
   }
-  if (code) {
-    childrens.code = <CodeCustomizer code={code} />;
-  } else if (reserveCode) {
-    childrens.code = <CodeCustomizer code={reserveCode} />;
-  }
+
   if (css) {
-    childrens.css = <CodeCustomizer code={css} />;
+    codes.css = <CodeCustomizer code={css} />;
+  }
+  if (code) {
+    codes.code = <CodeCustomizer code={code} />;
+  } else if (reserveCode) {
+    codes.code = <CodeCustomizer code={reserveCode} />;
   }
 
   return (
     <Container>
       <Title
+        size="h1"
+        variant="segment"
         title={title || retitled(params.docs)}
         id={sanitizedToParams(retitled(params.docs))}
-        className={description ? "mt-0 mb-0" : "mt-0 mb-12"}
+        className={description ? "mt-0 mb-4" : "mt-0 mb-12"}
       />
 
-      {description && <Paragraph className="mt-0 mb-12" dangerouslySetInnerHTML={{ __html: description }} />}
+      {description && (
+        <Paragraph color="default" className="mt-0 mb-12 text-base" dangerouslySetInnerHTML={{ __html: description }} />
+      )}
 
-      <Tabs defaultValue="code" id="code" className="w-full">
-        <Playground childrens={childrens} repo={`${sourceFiles(params.docs)}${XTS}`} />
+      {usage && (
+        <Tabs defaultValue="usage" id="usage" className="w-full">
+          <Playground childrens={childrens} />
+        </Tabs>
+      )}
+
+      <Tabs defaultValue="code" id="code" className="w-full mt-12">
+        <Playground childrens={codes} repo={`${sourceFiles(params.docs)}${XTS}`} />
       </Tabs>
     </Container>
   );

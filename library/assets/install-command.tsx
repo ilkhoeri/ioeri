@@ -3,13 +3,13 @@
 import { useEffect, useState } from "react";
 import { TerminalOutlineIcon } from "@/modules";
 import { CopyToggle } from "@/library/components/toggle";
-import { frameworks } from "@/library/routes";
+import { appRoutes } from "@/library/routes";
 
-import css from "./ioeri.module.css";
+import style from "@/library/styles/ioeri.module.css";
 
 export function InstallCommand() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const allCommands = frameworks.flatMap((framework) => framework.data.map((item) => item.cmd));
+  const allCommands = appRoutes["frameworks"].flatMap((framework) => framework.data.map((item) => item.cmd));
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -42,7 +42,7 @@ export function InstallCommand() {
               <code className="w-max leading-normal flex flex-row items-center text-nowrap whitespace-pre bg-transparent border-none text-color relative overflow-hidden box-border">
                 <p className="text-muted-foreground">-&nbsp;</p>
                 <p className="text-[#e34ba9]">npx&nbsp;</p>
-                <p data-cmd={currentCmd} className={css.cmd} />
+                <p data-cmd={currentCmd} className={style.cmd} />
               </code>
             </pre>
           </div>

@@ -1,0 +1,4 @@
+.collapsible-content-class {
+  @apply absolute data-[side=top]:bottom-[calc(50%+calc(calc(var(--trigger-h)/2)+var(--offset)))] data-[side=bottom]:top-[calc(50%+calc(calc(var(--trigger-h)/2)+var(--offset)))] data-[side=right]:left-[calc(50%+calc(calc(var(--trigger-w)/2)+var(--offset)))] data-[side=left]:right-[calc(50%+calc(calc(var(--trigger-w)/2)+var(--offset)))];
+  /*  data-[side=top]:h-80 data-[side=top]:w-64 data-[side=bottom]:h-80 data-[side=bottom]:w-64 data-[side=left]:w-80 data-[side=left]:h-64 data-[side=right]:w-80 data-[side=right]:h-64  */
+}

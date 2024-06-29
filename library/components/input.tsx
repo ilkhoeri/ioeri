@@ -59,7 +59,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
 );
 Input.displayName = "Input";
 
-export function InputFilter({
+export function FilterDocs({
   id,
   value,
   onChange,
@@ -83,7 +83,9 @@ export function InputFilter({
         htmlFor={sanitizedToParams(id)}
         className={cn(
           "font-bold tracking-normal cursor-pointer absolute z-9 left-0 transition-all",
-          value ? "text-[100%] -translate-y-[28px]" : "text-h3 translate-y-0 peer-focus:text-[100%] peer-focus:-translate-y-[28px] peer-focus-visible:text-[100%] peer-focus-visible:-translate-y-[28px]",
+          value
+            ? "text-[100%] top-[-24px]"
+            : "text-h3 translate-y-0 peer-focus:text-[100%] peer-focus:top-[-28px] peer-focus-visible:text-[100%] peer-focus-visible:top-[-28px]",
         )}
       >
         {capitalizeWords(id)}

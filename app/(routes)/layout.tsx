@@ -1,10 +1,10 @@
 import { Section, Main } from "@/library/components/components";
-import { AsideLeft } from "@/library/assets/nav-aside/aside-left";
-import { AsideRight } from "@/library/assets/nav-aside/aside-right";
-import { NavBottom } from "@/library/assets/nav-bottom/nav-bottom";
+import { AsideLeft } from "@/library/assets/nav-aside-left";
+import { AsideRight } from "@/library/assets/nav-aside-right";
+import { NavBottom } from "@/library/assets/nav-prev-next";
 import { getNestedRoutes, getRoutes } from "@/library/scripts/get-routes";
 import { NestedRoute, SingleRoute } from "@/library/routes";
-import { NavigationBreadcrumb } from "@/library/assets/navigation/navigation-breadcrumb";
+import { NavigationBreadcrumb } from "@/library/assets/nav-breadcrumb";
 
 export const runtime = "nodejs";
 export const dynamicParams = true;

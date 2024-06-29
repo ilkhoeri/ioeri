@@ -72,6 +72,7 @@ const variantH = cvx({
   variants: {
     variant: {
       title: "border-b mt-12 font-bold tracking-normal pb-2",
+      segment: "mt-12 font-bold tracking-normal",
       section: "border-0 mt-8 font-semibold tracking-tight pb-0",
       article: "mb-4 font-medium",
     },
@@ -102,7 +103,7 @@ const variantP = cvx({
   assign: "text-paragraph white-space-pre-wrap [&:not(:first-child)]:mt-3",
   variants: {
     color: {
-      color: "text-color",
+      default: "text-color",
       muted: "text-muted-foreground",
     },
   },

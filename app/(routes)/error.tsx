@@ -15,19 +15,16 @@ export default function Error({ error, reset }: { error: Error & { digest?: stri
   }
 
   return (
-    <Section>
-      <h2 className="font-medium">Something went wrong!</h2>
+    <Section className="font-medium my-12 mt-12 mb-12 gap-4 [&_*]:font-mono">
+      <h2 className="">Something went wrong!</h2>
       {errorMessage}
 
-      <div className="flex flex-row gap-8 font-medium">
+      <div className="flex flex-row gap-8 font-medium text-sm">
         <button type="button" aria-label="try-again" onClick={() => reset()}>
           Try again
         </button>
         <button type="button" aria-label="reload" onClick={() => window.location.reload()}>
           Reload
-        </button>
-        <button type="button" aria-label="home" onClick={() => (window.location.href = "/")}>
-          Home
         </button>
       </div>
     </Section>

@@ -71,6 +71,7 @@ export { ExperimentIcon } from "./experiment";
 export { ExpoIcon } from "./expo";
 export { FolderSearchIcon } from "./folder-search";
 export { FacebookIcon } from "./facebook";
+export { FileIcon } from "./file";
 export { FileCertificateIcon } from "./file-certificate";
 export { GalleryHorizontalEndIcon } from "./gallery-horizontal-end";
 export { GatsbyIcon } from "./gatsby";

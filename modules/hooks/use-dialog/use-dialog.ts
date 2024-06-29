@@ -2,8 +2,18 @@ import { useEffect, useState } from "react";
 import { OriginState, createRefs, useRectInfo, type OriginType } from "@/modules/hooks";
 import { RectElement } from "../use-element-info/use-element-info";
 
-export type AlignValuesType = "center" | "start" | "end";
-export type SideValuesType = "top" | "right" | "bottom" | "left";
+export enum AlignValues {
+  start = "start",
+  center = "center",
+  end = "end",
+}
+
+export enum SideValues {
+  top = "top",
+  right = "right",
+  bottom = "bottom",
+  left = "left",
+}
 
 export type IntrinsicUseDialog = {
   defaultOpen?: boolean;
@@ -13,8 +23,8 @@ export type IntrinsicUseDialog = {
 };
 
 export type DestructureUseDialog = {
-  align?: AlignValuesType;
-  side?: SideValuesType;
+  align?: `${AlignValues}`;
+  side?: `${SideValues}`;
   sideOffset?: number;
   info?: Partial<RectElement>;
 };
@@ -75,7 +85,34 @@ export function useDialog<T extends HTMLElement>(Dialog: UseDialogType<T> = {}) 
         clearTimeout(timeoutId);
       }
     };
-  }, [open, setRender, clickOutsideToClose]);
+  }, [open, setRender]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        clickOutsideToClose &&
+        open &&
+        refs.root.current &&
+        !refs.root.current.contains(event.target as Node) &&
+        refs.trigger.current &&
+        !refs.trigger.current.contains(event.target as Node) &&
+        refs.content.current &&
+        !refs.content.current.contains(event.target as Node)
+      ) {
+        setOpen(false);
+      }
+    };
+
+    if (clickOutsideToClose) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      if (clickOutsideToClose) {
+        document.removeEventListener("mousedown", handleClickOutside);
+      }
+    };
+  }, [clickOutsideToClose, open, setOpen, refs.content, refs.trigger]);
 
   const dataState = open ? (initialOpen ? "open" : "opened") : "closed";
 

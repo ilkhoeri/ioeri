@@ -1,24 +1,25 @@
 import { AppProvider } from "@/library/context/app-context";
-import { inter, kanit, montserrat, robotoMono } from "@/library/assets/provider/font-provider";
+import { inter, kanit, montserrat, robotoMono } from "@/library/provider/font-provider";
 
 import type { Metadata } from "next";
 
 // import { TagAttributeScript } from "@/components/assets/scripts/tag-attribute-script";
-import { ThemeProvider } from "@/library/assets/provider/theme-provider";
-import { ThemeStateHidden } from "@/library/assets/theme/theme-state-hidden";
+import { ThemeProvider } from "@/library/provider/theme-provider";
+import { ThemeStateHidden } from "@/library/assets/theme";
 import { ScrollToggle } from "@/library/components/toggle";
 import { NavProvider } from "@/library/hooks/use-nav";
 
-import { Headnav } from "@/library/assets/nav-head/headnav";
-import { FootNav } from "@/library/assets/nav-foot/footnav";
+import { Headnav } from "@/library/assets/nav-head";
+import { FootNav } from "@/library/assets/nav-foot";
 
 import "./globals.css";
 import "./themeid-default.css";
-import "./themeid-deulysiea.css";
-import "./themeid-lyona.css";
-import "./themeid-protanopia.css";
+// import "./themeid-deulysiea.css";
+// import "./themeid-lyona.css";
+// import "./themeid-protanopia.css";
 
 import "../library/styles/mdx.css";
+import "../library/styles/examples.css";
 
 export const metadata: Metadata = {
   title: {

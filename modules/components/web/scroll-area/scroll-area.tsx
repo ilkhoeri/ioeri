@@ -1,19 +1,19 @@
 import React from "react";
 
-import { mergeRefs, useKitScrollbar, type UseKitScrollbarType } from "@/modules";
+import { mergeRefs, useScrollArea, type UseScrollAreaType } from "@/modules";
 import { twMerge } from "tailwind-merge";
 
-type ScrollbarTrees = "content" | "thumb";
-export type ScrollbarType = UseKitScrollbarType & {
+type ScrollAreaOrigin = "content" | "thumb";
+export type ScrollAreaType = UseScrollAreaType & {
   el?: React.ElementType;
   style?: React.CSSProperties & { [key: string]: any };
-  classNames?: Partial<Record<ScrollbarTrees, string>>;
-  styles?: Partial<Record<ScrollbarTrees, React.CSSProperties & { [key: string]: any }>>;
+  classNames?: Partial<Record<ScrollAreaOrigin, string>>;
+  styles?: Partial<Record<ScrollAreaOrigin, React.CSSProperties & { [key: string]: any }>>;
 } & React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
 
-export const Scrollbar = React.forwardRef<React.ElementRef<"div">, ScrollbarType>(
+export const ScrollArea = React.forwardRef<React.ElementRef<"div">, ScrollAreaType>(
   ({ el = "div", overflow = "y", className, classNames, style, styles, ...props }, ref) => {
-    const { scrollContentRef, thumbRef } = useKitScrollbar({ overflow });
+    const { scrollContentRef, thumbRef } = useScrollArea({ overflow });
 
     type ComponentType = React.ComponentType<React.HTMLAttributes<HTMLElement>>;
     let Component: ComponentType = el as ComponentType;
@@ -23,6 +23,7 @@ export const Scrollbar = React.forwardRef<React.ElementRef<"div">, ScrollbarType
         <Component
           ref={mergeRefs(scrollContentRef, ref)}
           className={twMerge(
+            "scroll-area-content peer",
             overflow === "y" && "overflow-y-auto overflow-x-hidden",
             overflow === "x" && "overflow-y-hidden overflow-x-auto",
             className,
@@ -36,7 +37,7 @@ export const Scrollbar = React.forwardRef<React.ElementRef<"div">, ScrollbarType
           ref={thumbRef}
           aria-label="thumb"
           className={twMerge(
-            "rounded-full",
+            "thumb rounded-full hover:bg-muted peer-hover:bg-muted peer-hover:data-[scroll=active]:bg-muted-foreground data-[scroll=active]:bg-muted-foreground",
             overflow === "y" && "right-8 w-1.5",
             overflow === "x" && "bottom-8 h-1.5",
             classNames?.thumb,
@@ -47,4 +48,4 @@ export const Scrollbar = React.forwardRef<React.ElementRef<"div">, ScrollbarType
     );
   },
 );
-Scrollbar.displayName = "Scrollbar";
+ScrollArea.displayName = "ScrollArea";

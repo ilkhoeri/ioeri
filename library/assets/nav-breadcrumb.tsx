@@ -8,8 +8,8 @@ import {
   BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbSeparator,
-} from "../../components/breadcrumb";
-import { displayName } from "../../utils";
+} from "../components/breadcrumb";
+import { displayName } from "../utils";
 
 export interface BreadcrumbDropdownProps {
   paths: string[];

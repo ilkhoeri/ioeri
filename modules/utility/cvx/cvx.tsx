@@ -5,6 +5,7 @@ export type KeysMap = { [key: string]: { [key: string]: string } };
 export type Variant<T extends KeysMap> = { [K in keyof T]?: keyof T[K] };
 export type KeysVariant<T extends KeysMap> = { assign?: string; variants: T; defaultVariants?: Variant<T> };
 export type VariantsType<T extends (...keys: any) => any> = Omit<ExcludeUndefined<Parameters<T>[0]>, ExcludeType>;
+export type InferTypes<T> = T extends (...args: any[]) => infer R ? R : never;
 
 export function cvx<T extends KeysMap>(keys: KeysVariant<T>) {
   return (variant: Variant<T> = {}) => {

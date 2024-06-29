@@ -4,12 +4,13 @@ import Link from "next/link";
 import Element from "@/modules/components/web/element/element";
 import { DiscordIcon, GithubIcon, IoeriLogoTextIcon, LineMenuBarIcon } from "@/modules";
 import { useHoveredElement } from "@/library/hooks/use-hovered-element";
-import { useNavContext } from "../../hooks/use-nav";
-import { NavLinkItem } from "../navigation/nav-link";
-import { services } from "@/library/routes";
+import { useNavContext } from "../hooks/use-nav";
+import { appRoutes } from "@/library/routes";
+import { NavLinkItem } from "./nav-link";
 import { twMerge } from "tailwind-merge";
 
-import style from "../nav-aside/aside.module.css";
+import style from "./aside.module.css";
+import globalStyle from "../styles/styles";
 
 export function Headnav() {
   const { minQuery, handleOpen, isHome, open } = useNavContext();
@@ -31,7 +32,7 @@ export function Headnav() {
         />
 
         <div className="relative h-full hidden md:flex items-center justify-between font-medium text-sm ml-10 overflow-hidden rounded-sm mr-auto">
-          {services.map((i, index) => (
+          {appRoutes["services"].map((i, index) => (
             <Link
               key={index}
               href={i.href}
@@ -59,28 +60,28 @@ export function Headnav() {
           )}
         </div>
 
-        <div className="relative flex items-center justify-center gap-4 ml-auto">
+        <div className={globalStyle({ toggle: "group" }, "ml-auto [&_svg]:size-5")}>
           <NavLinkItem
             icon={GithubIcon}
             target="_blank"
             aria-label="github repository"
             href="https://github.com/ilkhoeri/ioeri"
-            className="centered transition-colors p-1 rounded-lg border border-muted text-muted-foreground hover:text-color [&_svg]:size-6"
+            className={globalStyle({ toggle: "item", size: "icon" })}
           />
           <NavLinkItem
             icon={DiscordIcon}
             target="_blank"
             aria-label="discord community"
             href="https://discord.gg/Xct5BBPDZ9"
-            className="centered transition-colors p-1 rounded-lg border border-muted text-muted-foreground hover:text-color [&_svg]:size-6"
+            className={globalStyle({ toggle: "item", size: "icon" })}
           />
         </div>
 
         <ButtonAside
-          query={minQuery}
           open={open}
+          query={minQuery}
           onClick={handleOpen}
-          className="max-md:ml-4 max-md:data-[state=open]:translate-x-[212px] max-md:data-[state=open]:opacity-0"
+          className="max-md:ml-6 max-md:data-[state=open]:translate-x-[212px] max-md:data-[state=open]:opacity-0"
         />
       </Element>
     </header>
