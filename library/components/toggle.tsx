@@ -13,7 +13,7 @@ import {
   ChevronDownSquareIcon,
   GithubIcon,
 } from "@/modules/components/web/svg/icons";
-import { recallHtml } from "./code";
+import { recallHtml } from "../utils/escape-customizer";
 
 export const GetCodeToggle = React.forwardRef<
   React.ElementRef<typeof Anchor>,
