@@ -6,7 +6,7 @@ import { retitled, sourceFiles } from "@/library/utils";
 import { getMdFile } from "@/library/scripts/get-md-file";
 import { Playground } from "@/library/components/playground";
 import { Container, Title } from "@/library/components/components";
-import { CodeCustomizer, escapeCode } from "@/library/components/code-customizer";
+import { Code, escapeCode } from "@/library/components/code";
 import { getContExt, getMdx, type ContExt } from "@/library/scripts/get-file-content";
 import { sanitizedToParams } from "@/modules";
 
@@ -77,13 +77,13 @@ async function loadMarkdownTextExample({ params }: Params) {
   const childrens: { [key: string]: React.JSX.Element | null } = {};
 
   if (code) {
-    childrens.code = <CodeCustomizer setInnerHTML code={escapeCode(code)} />;
+    childrens.code = <Code setInnerHTML={escapeCode(code)} code={code} />;
   }
   if (css) {
-    childrens.css = <CodeCustomizer code={String(css)} />;
+    childrens.css = <Code code={String(css)} />;
   }
   if (usage) {
-    childrens.usage = <CodeCustomizer setInnerHTML code={escapeCode(usage)} />;
+    childrens.usage = <Code setInnerHTML={escapeCode(usage)} code={usage} />;
   }
 
   return (
@@ -104,8 +104,8 @@ async function loadPolymorphicSlotExample({ params }: Params) {
       <Playground
         defaultState="code"
         childrens={{
-          code: <CodeCustomizer code={String(codePoly)} />,
-          usage: <CodeCustomizer code={String(usagePoly)} />,
+          code: <Code code={String(codePoly)} />,
+          usage: <Code code={String(usagePoly)} />,
         }}
       />
     </Tabs>

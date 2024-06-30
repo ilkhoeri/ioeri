@@ -13,7 +13,7 @@ import {
   ChevronDownSquareIcon,
   GithubIcon,
 } from "@/modules/components/web/svg/icons";
-import { recallHtml } from "./code-customizer";
+import { recallHtml } from "./code";
 
 export const GetCodeToggle = React.forwardRef<
   React.ElementRef<typeof Anchor>,
@@ -56,7 +56,7 @@ export const CopyToggle = React.forwardRef<
       title="Copy"
       onClick={() => {
         if (text) {
-          clipboard.copy(recallHtml(text));
+          clipboard.copy(text);
         }
       }}
       disabled={!text}

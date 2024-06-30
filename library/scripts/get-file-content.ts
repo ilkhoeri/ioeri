@@ -35,7 +35,13 @@ async function filterContent(content: string): Promise<string> {
   const lines = content.split("\n");
   // Filter out lines containing the specific keywords
   const filteredLines = lines.filter(
-    (line) => !line.includes("__props") && !line.includes("const props") && !line.includes("<Props"),
+    (line) =>
+      !line.includes("import globalStyle") &&
+      !line.includes("className={globalStyle") &&
+      !line.includes("__props") &&
+      !line.includes("const props") &&
+      !line.includes("useProps(") &&
+      !line.includes("<Props"),
   );
   // Join the filtered lines back into a single string
   return filteredLines.join("\n");

@@ -18,8 +18,15 @@ type StylesType = {
   style?: CSSProperties;
   className?: string;
 };
-
-const CollapsibleContext = React.createContext<TYPE.DialogContextProps<HTMLElement> | undefined>(undefined);
+type OriginType = "overlay" | "content" | "root" | "trigger";
+export interface DialogContextProps<T> extends TYPE.UseDialogType<T> {
+  refs: Partial<Record<OriginType, React.MutableRefObject<T | null>>>;
+  render?: boolean;
+  setOpen: (value: boolean) => void;
+  attrData: (as: OriginType) => { [key: string]: string };
+  styles: (as: OriginType) => { [key: string]: string };
+}
+const CollapsibleContext = React.createContext<DialogContextProps<HTMLElement> | undefined>(undefined);
 
 export function useCollapsibleContext<T>(ref: React.ForwardedRef<T>) {
   const context = React.useContext(CollapsibleContext);
@@ -36,7 +43,7 @@ export function CollapsibleProvider<T extends HTMLElement>({ children, ref, ...p
 
 const Collapsible = React.forwardRef<
   React.ElementRef<"div">,
-  React.ComponentPropsWithoutRef<"div"> & TYPE.IntrinsicUseDialog & TYPE.DestructureUseDialog
+  React.ComponentPropsWithoutRef<"div"> & TYPE.VALDIALOG & TYPE.DIRDIALOG
 >(({ side, align, sideOffset, open, setOpen, clickOutsideToClose, defaultOpen, ...props }, ref) => {
   const rest = { side, align, sideOffset, open, setOpen, clickOutsideToClose, defaultOpen };
   return (

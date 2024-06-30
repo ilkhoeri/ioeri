@@ -8,7 +8,7 @@ function MyComponent() {
         <button onClick={() => setOpened(true)}>Open</button>
 
         {opened && (
-          <div ref={ref} shadow="sm">
+          <div ref={ref}>
             <span>Click outside to close</span>
           </div>
         )}

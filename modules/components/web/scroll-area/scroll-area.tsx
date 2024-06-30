@@ -17,11 +17,13 @@ export const ScrollArea = React.forwardRef<React.ElementRef<"div">, ScrollAreaTy
 
     type ComponentType = React.ComponentType<React.HTMLAttributes<HTMLElement>>;
     let Component: ComponentType = el as ComponentType;
+    const Span = "span" as React.ElementType;
 
     return (
       <>
         <Component
           ref={mergeRefs(scrollContentRef, ref)}
+          data-overflow={overflow}
           className={twMerge(
             "scroll-area-content peer",
             overflow === "y" && "overflow-y-auto overflow-x-hidden",
@@ -33,8 +35,9 @@ export const ScrollArea = React.forwardRef<React.ElementRef<"div">, ScrollAreaTy
           {...props}
         />
 
-        <span
+        <Span
           ref={thumbRef}
+          data-overflow={overflow}
           aria-label="thumb"
           className={twMerge(
             "thumb rounded-full hover:bg-muted peer-hover:bg-muted peer-hover:data-[scroll=active]:bg-muted-foreground data-[scroll=active]:bg-muted-foreground",

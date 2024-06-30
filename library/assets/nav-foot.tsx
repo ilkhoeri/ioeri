@@ -3,7 +3,7 @@ import { ThemeToggle } from "./theme";
 
 import { NavLinkItem } from "./nav-link";
 import { appRoutes } from "@/library/routes";
-import { IoeriIcon, IoeriTextIcon } from "@/modules";
+import { IoeriIcon } from "@/modules";
 import { Element } from "@/modules/components/web";
 import { cvx } from "@/modules/utility";
 
@@ -51,7 +51,6 @@ export async function FootNav() {
             aria-label="HOME"
           >
             <IoeriIcon className="flex flex-none items-center justify-center border bg-background h-[36px] w-[36px] rounded-xl mr-2 p-1" />
-            <IoeriTextIcon />
           </Link>
         </div>
 

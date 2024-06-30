@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Element from "@/modules/components/web/element/element";
-import { DiscordIcon, GithubIcon, IoeriLogoTextIcon, LineMenuBarIcon } from "@/modules";
+import { DiscordIcon, GithubIcon, IoeriTextIcon, LineMenuBarIcon } from "@/modules";
 import { useHoveredElement } from "@/library/hooks/use-hovered-element";
 import { useNavContext } from "../hooks/use-nav";
 import { appRoutes } from "@/library/routes";
@@ -91,12 +91,12 @@ export function Headnav() {
 export function LinkHome({ open, className }: { open?: boolean; className?: string }) {
   return (
     <Link
-      href={"/"}
+      href="/"
       aria-label="ioeri"
       data-state={open ? "open" : "closed"}
       className={twMerge("rounded-lg py-1 px-2", className)}
     >
-      <IoeriLogoTextIcon size={20} />
+      <IoeriTextIcon size={14} />
     </Link>
   );
 }

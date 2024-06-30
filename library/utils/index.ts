@@ -28,3 +28,7 @@ export function sourceFiles(texts: string[] | undefined) {
   const nameFiles = texts[texts.length - 1];
   return `${sourceFolder}/${nameFiles}`;
 }
+
+export function slug(texts: string[] | undefined) {
+  return texts === undefined ? " " : texts[texts.length - 1];
+}

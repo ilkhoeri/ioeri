@@ -1,4 +1,4 @@
-import { PropsSvg, useProps } from "./__props";
+import { PropsSvg, useProps } from "../../__props";
 import { Svg, SvgProps } from "@/modules/components/web";
 
 export function Example() {

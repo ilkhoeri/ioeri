@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { OriginState, createRefs, useRectInfo, type OriginType } from "@/modules/hooks";
+import { OriginState, createRefs, useClickOutside, useRectInfo, type OriginType } from "@/modules/hooks";
 import { RectElement } from "../use-element-info/use-element-info";
 
 export enum AlignValues {
@@ -15,33 +15,25 @@ export enum SideValues {
   left = "left",
 }
 
-export type IntrinsicUseDialog = {
+export type VALDIALOG = {
   defaultOpen?: boolean;
   open?: boolean;
   setOpen?: (value: boolean) => void;
   clickOutsideToClose?: boolean;
 };
 
-export type DestructureUseDialog = {
+export type DIRDIALOG = {
   align?: `${AlignValues}`;
   side?: `${SideValues}`;
   sideOffset?: number;
   info?: Partial<RectElement>;
 };
 
-export interface UseDialogType<T> extends IntrinsicUseDialog, DestructureUseDialog {
+export interface UseDialogType<T> extends VALDIALOG, DIRDIALOG {
   ref?: React.MutableRefObject<T | null>;
 }
 
-export interface DialogContextProps<T> extends UseDialogType<T> {
-  refs: Partial<Record<OriginType, React.MutableRefObject<T | null>>>;
-  render?: boolean;
-  setOpen: (value: boolean) => void;
-  attrData: (as: OriginType) => { [key: string]: string };
-  styles: (as: OriginType) => { [key: string]: string };
-}
-
-export function useDialog<T extends HTMLElement>(Dialog: UseDialogType<T> = {}) {
+export function useDialog<T extends HTMLElement = any>(Dialog: UseDialogType<T> = {}) {
   const {
     ref,
     side = "bottom",
@@ -87,32 +79,7 @@ export function useDialog<T extends HTMLElement>(Dialog: UseDialogType<T> = {}) 
     };
   }, [open, setRender]);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        clickOutsideToClose &&
-        open &&
-        refs.root.current &&
-        !refs.root.current.contains(event.target as Node) &&
-        refs.trigger.current &&
-        !refs.trigger.current.contains(event.target as Node) &&
-        refs.content.current &&
-        !refs.content.current.contains(event.target as Node)
-      ) {
-        setOpen(false);
-      }
-    };
-
-    if (clickOutsideToClose) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      if (clickOutsideToClose) {
-        document.removeEventListener("mousedown", handleClickOutside);
-      }
-    };
-  }, [clickOutsideToClose, open, setOpen, refs.content, refs.trigger]);
+  useClickOutside(() => clickOutsideToClose && setOpen(false), [refs.trigger, refs.content]);
 
   const dataState = open ? (initialOpen ? "open" : "opened") : "closed";
 
@@ -135,7 +102,7 @@ export function useDialog<T extends HTMLElement>(Dialog: UseDialogType<T> = {}) 
     };
     switch (as) {
       case "root":
-        vars["--offset"] = String(`${sideOffset}px`);
+        vars["--offset"] = `${sideOffset}px`;
         setVars("trigger", triggerInfo);
         setVars("content", contentInfo);
         break;

@@ -1,13 +1,13 @@
 import { Tabs } from "@/library/components/tabs";
 import { retitled, sourceFiles } from "@/library/utils";
 import { Playground } from "@/library/components/playground";
-import { CodeCustomizer, escapeCode } from "@/library/components/code-customizer";
+import { Code, escapeCode } from "@/library/components/code";
 import { Container, Paragraph, Title } from "@/library/components/components";
 import { getMdx, getContExt, type ContExt } from "@/library/scripts/get-file-content";
 import { sanitizedToParams } from "@/modules";
+import { Examples } from "./examples";
 
 import type { Metadata } from "next";
-import { Examples, FallbackComponent } from "./examples";
 
 interface DocsParams {
   params: {
@@ -31,11 +31,9 @@ export async function generateMetadata({ params }: DocsParams): Promise<Metadata
   };
 }
 
-async function getReserveCode({ params }: DocsParams, extension: string): Promise<string | null> {
-  const res = await fetch(
-    `https://raw.githubusercontent.com/ilkhoeri/modules/main/${sourceFiles(params.docs)}${extension}`,
-  );
-  return await res.text();
+async function getReserveCode({ params }: DocsParams, ext: string): Promise<string | null> {
+  const repo = `https://raw.githubusercontent.com/ilkhoeri/modules/main/`;
+  return (await fetch(`${repo}${sourceFiles(params.docs)}${ext}`)).text();
 }
 async function getReserveUsage({ params }: DocsParams): Promise<string | null> {
   return getMdx(`/modules/${sourceFiles(params.docs)}`, "usage");
@@ -49,43 +47,41 @@ async function getCode({ params }: DocsParams): Promise<ContExt> {
 async function getCss({ params }: DocsParams): Promise<ContExt> {
   return getContExt(`/modules/${sourceFiles(params.docs)}`, [".css"]);
 }
-async function getSection({ params }: DocsParams, sectionId: string): Promise<string | null> {
-  return getMdx(`/modules/${sourceFiles(params.docs)}`, sectionId);
+async function getSection({ params }: DocsParams, id: string): Promise<string | null> {
+  return getMdx(`/modules/${sourceFiles(params.docs)}`, id);
 }
 
 export default async function Page({ params }: DocsParams) {
   const { content: code, extension: codeExt } = await getCode({ params });
   const usage = await getUsage({ params }).then((res) => res.content);
 
-  const XTS = codeExt || ".tsx";
-  const reserveCode = code === null ? await getReserveCode({ params }, `${XTS}`) : null;
+  const ce = codeExt || ".tsx";
+  const reserveCode = code === null ? await getReserveCode({ params }, `${ce}`) : null;
   const reserveUsage = usage === null ? await getReserveUsage({ params }) : null;
 
   const [css, title, description] = await Promise.all([
     getCss({ params }).then((res) => res.content),
     getSection({ params }, "title"),
     getSection({ params }, "description"),
-    // getSection({ params }, "usage"),
-    ,
   ]);
 
-  const childrens: { [key: string]: React.JSX.Element | null } = {};
+  const usages: { [key: string]: React.JSX.Element | null } = {};
   const codes: { [key: string]: React.JSX.Element | null } = {};
 
   if (usage) {
-    childrens.preview = <Examples params={params} />;
-    childrens.usage = <CodeCustomizer setInnerHTML code={escapeCode(usage)} />;
+    usages.preview = <Examples params={params} />;
+    usages.usage = <Code setInnerHTML={escapeCode(usage)} code={usage} />;
   } else if (reserveUsage) {
-    childrens.usage = <CodeCustomizer setInnerHTML code={escapeCode(reserveUsage)} />;
+    usages.usage = <Code setInnerHTML={escapeCode(reserveUsage)} code={reserveUsage} />;
   }
 
   if (css) {
-    codes.css = <CodeCustomizer code={css} />;
+    codes.css = <Code code={css} />;
   }
   if (code) {
-    codes.code = <CodeCustomizer code={code} />;
+    codes.code = <Code code={code} />;
   } else if (reserveCode) {
-    codes.code = <CodeCustomizer code={reserveCode} />;
+    codes.code = <Code code={reserveCode} />;
   }
 
   return (
@@ -103,18 +99,14 @@ export default async function Page({ params }: DocsParams) {
       )}
 
       {(usage || reserveUsage) && (
-        <Tabs defaultValue="usage" id="usage" className="w-full">
-          <Playground childrens={childrens} />
+        <Tabs defaultValue={usage ? "preview" : "usage"} id="usage" className="w-full">
+          <Playground childrens={usages} />
         </Tabs>
       )}
 
       <Tabs defaultValue="code" id="code" className="w-full mt-12">
-        <Playground childrens={codes} repo={`${sourceFiles(params.docs)}${XTS}`} />
+        <Playground childrens={codes} repo={`${sourceFiles(params.docs)}${ce}`} />
       </Tabs>
     </Container>
   );
-}
-
-function slug(texts: string[] | undefined) {
-  return texts === undefined ? " " : texts[texts.length - 1];
 }
