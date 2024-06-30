@@ -58,7 +58,6 @@ export { useReload } from "./use-reload/use-reload";
 export { usePWAInstaller } from "./use-pwa-installer/use-pwa-installer";
 export { useElementInfo, useRectInfo } from "./use-element-info/use-element-info";
 export { useScrollArea, type UseScrollAreaType } from "./use-scroll-area/use-scroll-area";
-export { useConfetti, type UseConfettiProps } from "./use-confetti/use-confetti";
 
 export type { Hotkey, HotkeyItemOptions, KeyboardModifiers } from "./use-hotkeys/parse-hotkey";
 export type { HotkeyItem } from "./use-hotkeys/use-hotkeys";

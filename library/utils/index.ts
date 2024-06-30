@@ -11,11 +11,11 @@ export function retitled(texts: string[] | undefined, defaultText: string = "Doc
   const length = texts?.length;
   const secondLast = length ? texts[texts?.length - 2] : " ";
   const last = length ? texts[texts?.length - 1] : " ";
-  return capitalizeWords(last.replace("use", ""));
+  return capitalizeWords(last);
 }
 
 export function displayName(str: string) {
-  str = str.replace("use", "");
+  // str = str.replace("use", "");
   str = camelToKebab(str);
   str = capitalizeWords(str);
   str = str.replace(/-/g, " ");

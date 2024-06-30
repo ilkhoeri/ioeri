@@ -1,9 +1,10 @@
 import { Tabs } from "@/library/components/tabs";
 import { retitled, sourceFiles } from "@/library/utils";
 import { Playground } from "@/library/components/playground";
-import { Code, escapeCode } from "@/library/components/code";
+import { Code, Customizer, APIReference } from "@/library/components/code";
 import { Container, Paragraph, Title } from "@/library/components/components";
 import { getMdx, getContExt, type ContExt } from "@/library/scripts/get-file-content";
+import { escapeCode, mdCustom } from "@/library/utils/escape-customizer";
 import { sanitizedToParams } from "@/modules";
 import { Examples } from "./examples";
 
@@ -59,10 +60,13 @@ export default async function Page({ params }: DocsParams) {
   const reserveCode = code === null ? await getReserveCode({ params }, `${ce}`) : null;
   const reserveUsage = usage === null ? await getReserveUsage({ params }) : null;
 
-  const [css, title, description] = await Promise.all([
+  const [css, title, reference, description, explanation, notes] = await Promise.all([
     getCss({ params }).then((res) => res.content),
     getSection({ params }, "title"),
+    getSection({ params }, "api-reference"),
     getSection({ params }, "description"),
+    getSection({ params }, "explanation"),
+    getSection({ params }, "notes"),
   ]);
 
   const usages: { [key: string]: React.JSX.Element | null } = {};
@@ -91,22 +95,26 @@ export default async function Page({ params }: DocsParams) {
         variant="segment"
         title={title || retitled(params.docs)}
         id={sanitizedToParams(retitled(params.docs))}
-        className={description ? "mt-0 mb-4" : "mt-0 mb-12"}
+        className="mt-0 mb-12"
       />
 
-      {description && (
-        <Paragraph color="default" className="mt-0 mb-12 text-base" dangerouslySetInnerHTML={{ __html: description }} />
-      )}
+      <APIReference title="API reference" setInnerHTML={mdCustom(reference)} />
+
+       <Customizer setInnerHTML={description} />
 
       {(usage || reserveUsage) && (
-        <Tabs defaultValue={usage ? "preview" : "usage"} id="usage" className="w-full">
+        <Tabs defaultValue={usage ? "preview" : "usage"} id="usage" className="w-full mb-12">
           <Playground childrens={usages} />
         </Tabs>
       )}
 
-      <Tabs defaultValue="code" id="code" className="w-full mt-12">
+      <Customizer setInnerHTML={mdCustom(explanation)} />
+
+      <Tabs defaultValue="code" id="code" className="w-full mb-12">
         <Playground childrens={codes} repo={`${sourceFiles(params.docs)}${ce}`} />
       </Tabs>
+
+      <Customizer setInnerHTML={mdCustom(notes)} />
     </Container>
   );
 }

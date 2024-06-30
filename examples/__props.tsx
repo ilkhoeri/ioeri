@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { AlignValues, SideValues } from "@/modules";
+import { AlignValues, SideValues, getRandomColor } from "@/modules";
 import { InferTypes, cvx } from "@/modules/utility";
 import { twMerge } from "tailwind-merge";
 import { PolymorphicWithoutRef } from "@/modules/components/web";
@@ -46,6 +46,26 @@ Props.Wrapp.displayName = "Wrapp";
 Props.Button.displayName = "Button";
 Props.Nameprops.displayName = "Nameprops";
 
+export function PropsStr(X: InferTypes<typeof useProps>) {
+  const { str, setStr } = X;
+  return (
+    <Props.Wrapper>
+      <Props.Wrapp>
+        <input
+          type="text"
+          id="str"
+          name="str"
+          title="input text"
+          aria-label="input text"
+          value={str}
+          className="input_class"
+          onChange={(e) => setStr(e.target.value)}
+        />
+      </Props.Wrapp>
+    </Props.Wrapper>
+  );
+}
+
 export function PropsRect(X: InferTypes<typeof useProps>) {
   const { str, setStr } = X;
   return (
@@ -54,23 +74,23 @@ export function PropsRect(X: InferTypes<typeof useProps>) {
         <input
           id="x"
           type="radio"
-          name="radio"
+          name="x"
           value="x"
           checked={str === "x"}
           onChange={(e) => setStr(e.target.value)}
         />
-        <label htmlFor="x">x</label>
+        <label htmlFor="x">overflow=&quot;x&quot;</label>
       </Props.Wrapp>
       <Props.Wrapp>
         <input
           id="y"
           type="radio"
-          name="radio"
+          name="y"
           value="y"
           checked={str === "y"}
           onChange={(e) => setStr(e.target.value)}
         />
-        <label htmlFor="y">y</label>
+        <label htmlFor="y">overflow=&quot;y&quot;</label>
       </Props.Wrapp>
     </Props.Wrapper>
   );
@@ -80,24 +100,6 @@ export function PropsSelect(X: InferTypes<typeof useProps>) {
   const { str, setStr, numb, setNumb } = X;
   return (
     <Props.Wrapper>
-      <Props.Wrapp>
-        <select
-          id="position"
-          title="position"
-          aria-label="set position"
-          className={twMerge(classes({ as: "button", size: "26" }))}
-          value={str}
-          onChange={(e) => setStr(e.target.value)}
-        >
-          <option value="absolute" className="cursor-pointer h-4">
-            Box: absolute
-          </option>
-          <option value="fixed" className="cursor-pointer h-4">
-            Screen: fixed
-          </option>
-        </select>
-      </Props.Wrapp>
-
       <Props.Wrapp>
         <label htmlFor="setSize" className={classes({ as: "button", size: "36" })}>
           lifespan=&#123;{numb}&#125;
@@ -113,6 +115,24 @@ export function PropsSelect(X: InferTypes<typeof useProps>) {
           onChange={(e) => setNumb(Number(e.target.value))}
           className="w-40"
         />
+      </Props.Wrapp>
+
+      <Props.Wrapp>
+        <select
+          id="position"
+          title="position"
+          aria-label="set position"
+          className={twMerge(classes({ as: "button", size: "36" }))}
+          value={str}
+          onChange={(e) => setStr(e.target.value)}
+        >
+          <option value="absolute" className="cursor-pointer h-4">
+            Box: absolute
+          </option>
+          <option value="fixed" className="cursor-pointer h-4">
+            Screen: fixed
+          </option>
+        </select>
       </Props.Wrapp>
     </Props.Wrapper>
   );
@@ -201,7 +221,7 @@ export function PropsCollapsible(X: InferTypes<typeof useProps>) {
 export function useProps({ Numb = 0, Str = "" }: { Numb?: number; Str?: string } = {}) {
   const [offset, setOffset] = React.useState<number>(16);
   const [size, setSize] = React.useState<number>(16);
-  const [color, setColor] = React.useState<string>("hsl(var(--color))");
+  const [color, setColor] = React.useState<string>(getRandomColor());
   const [side, setSide] = React.useState<`${SideValues}`>("bottom");
   const [align, setAlign] = React.useState<`${AlignValues}`>("center");
   const [clickOutside, setClickOutside] = React.useState<boolean>(false);

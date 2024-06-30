@@ -1,16 +1,18 @@
 "use client";
 
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import Autoplay from "embla-carousel-autoplay";
 import { Image } from "@/library/components/image";
 
 import { markdownInsertHTML } from "@/library/utils/clean-html";
 import { getFullAge, getSocMedImages } from "../utils";
-import { AnimText, Confetti, StyleObject, getRandomColor, getTimeAgo } from "@/modules";
+import { Confetti, StyleObject, getRandomColor, getTimeAgo } from "@/modules";
 
 import type { Address, Blog, Socmed, User, UserProps } from "../types";
 
 import style from "./user.module.css";
+import { AnimationTextSpiral } from "@/modules/components/web";
 
 interface LengthDatasProps {
   blog: Blog[] | null;
@@ -25,8 +27,10 @@ interface UserPortfolioProps extends UserProps, Omit<LengthDatasProps, "shortPos
 export function UserPortfolio({ user, address, blog, socmed, children }: UserPortfolioProps) {
   const { birthday, ageString } = getFullAge(user.birth);
 
-  return (
-    <>
+  if (typeof document === "undefined") return null;
+
+  return createPortal(
+    <article className="absolute z-[86] inset-0 size-full md:bg-background">
       {birthday && <Confetti lifespan={5000} />}
 
       <UserPageHeader user={user} />
@@ -75,7 +79,8 @@ export function UserPortfolio({ user, address, blog, socmed, children }: UserPor
           {children}
         </div>
       </section>
-    </>
+    </article>,
+    document.body,
   );
 }
 
@@ -121,7 +126,7 @@ export function UserPageHeader({ user }: { user: User }) {
   const pict = { style: { backgroundImage: `url("/images/pattern-prisma.svg")` } };
   return (
     <section suppressHydrationWarning {...header}>
-      <AnimText anim="spiral" el={{ root: "article", wrap: "p", inner: "i" }} placeholders={user.name} />
+      <AnimationTextSpiral placeholders={user.name} />
 
       <figure>
         <picture {...pict} />

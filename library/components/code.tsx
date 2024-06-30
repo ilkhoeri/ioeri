@@ -1,18 +1,17 @@
 import * as React from "react";
 import { CopyToggle } from "./toggle";
-import { unified } from "unified";
-import remarkParse from "remark-parse";
-import remarkRehype from "remark-rehype";
-import rehypeSanitize from "rehype-sanitize";
-import rehypeStringify from "rehype-stringify";
-import rehypePrettyCode from "rehype-pretty-code";
+import { twMerge } from "tailwind-merge";
 
-type Customizer = {
-  code: string;
-  setInnerHTML?: string;
+type CodeCustomizer = {
+  code?: string | null;
+  setInnerHTML?: string | null;
+  className?: string;
+  title?: string;
 };
-export function Code(Text: Customizer) {
+
+export function Code(Text: CodeCustomizer) {
   const { code, setInnerHTML } = Text;
+  if (!code) return null
   if (setInnerHTML && !code) {
     throw new Error("because setInnerHTML is true, setInnerHTML and code must be defined");
   }
@@ -24,73 +23,57 @@ export function Code(Text: Customizer) {
             className="relative white-space-pre-wrap w-max rounded bg-muted font-mono text-span"
             data-language="tsx"
             data-theme="default"
-            dangerouslySetInnerHTML={setInnerHTML ? { __html: setInnerHTML } : undefined}
+            dangerouslySetInnerHTML={Text.setInnerHTML ? { __html: Text.setInnerHTML } : undefined}
           >
-            {setInnerHTML ? null : code}
+            {Text.setInnerHTML ? null : Text.code}
           </code>
         </pre>
       </div>
 
-      <CopyToggle text={code} />
+      <CopyToggle text={Text.code} />
     </>
   );
 }
 
-export function escapeCode(text: string): string {
-  text = escapeHtml(text);
-
-  text = text.replace(/^(.*?)(\/\/.*)$/gm, (match, p1, p2) => {
-    const beforeComment = p1.trim();
-    const comment = p2.replace(/^\/\//, "").trim();
-
-    if (beforeComment) {
-      return `<p>${beforeComment} <i data-fragment="comment">// ${comment}</i></p>`;
-    } else {
-      return `<p data-fragment="comment"><i>// ${comment}</i></p>`;
-    }
-  });
-
-  // text = text.replace(/```(.*?)```/g, "<code>$1</code>");
-
-  return text;
+export function Customizer(Text: CodeCustomizer) {
+  if (!Text.code && !Text.setInnerHTML) return null;
+  return (
+    <div
+      data-rehype-pretty-code-fragment=""
+      className={twMerge("mb-12", Text.className)}
+      data-language="tsx"
+      data-theme="default"
+    >
+      {Text.title && <h4>{Text.title}</h4>}
+      <div
+        className="md_custom relative white-space-pre-wrap text-base"
+        data-language="tsx"
+        data-theme="default"
+        dangerouslySetInnerHTML={Text.setInnerHTML ? { __html: Text.setInnerHTML } : undefined}
+      >
+        {Text.setInnerHTML ? null : Text.code}
+      </div>
+    </div>
+  );
 }
 
-export function escapeHtml(html: string): string {
-  return html
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;")
-    .replace(/{/g, "&#123;")
-    .replace(/}/g, "&#125;");
-}
-export function recallHtml(html: string): string {
-  return html
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&quot;/g, '"')
-    .replace(/&#039;/g, "'")
-    .replace(/&#123;/g, "{")
-    .replace(/&#125;/g, "}");
-}
-
-export async function highlightCode(code: string) {
-  const file = await unified()
-    .use(remarkParse) // Convert into markdown AST
-    .use(remarkRehype) // Transform to HTML AST
-    .use(rehypeSanitize) // Sanitize HTML input
-    .use(rehypePrettyCode, {
-      keepBackground: false,
-    })
-    .use(rehypeStringify) // Convert AST into serialized HTML
-    .process(code);
-
-  return String(file);
-}
-
-// Helper function to strip HTML tags
-function stripHtml(text: string) {
-  return text.replace(/<[^>]*>/g, "").trim();
+export function APIReference(Text: CodeCustomizer) {
+  if (!Text.code && !Text.setInnerHTML) return null;
+  return (
+    <div data-theme="default" className="-mt-4">
+      {Text.title && (
+        <h4 id="api-reference" className="">
+          {Text.title}
+        </h4>
+      )}
+      <div
+        className="md_custom relative white-space-pre-wrap text-base mt-4 mb-12 flex flex-row items-center flex-wrap gap-6"
+        data-language="tsx"
+        data-theme="default"
+        dangerouslySetInnerHTML={Text.setInnerHTML ? { __html: Text.setInnerHTML } : undefined}
+      >
+        {Text.setInnerHTML ? null : Text.code}
+      </div>
+    </div>
+  );
 }

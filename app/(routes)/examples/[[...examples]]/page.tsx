@@ -6,8 +6,9 @@ import { retitled, sourceFiles } from "@/library/utils";
 import { getMdFile } from "@/library/scripts/get-md-file";
 import { Playground } from "@/library/components/playground";
 import { Container, Title } from "@/library/components/components";
-import { Code, escapeCode } from "@/library/components/code";
 import { getContExt, getMdx, type ContExt } from "@/library/scripts/get-file-content";
+import { escapeCode } from "@/library/utils/escape-customizer";
+import { Code } from "@/library/components/code";
 import { sanitizedToParams } from "@/modules";
 
 import type { Metadata } from "next";

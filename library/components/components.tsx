@@ -1,4 +1,5 @@
 import * as React from "react";
+import { createPortal } from "react-dom";
 import { Slot } from "@radix-ui/react-slot";
 import { cn } from "@/library/utils";
 import { ChildWrapper } from "@/library/context/app-context";
@@ -117,6 +118,11 @@ export const Paragraph = React.forwardRef<HTMLElement, ElementType<HTMLElement> 
   },
 );
 Paragraph.displayName = "Paragraph";
+
+export function Portal({ children }: { children: React.ReactNode }) {
+  if (typeof document === "undefined") return null;
+  return createPortal(children, document.body);
+}
 
 /**
 export const X = React.forwardRef<React.ElementRef<"div">, React.ComponentPropsWithoutRef<"div">>(({ ...props }, ref) => (

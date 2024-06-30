@@ -742,6 +742,28 @@ hr {
 .a_blank {
   @apply underline underline-offset-2 decoration-color-muted hover:text-color hover:decoration-color;
 }
+.md_custom {
+  & a {
+    @apply transition-colors no-underline decoration-none border bg-color text-background hover:bg-color/90 hover:text-background rounded-md font-semibold px-2 py-px text-sm after:content-['\279C'] after:-rotate-45 after:ml-1 after:text-muted-foreground after:transition-colors hover:after:text-constructive;
+  }
+  & ul {
+    @apply list-disc;
+  }
+  & ol {
+    @apply list-decimal;
+  }
+  & ul,
+  & ol {
+    @apply pl-8;
+  }
+  & ol li::marker {
+    @apply [font-weight:bolder];
+  }
+  & ul li,
+  & ol li {
+    @apply list-item [text-align:-webkit-match-parent] [unicode-bidi:isolate];
+  }
+}
 .block_code {
   @apply py-0.5 px-1.5 rounded-sm bg-background-box [font-size:95%];
 }

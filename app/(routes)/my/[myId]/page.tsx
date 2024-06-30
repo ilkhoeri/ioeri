@@ -28,14 +28,8 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 export default async function Page({ params }: Params) {
   const [user, address, blogs, socmeds] = await Promise.all([getUser(), getAddress(), getBlogs(), getSocmed()]);
   const named = sanitizedToParams(params.myId) === sanitizedToParams(user.name);
-
   if (!named) {
     notFound();
   }
-
-  return (
-    <section className="absolute z-[86] inset-0 size-full md:bg-background">
-      <UserPortfolio user={user} address={address} blog={blogs} socmed={socmeds} />
-    </section>
-  );
+  return <UserPortfolio user={user} address={address} blog={blogs} socmed={socmeds} />;
 }

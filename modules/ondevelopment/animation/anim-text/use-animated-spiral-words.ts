@@ -44,3 +44,46 @@ export function useAnimatedSpiralWords({ el, placeholders, duration = 4000 }: An
 
   return { refWrap1, refWrap2 };
 }
+
+/**
+
+
+export function useAnimatedSpiralWords({ el, placeholders, duration = 4000 }: AnimatedSpiralWordsType) {
+  const words = Array.isArray(placeholders) ? placeholders.join(" ") : placeholders;
+
+  const refFirst = React.useRef<HTMLElement>(null);
+  const refLast = React.useRef<HTMLElement>(null);
+
+  React.useEffect(() => {
+    if (!words || !el) return;
+
+    const createElement = (char: string, i: number, offset: number) => {
+      const inner = document.createElement((el.last as string) || "div");
+      inner.innerText = char;
+      inner.style.animationDelay = `-${i * (duration / 16) - offset}ms`;
+      return inner;
+    };
+
+    const firstElements: HTMLElement[] = [];
+    const lastElements: HTMLElement[] = [];
+
+    words.split("").forEach((char, i) => {
+      const firstElement = createElement(char, i, 0);
+      const lastElement = createElement(char, i, -1 * (duration / 2));
+
+      firstElements.push(firstElement);
+      lastElements.push(lastElement);
+
+      refFirst.current?.appendChild(firstElement);
+      refLast.current?.appendChild(lastElement);
+    });
+
+    return () => {
+      firstElements.forEach((el) => refFirst.current?.removeChild(el));
+      lastElements.forEach((el) => refLast.current?.removeChild(el));
+    };
+  }, [el, duration, words]);
+
+  return { refFirst, refLast };
+}
+ */
