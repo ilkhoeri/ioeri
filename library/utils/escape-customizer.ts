@@ -84,7 +84,7 @@ export function mdCustom(text: string | null): string | null | undefined {
   text = text.replace(regex, (match: string, text: string, url: string, props?: string) => {
     let attributes: { [key: string]: string } = {
       target: "_blank",
-      class: "link_block",
+      class: "links",
     };
 
     if (props) {

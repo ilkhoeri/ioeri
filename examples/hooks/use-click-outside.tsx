@@ -15,21 +15,25 @@ export function Example() {
 
   return (
     <div className="flex items-center justify-center">
-      <Button
+      <button
+        type="button"
+        role="button"
         onClick={() => setWithRef(!withRef)}
         className="absolute top-4 left-4 min-w-26 justify-start w-max rounded-md border px-2 py-1 text-sm bg-background cursor-pointer" // prettier-ignore
       >
         {withRef ? "withRef" : "whitOutRef"}
-      </Button>
+      </button>
 
-      <Button
+      <button
         ref={withRef ? buttonRef : undefined}
-        open={open}
+        type="button"
+        role="button"
+        data-state={open ? "open" : "closed"}
         onClick={() => setOpen(!open)}
         className={globalStyle({ button: "default", size: "sm" })}
       >
         {open ? "Close" : "Open"}
-      </Button>
+      </button>
 
       {open && (
         <div
@@ -44,8 +48,3 @@ export function Example() {
   );
 }
 
-function Button(
-  props: { open?: boolean; ref?: React.LegacyRef<HTMLButtonElement> } & React.ButtonHTMLAttributes<HTMLButtonElement>,
-) {
-  return <button ref={props.ref} type="button" role="button" data-state={props.open ? "open" : "closed"} {...props} />;
-}

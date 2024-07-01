@@ -21,8 +21,8 @@ export function Example() {
       <span>height: {rect.height}px</span>
       <span>top: {rect.top}px</span> {/* prettier-ignore */}
       <span>bottom: {rect.bottom}px</span> {/* prettier-ignore */}
-      <span>scrollX: {rect.scrollX}px</span> {/* prettier-ignore */}
       <span>scrollY: {rect.scrollY}px</span> {/* prettier-ignore */}
+      <span>scrollX: {rect.scrollX}px</span> {/* prettier-ignore */}
       <span>y: {rect.y}px</span> {/* prettier-ignore */}
       <span>x: {rect.x}px</span> {/* prettier-ignore */}
     </label> {/* prettier-ignore */}

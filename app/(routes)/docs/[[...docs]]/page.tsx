@@ -60,12 +60,13 @@ export default async function Page({ params }: DocsParams) {
   const reserveCode = code === null ? await getReserveCode({ params }, `${ce}`) : null;
   const reserveUsage = usage === null ? await getReserveUsage({ params }) : null;
 
-  const [css, title, reference, description, explanation, notes] = await Promise.all([
+  const [css, title, reference, description, explanation, conclusion, notes] = await Promise.all([
     getCss({ params }).then((res) => res.content),
     getSection({ params }, "title"),
     getSection({ params }, "api-reference"),
     getSection({ params }, "description"),
     getSection({ params }, "explanation"),
+    getSection({ params }, "conclusion"),
     getSection({ params }, "notes"),
   ]);
 
@@ -114,6 +115,9 @@ export default async function Page({ params }: DocsParams) {
         <Playground childrens={codes} repo={`${sourceFiles(params.docs)}${ce}`} />
       </Tabs>
 
+      <Customizer setInnerHTML={mdCustom(conclusion)} />
+
+      {conclusion && notes && <hr className="mt-12 b-4 w-full" />}
       <Customizer setInnerHTML={mdCustom(notes)} />
     </Container>
   );
