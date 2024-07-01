@@ -1,7 +1,7 @@
 "use client";
 
-import { PropsRect, useProps } from "@/examples/__props";
 import { ScrollArea, FileIcon } from "@/modules/components/web";
+import { Props, PropsRadio, useProps } from "@/examples/__props";
 
 export function Example() {
   const { str: overflow, ...rest } = useProps({ Str: "y" });
@@ -25,7 +25,8 @@ export function Example() {
           ))}
         </ScrollArea>
       </section>
-      <PropsRect str={overflow} {...rest} />
+      {/* prettier-ignore */}
+      <Props.Wrapper><PropsRadio str={overflow} label="overflow" values={['x','y']} {...rest} /></Props.Wrapper>
     </div>
   );
 }

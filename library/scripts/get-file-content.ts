@@ -36,6 +36,7 @@ async function filterContent(content: string): Promise<string> {
   // Filter out lines containing the specific keywords
   const filteredLines = lines.filter(
     (line) =>
+      !line.includes("prettier-ignore") &&
       !line.includes("import globalStyle") &&
       !line.includes("className={globalStyle") &&
       !line.includes("__props") &&

@@ -98,9 +98,9 @@ export default async function Page({ params }: DocsParams) {
         className="mt-0 mb-12"
       />
 
-      <APIReference title="API reference" setInnerHTML={mdCustom(reference)} />
+      <APIReference setInnerHTML={mdCustom(reference)} />
 
-       <Customizer setInnerHTML={description} />
+      <Customizer setInnerHTML={mdCustom(description)} />
 
       {(usage || reserveUsage) && (
         <Tabs defaultValue={usage ? "preview" : "usage"} id="usage" className="w-full mb-12">

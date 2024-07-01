@@ -739,12 +739,15 @@ hr {
   }
 }
 
-.a_blank {
+.links {
   @apply underline underline-offset-2 decoration-color-muted hover:text-color hover:decoration-color;
 }
 .md_custom {
-  & a {
+  & .linkblock {
     @apply transition-colors no-underline decoration-none border bg-color text-background hover:bg-color/90 hover:text-background rounded-md font-semibold px-2 py-px text-sm after:content-['\279C'] after:-rotate-45 after:ml-1 after:text-muted-foreground after:transition-colors hover:after:text-constructive;
+  }
+  & code {
+    @apply py-0.5 px-1.5 rounded-sm bg-muted [font-size:95%];
   }
   & ul {
     @apply list-disc;
@@ -764,8 +767,8 @@ hr {
     @apply list-item [text-align:-webkit-match-parent] [unicode-bidi:isolate];
   }
 }
-.block_code {
-  @apply py-0.5 px-1.5 rounded-sm bg-background-box [font-size:95%];
+.code_block {
+  @apply py-0.5 px-1.5 rounded-sm bg-muted [font-size:95%];
 }
 
 .indicator_::before {

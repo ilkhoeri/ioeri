@@ -1,19 +1,14 @@
 "use client";
 
 import { cvx } from "@/modules/utility";
-import { PropsCollapsible, useProps } from "../../__props";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/modules/components/web";
+import { PropsCollapsible, useProps } from "../../__props";
 
 export function Example() {
-  const props = useProps();
+  const { bool: clickOutsideToClose, ...props } = useProps();
   return (
     <div>
-      <Collapsible
-        align={props.align}
-        side={props.side}
-        sideOffset={props.offset}
-        clickOutsideToClose={props.clickOutside}
-      >
+      <Collapsible align={props.align} side={props.side} sideOffset={props.offset} clickOutsideToClose={clickOutsideToClose}>
         <CollapsibleTrigger className={classes({ trigger: props.style })}>
           <span className="truncate">Open</span>
         </CollapsibleTrigger>
@@ -26,7 +21,7 @@ export function Example() {
           ))}
         </CollapsibleContent>
       </Collapsible>
-      <PropsCollapsible {...props} />
+      <PropsCollapsible bool={clickOutsideToClose} {...props} />
     </div>
   );
 }
@@ -36,8 +31,7 @@ const classes = cvx({
     trigger: {
       default:
         "font-semibold px-2 py-1 rounded-none data-[side=top]:w-80 data-[side=bottom]:w-80 data-[side=left]:w-max data-[side=right]:w-max group-data-[side=top]:border-t group-data-[side=bottom]:border-b group-data-[side=left]:border-l group-data-[side=right]:border-r",
-      dropdown:
-        "rounded-md font-semibold text-span bg-color text-background hover:bg-color/90 h-9 px-2.5",
+      dropdown: "rounded-md font-semibold text-span bg-color text-background hover:bg-color/90 h-9 px-2.5",
     },
     content: {
       default:

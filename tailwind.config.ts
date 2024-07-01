@@ -90,12 +90,10 @@ const config = {
       },
       keyframes: {
         "fade-in": {
-          from: { opacity: "0", transform: "scale3d(0, 0, 0)" },
-          to: { opacity: "1", transform: "scale3d(1, 1, 1)" },
+          from: { opacity: "var(--tw-enter-opacity, initial)", scale: "var(--tw-enter-scale, initial)" },
         },
         "fade-out": {
-          from: { opacity: "1", transform: "scale3d(1, 1, 1)" },
-          to: { opacity: "0", transform: "scale3d(0, 0, 0)" },
+          to: { opacity: "var(--tw-exit-opacity, initial)", scale: "var(--tw-exit-scale, initial)" },
         },
         "accordion-down": {
           from: { height: "0" },
@@ -142,8 +140,8 @@ const config = {
         "pulse-6": { "0%, 50%, 100%": { opacity: "0" }, "66.667%, 83.333%": { opacity: "1" } },
       },
       animation: {
-        "fade-in": "fade-in 0.2s ease-in forwards",
-        "fade-out": "fade-out 0.2s ease-out forwards",
+        "fade-in": "fade-in ease-in forwards",
+        "fade-out": "fade-out ease-out forwards",
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "bounce-in": "bounce-in 0.5s linear forwards 0.3s",

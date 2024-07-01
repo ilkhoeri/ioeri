@@ -23,7 +23,7 @@ export default function Docs() {
 
 function A({ href, title }: { href: string; title: string }) {
   return (
-    <Link href={href} target="_blank" className="a_blank">
+    <Link href={href} target="_blank" className="links">
       {title}
     </Link>
   );
@@ -54,7 +54,7 @@ function QuickInstallation() {
       </div>
       <Paragraph>
         Once the installation completes, you can run&nbsp;
-        <code className="block_code">http://localhost:3000</code>&nbsp;with your browser to start editing the project
+        <code className="code_block">http://localhost:3000</code>&nbsp;with your browser to start editing the project
         and using ioeri modules utility.
       </Paragraph>
     </>

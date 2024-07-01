@@ -48,12 +48,13 @@ export function Headnav() {
           {hovered && (
             <Element
               el="span"
-              className="absolute -z-1 transition-transform bg-muted rounded-sm"
+              className="absolute -z-1 bg-muted rounded-sm animate-fade-in fade-in-0 zoom-in-90 [animation-duration:90ms]"
               style={{
-                transition: "transform 180ms, width 90ms",
+                transition: "background-color 180ms, transform 180ms, width 90ms",
                 height: `${hovered.height}px`,
                 width: `${hovered.width}px`,
-                transform: `translateX(${hovered.x - 193.5}px)`,
+                transform: `translateX(calc(${hovered.x}px - var(--tolerance)))`,
+                "--tolerance": "151.5px",
                 // transform: `translateY(${hovered?.y - ((minQuery ? 72 : 64) - scrollPosition - (scrollBody >= 1930 ? scrollBody - 1930 : 0))}px)`,
               }}
             />

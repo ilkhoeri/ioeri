@@ -1,10 +1,16 @@
 $:title
 Create Variants X
 
-$:description
-If you have ever used <a href="https://cva.style/docs" target="_blank" class="a_blank">class variance authority</a>, you are also familiar with the cvx function. You can think of cvx as a simpler or lite version.
+$:api-reference
+[inspired by cva](https://cva.style/docs){class="linkblock"}
 
-cva uses the first argument as a constant that will be distributed throughout the variance, in cvx this argument is moved to the <code class="block_code">assign</code> parameter. cvx does not or has not passed the <code class="block_code">class</code> and <code class="block_code">className</code> parameters. cvx was created just as a simple function to pass a string with various variants that you create.
+$:description
+If you have ever used [class variance authority](https://cva.style/docs) you'r also familiar with the cvx function. You can think of cvx as a simpler or lite version.
+
+$:explanation
+cva uses the first argument as a constant that will be distributed throughout the variance, in cvx this argument is moved to the `assign` parameter. cvx does not or has not passed the `class` and `className` parameters.
+
+cvx was created just as a simple function to pass a string with various variants that you create.
 
 $:installation
 Berikut adalah cara untuk install Create Variant ....

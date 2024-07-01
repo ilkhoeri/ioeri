@@ -64,6 +64,8 @@ export function escapeCode(text: string): string {
   return text;
 }
 
+const regex = /\[([^\]]+)\]\(([^)]+)\)(?:\{([^}]+)\})?/g;
+
 export function mdCustom(text: string | null): string | null | undefined {
   if (!text) return;
   text = text.replace(/___/g, "<hr>");
@@ -78,7 +80,30 @@ export function mdCustom(text: string | null): string | null | undefined {
   text = text.replace(/^## (.*$)/gim, "<h2>$1</h2>");
   text = text.replace(/^# (.*$)/gim, "<h1>$1</h1>");
 
-  text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" class="a_blank">$1</a>');
+  // text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" class="linkblock">$1</a>');
+  text = text.replace(regex, (match: string, text: string, url: string, props?: string) => {
+    let attributes: { [key: string]: string } = {
+      target: "_blank",
+      class: "link_block",
+    };
+
+    if (props) {
+      const propPairs = props.split(" ");
+      propPairs.forEach((pair: string) => {
+        const [key, value] = pair.split("=");
+        if (key && value) {
+          attributes[key] = value.replace(/"/g, ""); // Remove quotes if any
+        }
+      });
+    }
+
+    // Convert attributes object to HTML attributes string
+    const attributesString = Object.entries(attributes)
+      .map(([key, value]) => `${key}="${value}"`)
+      .join(" ");
+
+    return `<a href="${url}" ${attributesString}>${text}</a>`;
+  });
 
   text = text.replace(/<([^>]+@[^>]+)>/g, '<a href="mailto:$1">$1</a>');
   text = text.replace(/^(.*?<a href="mailto:[^>]+>[^<]+<\/a>.*)$/gm, "<p>$1</p>");
@@ -103,3 +128,11 @@ export function mdCustom(text: string | null): string | null | undefined {
 
   return text;
 }
+
+const exampleTextLink = `
+  This is a [default link](https://example.com).
+  This is a [self-targeted link](https://example.com){target=_self}.
+  This is a [custom class link](https://example.com){class="custom_class"}.
+  This is a [fully customized link](https://example.com){target=_self class="custom_class"}.
+  This is a [custom data attribute link](https://example.com){target=_self class="custom_class" data-client="links-to-href"}.
+`;

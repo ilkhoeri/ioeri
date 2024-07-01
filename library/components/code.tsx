@@ -11,7 +11,7 @@ type CodeCustomizer = {
 
 export function Code(Text: CodeCustomizer) {
   const { code, setInnerHTML } = Text;
-  if (!code) return null
+  if (!code) return null;
   if (setInnerHTML && !code) {
     throw new Error("because setInnerHTML is true, setInnerHTML and code must be defined");
   }
@@ -38,12 +38,7 @@ export function Code(Text: CodeCustomizer) {
 export function Customizer(Text: CodeCustomizer) {
   if (!Text.code && !Text.setInnerHTML) return null;
   return (
-    <div
-      data-rehype-pretty-code-fragment=""
-      className={twMerge("mb-12", Text.className)}
-      data-language="tsx"
-      data-theme="default"
-    >
+    <div className={twMerge("mb-12", Text.className)} data-language="" data-theme="">
       {Text.title && <h4>{Text.title}</h4>}
       <div
         className="md_custom relative white-space-pre-wrap text-base"
@@ -61,11 +56,9 @@ export function APIReference(Text: CodeCustomizer) {
   if (!Text.code && !Text.setInnerHTML) return null;
   return (
     <div data-theme="default" className="-mt-4">
-      {Text.title && (
-        <h4 id="api-reference" className="">
-          {Text.title}
-        </h4>
-      )}
+      <h4 id="api-reference" className="">
+        {Text.title || "API reference"}
+      </h4>
       <div
         className="md_custom relative white-space-pre-wrap text-base mt-4 mb-12 flex flex-row items-center flex-wrap gap-6"
         data-language="tsx"

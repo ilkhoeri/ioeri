@@ -1,6 +1,6 @@
 $:api-reference
-[mdn](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/title)
-[client apis](https://react.dev/reference/react-dom/client#client-apis)
+[mdn](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/title){class="linkblock"}
+[client apis](https://react.dev/reference/react-dom/client#client-apis){class=linkblock}
 
 $:description
 useDocumentTitle helps you dynamically redefine the document title displayed in the browser title bar or on a page tab.
