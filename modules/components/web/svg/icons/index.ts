@@ -108,6 +108,7 @@ export { PencilXIcon } from "./pencil-x";
 export { PencilIcon } from "./pencil";
 export { PhoneIcon } from "./phone";
 export { PhotoEditIcon } from "./photo-edit";
+export { PickColorIcon } from "./pick-color";
 export { PlusIcon } from "./plus";
 export { QuestionCircleIcon } from "./question-circle";
 export { ReactIcon } from "./react";

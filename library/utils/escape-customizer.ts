@@ -80,7 +80,7 @@ export function mdCustom(text: string | null): string | null | undefined {
   text = text.replace(/^## (.*$)/gim, "<h2>$1</h2>");
   text = text.replace(/^# (.*$)/gim, "<h1>$1</h1>");
 
-  // text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" class="linkblock">$1</a>');
+  // text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" class="linkbox">$1</a>');
   text = text.replace(regex, (match: string, text: string, url: string, props?: string) => {
     let attributes: { [key: string]: string } = {
       target: "_blank",

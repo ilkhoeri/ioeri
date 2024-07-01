@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { OriginState, createRefs, useClickOutside, useRectInfo, type OriginType } from "@/modules/hooks";
-import { RectElement } from "../use-element-info/use-element-info";
+import { OriginState, createRefs, useClickOutside,  type OriginType } from "@/modules/hooks";
+import { InitialInfo, RectElement } from "../use-element-info/use-element-info";
 
 export enum AlignValues {
   start = "start",
@@ -117,4 +117,44 @@ export function useDialog<T extends HTMLElement = any>(Dialog: UseDialogType<T> 
   };
 
   return { refs, styles, triggerInfo, attrData, render, side, align, open, setOpen };
+}
+export function useRectInfo<T extends HTMLElement | null>(
+  element: T | null,
+  { initial: setInitial }: InitialInfo = {},
+) {
+  const defaultInitial: { [key: string]: 0 } = {};
+  const initial = setInitial !== undefined ? setInitial : defaultInitial;
+  const [rectInfo, setRectInfo] = useState<RectElement>(initial as RectElement);
+
+  useEffect(() => {
+    const updateRectElement = () => {
+      if (element) {
+        const rect = element?.getBoundingClientRect();
+        setRectInfo({
+          scrollX: window.scrollX,
+          scrollY: window.scrollY,
+          x: rect.left + window.scrollX,
+          y: rect.top + window.scrollY,
+          width: rect.width,
+          height: rect.height,
+          top: rect.top,
+          bottom: rect.bottom,
+          right: rect.right,
+          left: rect.left,
+        });
+      }
+    };
+
+    updateRectElement();
+
+    window.addEventListener("resize", updateRectElement);
+    window.addEventListener("scroll", updateRectElement);
+
+    return () => {
+      window.removeEventListener("resize", updateRectElement);
+      window.removeEventListener("scroll", updateRectElement);
+    };
+  }, [element, setRectInfo]);
+
+  return rectInfo;
 }
