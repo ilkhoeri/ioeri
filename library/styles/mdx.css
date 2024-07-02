@@ -14,7 +14,11 @@
   @apply relative;
 }
 [data-rehype-pretty-code-fragment] code {
-  @apply grid min-w-full break-words rounded-none border-0 bg-transparent p-0 leading-normal [counter-reset:line] [box-decoration-break:clone];
+  @apply grid min-w-full break-words rounded-none border-0 bg-transparent p-0 leading-[20px] relative white-space-pre-wrap w-max font-roboto-mono text-[13px] font-normal [counter-reset:line] [box-decoration-break:clone];
+}
+
+[data-rehype-pretty-code-fragment] span span[style="color:#858AA6"] {
+  font-style: italic;
 }
 [data-rehype-pretty-code-fragment] [data-fragment="comment"] {
   @apply text-color-muted h-5 mt-3 -mb-3;
@@ -52,7 +56,7 @@
 }
 
 [data-rehype-pretty-code-title] {
-  @apply mt-2 pt-6 px-4 text-sm font-medium;
+  @apply mb-2 pt-1.5 pb-3 px-4 text-sm font-medium;
 }
 
 [data-rehype-pretty-code-title] + pre {
@@ -61,4 +65,45 @@
 
 .mdx > .steps:first-child > h3:first-child {
   @apply mt-0;
+}
+
+/* added */
+[data-rehype-pretty-code-fragment] pre code * {
+  font-weight: 400;
+}
+code {
+  counter-reset: line;
+}
+
+code > [data-line]::before {
+  counter-increment: line;
+  content: counter(line);
+
+  /* Other styling */
+  display: inline-block;
+  width: 1rem;
+  margin-right: 2rem;
+  text-align: right;
+  color: gray;
+}
+
+code[data-line-numbers-max-digits="2"] > [data-line]::before {
+  width: 2rem;
+}
+
+code[data-line-numbers-max-digits="3"] > [data-line]::before {
+  width: 3rem;
+}
+code[data-theme*=" "],
+code[data-theme*=" "] span {
+  color: var(--shiki-light);
+  background-color: var(--shiki-light-bg);
+}
+
+@media (prefers-color-scheme: dark) {
+  code[data-theme*=" "],
+  code[data-theme*=" "] span {
+    color: var(--shiki-dark);
+    background-color: var(--shiki-dark-bg);
+  }
 }

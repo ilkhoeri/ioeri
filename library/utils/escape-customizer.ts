@@ -1,9 +1,13 @@
+// import fs from "fs-extra";
 import { unified } from "unified";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import rehypeSanitize from "rehype-sanitize";
 import rehypeStringify from "rehype-stringify";
 import rehypePrettyCode from "rehype-pretty-code";
+import { transformerCopyButton } from "@rehype-pretty/transformers";
+
+import moonlightTheme from "./moonlight-ii.json" with { type: "json" };
 
 export function escapeHtml(html: string): string {
   return html
@@ -28,11 +32,24 @@ export function recallHtml(html: string): string {
 
 export async function highlightCode(code: string) {
   const file = await unified()
-    .use(remarkParse) // Convert into markdown AST
+    .use(remarkParse, { fragment: true }) // Convert into markdown AST
     .use(remarkRehype) // Transform to HTML AST
     .use(rehypeSanitize) // Sanitize HTML input
+    // @ts-ignore
     .use(rehypePrettyCode, {
+      grid: true,
       keepBackground: false,
+      theme: moonlightTheme,
+      tokensMap: {
+        fn: "entity.name.function",
+      },
+      transformers: [
+        transformerCopyButton({
+          visibility: "always",
+          feedbackDuration: 3_000,
+        }),
+      ],
+      filterMetaString: (string) => string.replace(/filename="[^"]*"/, ""),
     })
     .use(rehypeStringify) // Convert AST into serialized HTML
     .process(code);

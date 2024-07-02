@@ -32,3 +32,10 @@ export function sourceFiles(texts: string[] | undefined) {
 export function slug(texts: string[] | undefined) {
   return texts === undefined ? " " : texts[texts.length - 1];
 }
+
+export function tocopy(text: string) {
+  const regex = /^```.*\n|\n```\s*$/gm;
+  text = text.replace(regex, "");
+
+  return text;
+}

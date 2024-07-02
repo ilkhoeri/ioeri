@@ -4,7 +4,7 @@ import { Playground } from "@/library/components/playground";
 import { Code, Customizer, APIReference } from "@/library/components/code";
 import { Container, Title } from "@/library/components/components";
 import { getMdx, getContent, type Content } from "@/library/scripts/get-contents";
-import { escapeCode, mdCustom } from "@/library/utils/escape-customizer";
+import { escapeCode, highlightCode, mdCustom } from "@/library/utils/escape-customizer";
 import { toPascalCase, sanitizedToParams } from "@/modules";
 import { Examples } from "./demo";
 
@@ -37,24 +37,25 @@ async function getReCode({ params }: DocsParams, ext: string): Promise<string> {
   return (await fetch(`${repo}${sourceFiles(params.docs)}${ext}`)).text();
 }
 async function getReUsage({ params }: DocsParams): Promise<string | null> {
-  return getMdx(`/modules/${sourceFiles(params.docs)}`, "usage");
+  return getMdx(`/resource/docs/${params.docs.join("/")}`, "usage");
 }
 async function getCode({ params }: DocsParams): Promise<Content> {
-  return getContent(`/modules/${sourceFiles(params.docs)}`, [".tsx", ".ts"]);
+  // return getContent(`/modules/${sourceFiles(params.docs)}`, [".tsx", ".ts"]);
+  return getContent(`/modules/${sourceFiles(params.docs)}`);
 }
-async function getUsage({ params }: DocsParams, rename?: Record<string, string>): Promise<Content> {
+async function getUsage({ params }: DocsParams, replace?: Record<string, string>): Promise<Content> {
   if (!params.docs) return { content: null, extension: null };
-  return getContent(`/resource/_docs_demo/${params.docs.join("/")}`, [".tsx", ".ts"], rename);
+  // return getContent(`/resource/_docs_demo/${params.docs.join("/")}`, [".tsx", ".ts"], rename);
+  return getContent(`/resource/_docs_demo/${params.docs.join("/")}`, undefined, replace);
 }
 async function getCss({ params }: DocsParams): Promise<Content> {
-  return getContent(`/modules/${sourceFiles(params.docs)}`, [".css"]);
+  // return getContent(`/modules/${sourceFiles(params.docs)}`, [".css"]);
+  return getContent(`/modules/${sourceFiles(params.docs)}`, [".css"], undefined, { lang: "css" });
 }
 async function getSection({ params }: DocsParams, id: string): Promise<string | null> {
-  return getMdx(`/modules/${sourceFiles(params.docs)}`, id);
+  return getMdx(`/resource/docs/${params.docs.join("/")}`, id);
 }
 export default async function Page({ params }: DocsParams) {
-  const develop = process.env.NODE_ENV !== "production";
-
   const code = await getCode({ params });
   const ce = code.extension || ".tsx";
   const reCode = await getReCode({ params }, `${ce}`);
@@ -81,22 +82,26 @@ export default async function Page({ params }: DocsParams) {
   if (usage) {
     usages.preview = <Examples params={params} />;
     usages.usage = (
-      <Code title={`${slug(params.docs)}-demo.tsx`} ext=".tsx" code={usage} setInnerHTML={escapeCode(usage)} />
+      <Code title={`${slug(params.docs)}-demo.tsx`} ext=".tsx" code={usage} setInnerHTML={await highlightCode(usage)} />
     );
   } else if (reUsage) {
     usages.usage = (
-      <Code title={`${slug(params.docs)}.tsx`} ext=".tsx" code={reUsage} setInnerHTML={escapeCode(reUsage)} />
+      <Code title={`${slug(params.docs)}.tsx`} ext=".tsx" code={reUsage} setInnerHTML={await highlightCode(reUsage)} />
     );
   }
 
   if (css) {
-    codes.css = <Code title={`${slug(params.docs)}.css`} ext=".css" code={css} />;
+    codes.css = (
+      <Code title={`${slug(params.docs)}.css`} ext=".css" code={css} setInnerHTML={await highlightCode(css)} />
+    );
   }
 
   if (code.content) {
-    codes.code = <Code title={file} repo={repo} ext={ce} code={code.content} />;
+    codes.code = (
+      <Code title={file} repo={repo} ext={ce} code={code.content} setInnerHTML={await highlightCode(code.content)} />
+    );
   } else if (reCode) {
-    codes.code = <Code title={file} repo={repo} ext={ce} code={reCode} />;
+    codes.code = <Code title={file} repo={repo} ext={ce} code={reCode} setInnerHTML={await highlightCode(reCode)} />;
   }
 
   return (

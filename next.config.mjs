@@ -1,7 +1,6 @@
-// import process from "node:process";
-// Object.assign(process.env, { NEXT_TELEMETRY_DISABLED: "1" });
-// import moonlightTheme from "./library/utils/moonlight-ii.json" with { type: "json" };
-// import rehypeSlug from "rehype-slug";
+import fs from "fs-extra";
+import process from "node:process";
+Object.assign(process.env, { NEXT_TELEMETRY_DISABLED: "1" });
 
 /**
  * @typedef {import('next').NextConfig} NextConfig
@@ -11,26 +10,16 @@ import nextPWA from "next-pwa";
 import remarkGfm from "remark-gfm";
 import createMDX from "@next/mdx";
 import rehypePrettyCode from "rehype-pretty-code";
+import rehypeSlug from "rehype-slug";
 
 /** @type {import('rehype-pretty-code').Options} */
-const options = {
-  // theme: moonlightTheme,
-  keepBackground: false,
-  defaultLang: {
-    block: "plaintext",
-    inline: "plaintext",
-  },
-  tokensMap: {
-    fn: "entity.name.function",
-  },
-};
-
+const options = {};
 const withMDX = createMDX({
   extension: /\.(md|mdx)$/,
   options: {
     remarkPlugins: [remarkGfm],
-    // rehypePlugins: [[rehypePrettyCode, options], rehypeSlug],
-    rehypePlugins: [[rehypePrettyCode, options]],
+    rehypePlugins: [[rehypePrettyCode, options], rehypeSlug],
+    // rehypePlugins: [[rehypePrettyCode, options]],
   },
 });
 
@@ -42,10 +31,13 @@ const withPWA = nextPWA({
 
 /** @type {import('next').NextConfig} */
 const Config = withMDX({
-  // cleanDistDir: true,
+  cleanDistDir: true,
   // output: "export", // must be exported function "generateStaticParams()", which is required with "output: export" config
   reactStrictMode: true,
   poweredByHeader: false,
+  env: {
+    NEXT_TELEMETRY_DISABLED: "1",
+  },
   images: {
     formats: ["image/avif", "image/webp"],
     domains: [
@@ -85,9 +77,6 @@ const Config = withMDX({
       },
     ];
   },
-  // env: {
-  //   NEXT_TELEMETRY_DISABLED: "1",
-  // },
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx", "css", "scss", "json"],
   experimental: {
     mdxRs: true,

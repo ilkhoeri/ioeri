@@ -1,0 +1,8 @@
+$:api-reference
+[mdn](https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API){class=linkbox}
+
+$:description
+Given an element that you'd like to present in fullscreen mode (such as a &lt;video&gt;, &lt;img&gt;, for example), you can present it in fullscreen mode by calling its [`requestFullscreen()`](https://developer.mozilla.org/en-US/docs/Web/API/Element/requestFullscreen) method.
+
+$:explanation
+It's not guaranteed that the element will be put into full screen mode. If permission to enter full screen mode is granted, the returned [`Promise`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) will resolve and the element will receive a [`fullscreenchange`](https://developer.mozilla.org/en-US/docs/Web/API/Element/fullscreenchange_event) event to let it know that it's now in full screen mode. If permission is denied, the promise is rejected and the element receives a [`fullscreenerror`](https://developer.mozilla.org/en-US/docs/Web/API/Element/fullscreenerror_event) event instead. If the element has been detached from the original document, then the document receives these events instead.

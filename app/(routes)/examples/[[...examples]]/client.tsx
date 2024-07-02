@@ -5,11 +5,19 @@ import { Textarea } from "@/library/components/textarea";
 import { CopyToggle } from "@/library/components/toggle";
 
 import { markdownText } from "@/modules/playground";
+import { Tabs } from "@/library/components/tabs";
+import { Playground } from "@/library/components/playground";
 
-export function EditableContent({ edit, content }: { edit: string | null; content: "edit" | "preview" }) {
-  const [text, setText] = useState<string>(edit || "");
+export function EditableContent({
+  edit: textEdit,
+  childrens,
+}: {
+  edit: string | null;
+  childrens?: Partial<Record<"code" | "css" | "usage", React.ReactNode>>;
+}) {
+  const [text, setText] = useState<string>(textEdit || "");
 
-  const Edit = (
+  const edit = (
     <>
       <Textarea
         name="playground"
@@ -24,11 +32,11 @@ export function EditableContent({ edit, content }: { edit: string | null; conten
         value={text}
         onChange={(e) => setText(e.currentTarget.value)}
       />
-      <CopyToggle text={text} />
+      <CopyToggle className="absolute right-4 top-4 z-9" text={text} />
     </>
   );
 
-  const Preview = (
+  const preview = (
     <div
       data-rehype-pretty-code-fragment=""
       className="textarea_class !border-0 !bg-transparent white-space-pre-line flex-col scrollbar markdown-body"
@@ -36,20 +44,9 @@ export function EditableContent({ edit, content }: { edit: string | null; conten
     />
   );
 
-  let Content: React.JSX.Element = <></>;
-
-  switch (content) {
-    case "edit":
-      Content = Edit;
-      break;
-
-    case "preview":
-      Content = Preview;
-      break;
-
-    default:
-      break;
-  }
-
-  return Content;
+  return (
+    <Tabs defaultValue="code" id="code" className="w-full scroll-m-20">
+      <Playground childrens={{ edit, preview, ...childrens }} />
+    </Tabs>
+  );
 }

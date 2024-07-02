@@ -15,6 +15,7 @@ import {
   CheckIcon,
   CopyIcon,
 } from "@/modules/icons";
+import { tocopy } from "../utils";
 import { recallHtml } from "../utils/escape-customizer";
 import globalStyle from "../styles/styles";
 
@@ -56,7 +57,7 @@ export const CopyToggle = React.forwardRef<
       title="Copy"
       onClick={() => {
         if (text) {
-          clipboard.copy(text);
+          clipboard.copy(tocopy(text));
         }
       }}
       disabled={!text}

@@ -1686,12 +1686,12 @@ body [data-sheet="box"] {
   input[type="checkbox"],
   input[type="radio"] {
     --active: hsl(var(--constructive));
-    --active-inner: #fff;
-    --focus: 2px hsl(var(--constructive));
-    --border: #bbc1e1;
+    --active-inner: hsl(var(--color));
+    --focus: 2px hsl(var(--constructive) / 0.35);
+    --border: hsl(var(--border));
     --border-hover: hsl(var(--constructive));
-    --background: #fff;
-    --disabled: #f6f8ff;
+    --background: hsl(var(--color));
+    --disabled: hsl(var(--muted));
     --disabled-inner: #e1e6f9;
     -webkit-appearance: none;
     -moz-appearance: none;

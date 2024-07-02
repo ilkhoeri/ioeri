@@ -6,7 +6,7 @@ import { retitled, sourceFiles } from "@/library/utils";
 import { Playground } from "@/library/components/playground";
 import { Container, Title } from "@/library/components/components";
 import { getMdx, getContent, type Content } from "@/library/scripts/get-contents";
-import { escapeCode } from "@/library/utils/escape-customizer";
+import { escapeCode, highlightCode } from "@/library/utils/escape-customizer";
 import { Code } from "@/library/components/code";
 import { sanitizedToParams } from "@/modules";
 
@@ -46,10 +46,12 @@ async function loadFiles(paths: string[]): Promise<(string | null)[]> {
 }
 
 async function getCode({ params }: Params): Promise<Content> {
-  return getContent(`/modules/${sourceFiles(params.examples)}`, [".tsx", ".ts"]);
+  // return getContent(`/modules/${sourceFiles(params.examples)}`, [".tsx", ".ts"]);
+  return getContent(`/modules/${sourceFiles(params.examples)}`);
 }
 async function getCss({ params }: Params): Promise<Content> {
-  return getContent(`/modules/${sourceFiles(params.examples)}`, [".css"]);
+  // return getContent(`/modules/${sourceFiles(params.examples)}`, [".css"]);
+  return getContent(`/modules/${sourceFiles(params.examples)}`, [".css"], undefined, { lang: "css" });
 }
 async function getSection({ params }: Params, sectionId: string): Promise<string | null> {
   return getMdx(`/modules/${sourceFiles(params.examples)}`, sectionId);
@@ -66,7 +68,7 @@ async function loadMarkdownTextExample({ params }: Params) {
   const childrens: { [key: string]: React.JSX.Element | null } = {};
 
   if (code) {
-    childrens.code = <Code setInnerHTML={escapeCode(code)} code={code} />;
+    childrens.code = <Code setInnerHTML={await highlightCode(code)} code={code} />;
   }
   if (css) {
     childrens.css = <Code code={String(css)} />;
@@ -75,17 +77,7 @@ async function loadMarkdownTextExample({ params }: Params) {
     childrens.usage = <Code setInnerHTML={escapeCode(usage)} code={usage} />;
   }
 
-  return (
-    <Tabs defaultValue="code" id="code" className="w-full scroll-m-20">
-      <Playground
-        childrens={{
-          edit: <EditableContent content="edit" edit={example} />,
-          preview: <EditableContent content="preview" edit={example} />,
-          ...childrens,
-        }}
-      />
-    </Tabs>
-  );
+  return <EditableContent edit={example} childrens={childrens} />;
 }
 
 async function loadPolymorphicSlotExample({ params }: Params) {

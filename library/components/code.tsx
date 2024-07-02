@@ -42,7 +42,6 @@ export function Code(Text: CodeCustomizer & ExtIconsType) {
       <div data-rehype-pretty-code-fragment="" className="scrollbar">
         <pre className="p-4 rounded-lg" data-language="tsx" data-theme="default">
           <code
-            className="relative white-space-pre-wrap w-max rounded bg-muted font-roboto-mono text-span"
             data-language="tsx"
             data-theme="default"
             dangerouslySetInnerHTML={Text.setInnerHTML ? { __html: Text.setInnerHTML } : undefined}
