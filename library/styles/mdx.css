@@ -14,9 +14,7 @@
   @apply relative;
 }
 [data-rehype-pretty-code-fragment] code {
-  @apply grid min-w-full break-words rounded-none border-0 bg-transparent p-0;
-  counter-reset: line;
-  box-decoration-break: clone;
+  @apply grid min-w-full break-words rounded-none border-0 bg-transparent p-0 leading-normal [counter-reset:line] [box-decoration-break:clone];
 }
 [data-rehype-pretty-code-fragment] [data-fragment="comment"] {
   @apply text-color-muted h-5 mt-3 -mb-3;

@@ -12,8 +12,11 @@ import {
   ClipboardCheckIcon,
   ChevronDownSquareIcon,
   GithubIcon,
-} from "@/modules/components/web/svg/icons";
+  CheckIcon,
+  CopyIcon,
+} from "@/modules/icons";
 import { recallHtml } from "../utils/escape-customizer";
+import globalStyle from "../styles/styles";
 
 export const GetCodeToggle = React.forwardRef<
   React.ElementRef<typeof Anchor>,
@@ -29,15 +32,12 @@ export const GetCodeToggle = React.forwardRef<
     <Anchor
       ref={ref}
       {...props}
-      href={href || `https://github.com/ilkhoeri/modules/blob/main/${repo}`}
+      href={href || `https://github.com/ilkhoeri/ioeri/blob/main/modules/${repo}`}
       tabIndex={-1}
       title="Get Code"
-      className={twMerge(
-        "centered p-1 rounded-md border bg-background-box absolute top-4 right-14 left-auto [&_svg]:sizer [--sz:20px] transition-colors text-muted-foreground hover:text-color",
-        className,
-      )}
+      className={globalStyle({ toggle: "item", size: "icon-xs" }, className)}
     >
-      <GithubIcon />
+      <GithubIcon className="size-5" />
     </Anchor>
   );
 });
@@ -47,7 +47,7 @@ export const CopyToggle = React.forwardRef<
   React.ElementRef<typeof UnstyledButton>,
   React.ComponentPropsWithoutRef<typeof UnstyledButton> & { text: string | null | undefined }
 >(({ text, className, ...props }, ref) => {
-  const clipboard = useClipboard({ timeout: 1500 });
+  const clipboard = useClipboard({ timeout: 1000 });
   return (
     <UnstyledButton
       ref={ref}
@@ -60,13 +60,17 @@ export const CopyToggle = React.forwardRef<
         }
       }}
       disabled={!text}
-      className={twMerge(
-        "centered p-1 rounded-md border absolute top-4 right-4 [&_svg]:sizer [--sz:20px] transition-colors text-muted-foreground hover:text-color",
-        clipboard.copied ? "bg-background" : "bg-background-box",
+      className={globalStyle(
+        { toggle: "item", size: "icon-xs" },
+        clipboard.copied ? "bg-muted" : "bg-background",
         className,
       )}
     >
-      {clipboard.copied ? <ClipboardCheckIcon /> : <ClipboardCopyIcon />}
+      {clipboard.copied ? (
+        <CheckIcon className="size-5 animate-fade-in fade-in-0 zoom-in-0 [animation-duration:150ms]" />
+      ) : (
+        <CopyIcon className="size-5" />
+      )}
     </UnstyledButton>
   );
 });

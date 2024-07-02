@@ -41,6 +41,7 @@ export {
   desanitizeFromParams,
   desanitizeParams,
   kebabToCamelCase,
+  toPascalCase,
 } from "./text-transform";
 
 export { parseText, processParseText } from "./formatter/parse-text";

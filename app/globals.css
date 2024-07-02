@@ -79,19 +79,29 @@ html[class="dark"]:root * * {
   --state: var(--dark);
 }
 :root {
+  --border: 0deg 0% 92%;
   --color: var(--pure-black);
+  --code: var(--concrete);
   --color-muted: var(--dove-gray-tertiary);
   --azure-radiance: var(--azure-radiance-primary);
   --background: var(--pure-white);
+  --background-muted: 0deg 0% 98.04%;
+  --background-code-header: var(--background-muted);
+  --background-code-body: var(--pure-white);
   --highlight: var(--geyser);
   --filter-icon: contrast(1);
   --filter-icon-foreground: contrast(0.5);
 }
 html[class="dark"]:root {
+  --border: 0deg 0% 18%;
   --color: var(--pure-white);
+  --code: var(--muted);
   --color-muted: var(--mine-shaft-tertiary);
   --azure-radiance: var(--azure-radiance-tertiary);
   --background: var(--pure-black);
+  --background-muted: 0deg 0% 3.92%;
+  --background-code-header: var(--pure-black);
+  --background-code-body: var(--background-muted);
   --highlight: var(--shark-primary);
   --filter-icon: invert(1);
   --filter-icon-foreground: contrast(0);
@@ -137,7 +147,7 @@ html[class="dark"]:root {
 }
 
 * {
-  border-color: hsl(var(--color-muted));
+  border-color: hsl(var(--border));
 }
 html body * {
   font-family: var(--fontid, var(--ff-sans));
@@ -746,9 +756,6 @@ hr {
   & .linkbox {
     @apply transition-colors no-underline decoration-none border bg-color text-background hover:bg-color/90 hover:text-background rounded-md font-semibold px-2 py-px text-sm after:content-['\279C'] after:-rotate-45 after:ml-1 after:text-muted-foreground after:transition-colors hover:after:text-constructive;
   }
-  & code {
-    @apply py-0.5 px-1.5 rounded-sm bg-muted [font-size:95%];
-  }
   & ul {
     @apply list-disc;
   }
@@ -767,8 +774,10 @@ hr {
     @apply list-item [text-align:-webkit-match-parent] [unicode-bidi:isolate];
   }
 }
-.code_block {
-  @apply py-0.5 px-1.5 rounded-sm bg-muted [font-size:95%];
+
+.md_custom code,
+.codebox {
+  @apply font-roboto-mono p-[.12em_.25em] rounded-sm border bg-code [font-size:.875em];
 }
 
 .indicator_::before {
@@ -1655,7 +1664,7 @@ body [data-sheet="box"] {
 }
 
 /* animasi untuk reload */
-
+.occure_load,
 [data-state-icon="reload"] [data-g="circular-arrow"] {
   transform-origin: center;
   animation: hop-arround 2s infinite;

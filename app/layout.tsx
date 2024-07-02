@@ -19,7 +19,7 @@ import "./themeid-default.css";
 // import "./themeid-protanopia.css";
 
 import "../library/styles/mdx.css";
-import "../library/styles/examples.css";
+import "../library/styles/_demo.css";
 
 export const metadata: Metadata = {
   title: {

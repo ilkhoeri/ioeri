@@ -1,6 +1,6 @@
 import Element from "@/modules/components/web/element/element";
 import { AsideLeft } from "@/library/assets/nav-aside-left";
-import { getNestedRoutes, getRoutes } from "@/library/scripts/get-routes";
+import { getPath, getPaths } from "@/library/scripts/get-paths";
 import type { NestedRoute, SingleRoute } from "@/library/routes";
 
 import style from "@/library/styles/ioeri.module.css";
@@ -10,10 +10,10 @@ export const dynamicParams = true;
 export const runtime = "nodejs";
 
 async function loadRoutes(sourcePath: string): Promise<SingleRoute[]> {
-  return await getRoutes(sourcePath);
+  return await getPath(sourcePath);
 }
 async function loadNestedRoutes(sourcePath: string): Promise<NestedRoute[]> {
-  return await getNestedRoutes(sourcePath);
+  return await getPaths(sourcePath);
 }
 
 export default async function Layout({

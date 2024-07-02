@@ -72,7 +72,7 @@ export async function FootNav() {
             { toggle: "group" },
             "pt-2 pb-4 px-4 relative gap-px flex-row flex-nowrap justify-end text-muted-foreground border-b border-b-muted",
           ),
-          buttons: globalStyle({ toggle: "item", size: "icon" }),
+          buttons: globalStyle({ toggle: "item", size: "icon-sm" }),
         }}
       />
 

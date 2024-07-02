@@ -3,7 +3,7 @@
 import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useMDXComponent } from "next-contentlayer/hooks";
+
 
 import { cn } from "@/library/utils";
 
@@ -122,10 +122,11 @@ export const components = {
   ),
 };
 
+/**
+import { useMDXComponent } from "next-contentlayer/hooks";
 interface MdxProps {
   code: string;
 }
-
 export function Mdx({ code }: MdxProps) {
   const Component = useMDXComponent(code);
 
@@ -135,3 +136,4 @@ export function Mdx({ code }: MdxProps) {
     </div>
   );
 }
+*/

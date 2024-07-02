@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getNestedRoutes, getRoutes } from "@/library/scripts/get-routes";
+import { getPath, getPaths } from "@/library/scripts/get-paths";
 import { AsideLeft } from "@/library/assets/nav-aside-left";
 import { Main } from "@/library/components/components";
 import { IoeriIcon } from "@/modules";
@@ -11,10 +11,10 @@ export const dynamicParams = true;
 export const runtime = "nodejs";
 
 async function loadRoutes(sourcePath: string): Promise<SingleRoute[]> {
-  return await getRoutes(sourcePath);
+  return await getPath(sourcePath);
 }
 async function loadNestedRoutes(sourcePath: string): Promise<NestedRoute[]> {
-  return await getNestedRoutes(sourcePath);
+  return await getPaths(sourcePath);
 }
 
 export default async function NotFound() {

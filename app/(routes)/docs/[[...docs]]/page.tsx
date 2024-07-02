@@ -1,12 +1,12 @@
 import { Tabs } from "@/library/components/tabs";
-import { retitled, sourceFiles } from "@/library/utils";
+import { retitled, slug, sourceFiles } from "@/library/utils";
 import { Playground } from "@/library/components/playground";
 import { Code, Customizer, APIReference } from "@/library/components/code";
-import { Container, Paragraph, Title } from "@/library/components/components";
-import { getMdx, getContExt, type ContExt } from "@/library/scripts/get-file-content";
+import { Container, Title } from "@/library/components/components";
+import { getMdx, getContent, type Content } from "@/library/scripts/get-contents";
 import { escapeCode, mdCustom } from "@/library/utils/escape-customizer";
-import { sanitizedToParams } from "@/modules";
-import { Examples } from "./examples";
+import { toPascalCase, sanitizedToParams } from "@/modules";
+import { Examples } from "./demo";
 
 import type { Metadata } from "next";
 
@@ -32,33 +32,35 @@ export async function generateMetadata({ params }: DocsParams): Promise<Metadata
   };
 }
 
-async function getReserveCode({ params }: DocsParams, ext: string): Promise<string | null> {
-  const repo = `https://raw.githubusercontent.com/ilkhoeri/modules/main/`;
-  return (await fetch(`${repo}${sourceFiles(params.docs)}${ext}`)).text();
-}
-async function getReserveUsage({ params }: DocsParams): Promise<string | null> {
+async function getReUsage({ params }: DocsParams): Promise<string | null> {
   return getMdx(`/modules/${sourceFiles(params.docs)}`, "usage");
 }
-async function getUsage({ params }: DocsParams): Promise<ContExt> {
-  return getContExt(`/examples/${params.docs.join("/")}`, [".tsx", ".ts"]);
+async function getUsage({ params }: DocsParams, rename?: Record<string, string>): Promise<Content> {
+  if (!params.docs) return { content: null, extension: null };
+  return getContent(`/resource/_docs_demo/${params.docs.join("/")}`, [".tsx", ".ts"], rename);
 }
-async function getCode({ params }: DocsParams): Promise<ContExt> {
-  return getContExt(`/modules/${sourceFiles(params.docs)}`, [".tsx", ".ts"]);
+async function getReCode({ params }: DocsParams, ext: string): Promise<string | null> {
+  const repo = `https://raw.githubusercontent.com/ilkhoeri/ioeri/main/modules/`;
+  return (await fetch(`${repo}${sourceFiles(params.docs)}${ext}`)).text();
 }
-async function getCss({ params }: DocsParams): Promise<ContExt> {
-  return getContExt(`/modules/${sourceFiles(params.docs)}`, [".css"]);
+async function getCode({ params }: DocsParams): Promise<Content> {
+  return getContent(`/modules/${sourceFiles(params.docs)}`, [".tsx", ".ts"]);
+}
+async function getCss({ params }: DocsParams): Promise<Content> {
+  return getContent(`/modules/${sourceFiles(params.docs)}`, [".css"]);
 }
 async function getSection({ params }: DocsParams, id: string): Promise<string | null> {
   return getMdx(`/modules/${sourceFiles(params.docs)}`, id);
 }
-
 export default async function Page({ params }: DocsParams) {
-  const { content: code, extension: codeExt } = await getCode({ params });
-  const usage = await getUsage({ params }).then((res) => res.content);
+  const code = await getCode({ params });
 
-  const ce = codeExt || ".tsx";
-  const reserveCode = code === null ? await getReserveCode({ params }, `${ce}`) : null;
-  const reserveUsage = usage === null ? await getReserveUsage({ params }) : null;
+  const rename = { Demo: `${toPascalCase(slug(params.docs))}Demo` };
+  const usage = await getUsage({ params }, rename).then((res) => res.content);
+
+  const ce = code.extension || ".tsx";
+  const reCode = code.content === null ? await getReCode({ params }, `${ce}`) : null;
+  const reUsage = usage === null ? await getReUsage({ params }) : null;
 
   const [css, title, reference, description, explanation, conclusion, notes] = await Promise.all([
     getCss({ params }).then((res) => res.content),
@@ -72,21 +74,27 @@ export default async function Page({ params }: DocsParams) {
 
   const usages: { [key: string]: React.JSX.Element | null } = {};
   const codes: { [key: string]: React.JSX.Element | null } = {};
+  const repo: string = `${sourceFiles(params.docs)}${ce}`;
+  const file: string = `${slug(params.docs)}${ce}`;
 
   if (usage) {
     usages.preview = <Examples params={params} />;
-    usages.usage = <Code setInnerHTML={escapeCode(usage)} code={usage} />;
-  } else if (reserveUsage) {
-    usages.usage = <Code setInnerHTML={escapeCode(reserveUsage)} code={reserveUsage} />;
+    usages.usage = (
+      <Code title={`${slug(params.docs)}-demo.tsx`} ext=".tsx" code={usage} setInnerHTML={escapeCode(usage)} />
+    );
+  } else if (reUsage) {
+    usages.usage = (
+      <Code title={`${slug(params.docs)}.tsx`} ext=".tsx" code={reUsage} setInnerHTML={escapeCode(reUsage)} />
+    );
   }
 
   if (css) {
-    codes.css = <Code code={css} />;
+    codes.css = <Code title={`${slug(params.docs)}.css`} ext=".css" code={css} />;
   }
   if (code) {
-    codes.code = <Code code={code} />;
-  } else if (reserveCode) {
-    codes.code = <Code code={reserveCode} />;
+    codes.code = <Code title={file} repo={repo} ext={ce} code={code.content} />;
+  } else if (reCode) {
+    codes.code = <Code title={file} repo={repo} ext={ce} code={reCode} />;
   }
 
   return (
@@ -103,7 +111,7 @@ export default async function Page({ params }: DocsParams) {
 
       <Customizer setInnerHTML={mdCustom(description)} />
 
-      {(usage || reserveUsage) && (
+      {(usage || reUsage) && (
         <Tabs defaultValue={usage ? "preview" : "usage"} id="usage" className="w-full mb-12">
           <Playground childrens={usages} />
         </Tabs>
@@ -112,7 +120,7 @@ export default async function Page({ params }: DocsParams) {
       <Customizer setInnerHTML={mdCustom(explanation)} />
 
       <Tabs defaultValue="code" id="code" className="w-full mb-12">
-        <Playground childrens={codes} repo={`${sourceFiles(params.docs)}${ce}`} />
+        <Playground childrens={codes} />
       </Tabs>
 
       <Customizer setInnerHTML={mdCustom(conclusion)} />

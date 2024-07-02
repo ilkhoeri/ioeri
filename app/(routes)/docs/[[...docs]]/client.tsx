@@ -59,7 +59,7 @@ function renderNestedRoute(routes: NestedRoute[], value: string) {
   );
 }
 
-export function RestDocsPage({ routes, id }: { id: string; routes: (SingleRoute | NestedRoute)[] | null }) {
+export default function RestDocsPage({ routes, id }: { id: string; routes: (SingleRoute | NestedRoute)[] | null }) {
   const [value, setValue] = React.useState<string>("");
 
   if (!routes) return null;

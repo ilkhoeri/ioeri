@@ -37,7 +37,8 @@
     "modules/components/native",
     "modules/components/web",
     "modules/ondevelopment/utils",
-    "modules/ondevelopment/factory"
+    "modules/ondevelopment/factory",
+    "modules/icons"
   ],
   "exclude": ["node_modules"]
 }

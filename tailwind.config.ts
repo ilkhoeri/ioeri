@@ -43,7 +43,8 @@ const config = {
         sm: "calc(var(--radius) - 4px)",
       },
       colors: {
-        border: "hsl(var(--muted-foreground))",
+        code: "hsl(var(--code))",
+        border: "hsl(var(--border))",
         color: {
           DEFAULT: "hsl(var(--color))",
           muted: "hsl(var(--color-muted))",
@@ -53,6 +54,9 @@ const config = {
           theme: "hsl(var(--background-theme))",
           box: "hsl(var(--background-box))",
           nav: "hsl(var(--background-nav))",
+          muted: "hsl(var(--background-muted))",
+          "code-header": "hsl(var(--background-code-header))",
+          "code-body": "hsl(var(--background-code-body))",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",

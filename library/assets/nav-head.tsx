@@ -13,7 +13,7 @@ import style from "./aside.module.css";
 import globalStyle from "../styles/styles";
 
 export function Headnav() {
-  const { minQuery, handleOpen, isHome, open } = useNavContext();
+  const { minQuery, handleOpen, pathname, open } = useNavContext();
 
   const { hovered, onMouseEnter, onMouseLeave } = useHoveredElement();
 
@@ -22,7 +22,7 @@ export function Headnav() {
       id="header-nav"
       className={twMerge(
         "h-[--navbar] flex items-center justify-between py-4 md:px-5 xl:px-6 border-0 border-b-[0.04rem] border-b-muted/75 sticky top-0 inset-x-0 z-[--z,88] w-full backdrop-blur bg-background/95 supports-[backdrop-filter]:bg-background/60",
-        isHome && open && "[--z:0]",
+        pathname === "/" && open && "[--z:0]",
       )}
     >
       <Element className="w-full relative flex items-center mx-auto max-w-screen-3xl px-4 3xl:px-20">
@@ -67,21 +67,21 @@ export function Headnav() {
             target="_blank"
             aria-label="github repository"
             href="https://github.com/ilkhoeri/ioeri"
-            className={globalStyle({ toggle: "item", size: "icon" })}
+            className={globalStyle({ toggle: "item", size: "icon-sm" })}
           />
           <NavLinkItem
             icon={DiscordIcon}
             target="_blank"
             aria-label="discord community"
             href="https://discord.gg/Xct5BBPDZ9"
-            className={globalStyle({ toggle: "item", size: "icon" })}
+            className={globalStyle({ toggle: "item", size: "icon-sm" })}
           />
         </div>
 
         <ButtonAside
           open={open}
-          query={minQuery}
           onClick={handleOpen}
+          hidden={minQuery || pathname.split("/").filter(Boolean).includes("examples")}
           className="max-md:ml-6 max-md:data-[state=open]:translate-x-[212px] max-md:data-[state=open]:opacity-0"
         />
       </Element>
@@ -103,17 +103,17 @@ export function LinkHome({ open, className }: { open?: boolean; className?: stri
 }
 
 export function ButtonAside({
-  query,
+  hidden,
   open,
   onClick,
   className,
 }: {
-  query: boolean | undefined;
+  hidden: boolean | undefined;
   open?: boolean;
   onClick: () => void;
   className?: string;
 }) {
-  if (query) {
+  if (hidden) {
     return null;
   }
   return (

@@ -4,4 +4,4 @@ export * from "./context";
 export * from "./types";
 export * from "./ondevelopment";
 
-export * from "./components/web/svg/icons";
+export * from "./icons";

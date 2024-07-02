@@ -3,15 +3,15 @@ import path from "node:path";
 
 import { Tabs } from "@/library/components/tabs";
 import { retitled, sourceFiles } from "@/library/utils";
-import { getMdFile } from "@/library/scripts/get-md-file";
 import { Playground } from "@/library/components/playground";
 import { Container, Title } from "@/library/components/components";
-import { getContExt, getMdx, type ContExt } from "@/library/scripts/get-file-content";
+import { getMdx, getContent, type Content } from "@/library/scripts/get-contents";
 import { escapeCode } from "@/library/utils/escape-customizer";
 import { Code } from "@/library/components/code";
 import { sanitizedToParams } from "@/modules";
 
 import type { Metadata } from "next";
+import { EditableContent } from "./client";
 
 interface Params {
   params: { examples: string[] };
@@ -45,23 +45,11 @@ async function loadFiles(paths: string[]): Promise<(string | null)[]> {
   );
 }
 
-async function loadComponentFiles(
-  basePath: string,
-  usagePath: string,
-  extensions: string[],
-): Promise<{ code: string | null; usage: string | null }> {
-  const [code, usage] = await Promise.all([
-    getMdFile("convert", basePath, extensions),
-    fs.readFile(path.join(process.cwd(), usagePath), "utf-8"),
-  ]);
-  return { code, usage };
+async function getCode({ params }: Params): Promise<Content> {
+  return getContent(`/modules/${sourceFiles(params.examples)}`, [".tsx", ".ts"]);
 }
-
-async function getCode({ params }: Params): Promise<ContExt> {
-  return getContExt(`/modules/${sourceFiles(params.examples)}`, [".tsx", ".ts"]);
-}
-async function getCss({ params }: Params): Promise<ContExt> {
-  return getContExt(`/modules/${sourceFiles(params.examples)}`, [".css"]);
+async function getCss({ params }: Params): Promise<Content> {
+  return getContent(`/modules/${sourceFiles(params.examples)}`, [".css"]);
 }
 async function getSection({ params }: Params, sectionId: string): Promise<string | null> {
   return getMdx(`/modules/${sourceFiles(params.examples)}`, sectionId);
@@ -89,7 +77,13 @@ async function loadMarkdownTextExample({ params }: Params) {
 
   return (
     <Tabs defaultValue="code" id="code" className="w-full scroll-m-20">
-      <Playground edit={example} childrens={childrens} />
+      <Playground
+        childrens={{
+          edit: <EditableContent content="edit" edit={example} />,
+          preview: <EditableContent content="preview" edit={example} />,
+          ...childrens,
+        }}
+      />
     </Tabs>
   );
 }
@@ -103,7 +97,6 @@ async function loadPolymorphicSlotExample({ params }: Params) {
   return (
     <Tabs defaultValue="code" id="code" className="w-full scroll-m-20">
       <Playground
-        defaultState="code"
         childrens={{
           code: <Code code={String(codePoly)} />,
           usage: <Code code={String(usagePoly)} />,

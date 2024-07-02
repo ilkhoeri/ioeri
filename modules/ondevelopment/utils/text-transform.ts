@@ -261,3 +261,14 @@ export function camelToKebab(n: string): string {
 export function kebabToCamelCase(str: string): string {
   return str.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
 }
+
+export function toPascalCase(str: string) {
+  return str
+    .split("-") // Memisahkan string berdasarkan tanda hubung
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1)) // Mengubah huruf pertama setiap kata menjadi huruf besar
+    .join(""); // Menggabungkan kembali kata-kata tanpa tanda hubung
+}
+
+// Contoh penggunaan
+// const kebabCaseString = "animation-text-spiral";
+// const pascalCaseString = toPascalCase(kebabCaseString);

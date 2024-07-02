@@ -27,9 +27,10 @@ export const compoundStyle = cvx({
     },
     size: {
       default: "h-10 px-3",
-      icon: "size-9 p-1",
       sm: "h-9 px-2.5",
       lg: "h-11 px-5",
+      "icon-sm": "sizer [--sz:36px] p-1",
+      "icon-xs": "sizer [--sz:32px] p-0.5",
     },
   },
 });

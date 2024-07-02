@@ -2,44 +2,65 @@
 
 import React from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import Element from "@/modules/components/web/element/element";
 import { useAppContext } from "@/library/context/app-context";
-import { capitalizeWords } from "@/modules";
+import { ArrowsSquareIcon, FileIcon, capitalizeWords } from "@/modules";
+import { ClientOnly } from "../components/client-only";
 import { cn } from "@/library/utils";
 
 import Styles from "./aside-styles";
 
 export function AsideRight() {
+  const pathname = usePathname();
   const { ids } = useAppContext();
   const idInView = useActiveItem(ids.map((i) => i.id));
+
+  const paths = pathname.split("/").filter((part) => part !== "");
+  const href = paths.length > 1 ? `https://github.com/ilkhoeri/ioeri/blob/main/resource${pathname}.mdx` : "";
 
   return (
     <aside className={Styles({ style: "aside", aside: "right" })}>
       <nav className={cn(Styles({ style: "nav" }), "fixed pl-3")}>
-        <hgroup>
-          <h4 role="presentation" className="font-medium text-paragraph mb-2">
-            On This Page
-          </h4>
-        </hgroup>
-        <Element el="ul" role="list" className="space-y-2 font-medium text-span">
-          {ids &&
-            ids.map(({ id, depth }) =>
-              id ? (
-                <Element
-                  el="li"
-                  key={id}
-                  role="listitem"
-                  className={cn("text-muted-foreground hover:text-color transition-colors")}
-                  style={{
-                    paddingLeft: `${depth * 12}px`,
-                    color: idInView === id ? "hsl(var(--constructive))" : "hsl(var(--muted-foreground))",
-                  }}
-                >
-                  <Link href={`#${id}`}>{capitalizeWords(id)}</Link>
-                </Element>
-              ) : null,
-            )}
-        </Element>
+        <ClientOnly>
+          <hgroup>
+            <h4 role="presentation" className="font-medium text-paragraph mb-2">
+              On This Page
+            </h4>
+          </hgroup>
+          <Element el="ul" role="list" className="space-y-2 font-medium text-span">
+            {ids &&
+              ids.map(({ id, depth }) =>
+                id ? (
+                  <Element
+                    el="li"
+                    key={id}
+                    role="listitem"
+                    className={cn("text-muted-foreground")}
+                    style={{
+                      paddingLeft: `${depth * 12}px`,
+                      color: idInView === id ? "hsl(var(--constructive))" : "hsl(var(--muted-foreground))",
+                    }}
+                  >
+                    <Link href={`#${id}`} className="hover:text-color transition-colors">{capitalizeWords(id)}</Link>
+                  </Element>
+                ) : null,
+              )}
+          </Element>
+
+          <hr className="w-full min-w-[212px] my-5" />
+
+          {paths.length > 1 && (
+            <Link
+              href={href}
+              target="_blank"
+              className="text-muted-foreground hover:text-constructive transition-all text-sm pb-1.5 h-4 gap-1 justify-start underline-hover"
+            >
+              <span className="truncate">Edit this page on GitHub</span>
+              <ArrowsSquareIcon arrow="right" square={false} className="-rotate-45 sizer [--sz:28px] stroke-[1.25]" />
+            </Link>
+          )}
+        </ClientOnly>
       </nav>
     </aside>
   );

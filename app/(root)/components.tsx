@@ -199,8 +199,8 @@ function FeaturesList({
           >
             <span className="text-sm">Read</span>
             <ArrowsSquareIcon
-              withSquare={false}
-              direction="right"
+              square={false}
+              arrow="right"
               className="size-6 -translate-x-4 text-2xl transition duration-300 group-hover:translate-x-0 opacity-0 group-hover:opacity-100"
             />
           </Link>

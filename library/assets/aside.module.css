@@ -11,7 +11,7 @@
 }
 
 .link[data-path="active"] {
-  @apply text-constructive font-medium [box-shadow:0_0_0_1px_inset_hsl(var(--muted)/0)];
+  @apply text-constructive font-medium [box-shadow:0_0_0_1px_hsl(var(--constructive)/0)];
   &::after {
     @apply content-[''] absolute z-2 bg-background rounded-full w-1 h-4/5 left-1 inset-y-auto right-auto [box-shadow:0_0_0_1px_hsl(var(--constructive))];
   }

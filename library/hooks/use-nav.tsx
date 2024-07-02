@@ -1,4 +1,6 @@
 "use client";
+
+import { usePathname } from "next/navigation";
 import React, { createContext, useContext, ReactNode, useState, useEffect } from "react";
 import {
   useElementSize as useHeaderSize,
@@ -8,7 +10,6 @@ import {
 } from "@/modules";
 
 import type { UseOpenStateType } from "@/modules";
-import { usePathname } from "next/navigation";
 
 interface MediaQuery {
   mediaQuery?: number;
@@ -28,7 +29,7 @@ interface NavContextProps extends MediaQuery, UseOpenStateType<HTMLElement> {
   minQuery: boolean | undefined;
   maxQuery: boolean | undefined;
   homeQuery: boolean | undefined;
-  isHome: boolean | undefined;
+  pathname: string;
 }
 
 interface NavProviderProps extends UseOpenStateType<HTMLElement>, MediaQuery {
@@ -45,8 +46,7 @@ export const NavProvider: React.FC<NavProviderProps> = ({ children, mediaQuery =
   const minQuery = useMediaQuery(`(min-width: ${mediaQuery}px)`);
   const maxQuery = useMediaQuery(`(max-width: ${mediaQuery - 1}px)`);
 
-  const isHome = pathname === "/";
-  const homeQuery = isHome && minQuery;
+  const homeQuery = pathname === "/" && minQuery;
 
   useEffect(() => {
     const body = document.body;
@@ -69,7 +69,7 @@ export const NavProvider: React.FC<NavProviderProps> = ({ children, mediaQuery =
     minQuery,
     maxQuery,
     homeQuery,
-    isHome,
+    pathname,
     ...state,
   };
 

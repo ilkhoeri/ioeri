@@ -53,7 +53,7 @@ export function AsideLeft({
         {maxQuery && (
           <hgroup className={Styles({ style: "hgroup" })}>
             <LinkHome />
-            <ButtonAside query={minQuery} open={open} onClick={handleClose} className="mr-1.5" />
+            <ButtonAside hidden={minQuery} open={open} onClick={handleClose} className="mr-1.5" />
           </hgroup>
         )}
 
@@ -78,7 +78,7 @@ export function AsideLeft({
                   <span className="truncate">{i.title}</span>
                 </CollapsibleTrigger>
 
-                <CollapsibleContent className="w-full z-1">
+                <CollapsibleContent className="w-full z-1 px-0.5">
                   {i.data.map((i, index) => (
                     <NavLinkItem key={index} href={i.href} title={i.title} className={style.link} {...attr} />
                   ))}
@@ -93,14 +93,14 @@ export function AsideLeft({
                   <span className="truncate">{i.title}</span>
                 </CollapsibleTrigger>
 
-                <CollapsibleContent className="z-1 [--space-l:8px] ml-[--space-l] w-[calc(100%-var(--space-l))]">
+                <CollapsibleContent className="w-full z-1">
                   {i.data.map((i, index) => (
                     <Collapsible key={index} defaultOpen align="start">
-                      <CollapsibleTrigger className={Styles({ style: "trigger" })}>
+                      <CollapsibleTrigger className={twMerge(Styles({ style: "trigger" }), "pl-1.5")}>
                         <span className="truncate">{i.title}</span>
                       </CollapsibleTrigger>
 
-                      <CollapsibleContent className="w-full z-1">
+                      <CollapsibleContent className="w-full z-1 px-0.5">
                         {i.data.map((i, index) => (
                           <NavLinkItem
                             key={index}
@@ -124,7 +124,7 @@ export function AsideLeft({
                   <span className="truncate">{i.title}</span>
                 </CollapsibleTrigger>
 
-                <CollapsibleContent className="w-full z-1">
+                <CollapsibleContent className="w-full z-1 px-0.5">
                   {i.data.map((i, index) => (
                     <NavLinkItem key={index} href={i.href} title={i.title} className={style.link} {...attr} />
                   ))}
@@ -138,7 +138,7 @@ export function AsideLeft({
                 <span className="truncate">{i.title}</span>
               </CollapsibleTrigger>
 
-              <CollapsibleContent className="h-full w-full z-1">
+              <CollapsibleContent className="w-full z-1 px-0.5">
                 {i.data.map((i, index) => (
                   <NavLinkItem key={index} href={i.href} title={i.title} className={style.link} {...attr} />
                 ))}
