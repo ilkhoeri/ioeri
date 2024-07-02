@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: DocsParams): Promise<Metadata
   };
 }
 
-async function getReCode({ params }: DocsParams, ext: string): Promise<string | null> {
+async function getReCode({ params }: DocsParams, ext: string): Promise<string> {
   const repo = `https://raw.githubusercontent.com/ilkhoeri/ioeri/main/modules/`;
   return (await fetch(`${repo}${sourceFiles(params.docs)}${ext}`)).text();
 }
@@ -53,13 +53,14 @@ async function getSection({ params }: DocsParams, id: string): Promise<string | 
   return getMdx(`/modules/${sourceFiles(params.docs)}`, id);
 }
 export default async function Page({ params }: DocsParams) {
+  const develop = process.env.NODE_ENV !== "production";
+
   const code = await getCode({ params });
+  const ce = code.extension || ".tsx";
+  const reCode = await getReCode({ params }, `${ce}`);
 
   const rename = { Demo: `${toPascalCase(slug(params.docs))}Demo` };
   const usage = await getUsage({ params }, rename).then((res) => res.content);
-
-  const ce = code.extension || ".tsx";
-  const reCode = code.content === null ? await getReCode({ params }, `${ce}`) : null;
   const reUsage = usage === null ? await getReUsage({ params }) : null;
 
   const [css, title, reference, description, explanation, conclusion, notes] = await Promise.all([
@@ -91,7 +92,8 @@ export default async function Page({ params }: DocsParams) {
   if (css) {
     codes.css = <Code title={`${slug(params.docs)}.css`} ext=".css" code={css} />;
   }
-  if (code) {
+
+  if (code.content) {
     codes.code = <Code title={file} repo={repo} ext={ce} code={code.content} />;
   } else if (reCode) {
     codes.code = <Code title={file} repo={repo} ext={ce} code={reCode} />;
