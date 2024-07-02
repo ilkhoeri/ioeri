@@ -32,19 +32,19 @@ export async function generateMetadata({ params }: DocsParams): Promise<Metadata
   };
 }
 
-async function getReUsage({ params }: DocsParams): Promise<string | null> {
-  return getMdx(`/modules/${sourceFiles(params.docs)}`, "usage");
-}
-async function getUsage({ params }: DocsParams, rename?: Record<string, string>): Promise<Content> {
-  if (!params.docs) return { content: null, extension: null };
-  return getContent(`/resource/_docs_demo/${params.docs.join("/")}`, [".tsx", ".ts"], rename);
-}
 async function getReCode({ params }: DocsParams, ext: string): Promise<string | null> {
   const repo = `https://raw.githubusercontent.com/ilkhoeri/ioeri/main/modules/`;
   return (await fetch(`${repo}${sourceFiles(params.docs)}${ext}`)).text();
 }
+async function getReUsage({ params }: DocsParams): Promise<string | null> {
+  return getMdx(`/modules/${sourceFiles(params.docs)}`, "usage");
+}
 async function getCode({ params }: DocsParams): Promise<Content> {
   return getContent(`/modules/${sourceFiles(params.docs)}`, [".tsx", ".ts"]);
+}
+async function getUsage({ params }: DocsParams, rename?: Record<string, string>): Promise<Content> {
+  if (!params.docs) return { content: null, extension: null };
+  return getContent(`/resource/_docs_demo/${params.docs.join("/")}`, [".tsx", ".ts"], rename);
 }
 async function getCss({ params }: DocsParams): Promise<Content> {
   return getContent(`/modules/${sourceFiles(params.docs)}`, [".css"]);
