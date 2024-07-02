@@ -4,14 +4,22 @@ import { twMerge } from "tailwind-merge";
 
 export const compoundStyle = cvx({
   variants: {
+    cards: {
+      box: "flex w-full flex-col items-center rounded-lg border bg-card p-6 text-card-foreground shadow-md transition-colors hover:bg-muted/25 dark:hover:bg-muted/45",
+    },
     button: {
-      default: "transition-colors rounded-md font-medium text-span bg-color text-background border border-background hover:bg-color/90 disabled:opacity-50",
-      destructive: "transition-colors rounded-md font-medium text-span bg-destructive text-white hover:bg-destructive-foreground",
-      constructive: "transition-colors rounded-md font-medium text-span bg-constructive text-white hover:bg-constructive-foreground",
-      conservative: "transition-colors rounded-md font-medium text-span bg-conservative text-white hover:bg-conservative-foreground",
+      default:
+        "transition-colors rounded-md font-medium text-span bg-color text-background border border-background hover:bg-color/90 disabled:opacity-50",
+      destructive:
+        "transition-colors rounded-md font-medium text-span bg-destructive text-white hover:bg-destructive-foreground",
+      constructive:
+        "transition-colors rounded-md font-medium text-span bg-constructive text-white hover:bg-constructive-foreground",
+      conservative:
+        "transition-colors rounded-md font-medium text-span bg-conservative text-white hover:bg-conservative-foreground",
       primitive:
         "transition-colors rounded-md font-medium text-span bg-primitive-foreground/35 text-color border border-primitive-emphasis hover:bg-accent hover:text-primitive/40",
-      outline: "transition-colors rounded-md font-medium text-span border bg-background text-muted-foreground hover:bg-muted hover:text-color",
+      outline:
+        "transition-colors rounded-md font-medium text-span border bg-background text-muted-foreground hover:bg-muted hover:text-color",
       link: "transition-colors rounded-md font-medium text-span text-color underline-offset-4 hover:text-constructive hover:underline",
     },
     toggle: {

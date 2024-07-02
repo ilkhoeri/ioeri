@@ -754,7 +754,10 @@ hr {
 }
 .md_custom {
   & .linkbox {
-    @apply transition-colors no-underline decoration-none border bg-color text-background hover:bg-color/90 hover:text-background rounded-md font-semibold px-2 py-px text-sm after:content-['\279C'] after:-rotate-45 after:ml-1 after:text-muted-foreground after:transition-colors hover:after:text-constructive;
+    @apply transition-colors no-underline decoration-none border bg-color text-background hover:bg-color/90 hover:text-background rounded-md font-semibold font-roboto-mono px-2 py-px text-sm after:content-['🡵'] after:ml-1 after:text-muted-foreground after:transition-colors hover:after:text-constructive;
+  }
+  & a code {
+    @apply p-[0em_.25em] transition-colors underline underline-offset-2 decoration-color-muted hover:decoration-constructive hover:text-constructive;
   }
   & ul {
     @apply list-disc;
@@ -1682,11 +1685,11 @@ body [data-sheet="box"] {
 @supports (-webkit-appearance: none) or (-moz-appearance: none) {
   input[type="checkbox"],
   input[type="radio"] {
-    --active: #275efe;
+    --active: hsl(var(--constructive));
     --active-inner: #fff;
-    --focus: 2px rgba(39, 94, 254, 0.3);
+    --focus: 2px hsl(var(--constructive));
     --border: #bbc1e1;
-    --border-hover: #275efe;
+    --border-hover: hsl(var(--constructive));
     --background: #fff;
     --disabled: #f6f8ff;
     --disabled-inner: #e1e6f9;
@@ -1860,7 +1863,7 @@ input[type="range"] {
 input[type="range"] {
   --thumb-height: 1em;
   --track-height: 0.25em;
-  --track-color: #275efe;
+  --track-color: hsl(var(--constructive));
   --brightness-hover: 180%;
   --brightness-down: 80%;
   --clip-edges: 0.25em;

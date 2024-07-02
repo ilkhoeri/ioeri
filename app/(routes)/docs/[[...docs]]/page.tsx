@@ -106,7 +106,6 @@ export default async function Page({ params }: DocsParams) {
         id={sanitizedToParams(retitled(params.docs))}
         className="mt-0 mb-12"
       />
-
       <APIReference setInnerHTML={mdCustom(reference)} />
 
       <Customizer setInnerHTML={mdCustom(description)} />

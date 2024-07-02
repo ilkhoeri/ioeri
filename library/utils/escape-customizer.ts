@@ -48,7 +48,7 @@ function stripHtml(text: string) {
 export function escapeCode(text: string): string {
   text = escapeHtml(text);
 
-  text = text.replace(/^(.*?)(\/\/.*)$/gm, (match, p1, p2) => {
+  text = text.replace(/^(.*?)(\/\/\ .*)$/gm, (match, p1, p2) => {
     const beforeComment = p1.trim();
     const comment = p2.replace(/^\/\//, "").trim();
 
@@ -59,8 +59,6 @@ export function escapeCode(text: string): string {
     }
   });
 
-  // text = text.replace(/```(.*?)```/g, "<code>$1</code>");
-
   return text;
 }
 
@@ -70,7 +68,7 @@ export function mdCustom(text: string | null): string | null | undefined {
   if (!text) return;
   text = text.replace(/___/g, "<hr>");
 
-  text = text.replace(/_(.*?)_/g, "<i>$1</i>");
+  // text = text.replace(/_(.*?)_/g, "<i>$1</i>");
 
   text = text.replace(/~(.*?)~/g, "<s>$1</s>");
 
@@ -120,11 +118,9 @@ export function mdCustom(text: string | null): string | null | undefined {
   text = text.replace(/<\/ol>\s*<ol dir="auto">/gim, "");
   text = text.replace(/<\/ul>\s*<ul dir="auto">/gim, "");
 
-  // Replace `...` with <code>...</code>
   text = text.replace(/`(.*?)`/g, "<code>$1</code>");
 
-  // Replace ```...``` with <code>...</code>
-  text = text.replace(/```(.*?)```/g, "<code>$1</code>");
+  text = text.replace(/```(.*?)```/g, '<pre class="codeblock"><code>$1</code></pre>');
 
   return text;
 }

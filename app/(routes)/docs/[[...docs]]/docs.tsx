@@ -6,6 +6,8 @@ import { Container, Paragraph, Title } from "@/library/components/components";
 import { sanitizedToParams } from "@/modules/ondevelopment/utils";
 import { Svg, TypescriptIcon } from "@/modules/components/web";
 
+import globalStyle from "@/library/styles/styles";
+
 export default function Docs() {
   return (
     <Container>
@@ -100,7 +102,7 @@ function FrameworksCard() {
                 key={i.title}
                 href={i.href}
                 target="_blank"
-                className="flex w-full flex-col items-center rounded-xl border bg-card p-6 text-card-foreground shadow transition-colors hover:bg-muted/50 sm:p-10"
+                className={globalStyle({ cards: "box" }, "p-6 sm:p-10")}
               >
                 <i.icon className="size-10" />
                 <p className="font-medium mt-2">{i.title}</p>

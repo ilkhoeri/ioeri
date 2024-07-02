@@ -10,8 +10,8 @@ export function Demo() {
         ref={ref}
         id="box"
         readOnly
-        placeholder="RESIZE BOX"
-        className="min-w-28 min-h-9 placeholder:text-center place-content-center border rounded-lg resize focus-visible:ring-0 focus-visible:outline-0"
+        placeholder="resize box"
+        className="min-w-28 min-h-9 placeholder:text-center placeholder:uppercase place-content-center border rounded-lg resize focus-visible:ring-0 focus-visible:outline-0"
       />
 
     <label htmlFor="box" className="absolute left-4 top-4 text-xs flex flex-col gap-2"> {/* prettier-ignore */}

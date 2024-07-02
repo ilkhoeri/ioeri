@@ -100,7 +100,7 @@ export const ScrollToggle = React.forwardRef<
       // onMouseEnter={() => setHovered(true)}
       // onMouseLeave={() => setHovered(false)}
       className={twMerge(
-        "size-8 p-0.5 fixed bottom-4 right-4 mr-[var(--scrollbar-space)] z-[99] flex items-center justify-center cursor-pointer select-none outline-0 disabled:pointer-events-none disabled:opacity-50 text-muted-foreground/90 backdrop-blur supports-[backdrop-filter]:bg-background/40 bg-background/40 border border-muted-foreground/40 rounded-xl capitalize transition-none duration-0 [&_svg]:size-full",
+        "size-8 p-0.5 fixed bottom-4 right-4 mr-[--scrollbar-space,var(--has-scrollbar)] z-[99] flex items-center justify-center cursor-pointer select-none outline-0 disabled:pointer-events-none disabled:opacity-50 text-muted-foreground/90 backdrop-blur supports-[backdrop-filter]:bg-background/40 bg-background/40 border border-muted-foreground/40 rounded-xl capitalize transition-none duration-0 [&_svg]:size-full",
         "after:content-[''] after:absolute after:h-8 after:w-12 after:left-0",
         className,
       )}

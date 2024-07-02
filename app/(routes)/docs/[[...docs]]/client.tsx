@@ -9,13 +9,14 @@ import { displayName } from "@/library/utils";
 import { sanitizedToParams } from "@/modules";
 import { cvx } from "@/modules/utility";
 
+import globalStyle from "@/library/styles/styles";
+
 import type { SingleRoute, NestedRoute } from "@/library/routes";
 
 const classes = cvx({
   variants: {
     as: {
       wrapper: "w-full min-w-full grid sm:grid-cols-2 lg:grid-cols-3 3xl:grid-cols-4 gap-4 mt-5 sm:gap-6",
-      link: "flex w-full flex-col items-center rounded-xl border bg-card p-6 text-card-foreground shadow transition-colors hover:bg-muted/50",
     },
   },
 });
@@ -26,7 +27,7 @@ function renderSingleRoute(routes: SingleRoute[], value: string) {
       {routes.map((route) => {
         const filtered = route.data.filter((item) => item.title.toLowerCase().includes(value.toLowerCase()));
         return filtered.map((item, index) => (
-          <Link key={index} href={item.href} title={item.title} className={classes({ as: "link" })}>
+          <Link key={index} href={item.href} title={item.title} className={globalStyle({ cards: "box" })}>
             <span className="font-medium">{displayName(item.title)}</span>
           </Link>
         ));
@@ -48,7 +49,7 @@ function renderNestedRoute(routes: NestedRoute[], value: string) {
 
           <div className={classes({ as: "wrapper" })}>
             {filtered.map((item, index) => (
-              <Link key={index} href={item.href} title={item.title} className={classes({ as: "link" })}>
+              <Link key={index} href={item.href} title={item.title} className={globalStyle({ cards: "box" })}>
                 <span className="font-medium">{displayName(item.title)}</span>
               </Link>
             ))}

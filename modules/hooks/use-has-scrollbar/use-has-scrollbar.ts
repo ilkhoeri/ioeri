@@ -84,7 +84,7 @@ export function useWidthScrollbar({
   widthHasScrollbar: boolean;
   hasScrollbar: boolean;
   scrollbarWidth: number;
-  durationClose: number;
+  durationClose?: number;
 }) {
   useEffect(() => {
     let timeoutId: NodeJS.Timeout | null = null;

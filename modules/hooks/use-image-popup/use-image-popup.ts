@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useHasScrollbar, attributeState, removeBodyProperty, setBodyProperty } from "@/modules";
 
 import "./use-image-popup.css";
@@ -15,95 +15,82 @@ export function useImagePopup({ selectors = ".embeded-image", timeRender = 350 }
     const imgElements = document.querySelectorAll(selectors as string);
     const body = document.body;
 
-    if (imgElements) {
-      imgElements.forEach((img) => {
-        img.addEventListener("click", (event) => {
-          const clickedImage = event.currentTarget as HTMLImageElement;
+    if (!imgElements.length) return;
 
-          let figure = document.querySelector(".popup-figure") as HTMLElement;
-          if (!figure) {
-            clickedImage.style.setProperty("filter", "opacity(0)");
-            body.style.setProperty("overflow", "hidden");
+    const handleImageClick = (event: Event) => {
+      const clickedImage = event.currentTarget as HTMLImageElement;
+      let figure = document.querySelector(".popup-figure") as HTMLElement;
 
-            if (hasScrollbar) {
-              setBodyProperty(scrollbarWidth);
-            }
+      if (!figure) {
+        clickedImage.style.filter = "opacity(0)";
+        body.style.overflow = "hidden";
 
-            const rect = clickedImage.getBoundingClientRect();
+        if (hasScrollbar) setBodyProperty(scrollbarWidth);
 
-            figure = document.createElement("figure") as HTMLElement;
-            figure.classList.add("popup-figure");
-            figure.style.setProperty("--duration", `${timeRender - 50}ms`);
-            body.appendChild(figure);
+        const rect = clickedImage.getBoundingClientRect();
 
-            const overlay = document.createElement("div");
-            overlay.classList.add("image-popup-overlay");
-            figure.appendChild(overlay);
+        figure = document.createElement("figure");
+        figure.classList.add("popup-figure");
+        figure.style.setProperty("--duration", `${timeRender - 50}ms`);
+        body.appendChild(figure);
 
-            const imgPopup = document.createElement("img") as HTMLImageElement;
-            imgPopup.src = clickedImage.src;
+        const overlay = document.createElement("div");
+        overlay.classList.add("image-popup-overlay");
+        figure.appendChild(overlay);
 
-            attributeState(imgPopup, "open");
+        const imgPopup = document.createElement("img");
+        imgPopup.src = clickedImage.src;
 
-            imgPopup.classList.add("image-popup");
-            imgPopup.setAttribute("draggable", "false");
-            imgPopup.oncontextmenu = (e) => e.preventDefault();
+        attributeState(imgPopup, "open");
 
-            imgPopup.style.position = "absolute";
-            imgPopup.style.setProperty("--initial-w", `${rect.width}px`);
-            imgPopup.style.setProperty("--initial-h", `${rect.height}px`);
+        imgPopup.classList.add("image-popup");
+        imgPopup.draggable = false;
+        imgPopup.oncontextmenu = (e) => e.preventDefault();
 
-            figure.appendChild(imgPopup);
+        imgPopup.style.position = "absolute";
+        imgPopup.style.setProperty("--initial-w", `${rect.width}px`);
+        imgPopup.style.setProperty("--initial-h", `${rect.height}px`);
 
-            imgPopup.getBoundingClientRect();
+        figure.appendChild(imgPopup);
 
-            imgPopup.style.setProperty(
-              "--translate-in",
-              `${(window.innerWidth / 2 - rect.left - rect.width / 2) * -1}px, ${(window.innerHeight / 2 - rect.top - rect.height / 2) * -1}px`,
-            );
+        imgPopup.getBoundingClientRect();
 
-            overlay.addEventListener("click", () => {
-              attributeState(imgPopup, "closed");
-              overlay.style.opacity = "0";
+        imgPopup.style.setProperty(
+          "--translate-in",
+          `${(window.innerWidth / 2 - rect.left - rect.width / 2) * -1}px, ${(window.innerHeight / 2 - rect.top - rect.height / 2) * -1}px`,
+        );
 
-              setTimeout(() => {
-                clickedImage.style.removeProperty("filter");
-                body.style.removeProperty("overflow");
-                figure.remove();
+        const closePopup = () => {
+          attributeState(imgPopup, "closed");
+          overlay.style.opacity = "0";
 
-                if (hasScrollbar) {
-                  removeBodyProperty();
-                }
-              }, timeRender);
-            });
+          setTimeout(() => {
+            clickedImage.style.removeProperty("filter");
+            body.style.removeProperty("overflow");
+            figure.remove();
 
-            const handlePopstate = (event: PopStateEvent) => {
-              attributeState(imgPopup, "closed");
-              overlay.style.opacity = "0";
+            if (hasScrollbar) removeBodyProperty();
+          }, timeRender);
+        };
 
-              setTimeout(() => {
-                clickedImage.style.removeProperty("filter");
-                body.style.removeProperty("overflow");
-                figure.remove();
+        overlay.addEventListener("click", closePopup);
 
-                if (hasScrollbar) {
-                  removeBodyProperty();
-                }
-              }, timeRender);
+        const handlePopstate = (event: PopStateEvent) => {
+          closePopup();
+          event.preventDefault();
+        };
 
-              event.preventDefault();
-            };
+        window.history.pushState({ drawerOpen: true }, "");
+        window.addEventListener("popstate", handlePopstate);
 
-            window.history.pushState({ drawerOpen: true }, "");
-            window.addEventListener("popstate", handlePopstate);
-            return () => {
-              setTimeout(() => {
-                window.removeEventListener("popstate", handlePopstate);
-              }, timeRender);
-            };
-          }
-        });
-      });
-    }
+        return () => window.removeEventListener("popstate", handlePopstate);
+      }
+    };
+
+    imgElements.forEach((img) => img.addEventListener("click", handleImageClick));
+
+    return () => {
+      imgElements.forEach((img) => img.removeEventListener("click", handleImageClick));
+    };
   }, [selectors, hasScrollbar, scrollbarWidth, timeRender]);
 }

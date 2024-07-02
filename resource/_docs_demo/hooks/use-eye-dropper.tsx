@@ -1,4 +1,5 @@
 import { PickColorIcon, useEyeDropper } from "@/modules";
+import { SetProps } from "../__set_props";
 import globalStyle from "@/library/styles/styles";
 
 export function Demo() {
@@ -23,12 +24,7 @@ export function Demo() {
       >
         <PickColorIcon color={color} size={20} />
       </button>
-      <label
-        htmlFor="pick color"
-        className="absolute top-4 left-4 text-h1 font-extrabold opacity-20 hover:opacity-100 z-9 cursor-pointer"
-      >
-        {message}
-      </label>
+      <SetProps.LabelOnly htmlFor="pick color">{message}</SetProps.LabelOnly>
       <div // prettier-ignore
         className="absolute size-full rounded-lg inset-0 min-h-full min-w-full flex items-center justify-center" // prettier-ignore
         style={{ backgroundColor: color }} // prettier-ignore

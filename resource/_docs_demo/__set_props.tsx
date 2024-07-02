@@ -15,6 +15,7 @@ export const classes = cvx({
       wrapp: "flex flex-row items-center gap-4 w-full",
       button: "justify-start w-max rounded-md border px-2 py-1 text-sm bg-background cursor-pointer",
       nameprops: "text-muted-foreground",
+      labelOnly: "absolute top-4 left-4 text-h1 font-extrabold opacity-20 hover:opacity-100 z-9 cursor-pointer select-none",
     },
     size: {
       "26": "min-w-26",
@@ -34,6 +35,12 @@ export const SetProps = {
   Button: React.forwardRef<HTMLButtonElement, PolymorphicWithoutRef<"button">>((props, ref) => (
     <button ref={ref} type="button" role="button" className={twMerge(classes({ as: "button", size: "26" }), props.className)} {...props} />
   )),
+  LabelOnly: React.forwardRef<HTMLLabelElement, PolymorphicWithoutRef<"label">>((props, ref) => (
+    <label ref={ref} aria-label="label" className={twMerge(classes({ as: "labelOnly" }), props.className)} {...props} />
+  )),
+  Label: React.forwardRef<HTMLLabelElement, PolymorphicWithoutRef<"label">>((props, ref) => (
+    <label ref={ref} aria-label="label" className={props.className} {...props} />
+  )),
   Range: React.forwardRef<HTMLInputElement, PolymorphicWithoutRef<"input">>((props, ref) => (
     <input ref={ref} type="range" aria-label="range" className={props.className} {...props} />
   )),
@@ -50,6 +57,8 @@ export const SetProps = {
 SetProps.Wrapper.displayName = "Wrapper";
 SetProps.Wrapp.displayName = "Wrapp";
 SetProps.Button.displayName = "Button";
+SetProps.LabelOnly.displayName = "LabelOnly";
+SetProps.Label.displayName = "Label";
 SetProps.Range.displayName = "Range";
 SetProps.Radio.displayName = "Radio";
 SetProps.Text.displayName = "Text";

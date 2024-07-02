@@ -17,7 +17,7 @@ export function AsideRight() {
   const idInView = useActiveItem(ids.map((i) => i.id));
 
   const paths = pathname.split("/").filter((part) => part !== "");
-  const href = paths.length > 1 ? `https://github.com/ilkhoeri/ioeri/blob/main/resource${pathname}.mdx` : "";
+  const href = paths.length > 1 ? `https://github.com/ilkhoeri/ioeri/edit/main/resource${pathname}.mdx` : "";
 
   return (
     <aside className={Styles({ style: "aside", aside: "right" })}>
@@ -42,7 +42,9 @@ export function AsideRight() {
                       color: idInView === id ? "hsl(var(--constructive))" : "hsl(var(--muted-foreground))",
                     }}
                   >
-                    <Link href={`#${id}`} className="hover:text-color transition-colors">{capitalizeWords(id)}</Link>
+                    <Link href={`#${id}`} className="hover:text-color transition-colors">
+                      {capitalizeWords(id)}
+                    </Link>
                   </Element>
                 ) : null,
               )}

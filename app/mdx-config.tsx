@@ -3,9 +3,9 @@
 import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
-
-
 import { cn } from "@/library/utils";
+
+import globalStyle from "@/library/styles/styles";
 
 export const components = {
   h1: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
@@ -112,13 +112,7 @@ export const components = {
     <Link className={cn("font-medium underline underline-offset-4", className)} {...props} />
   ),
   LinkedCard: ({ className, ...props }: React.ComponentProps<typeof Link>) => (
-    <Link
-      className={cn(
-        "flex w-full flex-col items-center rounded-xl border bg-card p-6 text-card-foreground shadow transition-colors hover:bg-muted/50 sm:p-10",
-        className,
-      )}
-      {...props}
-    />
+    <Link className={globalStyle({ cards: "box" }, ["p-6 sm:p-10", className])} {...props} />
   ),
 };
 
