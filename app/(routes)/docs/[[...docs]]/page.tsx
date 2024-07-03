@@ -116,23 +116,17 @@ export default async function Page({ params }: DocsParams) {
 
   return (
     <Container>
-      <Title
-        size="h1"
-        variant="segment"
-        title={title || retitled(params.docs)}
-        id={sanitizedToParams(retitled(params.docs))}
-        className="mt-0 mb-12"
-      />
-      <APIReference setInnerHTML={await highlightCode(reference)} />
-
-      <Customizer setInnerHTML={await highlightCode(consideration)} />
+      <div id={sanitizedToParams(retitled(params.docs))}>
+        <Title size="h1" variant="segment" title={title || retitled(params.docs)} className="mt-0 mb-12" />
+        <APIReference setInnerHTML={await highlightCode(reference)} />
+        <Customizer setInnerHTML={await highlightCode(consideration)} />
+      </div>
 
       {(usage || reUsage) && (
         <div id="usage">
           <Tabs defaultValue={usage ? "preview" : "usage"} className="w-full mb-12">
             <Playground childrens={usages} />
           </Tabs>
-
           <Customizer setInnerHTML={await highlightCode(description, { copy: true })} />
         </div>
       )}
@@ -141,9 +135,7 @@ export default async function Page({ params }: DocsParams) {
         <Tabs defaultValue="code" className="w-full mb-12">
           <Playground childrens={codes} />
         </Tabs>
-
         <Customizer setInnerHTML={await highlightCode(explanation, { copy: true })} />
-
         <Customizer setInnerHTML={await highlightCode(conclusion, { copy: true })} />
       </div>
 
