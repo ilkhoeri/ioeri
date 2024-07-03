@@ -7,6 +7,7 @@ import { InferTypes, cvx } from "@/resource/docs/utility";
 
 import { twMerge } from "tailwind-merge";
 import globalStyle from "@/library/styles/styles";
+import { nextValue } from "@/library/utils";
 
 export const classes = cvx({
   variants: {
@@ -183,16 +184,16 @@ export function SetPropsCollapsible(X: InferTypes<typeof useSetProps>) {
       </SetProps.Wrapp>
 
       <SetProps.Wrapp>
-        <SetProps.Button onClick={() => setSide(getNextValue(side, sideValues))}>
+        <SetProps.Button onClick={() => setSide(nextValue(side, sideValues))}>
           <SetProps.Nameprops>side:</SetProps.Nameprops> <span>&quot;{side}&quot;</span>
         </SetProps.Button>
 
-        <SetProps.Button onClick={() => setAlign(getNextValue(align, alignValues))}>
+        <SetProps.Button onClick={() => setAlign(nextValue(align, alignValues))}>
           <SetProps.Nameprops>align=</SetProps.Nameprops> <span>&quot;{align}&quot;</span>
         </SetProps.Button>
       </SetProps.Wrapp>
 
-      <SetProps.Button onClick={() => setStyle(getNextValue(style, styleValues))}>
+      <SetProps.Button onClick={() => setStyle(nextValue(style, styleValues))}>
         <SetProps.Nameprops>classes</SetProps.Nameprops>
         <span>(&#123;&nbsp;content:&quot;{style}&quot;&nbsp;&#125;)</span>
       </SetProps.Button>
@@ -240,8 +241,3 @@ const styleValues: ("default" | "dropdown")[] = ["default", "dropdown"];
 const sideValues: `${SideValues}`[] = Object.values(SideValues);
 const alignValues: `${AlignValues}`[] = Object.values(AlignValues);
 
-function getNextValue<T>(currentValue: T, values: T[]): T {
-  const currentIndex = values.indexOf(currentValue);
-  const nextIndex = (currentIndex + 1) % values.length;
-  return values[nextIndex];
-}

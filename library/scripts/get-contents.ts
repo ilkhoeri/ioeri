@@ -33,7 +33,7 @@ export type GetContentOptions = {
   wrap?: boolean;
 };
 
-export async function getRepo(gitrepo: string, ext: string, lang: string = "js"): Promise<string> {
+export async function getRepo(gitrepo: string, ext: string, lang: string = "js showLineNumbers{number}"): Promise<string> {
   const response = await fetch(`${gitrepo}${ext}`);
   let text = await response.text();
   text = await filterContent(text, {});

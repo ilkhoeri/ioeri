@@ -39,3 +39,9 @@ export function tocopy(text: string) {
 
   return text;
 }
+
+export function nextValue<T>(currentValue: T, values: T[]): T {
+  const currentIndex = values.indexOf(currentValue);
+  const nextIndex = (currentIndex + 1) % values.length;
+  return values[nextIndex];
+}

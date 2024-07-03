@@ -1,4 +1,6 @@
 $:usage
+
+```js showLineNumbers{number}
 function MyComponent() {
   const {ref, render, handleOpen, handleClose} = useOpenState();
 
@@ -15,7 +17,9 @@ function MyComponent() {
     </div>
   );
 }
+```
 
+```js showLineNumbers{number}
 function MyComponent() {
   const {render, onMouseEnter, onMouseLeave } = useOpenState({ trigger: "hover" });
 
@@ -37,7 +41,9 @@ function MyComponent() {
     </>
   );
 }
+```
 
+```js showLineNumbers{number}
 function MyComponent() {
   const {render, handleOpen, handleClose, dataState} = useOpenState({ defaultOpen: true });
 
@@ -60,7 +66,9 @@ function MyComponent() {
     </>
   );
 }
+```
 
+```js showLineNumbers{number}
 // api
 const { open, setOpen } = useOpenState();
 
@@ -70,3 +78,4 @@ const { handleOpen, handleClose } = useOpenState({ open, setOpen });
 
 // handleOpen is slightly different with setOpen
 // handleOpen adds history.pushState with empty string, suitable when used for mobile devices
+```

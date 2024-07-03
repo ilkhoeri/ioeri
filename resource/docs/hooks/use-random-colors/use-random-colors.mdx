@@ -1,13 +1,21 @@
 $:usage
-type StyleObject = { [key: string]: string }
 
+```js showLineNumbers{number}
+type StyleObject = { [key: string]: string }
+```
+
+
+```js showLineNumbers{number}
 function variables(): StyleObject {
   const vars: StyleObject = {};
   vars["--text-gradient-from"] = getRandomColor();
   vars["--text-gradient-to"] = getRandomColor();
   return vars;
 }
+```
 
+
+```js showLineNumbers{number}
 const gradientColors = useRandomColors(["#000", "#000", "#000"], 5000);
 
 function variables(): StyleObject {
@@ -17,3 +25,4 @@ function variables(): StyleObject {
   vars["--text-gradient-to"] = gradientColors[2];
   return vars;
 }
+```

@@ -90,7 +90,12 @@ export default async function Page({ params }: DocsParams) {
     );
   } else if (reUsage) {
     usages.usage = (
-      <Code title={`${slug(params.docs)}.tsx`} ext=".tsx" code={reUsage} setInnerHTML={await highlightCode(reUsage)} />
+      <Code
+        title={`${slug(params.docs)}-demo.tsx`}
+        ext=".tsx"
+        code={reUsage}
+        setInnerHTML={await highlightCode(reUsage)}
+      />
     );
   }
 

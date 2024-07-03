@@ -1,15 +1,21 @@
 $:api-reference
-[mdn](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/What_is_a_progressive_web_app){class=linkbox}
-[web.dev](https://web.dev/explore/progressive-web-apps){class=linkbox}
-[learn](https://web.dev/learn/pwa/){class=linkbox}
-[microsoft](https://learn.microsoft.com/en-us/microsoft-edge/progressive-web-apps-chromium/){class=linkbox}
-[demos](https://github.com/MicrosoftEdge/Demos){class=linkbox}
+
+[`mdn`](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/What_is_a_progressive_web_app)
+[`web.dev`](https://web.dev/explore/progressive-web-apps)
+[`learn`](https://web.dev/learn/pwa/)
+[`microsoft`](https://learn.microsoft.com/en-us/microsoft-edge/progressive-web-apps-chromium/)
+[`demos`](https://github.com/MicrosoftEdge/Demos)
+
 
 $:description
+
 Progressive web apps combine the best features of traditional websites and platform-specific apps.
 The assumption is that you have already defined [manifest.json](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Tutorials/js13kGames/Installable_PWAs) in the project, so you want to create a [trigger prompt](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/How_to/Trigger_install_prompt) for users to install the PWA from your application.
 
+
 $:usage
+
+```js showLineNumbers{number}
 function MyComponent() {
   const { prompt, installer } = usePWAInstaller();
 
@@ -27,3 +33,4 @@ function MyComponent() {
     </button>
   );
 };
+```

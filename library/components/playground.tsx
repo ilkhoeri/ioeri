@@ -5,6 +5,8 @@ import { useState } from "react";
 import { TabsContent, TabsList, TabsTrigger } from "@/library/components/tabs";
 import { Button } from "@/library/components/button";
 import { cvx } from "@/resource/docs/utility";
+import { nextValue } from "../utils";
+import { capitalizeWords } from "@/modules/index";
 
 enum MarkdownValue {
   Edit = "edit",
@@ -14,12 +16,21 @@ enum MarkdownValue {
   Css = "css",
   Usage = "usage",
 }
+
+enum Expands {
+  "expand" = "expand",
+  "expand-full" = "expand-full",
+  "collapse" = "collapse",
+}
+
 type RecordNested<U extends string, T extends string, P = Record<string, unknown>> = {
   [K in U]?: Partial<Record<T, P>>;
 };
 type PlaygroundType = RecordNested<"childrens", MarkdownValue, React.ReactNode> & {
   defaultState?: MarkdownValue;
 };
+
+const EXPAND_VALUES: `${Expands}`[] = Object.values(Expands);
 
 const classes = cvx({
   variants: {
@@ -28,29 +39,36 @@ const classes = cvx({
       resize: "relative rounded-lg border shadow-sm min-h-max bg-background-code-body transition-all overflow-hidden",
     },
     statecard: {
-      open: "h-max max-h-[32rem] [&_[data-rehype-pretty-code-fragment]]:overflow-auto [&_[data-rehype-pretty-code-fragment]]:max-h-[calc(32rem-3rem)]",
-      closed:
+      expand:
         "h-[20rem] max-h-[20rem] text-muted-foreground before:content-[''] before:absolute before:bottom-0 before:inset-x-0 before:size-full before:bg-gradient-to-t before:from-background/60 before:z-4",
+      "expand-full":
+        "h-max max-h-[32rem] [&_[data-rehype-pretty-code-fragment]]:overflow-auto [&_[data-rehype-pretty-code-fragment]]:max-h-[calc(32rem-3rem)]",
+      collapse:
+        "h-max max-h-max [&_[data-rehype-pretty-code-fragment]]:pb-[2.5rem] [&_[data-rehype-pretty-code-fragment]]:overflow-auto [&_[data-rehype-pretty-code-fragment]]:max-h-max",
     },
     button: {
       resizer:
-        "absolute bottom-4 inset-x-[calc(50%-3rem)] z-[99] px-3 min-w-24 w-max transition-[bottom,color,opacity]",
+        "absolute bottom-4 inset-x-[calc(50%-3rem)] z-[99] px-3 min-w-26 w-max transition-[bottom,color,opacity]",
       tabs: "h-9 font-semibold rounded-none data-[state=active]:[box-shadow:0_2px_0_0_hsl(var(--color))] [&_svg]:sizer [--sz:20px] select-none",
     },
   },
 });
 
-function Resizer({ open, setOpen }: { open: boolean; setOpen: (v: boolean) => void }) {
+function Resizer({ expand, setExpand }: { expand: `${Expands}`; setExpand: (v: `${Expands}`) => void }) {
   return (
-    <Button variant="outline" className={classes({ button: "resizer" })} onClick={() => setOpen(!open)}>
-      {open ? "Collapse" : "Expand"}
+    <Button
+      variant="outline"
+      className={classes({ button: "resizer" })}
+      onClick={() => setExpand(nextValue(expand, EXPAND_VALUES))}
+    >
+      {capitalizeWords(expand)}
     </Button>
   );
 }
 
 export function Playground(_Play: PlaygroundType) {
   const { childrens } = _Play;
-  const [open, setOpen] = useState<boolean>(false);
+  const [expand, setExpand] = useState<`${Expands}`>("expand");
 
   if (!childrens) {
     return null;
@@ -80,11 +98,11 @@ export function Playground(_Play: PlaygroundType) {
               value={key}
               className={classes({
                 card: "default",
-                ...(!omitTab(key) ? { statecard: open ? "open" : "closed", card: "resize" } : {}),
+                ...(!omitTab(key) ? { statecard: expand, card: "resize" } : {}),
               })}
             >
               {childrens[key]}
-              {!omitTab(key) && <Resizer open={open} setOpen={setOpen} />}
+              {!omitTab(key) && <Resizer expand={expand} setExpand={setExpand} />}
             </TabsContent>
           ),
       )}

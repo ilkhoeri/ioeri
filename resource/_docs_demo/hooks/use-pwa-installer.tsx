@@ -10,7 +10,7 @@ export function Demo() {
       role="button"
       title="install pwa"
       aria-label="install pwa"
-      hidden={!prompt}
+      // hidden={!prompt} // set hidden when ...
       onClick={installer}
       className={globalStyle({ button: "default", size: "sm" })}
     >

@@ -74,14 +74,14 @@ export function Customizer(Text: CodeCustomizer) {
 export function APIReference(Text: CodeCustomizer) {
   if (!Text.code && !Text.setInnerHTML) return null;
   return (
-    <div data-theme="default" className="-mt-4">
-      <h4 id="api-reference" className="">
+    <div data-block="api-reference" className="-mt-4">
+      <h4 id="api-reference" data-block="title">
         {Text.title || "API reference"}
       </h4>
+
       <div
-        className="md_custom relative white-space-pre-wrap text-base mt-4 mb-12 flex flex-row items-center flex-wrap gap-6"
-        data-language="tsx"
-        data-theme="default"
+        className="relative white-space-pre-wrap text-base mt-4 mb-12 flex flex-row items-center flex-wrap gap-6"
+        data-block="body"
         dangerouslySetInnerHTML={Text.setInnerHTML ? { __html: Text.setInnerHTML } : undefined}
       >
         {Text.setInnerHTML ? null : Text.code}

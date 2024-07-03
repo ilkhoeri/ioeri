@@ -749,6 +749,9 @@ hr {
   }
 }
 
+[data-block="api-reference"] [data-block="body"] a {
+  @apply transition-colors no-underline decoration-none border bg-color text-background hover:bg-color/90 hover:text-background rounded-md font-semibold font-roboto-mono [&_code]:font-roboto-mono px-2 py-px text-sm after:content-['↗'] md:after:content-['🡵'] after:ml-1 after:text-muted-foreground after:transition-colors hover:after:text-constructive;
+}
 .links {
   @apply underline underline-offset-2 decoration-color-muted hover:text-color hover:decoration-color;
 }
