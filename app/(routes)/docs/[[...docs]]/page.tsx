@@ -32,32 +32,34 @@ export async function generateMetadata({ params }: DocsParams): Promise<Metadata
   };
 }
 
+const repo = `https://raw.githubusercontent.com/ilkhoeri/ioeri/main`;
+
 async function getReCode({ params }: DocsParams, ext: string): Promise<string> {
-  const repo = `https://raw.githubusercontent.com/ilkhoeri/ioeri/main/modules/`;
-  return (await fetch(`${repo}${sourceFiles(params.docs)}${ext}`)).text();
-}
-async function getReUsage({ params }: DocsParams): Promise<string | null> {
-  if (!params.docs) return null;
-  return getMdx(`/resource/docs/${params.docs.join("/")}`, "usage");
+  return (await fetch(`${repo}/modules/${sourceFiles(params.docs)}${ext}`)).text();
 }
 async function getCode({ params }: DocsParams): Promise<Content> {
   // return getContent(`/modules/${sourceFiles(params.docs)}`, [".tsx", ".ts"]);
   if (!params.docs) return { content: null, extension: null };
   return getContent(`/modules/${sourceFiles(params.docs)}`);
 }
+async function getReUsage({ params }: DocsParams): Promise<string | null> {
+  if (!params.docs) return null;
+  return getMdx(`${repo}/resource/docs/${sourceFiles(params.docs)}.mdx`, "usage");
+  // return getMdx(`/resource/docs/${params.docs.join("/")}`, "usage");
+}
 async function getUsage({ params }: DocsParams, replace?: Record<string, string>): Promise<Content> {
-  // return getContent(`/resource/_docs_demo/${params.docs.join("/")}`, [".tsx", ".ts"], rename);
   if (!params.docs) return { content: null, extension: null };
   return getContent(`/resource/_docs_demo/${params.docs.join("/")}`, undefined, replace);
+  // return getContent(`/resource/_docs_demo/${params.docs.join("/")}`, [".tsx", ".ts"], rename);
 }
 async function getCss({ params }: DocsParams): Promise<Content> {
-  // return getContent(`/modules/${sourceFiles(params.docs)}`, [".css"]);
   if (!params.docs) return { content: null, extension: null };
+  // return getContent(`/modules/${sourceFiles(params.docs)}`, [".css"]);
   return getContent(`/modules/${sourceFiles(params.docs)}`, [".css"], undefined, { lang: "css" });
 }
 async function getSection({ params }: DocsParams, id: string): Promise<string | null> {
   if (!params.docs) return null;
-  return getMdx(`/resource/docs/${params.docs.join("/")}`, id);
+  return getMdx(`/modules/${sourceFiles(params.docs)}`, id);
 }
 export default async function Page({ params }: DocsParams) {
   const code = await getCode({ params });
