@@ -46,7 +46,7 @@ export default async function Layout({ children, params }: Readonly<DocsParams>)
         <Section>
           <NavigationBreadcrumb />
           {children}
-          <NavBottom routes={[...utility, ...components, ...hooks]} />
+          {/* <NavBottom routes={[...utility, ...components, ...hooks]} /> */}
         </Section>
         <AsideRight />
       </Main>
