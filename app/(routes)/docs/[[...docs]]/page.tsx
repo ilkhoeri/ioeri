@@ -37,22 +37,26 @@ async function getReCode({ params }: DocsParams, ext: string): Promise<string> {
   return (await fetch(`${repo}${sourceFiles(params.docs)}${ext}`)).text();
 }
 async function getReUsage({ params }: DocsParams): Promise<string | null> {
+  if (!params.docs) return null;
   return getMdx(`/resource/docs/${params.docs.join("/")}`, "usage");
 }
 async function getCode({ params }: DocsParams): Promise<Content> {
   // return getContent(`/modules/${sourceFiles(params.docs)}`, [".tsx", ".ts"]);
+  if (!params.docs) return { content: null, extension: null };
   return getContent(`/modules/${sourceFiles(params.docs)}`);
 }
 async function getUsage({ params }: DocsParams, replace?: Record<string, string>): Promise<Content> {
-  if (!params.docs) return { content: null, extension: null };
   // return getContent(`/resource/_docs_demo/${params.docs.join("/")}`, [".tsx", ".ts"], rename);
+  if (!params.docs) return { content: null, extension: null };
   return getContent(`/resource/_docs_demo/${params.docs.join("/")}`, undefined, replace);
 }
 async function getCss({ params }: DocsParams): Promise<Content> {
   // return getContent(`/modules/${sourceFiles(params.docs)}`, [".css"]);
+  if (!params.docs) return { content: null, extension: null };
   return getContent(`/modules/${sourceFiles(params.docs)}`, [".css"], undefined, { lang: "css" });
 }
 async function getSection({ params }: DocsParams, id: string): Promise<string | null> {
+  if (!params.docs) return null;
   return getMdx(`/resource/docs/${params.docs.join("/")}`, id);
 }
 export default async function Page({ params }: DocsParams) {
