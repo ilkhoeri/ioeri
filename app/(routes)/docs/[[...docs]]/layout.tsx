@@ -39,7 +39,7 @@ export default async function Layout({ children, params }: Readonly<DocsParams>)
   const utility = await loadRoutes("utility");
   const hooks = await loadRoutes("hooks");
 
-  async function Template({ children }: Readonly<{ children: React.ReactNode }>) {
+  async function Template({ children }: { children: React.ReactNode }) {
     return (
       <Main>
         <AsideLeft topRoutes={[...utility]} routes={[...hooks]} nestedRoutes={nested} />
@@ -75,8 +75,8 @@ export default async function Layout({ children, params }: Readonly<DocsParams>)
     );
   }
 
-  const matchingRoutes = findMatchingRoute(params.docs, [...components, ...utility, ...hooks]);
-  if (!matchingRoutes) notFound();
+  // const matchingRoutes = findMatchingRoute(params.docs, [...components, ...utility, ...hooks]);
+  // if (!matchingRoutes) notFound();
 
   return <Template>{children}</Template>;
 }
