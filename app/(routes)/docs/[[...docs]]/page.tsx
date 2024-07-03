@@ -3,7 +3,7 @@ import { retitled, slug, sourceFiles } from "@/library/utils";
 import { Playground } from "@/library/components/playground";
 import { Code, Customizer, APIReference } from "@/library/components/code";
 import { Container, Title } from "@/library/components/components";
-import { getMdx, getContent, type Content } from "@/library/scripts/get-contents";
+import { getMdx, getContent, type Content, getRepo } from "@/library/scripts/get-contents";
 import { escapeCode, highlightCode, mdCustom } from "@/library/utils/escape-customizer";
 import { toPascalCase, sanitizedToParams } from "@/resource/docs";
 import { Examples } from "./demo";
@@ -35,7 +35,8 @@ export async function generateMetadata({ params }: DocsParams): Promise<Metadata
 const gitrepo = `https://raw.githubusercontent.com/ilkhoeri/ioeri/main`;
 
 async function getReCode({ params }: DocsParams, ext: string): Promise<string> {
-  return (await fetch(`${gitrepo}/resource/docs/${sourceFiles(params.docs)}${ext}`)).text();
+  // return (await fetch(`${gitrepo}/resource/docs/${sourceFiles(params.docs)}${ext}`)).text();
+  return getRepo(`${gitrepo}/resource/docs/${sourceFiles(params.docs)}`, ext);
 }
 async function getCode({ params }: DocsParams): Promise<Content> {
   if (!params.docs) return { content: null, extension: null };
