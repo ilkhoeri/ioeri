@@ -2,7 +2,7 @@ import Link from "next/link";
 import { getPath, getPaths } from "@/library/scripts/get-paths";
 import { AsideLeft } from "@/library/assets/nav-aside-left";
 import { Main } from "@/library/components/components";
-import { IoeriIcon } from "@/modules";
+import { IoeriIcon } from "@/resource/docs/icons";
 
 import type { NestedRoute, SingleRoute } from "@/library/routes";
 

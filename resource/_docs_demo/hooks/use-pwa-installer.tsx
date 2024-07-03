@@ -1,4 +1,4 @@
-import { usePWAInstaller } from "@/modules";
+import { usePWAInstaller } from "@/modules/hooks";
 import globalStyle from "@/library/styles/styles";
 
 export function Demo() {

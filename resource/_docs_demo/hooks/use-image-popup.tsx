@@ -1,6 +1,5 @@
 "use client";
-
-import { useImagePopup } from "@/modules";
+import { useImagePopup } from "@/modules/hooks";
 
 export function Demo() {
   useImagePopup({ selectors: "[data-has-popup]" });

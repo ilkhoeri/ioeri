@@ -4,7 +4,9 @@ import React from "react";
 import Link from "next/link";
 import { cn } from "@/library/utils";
 import { useTheme } from "next-themes";
-import { AnimText, BookOpen2Icon, GithubIcon, Transform, sanitizedToParams, ArrowsSquareIcon } from "@/modules";
+import { BookOpen2Icon, GithubIcon, ArrowsSquareIcon } from "@/resource/docs/icons";
+import { sanitizedToParams } from "@/resource/docs/ondevelopment/utils";
+import { AnimText, Transform } from "@/resource/docs/ondevelopment";
 
 import style from "@/library/styles/ioeri.module.css";
 

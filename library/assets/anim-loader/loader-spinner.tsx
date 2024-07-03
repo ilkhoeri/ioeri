@@ -1,4 +1,4 @@
-import { cnx } from "@/modules/ondevelopment/utils/cnx";
+import { cnx } from "@/resource/docs/ondevelopment/utils/cnx";
 
 import s from "./loader.module.css";
 

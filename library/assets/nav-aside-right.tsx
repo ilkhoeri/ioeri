@@ -3,11 +3,11 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import Element from "@/modules/components/web/element/element";
+import Element from "@/resource/docs/components/web/element/element";
 import { useAppContext } from "@/library/context/app-context";
-import { ArrowsSquareIcon, FileIcon, capitalizeWords } from "@/modules";
+import { ArrowsSquareIcon, FileIcon, capitalizeWords } from "@/resource/docs";
 import { ClientOnly } from "../components/client-only";
-import { cn } from "@/library/utils";
+import { cn, sourceFiles } from "@/library/utils";
 
 import Styles from "./aside-styles";
 
@@ -17,7 +17,7 @@ export function AsideRight() {
   const idInView = useActiveItem(ids.map((i) => i.id));
 
   const paths = pathname.split("/").filter((part) => part !== "");
-  const href = paths.length > 1 ? `https://github.com/ilkhoeri/ioeri/edit/main/resource${pathname}.mdx` : "";
+  const href = paths.length > 1 ? `https://github.com/ilkhoeri/ioeri/edit/main/resource/${sourceFiles(paths)}.mdx` : "";
 
   return (
     <aside className={Styles({ style: "aside", aside: "right" })}>

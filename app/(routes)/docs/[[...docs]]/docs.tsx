@@ -3,8 +3,8 @@ import Link from "next/link";
 import { appRoutes } from "@/library/routes";
 import { InstallCommand } from "@/library/assets/install-command";
 import { Container, Paragraph, Title } from "@/library/components/components";
-import { sanitizedToParams } from "@/modules/ondevelopment/utils";
-import { Svg, TypescriptIcon } from "@/modules/components/web";
+import { sanitizedToParams } from "@/resource/docs/ondevelopment/utils";
+import { Svg, TypescriptIcon } from "@/resource/docs/components/web";
 
 import globalStyle from "@/library/styles/styles";
 

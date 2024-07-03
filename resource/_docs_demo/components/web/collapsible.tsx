@@ -1,7 +1,6 @@
 "use client";
-
-import { cvx } from "@/modules/utility";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/modules/components/web";
+import { cvx } from "@/resource/docs/utility";
 import { SetPropsCollapsible, useSetProps } from "../../__set_props";
 
 export function Demo() {

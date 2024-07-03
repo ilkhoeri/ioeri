@@ -1,4 +1,5 @@
-import { PickColorIcon, useEyeDropper } from "@/modules";
+import { useEyeDropper } from "@/modules/hooks";
+import { PickColorIcon } from "@/modules/icons";
 import { SetProps } from "../__set_props";
 import globalStyle from "@/library/styles/styles";
 
@@ -28,7 +29,8 @@ export function Demo() {
       <div // prettier-ignore
         className="absolute size-full rounded-lg inset-0 min-h-full min-w-full flex items-center justify-center" // prettier-ignore
         style={{ backgroundColor: color }} // prettier-ignore
-      /> {/* prettier-ignore */}
+      />{" "}
+      {/* prettier-ignore */}
     </div>
   );
 }

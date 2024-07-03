@@ -46,7 +46,7 @@ async function generatePath(sourcePath: string, basePath: string): Promise<Inner
 
 export async function getPath(sourcePath: string): Promise<SingleRoute[]> {
   try {
-    const routeData = await generatePath(sourcePath, path.resolve(process.cwd(), `modules/${sourcePath}`));
+    const routeData = await generatePath(sourcePath, path.resolve(process.cwd(), `resource/docs/${sourcePath}`));
     return [
       {
         title: capitalizeFirst(sourcePath),
@@ -99,7 +99,7 @@ async function generatePaths(sourcePath: string, basePath: string): Promise<Sing
 
 export async function getPaths(sourcePath: string): Promise<NestedRoute[]> {
   try {
-    const basePath = path.resolve(process.cwd(), `modules/${sourcePath}`);
+    const basePath = path.resolve(process.cwd(), `resource/docs/${sourcePath}`);
     const routeData = await generatePaths(sourcePath, basePath);
     return [
       {

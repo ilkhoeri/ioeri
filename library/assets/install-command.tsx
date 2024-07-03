@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { TerminalOutlineIcon } from "@/modules";
+import { TerminalOutlineIcon } from "@/resource/docs";
 import { CopyToggle } from "@/library/components/toggle";
 import { appRoutes } from "@/library/routes";
 

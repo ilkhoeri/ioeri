@@ -754,7 +754,7 @@ hr {
 }
 .md_custom {
   & .linkbox {
-    @apply transition-colors no-underline decoration-none border bg-color text-background hover:bg-color/90 hover:text-background rounded-md font-semibold font-roboto-mono px-2 py-px text-sm after:content-['🡵'] after:ml-1 after:text-muted-foreground after:transition-colors hover:after:text-constructive;
+    @apply transition-colors no-underline decoration-none border bg-color text-background hover:bg-color/90 hover:text-background rounded-md font-semibold font-roboto-mono px-2 py-px text-sm after:content-['↗'] md:after:content-['🡵'] after:ml-1 after:text-muted-foreground after:transition-colors hover:after:text-constructive;
   }
   & a code {
     @apply p-[0em_.25em] text-[85%] leading-normal transition-colors underline underline-offset-2 decoration-color-muted hover:decoration-constructive hover:text-constructive;

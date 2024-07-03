@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import Element from "@/modules/components/web/element/element";
-import { DiscordIcon, GithubIcon, IoeriTextIcon, LineMenuBarIcon } from "@/modules";
+import Element from "@/resource/docs/components/web/element/element";
+import { DiscordIcon, GithubIcon, IoeriTextIcon, LineMenuBarIcon } from "@/resource/docs";
 import { useHoveredElement } from "@/library/hooks/use-hovered-element";
 import { useNavContext } from "../hooks/use-nav";
 import { appRoutes } from "@/library/routes";

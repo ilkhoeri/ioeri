@@ -17,11 +17,11 @@
     "incremental": true,
     "plugins": [{ "name": "next" }],
     "paths": {
+      "@/modules/*": ["./resource/docs/*"],
       "@/*": ["./*"],
-      "#/*": ["./library/*"],
-      "$/*": ["./modules/*"]
+      "#/*": ["./library/*"]
     },
-    "typeRoots": ["./modules/*", "./node_modules/@types"]
+    "typeRoots": ["resource/docs/*", "./node_modules/@types"]
   },
   "include": [
     "./src",
@@ -32,13 +32,13 @@
     "**/*.md",
     "**/*.mdx",
     ".next/types/**/*.ts",
-    "modules/hooks",
-    "modules/utility",
-    "modules/components/native",
-    "modules/components/web",
-    "modules/ondevelopment/utils",
-    "modules/ondevelopment/factory",
-    "modules/icons"
+    "resource/docs/hooks",
+    "resource/docs/utility",
+    "resource/docs/components/native",
+    "resource/docs/components/web",
+    "resource/docs/ondevelopment/utils",
+    "resource/docs/ondevelopment/factory",
+    "resource/docs/icons"
   ],
   "exclude": ["node_modules"]
 }

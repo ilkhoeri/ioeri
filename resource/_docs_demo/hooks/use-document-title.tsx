@@ -1,7 +1,6 @@
 "use client";
-
 import { useState } from "react";
-import { useDocumentTitle } from "@/modules";
+import { useDocumentTitle } from "@/modules/hooks";
 import globalStyle from "@/library/styles/styles";
 
 export function Demo() {

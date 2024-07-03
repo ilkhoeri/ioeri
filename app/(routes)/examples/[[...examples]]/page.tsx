@@ -8,7 +8,7 @@ import { Container, Title } from "@/library/components/components";
 import { getMdx, getContent, type Content } from "@/library/scripts/get-contents";
 import { escapeCode, highlightCode } from "@/library/utils/escape-customizer";
 import { Code } from "@/library/components/code";
-import { sanitizedToParams } from "@/modules";
+import { sanitizedToParams } from "@/resource/docs";
 
 import type { Metadata } from "next";
 import { EditableContent } from "./client";

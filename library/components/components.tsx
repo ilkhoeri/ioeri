@@ -3,7 +3,7 @@ import { createPortal } from "react-dom";
 import { Slot } from "@radix-ui/react-slot";
 import { cn } from "@/library/utils";
 import { ChildWrapper } from "@/library/context/app-context";
-import { cvx, type VariantsType } from "@/modules/utility/cvx/cvx";
+import { cvx, type VariantsType } from "@/resource/docs/utility/cvx/cvx";
 import { twMerge } from "tailwind-merge";
 
 type ElementType<T> = {

@@ -7,7 +7,7 @@ import { NavLinkItem } from "./nav-link";
 
 import { twMerge } from "tailwind-merge";
 import { ButtonAside, LinkHome } from "./nav-head";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger, ScrollArea } from "@/modules/components/web";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger, ScrollArea } from "@/resource/docs/components/web";
 
 import type { SingleRoute, NestedRoute } from "@/library/routes";
 

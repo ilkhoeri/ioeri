@@ -1,5 +1,5 @@
-import { useReload } from "@/modules";
 import { Svg } from "@/modules/components/web";
+import { useReload } from "@/modules/hooks";
 import globalStyle from "@/library/styles/styles";
 
 export function Demo() {
@@ -12,6 +12,7 @@ export function Demo() {
       title="reload"
       aria-label="reload"
       onClick={onReload}
+      // prettier-ignore
       className={globalStyle({ button: "outline", size: "icon-sm" }, { "text-constructive border-constructive": reload })}
     >
       <Svg size={32} className="transition-transform">

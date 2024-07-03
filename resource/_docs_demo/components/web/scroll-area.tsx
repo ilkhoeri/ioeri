@@ -1,7 +1,6 @@
 "use client";
-
 import { ScrollArea, FileIcon } from "@/modules/components/web";
-import { SetProps, SetPropsRadio, useSetProps } from "@/resource/_docs_demo/__set_props";
+import { SetProps, SetPropsRadio, useSetProps } from "../../__set_props";
 
 export function Demo() {
   const { str: overflow, ...rest } = useSetProps({ Str: "y" });

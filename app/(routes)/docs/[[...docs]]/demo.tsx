@@ -3,7 +3,8 @@
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
 import { Spinner } from "@/library/assets/anim-loader";
-import { FileIcon } from "@/modules";
+import { FileIcon } from "@/resource/docs";
+import { sourceFiles } from "@/library/utils";
 
 interface DocsParams {
   params: {
@@ -15,7 +16,7 @@ export const FallbackComponent = ({ params }: DocsParams) => (
   <div>
     <p className=" border-b pt-2 pb-1">Component not found</p>
     <a
-      href={`https://github.com/ilkhoeri/ioeri/blob/main/examples/${params.docs.join("/")}.mdx`}
+      href={`https://github.com/ilkhoeri/ioeri/edit/main/resource/${sourceFiles(params.docs)}.mdx`}
       target="_blank"
       className="w-max text-muted-foreground hover:text-constructive transition-colors text-sm pt-3 pb-1.5 gap-2 justify-start underline-hover"
     >

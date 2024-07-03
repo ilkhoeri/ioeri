@@ -7,9 +7,9 @@ import {
   useElementSize as useFooterSize,
   useOpenState,
   useMediaQuery,
-} from "@/modules";
+} from "@/resource/docs";
 
-import type { UseOpenStateType } from "@/modules";
+import type { UseOpenStateType } from "@/resource/docs";
 
 interface MediaQuery {
   mediaQuery?: number;

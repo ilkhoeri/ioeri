@@ -2,11 +2,11 @@
 
 import * as React from "react";
 import { useTheme } from "next-themes";
-import { MonitorSmartphoneIcon, MoonStarIcon, SunIcon } from "@/modules";
+import { MonitorSmartphoneIcon, MoonStarIcon, SunIcon } from "@/resource/docs";
 
 import { twMerge } from "tailwind-merge";
 import { UnstyledButton } from "../components/button";
-import { useHotkeys } from "@/modules";
+import { useHotkeys } from "@/resource/docs";
 
 export function ThemeToggle({
   classNames,

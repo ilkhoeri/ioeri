@@ -4,8 +4,8 @@ import Link, { type LinkProps } from "next/link";
 import { twMerge } from "tailwind-merge";
 import { cn } from "@/library/utils";
 
-import { SlashIcon } from "@/modules";
-import type { IconType } from "@/modules/components/web/svg/svg";
+import { SlashIcon } from "@/resource/docs";
+import type { IconType } from "@/resource/docs/components/web/svg/svg";
 
 type Unstyled = { unstyled?: boolean };
 

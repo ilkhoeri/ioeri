@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
-import { cvx, type VariantsType } from "@/modules/utility/cvx/cvx";
+import { cvx, type VariantsType } from "@/resource/docs/utility/cvx/cvx";
 
-import { CSSProperties, Spinner } from "@/modules";
+import { CSSProperties, Spinner } from "@/resource/docs";
 import { twMerge } from "tailwind-merge";
 
 const buttonVariants = cvx({

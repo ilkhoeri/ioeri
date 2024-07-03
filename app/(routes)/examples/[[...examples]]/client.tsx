@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Textarea } from "@/library/components/textarea";
 import { CopyToggle } from "@/library/components/toggle";
 
-import { markdownText } from "@/modules/playground";
+import { markdownText } from "@/resource/docs/playground";
 import { Tabs } from "@/library/components/tabs";
 import { Playground } from "@/library/components/playground";
 

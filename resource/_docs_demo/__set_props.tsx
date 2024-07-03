@@ -1,9 +1,9 @@
 "use client";
 
 import * as React from "react";
-import { AlignValues, SideValues } from "@/modules";
-import { PolymorphicWithoutRef } from "@/modules/components/web";
-import { InferTypes, cvx } from "@/modules/utility";
+import { AlignValues, SideValues } from "@/resource/docs";
+import { PolymorphicWithoutRef } from "@/resource/docs/components/web";
+import { InferTypes, cvx } from "@/resource/docs/utility";
 
 import { twMerge } from "tailwind-merge";
 import globalStyle from "@/library/styles/styles";
@@ -15,7 +15,8 @@ export const classes = cvx({
       wrapp: "flex flex-row items-center gap-4 w-full",
       button: "justify-start w-max rounded-md border px-2 py-1 text-sm bg-background cursor-pointer",
       nameprops: "text-muted-foreground",
-      labelOnly: "absolute top-4 left-4 text-h1 font-extrabold opacity-20 hover:opacity-100 z-9 cursor-pointer select-none",
+      labelOnly:
+        "absolute top-4 left-4 text-h1 font-extrabold opacity-20 hover:opacity-100 z-9 cursor-pointer select-none",
     },
     size: {
       "26": "min-w-26",

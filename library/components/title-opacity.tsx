@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { twMerge } from "tailwind-merge";
-import { cvx, type VariantsType } from "@/modules/utility/cvx/cvx";
+import { cvx, type VariantsType } from "@/resource/docs/utility/cvx/cvx";
 
 const variantTitle = cvx({
   variants: {

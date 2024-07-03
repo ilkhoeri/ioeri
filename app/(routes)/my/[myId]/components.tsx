@@ -7,12 +7,12 @@ import { Image } from "@/library/components/image";
 
 import { markdownInsertHTML } from "@/library/utils/clean-html";
 import { getFullAge, getSocMedImages } from "../utils";
-import { Confetti, StyleObject, getRandomColor, getTimeAgo } from "@/modules";
+import { Confetti, StyleObject, getRandomColor, getTimeAgo } from "@/resource/docs";
 
 import type { Address, Blog, Socmed, User, UserProps } from "../types";
 
 import style from "./user.module.css";
-import { AnimationTextSpiral } from "@/modules/components/web";
+import { AnimationTextSpiral } from "@/resource/docs/components/web";
 
 interface LengthDatasProps {
   blog: Blog[] | null;

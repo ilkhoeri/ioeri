@@ -1,6 +1,6 @@
 "use client";
 
-import { useMediaQuery } from "@/modules";
+import { useMediaQuery } from "@/resource/docs";
 
 /**
  *

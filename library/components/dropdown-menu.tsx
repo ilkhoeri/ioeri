@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link, { type LinkProps } from "next/link";
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
-import { CheckIcon, ChevronRightIcon, DotFillIcon } from "@/modules";
+import { CheckIcon, ChevronRightIcon, DotFillIcon } from "@/resource/docs";
 import { twMerge } from "tailwind-merge";
 
 type Unstyled = { unstyled?: boolean };

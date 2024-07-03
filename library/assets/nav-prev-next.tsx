@@ -4,9 +4,9 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { ChevronLeftIcon, ChevronRightIcon } from "@/modules";
+import { ChevronLeftIcon, ChevronRightIcon } from "@/resource/docs";
 import { InnerRoutes, SingleRoute } from "@/library/routes";
-import { cnx } from "@/modules/ondevelopment/utils/cnx";
+import { cnx } from "@/resource/docs/ondevelopment/utils/cnx";
 import { displayName } from "../utils";
 
 export function NavBottom({ routes }: { routes: SingleRoute[] | null }) {

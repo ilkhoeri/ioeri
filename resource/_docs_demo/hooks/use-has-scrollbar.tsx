@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import { useHasScrollbar, useWidthScrollbar } from "@/modules/hooks";
 import globalStyle from "@/library/styles/styles";
@@ -21,7 +20,6 @@ export function Demo() {
       >
         {open ? "Close" : "Open"}
       </button>
-
       {open && (
         <div
           data-state={open ? "open" : "closed"}

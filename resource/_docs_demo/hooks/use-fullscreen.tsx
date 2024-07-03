@@ -1,5 +1,4 @@
 "use client";
-
 import { useFullscreen } from "@/modules/hooks";
 import { MinimizeIcon, MaximizeIcon } from "@/modules/icons";
 import { SetProps } from "../__set_props";
@@ -21,7 +20,6 @@ export function Demo() {
       >
         {fullscreen ? <MinimizeIcon strokeWidth={2.25} /> : <MaximizeIcon strokeWidth={2.25} />}
       </button>
-
       <img
         ref={refImage}
         src="/ioeri-asset.png"
@@ -31,7 +29,8 @@ export function Demo() {
         onClick={onClickImage}
         className="size-24 border rounded-lg bg-black mt-12"
       />
-      <span className="text-sm font-medium mt-4">use with ref, click image to view fullscreen</span> {/* prettier-ignore */}
+      <span className="text-sm font-medium mt-4">use with ref, click image to view fullscreen</span>{" "}
+      {/* prettier-ignore */}
       <SetProps.LabelOnly htmlFor="fullscreen-toggle">{fullscreen ? "Click to Minimize" : "Click to Maximize"}</SetProps.LabelOnly>
     </div>
   );

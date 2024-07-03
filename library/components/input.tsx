@@ -1,9 +1,9 @@
 "use client";
 
 import * as React from "react";
-import { attr, capitalizeWords, sanitizedToParams } from "@/modules";
+import { attr, capitalizeWords, sanitizedToParams } from "@/resource/docs";
 import { twMerge } from "tailwind-merge";
-import { cvx } from "@/modules/utility/cvx/cvx";
+import { cvx } from "@/resource/docs/utility/cvx/cvx";
 import { cn } from "../utils";
 
 const inputVariants = cvx({

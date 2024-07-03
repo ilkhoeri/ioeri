@@ -1,8 +1,7 @@
 "use client";
-
 import { useState } from "react";
 import { useClipboard } from "@/modules/hooks";
-import { CheckIcon, CopyIcon } from "@/modules";
+import { CheckIcon, CopyIcon } from "@/modules/icons";
 import globalStyle from "@/library/styles/styles";
 
 export function Demo() {
@@ -21,9 +20,7 @@ export function Demo() {
         title="copy"
         disabled={!text}
         onClick={() => {
-          if (text) {
-            copy(text);
-          }
+          if (text) copy(text);
         }}
         className={globalStyle({ toggle: "item", size: "icon-sm", theme: "outline" })}
       >

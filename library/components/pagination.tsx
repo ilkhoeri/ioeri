@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ChevronLeftIcon, ChevronRightIcon, DotsIcon } from "@/modules";
+import { ChevronLeftIcon, ChevronRightIcon, DotsIcon } from "@/resource/docs";
 import { twMerge } from "tailwind-merge";
 
 const Pagination = ({ className, ...props }: React.ComponentProps<"nav">) => (

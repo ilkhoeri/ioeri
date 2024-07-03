@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { sortStringDate } from "@/modules";
+import { sortStringDate } from "@/resource/docs";
 import { twMerge } from "tailwind-merge";
 import { Tooltip } from "../assets/tooltip";
 

@@ -1,7 +1,6 @@
 "use client";
-
 import { AnimationTextSpiral } from "@/modules/components/web";
-import { SetProps, SetPropsText, useSetProps } from "@/resource/_docs_demo/__set_props";
+import { SetProps, SetPropsText, useSetProps } from "../../__set_props";
 
 export function Demo() {
   const { str: placeholders, ...props } = useSetProps({ Str: "Input Your Words" });

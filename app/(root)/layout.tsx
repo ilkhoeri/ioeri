@@ -1,4 +1,4 @@
-import Element from "@/modules/components/web/element/element";
+import Element from "@/resource/docs/components/web/element/element";
 import { AsideLeft } from "@/library/assets/nav-aside-left";
 import { getPath, getPaths } from "@/library/scripts/get-paths";
 import type { NestedRoute, SingleRoute } from "@/library/routes";

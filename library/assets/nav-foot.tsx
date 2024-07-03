@@ -3,9 +3,9 @@ import { ThemeToggle } from "./theme";
 
 import { NavLinkItem } from "./nav-link";
 import { appRoutes } from "@/library/routes";
-import { IoeriIcon } from "@/modules";
-import { Element } from "@/modules/components/web";
-import { cvx } from "@/modules/utility";
+import { IoeriIcon } from "@/resource/docs";
+import { Element } from "@/resource/docs/components/web";
+import { cvx } from "@/resource/docs/utility";
 
 import type { Params } from "@/app/(routes)/my/types";
 

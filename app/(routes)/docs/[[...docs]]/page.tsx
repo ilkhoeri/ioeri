@@ -5,7 +5,7 @@ import { Code, Customizer, APIReference } from "@/library/components/code";
 import { Container, Title } from "@/library/components/components";
 import { getMdx, getContent, type Content } from "@/library/scripts/get-contents";
 import { escapeCode, highlightCode, mdCustom } from "@/library/utils/escape-customizer";
-import { toPascalCase, sanitizedToParams } from "@/modules";
+import { toPascalCase, sanitizedToParams } from "@/resource/docs";
 import { Examples } from "./demo";
 
 import type { Metadata } from "next";
@@ -35,11 +35,11 @@ export async function generateMetadata({ params }: DocsParams): Promise<Metadata
 const gitrepo = `https://raw.githubusercontent.com/ilkhoeri/ioeri/main`;
 
 async function getReCode({ params }: DocsParams, ext: string): Promise<string> {
-  return (await fetch(`${gitrepo}/modules/${sourceFiles(params.docs)}${ext}`)).text();
+  return (await fetch(`${gitrepo}/resource/docs/${sourceFiles(params.docs)}${ext}`)).text();
 }
 async function getCode({ params }: DocsParams): Promise<Content> {
   if (!params.docs) return { content: null, extension: null };
-  return getContent(`/modules/${sourceFiles(params.docs)}`, [".tsx", ".ts"]);
+  return getContent(`/resource/docs/${sourceFiles(params.docs)}`, [".tsx", ".ts"]);
 }
 async function getReUsage({ params }: DocsParams): Promise<string | null> {
   if (!params.docs) return null;
@@ -52,11 +52,12 @@ async function getUsage({ params }: DocsParams, replace?: Record<string, string>
 async function getCss({ params }: DocsParams): Promise<Content> {
   if (!params.docs) return { content: null, extension: null };
   // return getContent(`/modules/${sourceFiles(params.docs)}`, [".css"]);
-  return getContent(`/modules/${sourceFiles(params.docs)}`, [".css"], undefined, { lang: "css" });
+  return getContent(`/resource/docs/${sourceFiles(params.docs)}`, [".css"], undefined, { lang: "css" });
 }
 async function getSection({ params }: DocsParams, id: string): Promise<string | null> {
   if (!params.docs) return null;
-  return getMdx(`/resource/docs/${params.docs.join("/")}`, id);
+  // return getMdx(`/resource/docs/${params.docs.join("/")}`, id);
+  return getMdx(`/resource/docs/${sourceFiles(params.docs)}`, id);
 }
 export default async function Page({ params }: DocsParams) {
   const code = await getCode({ params });

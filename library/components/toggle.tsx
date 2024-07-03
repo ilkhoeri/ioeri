@@ -6,7 +6,7 @@ import { Anchor } from "./anchor";
 import { UnstyledButton } from "./button";
 
 import { twMerge } from "tailwind-merge";
-import { useClipboard, useScroll } from "@/modules/hooks";
+import { useClipboard, useScroll } from "@/resource/docs/hooks";
 import {
   ClipboardCopyIcon,
   ClipboardCheckIcon,
@@ -14,7 +14,7 @@ import {
   GithubIcon,
   CheckIcon,
   CopyIcon,
-} from "@/modules/icons";
+} from "@/resource/docs/icons";
 import { tocopy } from "../utils";
 import { recallHtml } from "../utils/escape-customizer";
 import globalStyle from "../styles/styles";
@@ -33,7 +33,7 @@ export const GetCodeToggle = React.forwardRef<
     <Anchor
       ref={ref}
       {...props}
-      href={href || `https://github.com/ilkhoeri/ioeri/blob/main/modules/${repo}`}
+      href={href || `https://github.com/ilkhoeri/ioeri/blob/main/resource/docs/${repo}`}
       tabIndex={-1}
       title="Get Code"
       className={globalStyle({ toggle: "item", size: "icon-xs" }, className)}

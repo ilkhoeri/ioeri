@@ -1,6 +1,6 @@
-import { SetPropsSvg, useSetProps } from "../../__set_props";
 import { Svg, SvgProps } from "@/modules/components/web";
-import { getRandomColor } from "@/modules"; // prettier-ignore
+import { getRandomColor } from "@/modules/hooks"; // prettier-ignore
+import { SetPropsSvg, useSetProps } from "../../__set_props";
 
 export function Demo() {
   const { numb: size, str: color, ...props } = useSetProps({ Str: getRandomColor(), Numb: 16 });

@@ -6,8 +6,8 @@ import { Container } from "@/library/components/components";
 import { Title } from "@/library/components/components";
 import { FilterDocs } from "@/library/components/input";
 import { displayName } from "@/library/utils";
-import { sanitizedToParams } from "@/modules";
-import { cvx } from "@/modules/utility";
+import { sanitizedToParams } from "@/resource/docs";
+import { cvx } from "@/resource/docs/utility";
 
 import globalStyle from "@/library/styles/styles";
 

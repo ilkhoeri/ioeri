@@ -4,12 +4,12 @@ import Link from "next/link";
 import Image from "next/image";
 import MarkBoolean from "@/library/components/mark-boolean";
 import { usePathname } from "next/navigation";
-import { PLACEHOLDER_IMAGESRC } from "@/modules";
+import { PLACEHOLDER_IMAGESRC } from "@/resource/docs";
 import { twMerge } from "tailwind-merge";
 
-import type { RecordClasses } from "@/modules";
+import type { RecordClasses } from "@/resource/docs";
 import type { AnchorProps } from "@/library/components/anchor";
-import type { IconType } from "@/modules/components/web/svg/svg";
+import type { IconType } from "@/resource/docs/components/web/svg/svg";
 
 type NavLinkTrees = "link" | "active" | "svg" | "img" | "mark";
 export type NavLinkClass = RecordClasses<NavLinkTrees>;
