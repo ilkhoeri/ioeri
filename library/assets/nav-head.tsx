@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import Element from "@/resource/docs/components/web/element/element";
+import Element from "@/library/components/element";
 import { DiscordIcon, GithubIcon, IoeriTextIcon, LineMenuBarIcon } from "@/resource/docs";
 import { useHoveredElement } from "@/library/hooks/use-hovered-element";
 import { useNavContext } from "../hooks/use-nav";
@@ -19,7 +19,7 @@ export function Headnav() {
 
   return (
     <header
-      id="header-nav"
+      data-dom="header-nav"
       className={twMerge(
         "h-[--navbar] flex items-center justify-between py-4 md:px-5 xl:px-6 border-0 border-b-[0.04rem] border-b-muted/75 sticky top-0 inset-x-0 z-[--z,88] w-full backdrop-blur bg-background/95 supports-[backdrop-filter]:bg-background/60",
         pathname === "/" && open && "[--z:0]",

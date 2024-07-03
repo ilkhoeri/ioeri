@@ -57,11 +57,11 @@ export const Container = React.forwardRef<HTMLElement, ContainerProps>(
   ({ className, el = "article", unstyled = false, child = "complete", children, ...props }, ref) => {
     let Component: ComponentType<HTMLElement> = el as ComponentType<HTMLElement>;
     if (child === "wrap-only") {
-      return <ChildWrapper>{children}</ChildWrapper>;
+      return <>{children}</>;
     }
     return (
       <Component ref={ref} className={twMerge(!unstyled && "relative mx-auto w-full", className)} {...props}>
-        {child === "container-only" ? children : <ChildWrapper>{children}</ChildWrapper>}
+        {child === "container-only" ? children : <>{children}</>}
       </Component>
     );
   },

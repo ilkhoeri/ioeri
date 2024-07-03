@@ -9,7 +9,7 @@ $:api-reference
 [`inspired by clsx`](https://www.npmjs.com/package/clsx)
 
 
-$:description
+$:consideration
 
 cnx is inspired by [clsx](https://www.npmjs.com/package/clsx), the arguments you give in cn or clsx you can put into cnx, so that you can think of cnx as clsx from another universe.
 
@@ -37,10 +37,20 @@ function cnx(...inputs: ClassValue[]): string
   function cn(...inputs: ClassValue[]) {
     return twMerge(cnx(...inputs));
   }
+```
 
-// configuration vscode settings.json
-  "tailwindCSS.experimental.classRegex": [
-    ["cnx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
-    ["twMerge\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
-  ],
+$:description
+
+## IntelliSense
+
+If you are using the vscode editor, enable autocomplete for the [`tailwindcss`](https://tailwindcss.com/docs/editor-setup#intelli-sense-for-vs-code) class using the following command:
+
+1. [Install the "Tailwind CSS IntelliSense" Visual Studio Code extension](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
+2. Add to your [`settings.json`](https://code.visualstudio.com/docs/getstarted/settings):
+
+```js
+"tailwindCSS.experimental.classRegex": [
+  ["cnx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
+  ["twMerge\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
+],
 ```

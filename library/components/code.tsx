@@ -57,7 +57,7 @@ export function Code(Text: CodeCustomizer & ExtIconsType) {
 export function Customizer(Text: CodeCustomizer) {
   if (!Text.code && !Text.setInnerHTML) return null;
   return (
-    <div className={twMerge("mb-12", Text.className)} data-language="" data-theme="">
+    <div className={twMerge("mb-12", Text.className)} data-rehype-customizer="">
       {Text.title && <h4>{Text.title}</h4>}
       <div
         className="md_custom relative white-space-pre-wrap text-base"
@@ -80,7 +80,7 @@ export function APIReference(Text: CodeCustomizer) {
       </h4>
 
       <div
-        className="relative white-space-pre-wrap text-base mt-4 mb-12 flex flex-row items-center flex-wrap gap-6"
+        className="relative white-space-pre-wrap text-base mt-4 mb-12 flex flex-col gap-6"
         data-block="body"
         dangerouslySetInnerHTML={Text.setInnerHTML ? { __html: Text.setInnerHTML } : undefined}
       >

@@ -6,7 +6,7 @@ import { retitled, sourceFiles } from "@/library/utils";
 import { Playground } from "@/library/components/playground";
 import { Container, Title } from "@/library/components/components";
 import { getMdx, getContent, type Content } from "@/library/scripts/get-contents";
-import { escapeCode, highlightCode } from "@/library/utils/escape-customizer";
+import { escapeCode, highlightCode } from "@/library/utils/escape-code";
 import { Code } from "@/library/components/code";
 import { sanitizedToParams } from "@/resource/docs";
 

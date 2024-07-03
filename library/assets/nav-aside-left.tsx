@@ -46,7 +46,7 @@ export function AsideLeft({
   return (
     <>
       <aside
-        id="aside-nav"
+        data-dom="aside-nav"
         data-state={maxQuery ? (open ? "open" : "closed") : undefined}
         className={twMerge(Styles({ style: "aside", aside: "left" }), classNames?.aside)}
       >

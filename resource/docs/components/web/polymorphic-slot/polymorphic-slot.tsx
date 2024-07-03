@@ -1,5 +1,22 @@
 import * as React from "react";
-import { Slot as PrimitiveSlot } from "@radix-ui/react-slot";
+import { twMerge } from "tailwind-merge";
+
+const PrimitiveSlot = React.forwardRef(
+  <T extends React.ElementType>(
+    { children, ...props }: { children: React.ReactElement } & Omit<React.ComponentProps<T>, "ref">,
+    ref: React.Ref<any>,
+  ) => {
+    const child = React.Children.only(children);
+
+    return React.cloneElement(child, {
+      ref,
+      ...props,
+      style: { ...props.style, ...child.props.style },
+      className: twMerge(child.props.className, props.className),
+    });
+  },
+);
+PrimitiveSlot.displayName = "PrimitiveSlot";
 
 export interface CSSProperties extends React.CSSProperties {
   [key: string]: any;

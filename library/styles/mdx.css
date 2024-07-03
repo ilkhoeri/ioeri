@@ -64,6 +64,62 @@
 }
 
 /* added */
+.md_custom {
+  & .linkbox {
+    @apply transition-colors no-underline decoration-none border bg-color text-background hover:bg-color/90 hover:text-background rounded-md font-semibold font-roboto-mono px-2 py-px text-sm after:content-['↗'] md:after:content-['🡵'] after:ml-1 after:text-muted-foreground after:transition-colors hover:after:text-constructive;
+  }
+  & a code {
+    @apply p-[0em_.25em] text-[85%] leading-normal transition-colors underline underline-offset-2 decoration-color-muted hover:decoration-constructive hover:text-constructive;
+  }
+  & ul {
+    @apply list-disc;
+  }
+  & ol {
+    @apply list-decimal;
+  }
+  & ul,
+  & ol {
+    @apply pl-8 flex flex-col space-y-2;
+  }
+  & ol li::marker {
+    @apply [font-weight:400];
+  }
+  & ul li,
+  & ol li {
+    @apply list-item [text-align:-webkit-match-parent] [unicode-bidi:isolate] leading-normal;
+  }
+}
+[data-rehype-customizer] {
+  --copy-icon: url('data:image/svg+xml,<svg fill="none" stroke="%23909293" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" height="16px" width="16px"><path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z"></path><path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1"></path></svg>');
+  --success-icon: url('data:image/svg+xml,<svg fill="none" stroke="%23909293" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" height="16px" width="16px"><path d="M5 12l5 5l10 -10"></path></svg>');
+  & span.ready {
+    @apply hover:bg-muted/75;
+  }
+  & span.success {
+    @apply bg-muted/75;
+  }
+  & span.ready,
+  & span.success {
+    @apply [background-size:20px] bg-center size-8 min-w-8 min-h-8 -mt-4 rounded-md bg-no-repeat mr-4;
+  }
+}
+[data-rehype-customizer] {
+  & :where(h2:not(:is(h1 + h2))):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    @apply font-semibold text-color mt-9 mb-1 text-h4 flex items-center cursor-default w-max [&>a]:hover:text-constructive;
+
+    & a.anchor_id {
+      @apply hover:text-constructive transition-colors;
+    }
+  }
+
+  & a {
+    @apply underline underline-offset-2 decoration-color-muted hover:text-color hover:decoration-color;
+  }
+
+  & figure pre code {
+    @apply py-6 px-7 overflow-x-auto scrollbar;
+  }
+}
 [data-rehype-pretty-code-figure] mark {
   &[data-highlighted-chars] {
     @apply bg-muted p-[0.075rem_0.225rem] rounded-sm border;

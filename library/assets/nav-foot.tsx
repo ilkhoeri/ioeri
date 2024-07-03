@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { ThemeToggle } from "./theme";
 
+import Element from "@/library/components/element";
 import { NavLinkItem } from "./nav-link";
 import { appRoutes } from "@/library/routes";
 import { IoeriIcon } from "@/resource/docs";
-import { Element } from "@/resource/docs/components/web";
 import { cvx } from "@/resource/docs/utility";
 
 import type { Params } from "@/app/(routes)/my/types";
@@ -42,7 +42,7 @@ export async function FootNav() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer id="footer-nav" className={Styles({ as: "footer" })}>
+    <footer data-dom="footer-nav" className={Styles({ as: "footer" })}>
       <Element el="section" className={Styles({ as: "section", section: "top" })}>
         <div className="w-max col-span-1 lg:col-span-2">
           <Link

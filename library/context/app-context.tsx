@@ -26,13 +26,16 @@ export const useAppContext = () => {
 export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [idSet, setIdSet] = useState<Set<IdDepth>>(new Set());
 
-  const addIds = (idDepth: IdDepth) => {
+  const addIds = useCallback((idDepth: IdDepth) => {
     setIdSet((prevSet) => {
-      const newSet = new Set(prevSet);
-      newSet.add(idDepth);
-      return newSet;
+      if (!Array.from(prevSet).some((item) => item.id === idDepth.id)) {
+        const newSet = new Set(prevSet);
+        newSet.add(idDepth);
+        return newSet;
+      }
+      return prevSet;
     });
-  };
+  }, []);
 
   const resetIds = useCallback(() => {
     setIdSet(new Set());
@@ -58,7 +61,29 @@ export const ChildWrapper = ({ children }: { children: React.ReactNode }) => {
     );
   }, [children, addIds, ids]);
 
+  useEffect(() => {
+    const elements = document.querySelectorAll("[id]");
+    elements.forEach((element) => {
+      const depth = getDepth(element); // Calculate the depth
+      if (element.id && !ids.some((idDepth) => idDepth.id === element.id)) {
+        addIds({ id: element.id, depth });
+      }
+    });
+  }, [children, ids, addIds]);
+
   return <>{children}</>;
+};
+
+const getDepth = (element: Element): number => {
+  let depth = 0;
+  let parent = element.parentElement;
+  while (parent) {
+    if (parent.id) {
+      depth++;
+    }
+    parent = parent.parentElement;
+  }
+  return depth;
 };
 
 const collectIds = (

@@ -1,13 +1,80 @@
 // import fs from "fs-extra";
 import { unified } from "unified";
+import rehypeSlug from "rehype-slug";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import rehypeSanitize from "rehype-sanitize";
 import rehypeStringify from "rehype-stringify";
 import rehypePrettyCode from "rehype-pretty-code";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
+
 import { transformerCopyButton } from "@rehype-pretty/transformers";
 
 import moonlightTheme from "./moonlight-ii.json" with { type: "json" };
+
+const behaviors = ["after", "append", "before", "prepend", "wrap"];
+
+
+
+export async function highlightCode(code: string | null, { copy }: { copy?: boolean } = {}) {
+  if (!code) return "";
+
+  const file = await unified()
+    .use(remarkParse, { fragment: true }) // Convert into markdown AST
+    .use(remarkRehype) // Transform to HTML AST
+    .use(rehypeSanitize) // Sanitize HTML input
+    // @ts-ignore
+    .use(rehypePrettyCode, {
+      grid: true,
+      keepBackground: false,
+      theme: moonlightTheme,
+      tokensMap: {
+        fn: "entity.name.function",
+      },
+      transformers: copy && [
+        transformerCopyButton({
+          visibility: "always",
+          feedbackDuration: 3_000,
+        }),
+      ],
+      filterMetaString: (string) => string.replace(/filename="[^"]*"/, ""),
+    })
+    .use(rehypeSlug)
+    // @ts-ignore
+    .use(rehypeAutolinkHeadings, {
+      behavior: "prepend",
+      properties: {
+        className: ["anchor_id"],
+      },
+      content: (node) => [
+        {
+          type: "element",
+          tagName: "svg",
+          properties: {
+            xmlns: "http://www.w3.org/2000/svg",
+            width: "26",
+            height: "26",
+            fill: "currentColor",
+            viewBox: "0 0 24 24",
+            className: "mr-2",
+          },
+          children: [
+            {
+              type: "element",
+              tagName: "path",
+              properties: {
+                d: "M15.712 11.823a.75.75 0 1 0 1.06 1.06l-1.06-1.06Zm-4.95 1.768a.75.75 0 0 0 1.06-1.06l-1.06 1.06Zm-2.475-1.414a.75.75 0 1 0-1.06-1.06l1.06 1.06Zm4.95-1.768a.75.75 0 1 0-1.06 1.06l1.06-1.06Zm3.359.53-.884.884 1.06 1.06.885-.883-1.061-1.06Zm-4.95-2.12 1.414-1.415L12 6.344l-1.415 1.413 1.061 1.061Zm0 3.535a2.5 2.5 0 0 1 0-3.536l-1.06-1.06a4 4 0 0 0 0 5.656l1.06-1.06Zm4.95-4.95a2.5 2.5 0 0 1 0 3.535L17.656 12a4 4 0 0 0 0-5.657l-1.06 1.06Zm1.06-1.06a4 4 0 0 0-5.656 0l1.06 1.06a2.5 2.5 0 0 1 3.536 0l1.06-1.06Zm-7.07 7.07.176.177 1.06-1.06-.176-.177-1.06 1.06Zm-3.183-.353.884-.884-1.06-1.06-.884.883 1.06 1.06Zm4.95 2.121-1.414 1.414 1.06 1.06 1.415-1.413-1.06-1.061Zm0-3.536a2.5 2.5 0 0 1 0 3.536l1.06 1.06a4 4 0 0 0 0-5.656l-1.06 1.06Zm-4.95 4.95a2.5 2.5 0 0 1 0-3.535L6.344 12a4 4 0 0 0 0 5.656l1.06-1.06Zm-1.06 1.06a4 4 0 0 0 5.657 0l-1.061-1.06a2.5 2.5 0 0 1-3.535 0l-1.061 1.06Zm7.07-7.07-.176-.177-1.06 1.06.176.178 1.06-1.061Z",
+              },
+            },
+          ],
+        },
+      ],
+    })
+    .use(rehypeStringify) // Convert AST into serialized HTML
+    .process(code);
+
+  return String(file);
+}
 
 export function escapeHtml(html: string): string {
   return html
@@ -28,33 +95,6 @@ export function recallHtml(html: string): string {
     .replace(/&#039;/g, "'")
     .replace(/&#123;/g, "{")
     .replace(/&#125;/g, "}");
-}
-
-export async function highlightCode(code: string) {
-  const file = await unified()
-    .use(remarkParse, { fragment: true }) // Convert into markdown AST
-    .use(remarkRehype) // Transform to HTML AST
-    .use(rehypeSanitize) // Sanitize HTML input
-    // @ts-ignore
-    .use(rehypePrettyCode, {
-      grid: true,
-      keepBackground: false,
-      theme: moonlightTheme,
-      tokensMap: {
-        fn: "entity.name.function",
-      },
-      // transformers: [
-      //   transformerCopyButton({
-      //     visibility: "always",
-      //     feedbackDuration: 3_000,
-      //   }),
-      // ],
-      filterMetaString: (string) => string.replace(/filename="[^"]*"/, ""),
-    })
-    .use(rehypeStringify) // Convert AST into serialized HTML
-    .process(code);
-
-  return String(file);
 }
 
 // Helper function to strip HTML tags

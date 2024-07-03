@@ -16,7 +16,7 @@ import {
   CopyIcon,
 } from "@/resource/docs/icons";
 import { tocopy } from "../utils";
-import { recallHtml } from "../utils/escape-customizer";
+import { recallHtml } from "../utils/escape-code";
 import globalStyle from "../styles/styles";
 
 export const GetCodeToggle = React.forwardRef<

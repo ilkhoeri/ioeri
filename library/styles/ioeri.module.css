@@ -83,7 +83,7 @@
   @apply m-0 flex items-center min-h-screen flex-col p-4 lg:p-14 relative inset-x-0 z-[86] w-full min-w-full overflow-hidden space-y-12;
 
   & aside,
-  & [id="aside-nav"] {
+  & [data-dom="aside-nav"] {
     @apply md:!hidden md:!sr-only;
   }
 

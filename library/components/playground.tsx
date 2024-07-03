@@ -79,11 +79,11 @@ export function Playground(_Play: PlaygroundType) {
 
   return (
     <>
-      <TabsList className="w-full flex justify-start bg-background border-b rounded-none p-0 pb-px">
+      <TabsList id={undefined} className="w-full flex justify-start bg-background border-b rounded-none p-0 pb-px">
         {tabs.map(
           (key) =>
             childrens[key] && (
-              <TabsTrigger key={key} value={key} title={key} className={classes({ button: "tabs" })}>
+              <TabsTrigger id={undefined} key={key} value={key} title={key} className={classes({ button: "tabs" })}>
                 {key.charAt(0).toUpperCase() + key.slice(1)}
               </TabsTrigger>
             ),
@@ -94,6 +94,7 @@ export function Playground(_Play: PlaygroundType) {
         (key) =>
           childrens[key] && (
             <TabsContent
+              id={undefined}
               key={key}
               value={key}
               className={classes({

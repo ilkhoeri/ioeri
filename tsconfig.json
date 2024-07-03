@@ -23,22 +23,6 @@
     },
     "typeRoots": ["resource/docs/*", "./node_modules/@types"]
   },
-  "include": [
-    "./src",
-    "./types",
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.md",
-    "**/*.mdx",
-    ".next/types/**/*.ts",
-    "resource/docs/hooks",
-    "resource/docs/utility",
-    "resource/docs/components/native",
-    "resource/docs/components/web",
-    "resource/docs/ondevelopment/utils",
-    "resource/docs/ondevelopment/factory",
-    "resource/docs/icons"
-  ],
+  "include": ["./src", "./types", "next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.md", "**/*.mdx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }

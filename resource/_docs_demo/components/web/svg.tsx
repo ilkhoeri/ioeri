@@ -6,7 +6,7 @@ export function Demo() {
   const { numb: size, str: color, ...props } = useSetProps({ Str: getRandomColor(), Numb: 16 });
   return (
     <div className="flex flex-row items-center gap-4">
-      <IoeriLogoIcon size={size} color={color} />
+      <LogoIcon size={size} color={color} />
       <FileIcon size={size} color={color} arrow="top-right" />
       <SetPropsSvg numb={size} str={color} {...props} />
     </div>
@@ -14,7 +14,7 @@ export function Demo() {
 }
 
 // basic usage
-// with other conditional
+// with other propertys
 function FileIcon({ arrow, ...props }: SvgProps & { arrow?: "top-right" }) {
   let chevron: string | undefined;
   let line: string | undefined;
@@ -39,7 +39,7 @@ function FileIcon({ arrow, ...props }: SvgProps & { arrow?: "top-right" }) {
 
 // by default the viewbox="0 0 24 24" and size={16}, here is an example of changing the viewbox and ratio of w
 // when size={16} it means height={16} and width={62.8}
-function IoeriLogoIcon({ viewBox = "0 0 94.2 24", ...props }: SvgProps) {
+function LogoIcon({ viewBox = "0 0 94.2 24", ...props }: SvgProps) {
   return (
     <Svg currentFill="fill" viewBox={viewBox} ratio={{ w: 3.925 }} {...props}>
       <rect x="88.58" y="0" width="5.62" height="24" rx="2.81" ry="2.81" />

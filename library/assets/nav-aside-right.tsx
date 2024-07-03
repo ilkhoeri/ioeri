@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import Element from "@/resource/docs/components/web/element/element";
+import Element from "@/library/components/element";
 import { useAppContext } from "@/library/context/app-context";
 import { ArrowsSquareIcon, FileIcon, capitalizeWords } from "@/resource/docs";
 import { ClientOnly } from "../components/client-only";

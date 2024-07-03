@@ -9,7 +9,7 @@ export function Demo() {
     <div>
       <Collapsible align={align} side={side} sideOffset={offset} clickOutsideToClose={clickOutsideToClose}>
         <CollapsibleTrigger className={classes({ trigger: props.style })}>
-          <span className="truncate">Open</span>
+          <span className="sr-only">Trigger</span>
         </CollapsibleTrigger>
 
         <CollapsibleContent className={classes({ content: props.style })}>
@@ -29,8 +29,9 @@ const classes = cvx({
   variants: {
     trigger: {
       default:
-        "font-semibold px-2 py-1 rounded-none data-[side=top]:w-80 data-[side=bottom]:w-80 data-[side=left]:w-max data-[side=right]:w-max group-data-[side=top]:border-t group-data-[side=bottom]:border-b group-data-[side=left]:border-l group-data-[side=right]:border-r",
-      dropdown: "rounded-md font-semibold text-span bg-color text-background hover:bg-color/90 h-9 px-2.5",
+        "relative before:content-['Open'] data-[state=open]:before:content-['Close'] before:size-max font-semibold px-2 py-1 rounded-none data-[side=top]:w-80 data-[side=bottom]:w-80 data-[side=left]:w-max data-[side=right]:w-max group-data-[side=top]:border-t group-data-[side=bottom]:border-b group-data-[side=left]:border-l group-data-[side=right]:border-r",
+      dropdown:
+        "relative before:content-['Open'] data-[state=open]:before:content-['Close'] rounded-md font-semibold text-span bg-color text-background hover:bg-color/90 h-9 px-2.5",
     },
     content: {
       default:

@@ -1,3 +1,56 @@
+$:api-reference
+
+[`cloneElement()`](https://react.dev/reference/react/cloneElement)
+[`inspired by radix Slot`](https://www.radix-ui.com/primitives/docs/utilities/slot)
+
+
+$:consideration
+
+Combines and passing data with a render props onto its immediate child.
+
+
+$:description
+
+___
+
+## Support
+
+- The `asChild` prop will pass all the props you created yourself even the Slot `ref` to its direct child.
+- Using `ref`, `attributes` and `event handlers` according to the `el=""` you use,
+- Freestyle variables are used without affecting the default style
+
+$:explanation
+
+___
+
+## Alternative
+
+By default we use twMerge to prioritize the tailwindcss style of `PolymorphicSlot` over its immediate child style. You can customize it at any time if you are not using tailwindcss.
+
+If you prefer to use `Slot` from radix you can combine `Polymorphic` with radix dependencies using the following command:
+
+1. Install [@radix-ui/react-slot](https://www.radix-ui.com/primitives/docs/utilities/slot#installation)
+2. Import dependencies:
+
+```js
+import * as React from "react";
+import { Slot as PrimitiveSlot } from "@radix-ui/react-slot";
+```
+
+3. Customize PolymorphicSlot:
+
+```js
+const Slot = <T extends React.ElementType = "div">(
+  { asChild = false, el, ...props }: ElementType<T>,
+  ref: PolymorphicSlotRef<T>,
+) => {
+  const Component = asChild ? PrimitiveSlot : ((el || "div") as React.ElementType);
+
+  return <Component ref={ref} {...props} />;
+};
+```
+
+
 $:usage
 
 ```js showLineNumbers

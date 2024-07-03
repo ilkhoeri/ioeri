@@ -4,7 +4,7 @@ import { Playground } from "@/library/components/playground";
 import { Code, Customizer, APIReference } from "@/library/components/code";
 import { Container, Title } from "@/library/components/components";
 import { getMdx, getContent, type Content, getRepo } from "@/library/scripts/get-contents";
-import { escapeCode, highlightCode, mdCustom } from "@/library/utils/escape-customizer";
+import { escapeCode, highlightCode, mdCustom } from "@/library/utils/escape-code";
 import { toPascalCase, sanitizedToParams } from "@/resource/docs";
 import { Examples } from "./demo";
 
@@ -68,10 +68,11 @@ export default async function Page({ params }: DocsParams) {
   const usage = await getUsage({ params }, rename).then((res) => res.content);
   const reUsage = usage === null ? await getReUsage({ params }) : null;
 
-  const [css, title, reference, description, explanation, conclusion, notes] = await Promise.all([
+  const [css, title, reference, consideration, description, explanation, conclusion, notes] = await Promise.all([
     getCss({ params }).then((res) => res.content),
     getSection({ params }, "title"),
     getSection({ params }, "api-reference"),
+    getSection({ params }, "consideration"),
     getSection({ params }, "description"),
     getSection({ params }, "explanation"),
     getSection({ params }, "conclusion"),
@@ -122,26 +123,32 @@ export default async function Page({ params }: DocsParams) {
         id={sanitizedToParams(retitled(params.docs))}
         className="mt-0 mb-12"
       />
-      <APIReference setInnerHTML={mdCustom(reference)} />
+      <APIReference setInnerHTML={await highlightCode(reference)} />
 
-      <Customizer setInnerHTML={mdCustom(description)} />
+      <Customizer setInnerHTML={await highlightCode(consideration)} />
 
       {(usage || reUsage) && (
-        <Tabs defaultValue={usage ? "preview" : "usage"} id="usage" className="w-full mb-12">
-          <Playground childrens={usages} />
-        </Tabs>
+        <div id="usage">
+          <Tabs defaultValue={usage ? "preview" : "usage"} className="w-full mb-12">
+            <Playground childrens={usages} />
+          </Tabs>
+
+          <Customizer setInnerHTML={await highlightCode(description, { copy: true })} />
+        </div>
       )}
 
-      {explanation && <Customizer setInnerHTML={await highlightCode(explanation)} />}
+      <div id="code">
+        <Tabs defaultValue="code" className="w-full mb-12">
+          <Playground childrens={codes} />
+        </Tabs>
 
-      <Tabs defaultValue="code" id="code" className="w-full mb-12">
-        <Playground childrens={codes} />
-      </Tabs>
+        <Customizer setInnerHTML={await highlightCode(explanation, { copy: true })} />
 
-      <Customizer setInnerHTML={mdCustom(conclusion)} />
+        <Customizer setInnerHTML={await highlightCode(conclusion, { copy: true })} />
+      </div>
 
       {conclusion && notes && <hr className="mt-12 b-4 w-full" />}
-      <Customizer setInnerHTML={mdCustom(notes)} />
+      <Customizer setInnerHTML={await highlightCode(notes)} />
     </Container>
   );
 }
