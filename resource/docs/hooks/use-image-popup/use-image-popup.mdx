@@ -1,36 +1,39 @@
-$:usage
+$:explanation
 
-// by default selectors using className ".embeded-image"
-
-```js showLineNumbers{number}
+By default, selectors using _className="embeded-image"_
+```js showLineNumbers{number} /embeded-image/#i
 function MyComponent() {
   useImagePopup();
 
   return (
-    <div>
-      <article>
-        <img className="embeded-image" src="https://.../a.png" alt="" width="50" height="50" />
-        <img className="embeded-image" src="https://.../b.jpg" alt="" width="50" height="50" />
-        <img className="embeded-image" src="https://.../c.svg" alt="" width="50" height="50" />
-      </article>
-    </div>
+    <article>
+      <img className="embeded-image" src="https://.../a.png" alt="" width="50" height="50" />
+      <img className="embeded-image" src="https://.../b.jpg" alt="" width="50" height="50" />
+      <img className="embeded-image" src="https://.../c.svg" alt="" width="50" height="50" />
+    </article>
   );
 }
+```
+___
 
+Use selectors by _[attribute]_
+```js showLineNumbers{number} /data-popup/#at
 function MyComponent() {
   useImagePopup({ selectors: "[data-popup]" });
 
   return (
-    <div>
-      <article>
-        <img data-popup="" src="https://.../a.png" alt="" width="50" height="50" />
-        <img data-popup="" src="https://.../b.jpg" alt="" width="50" height="50" />
-        <img data-popup="" src="https://.../c.svg" alt="" width="50" height="50" />
-      </article>
-    </div>
+    <article>
+      <img data-popup="" src="https://.../a.png" alt="" width="50" height="50" />
+      <img data-popup="" src="https://.../b.jpg" alt="" width="50" height="50" />
+      <img data-popup="" src="https://.../c.svg" alt="" width="50" height="50" />
+    </article>
   );
 }
+```
+___
 
+Use selectors by _&lt;img&gt; Element_
+```js showLineNumbers{number} /img/
 function MyComponent() {
   useImagePopup({ selectors: "img" });
 
@@ -41,6 +44,7 @@ function MyComponent() {
         <img src="https://.../b.jpg" alt="" width="50" height="50" />
         <img data-popup="" src="https://.../c.svg" alt="" width="50" height="50" />
       </article>
+
       <img className="embeded-image" src="https://.../x.png" alt="" width="50" height="50" />
       <img className="" src="https://.../y.png" alt="" width="50" height="50" />
     </div>

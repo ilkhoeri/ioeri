@@ -132,7 +132,7 @@ export default async function Page({ params }: DocsParams) {
         </Tabs>
       )}
 
-      <Customizer setInnerHTML={mdCustom(explanation)} />
+      {explanation && <Customizer setInnerHTML={await highlightCode(explanation)} />}
 
       <Tabs defaultValue="code" id="code" className="w-full mb-12">
         <Playground childrens={codes} />

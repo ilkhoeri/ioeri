@@ -43,12 +43,12 @@ export async function highlightCode(code: string) {
       tokensMap: {
         fn: "entity.name.function",
       },
-      transformers: [
-        transformerCopyButton({
-          visibility: "always",
-          feedbackDuration: 3_000,
-        }),
-      ],
+      // transformers: [
+      //   transformerCopyButton({
+      //     visibility: "always",
+      //     feedbackDuration: 3_000,
+      //   }),
+      // ],
       filterMetaString: (string) => string.replace(/filename="[^"]*"/, ""),
     })
     .use(rehypeStringify) // Convert AST into serialized HTML

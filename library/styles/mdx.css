@@ -16,10 +16,6 @@
 [data-rehype-pretty-code-fragment] code {
   @apply grid min-w-full break-words rounded-none border-0 bg-transparent p-0 leading-[20px] relative white-space-pre-wrap w-max font-roboto-mono text-[13px] font-normal [counter-reset:line] [box-decoration-break:clone];
 }
-
-[data-rehype-pretty-code-fragment] span span[style="color:#858AA6"] {
-  font-style: italic;
-}
 [data-rehype-pretty-code-fragment] [data-fragment="comment"] {
   @apply text-color-muted h-5 mt-3 -mb-3;
 }
@@ -56,7 +52,7 @@
 }
 
 [data-rehype-pretty-code-title] {
-  @apply mb-2 pt-1.5 pb-3 px-4 text-sm font-medium;
+  @apply mt-2 pt-3 pb-1 px-4 text-sm font-medium;
 }
 
 [data-rehype-pretty-code-title] + pre {
@@ -68,8 +64,23 @@
 }
 
 /* added */
+[data-rehype-pretty-code-figure] mark {
+  &[data-highlighted-chars] {
+    @apply bg-muted p-[0.075rem_0.225rem] rounded-sm border;
+  }
+  &[data-highlighted-chars][data-chars-id="at"] {
+    @apply bg-muted p-[0.075rem_0.225rem] rounded-sm border;
+  }
+}
+
+[data-language][data-theme] span span[style="color:#858AA6"] {
+  font-style: italic;
+}
 [data-rehype-pretty-code-fragment] pre code * {
   font-weight: 400;
+}
+code[data-language][data-theme] {
+  @apply bg-background-code-body border-border rounded-lg;
 }
 code {
   counter-reset: line;

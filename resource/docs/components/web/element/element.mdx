@@ -15,17 +15,26 @@ function MyComponent() {
     />
   )
 }
+```
+___
 
+```js showLineNumbers{number}
 // ref and all props as DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>
 function MyComponent() {
   return <Element el="nav" />
 }
+```
+___
 
+```js showLineNumbers{number}
 // ref and all props as DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>
 function MyComponent() {
   return <Element el="a" href="" />
 }
+```
+___
 
+```js showLineNumbers{number}
 // ref and all props as DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement>
 function MyComponent() {
   return <Element el="img" src="" />
