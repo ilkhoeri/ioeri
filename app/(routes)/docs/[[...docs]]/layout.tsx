@@ -3,17 +3,9 @@ import RestDocsPage from "./client";
 
 import { notFound } from "next/navigation";
 
-import { Section, Main } from "@/library/components/components";
 import { getPath, getPaths } from "@/library/scripts/get-paths";
-import { AsideLeft } from "@/library/assets/nav-aside-left";
-import { AsideRight } from "@/library/assets/nav-aside-right";
-import { NavBottom } from "@/library/assets/nav-prev-next";
-import { NavigationBreadcrumb } from "@/library/assets/nav-breadcrumb";
 import { InnerRoutes, NestedRoute, SingleRoute } from "@/library/routes";
 
-export const runtime = "nodejs";
-export const dynamicParams = true;
-export const dynamic = "force-dynamic";
 // export const fetchCache = "only-no-store";
 // export function generateStaticParams() {
 //   return [{ docs: ["hooks", "use-clipboard"] }, { docs: ["b", "2"] }, { docs: ["c", "3"] }];
@@ -39,26 +31,8 @@ export default async function Layout({ children, params }: Readonly<DocsParams>)
   const utility = await loadRoutes("utility");
   const hooks = await loadRoutes("hooks");
 
-  function Template({ children }: { children: React.ReactNode }) {
-    return (
-      <Main>
-        <AsideLeft topRoutes={[...utility]} routes={[...hooks]} nestedRoutes={nested} />
-        <Section>
-          <NavigationBreadcrumb />
-          {children}
-          {/* <NavBottom routes={[...utility, ...components, ...hooks]} /> */}
-        </Section>
-        <AsideRight />
-      </Main>
-    );
-  }
-
   if (!params.docs) {
-    return (
-      <Template>
-        <Docs />
-      </Template>
-    );
+    return <Docs />;
   }
 
   if (params.docs.length === 1) {
@@ -68,17 +42,13 @@ export default async function Layout({ children, params }: Readonly<DocsParams>)
       hooks: hooks,
     };
     const routes = routesMap[params.docs[0]];
-    return (
-      <Template>
-        <RestDocsPage id={params.docs[0]} routes={routes} />
-      </Template>
-    );
+    return <RestDocsPage id={params.docs[0]} routes={routes} />;
   }
 
-  // const matchingRoutes = findMatchingRoute(params.docs, [...components, ...utility, ...hooks]);
-  // if (!matchingRoutes) notFound();
+  const matchingRoutes = findMatchingRoute(params.docs, [...components, ...utility, ...hooks]);
+  if (!matchingRoutes) notFound();
 
-  return <Template>{children}</Template>;
+  return <>{children}</>;
 }
 
 const findMatchingRoute = (slug: string[], routes: (InnerRoutes | SingleRoute)[]): boolean => {
