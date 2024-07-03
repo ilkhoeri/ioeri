@@ -39,7 +39,7 @@ export default async function Layout({ children, params }: Readonly<DocsParams>)
   const utility = await loadRoutes("utility");
   const hooks = await loadRoutes("hooks");
 
-  async function Template({ children }: { children: React.ReactNode }) {
+  function Template({ children }: { children: React.ReactNode }) {
     return (
       <Main>
         <AsideLeft topRoutes={[...utility]} routes={[...hooks]} nestedRoutes={nested} />

@@ -49,7 +49,6 @@ export async function highlightCode(code: string) {
           feedbackDuration: 3_000,
         }),
       ],
-      filterMetaString: (string) => string.replace(/filename="[^"]*"/, ""),
     })
     .use(rehypeStringify) // Convert AST into serialized HTML
     .process(code);
