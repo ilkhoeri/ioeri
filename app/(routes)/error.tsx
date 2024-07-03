@@ -8,7 +8,7 @@ export default function Error({ error, reset }: { error: Error & { digest?: stri
     console.error(error);
   }, [error]);
 
-  let errorMessage = <p className="text-muted-foreground text-[13px] font-mono">{String(error)}</p>;
+  let errorMessage = null;
   if (process.env.NODE_ENV !== "production") {
     errorMessage = <p className="text-muted-foreground text-[13px] font-mono">{String(error)}</p>;
   }

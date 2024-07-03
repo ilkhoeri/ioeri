@@ -13,7 +13,7 @@ import { InnerRoutes, NestedRoute, SingleRoute } from "@/library/routes";
 
 export const runtime = "nodejs";
 export const dynamicParams = true;
-// export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic";
 // export const fetchCache = "only-no-store";
 // export function generateStaticParams() {
 //   return [{ docs: ["hooks", "use-clipboard"] }, { docs: ["b", "2"] }, { docs: ["c", "3"] }];
