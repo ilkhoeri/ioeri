@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { AlignValues, SideValues } from "@/resource/docs";
-import { PolymorphicWithoutRef } from "@/resource/docs/components/web";
+import { PolymorphicWithoutRef } from "@/library/components/element";
 import { InferTypes, cvx } from "@/resource/docs/utility";
 
 import { twMerge } from "tailwind-merge";
@@ -240,4 +240,3 @@ const pointValues: ("x" | "y")[] = ["x", "y"];
 const styleValues: ("default" | "dropdown")[] = ["default", "dropdown"];
 const sideValues: `${SideValues}`[] = Object.values(SideValues);
 const alignValues: `${AlignValues}`[] = Object.values(AlignValues);
-
