@@ -43,7 +43,7 @@ async function getCode({ params }: DocsParams): Promise<Content> {
 }
 async function getReUsage({ params }: DocsParams): Promise<string | null> {
   if (!params.docs) return null;
-  return getMdx(`/resource/docs/${params.docs.join("/")}`, "usage");
+  return getMdx(`/resource/docs/${sourceFiles(params.docs)}`, "usage");
 }
 async function getUsage({ params }: DocsParams, replace?: Record<string, string>): Promise<Content> {
   if (!params.docs) return { content: null, extension: null };
@@ -51,14 +51,13 @@ async function getUsage({ params }: DocsParams, replace?: Record<string, string>
 }
 async function getCss({ params }: DocsParams): Promise<Content> {
   if (!params.docs) return { content: null, extension: null };
-  // return getContent(`/modules/${sourceFiles(params.docs)}`, [".css"]);
   return getContent(`/resource/docs/${sourceFiles(params.docs)}`, [".css"], undefined, { lang: "css" });
 }
 async function getSection({ params }: DocsParams, id: string): Promise<string | null> {
   if (!params.docs) return null;
-  // return getMdx(`/resource/docs/${params.docs.join("/")}`, id);
   return getMdx(`/resource/docs/${sourceFiles(params.docs)}`, id);
 }
+
 export default async function Page({ params }: DocsParams) {
   const code = await getCode({ params });
   const ce = code.extension || ".tsx";
