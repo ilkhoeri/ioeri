@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 export function usePWAInstaller() {
-  const [prompt, setPrompt] = useState<any>(null); // TODO: menyesuaikan any dengan event beforeinstallprompt
+  const [prompt, setPrompt] = useState<any>(null);
 
   useEffect(() => {
     const beforeInstallPromptHandler = (event: any) => {

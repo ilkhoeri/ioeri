@@ -1,14 +1,12 @@
-import fs from "fs-extra";
-import process from "node:process";
+import nextPWA from "next-pwa";
+import createMDX from "@next/mdx";
 Object.assign(process.env, { NEXT_TELEMETRY_DISABLED: "1" });
 
 /**
  * @typedef {import('next').NextConfig} NextConfig
  * @typedef {Array<((config: NextConfig) => NextConfig)>} NextConfigPlugins
  */
-import nextPWA from "next-pwa";
 import remarkGfm from "remark-gfm";
-import createMDX from "@next/mdx";
 import rehypePrettyCode from "rehype-pretty-code";
 import rehypeSlug from "rehype-slug";
 
@@ -26,12 +24,14 @@ const withMDX = createMDX({
 /** @type {import('next-pwa').PWAConfig} */
 const withPWA = nextPWA({
   dest: "public",
+  register: true,
+  skipWaiting: true,
   buildExcludes: ["app-build-manifest.json"],
 });
 
 /** @type {import('next').NextConfig} */
 const Config = withMDX({
-  cleanDistDir: true,
+  // cleanDistDir: true,
   // output: "export", // must be exported function "generateStaticParams()", which is required with "output: export" config
   reactStrictMode: true,
   poweredByHeader: false,

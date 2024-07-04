@@ -1,5 +1,12 @@
 import { useEffect, useState } from "react";
-import { OriginState, createRefs, useClickOutside, type OriginType } from "@/resource/docs/hooks";
+import {
+  OriginState,
+  createRefs,
+  useClickOutside,
+  useHasScrollbar,
+  useWidthScrollbar,
+  type OriginType,
+} from "../../hooks";
 import { InitialInfo, RectElement } from "../use-element-info/use-element-info";
 
 export enum AlignValues {
@@ -20,6 +27,7 @@ export type VALDIALOG = {
   open?: boolean;
   setOpen?: (value: boolean) => void;
   clickOutsideToClose?: boolean;
+  modal?: boolean;
 };
 
 export type DIRDIALOG = {
@@ -39,10 +47,11 @@ export function useDialog<T extends HTMLElement = any>(Dialog: UseDialogType<T> 
     side = "bottom",
     align = "center",
     sideOffset = 0,
-    defaultOpen,
+    defaultOpen = false,
     open: externalOpen,
     setOpen: externalSetOpen,
     clickOutsideToClose = false,
+    modal: widthHasScrollbar = false,
   } = Dialog;
 
   const [openState, setOpenState] = useState(defaultOpen);
@@ -51,6 +60,7 @@ export function useDialog<T extends HTMLElement = any>(Dialog: UseDialogType<T> 
 
   const [render, setRender] = useState(open);
   const [initialOpen, setInitialOpen] = useState(false);
+  const [hasScrollbar, scrollbarWidth] = useHasScrollbar();
 
   const refs = createRefs<T, OriginState>(Object.values(OriginState), ref);
 
@@ -78,6 +88,8 @@ export function useDialog<T extends HTMLElement = any>(Dialog: UseDialogType<T> 
       }
     };
   }, [open, setRender]);
+
+  useWidthScrollbar({ open, widthHasScrollbar, hasScrollbar, scrollbarWidth });
 
   useClickOutside(() => clickOutsideToClose && setOpen(false), [refs.trigger, refs.content]);
 

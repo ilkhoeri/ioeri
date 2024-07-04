@@ -3,8 +3,8 @@
   "short_name": "ioeri",
   "description": "The Best Choice",
   "prefer_related_applications": false,
-  "lang": "id-ID",
-  "categories": ["ioeri", "original brand", "store", "web", "application", "apple", "apk"],
+  "lang": "en-US",
+  "categories": ["web", "application"],
   "display": "standalone",
   "display_override": ["window-controls-overlay"],
   "orientation": "portrait-primary",
@@ -83,6 +83,43 @@
       "url": "/?blank=false",
       "description": "ioeri Next App",
       "icons": [{ "src": "/android-icon-96x96.png", "sizes": "96x96" }]
+    }
+  ],
+  "widgets": [
+    {
+      "name": "ioeri PWA",
+      "short_name": "ioeri",
+      "description": "Widget to control the PWA",
+      "tag": "pwa",
+      "screenshots": [
+        {
+          "src": "/assets/images/screenshoot-app.webp",
+          "sizes": "831x576",
+          "label": "The PWA widget"
+        }
+      ],
+      "icons": [
+        {
+          "src": "/android-icon-48x48.png",
+          "sizes": "48x48"
+        },
+        {
+          "src": "/android-icon-96x96.png",
+          "sizes": "96x96"
+        }
+      ],
+      "backgrounds": [
+        {
+          "src": "/assets/images/screenshoot-app.webp",
+          "sizes": "831x576"
+        }
+      ]
+    }
+  ],
+  "protocol_handlers": [
+    {
+      "protocol": "mailto",
+      "url": "/newEmail?to=%s"
     }
   ],
   "edge_side_panel": {
