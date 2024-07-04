@@ -1,5 +1,7 @@
 import { RefObject, useEffect, useState } from "react";
 import { useHasScrollbar, useWidthScrollbar, useHotkeys, createRefs } from "@/resource/docs/hooks";
+import { useClickOutside } from "../use-click-outside/use-click-outside";
+import { InitialInfo, RectElement, useElementInfo } from "../use-element-info/use-element-info";
 
 export enum OriginState {
   Root = "root",
@@ -7,22 +9,40 @@ export enum OriginState {
   Content = "content",
   Overlay = "overlay",
 }
-export type TriggerType = "hover" | "click";
-export type OriginType = `${OriginState}`;
+export enum AlignValues {
+  start = "start",
+  center = "center",
+  end = "end",
+}
+export enum SideValues {
+  top = "top",
+  right = "right",
+  bottom = "bottom",
+  left = "left",
+}
+export enum TriggerValues {
+  hover = "hover",
+  click = "click",
+}
 
 export type UseOpenStateType<T> = {
   defaultOpen?: boolean;
   open?: boolean;
   setOpen?: (value: boolean) => void;
   durationClose?: number;
-  widthHasScrollbar?: boolean;
+  modal?: boolean;
   clickOutsideToClose?: boolean;
-  hotKeys?: "/" | "M" | "ctrl+J" | "ctrl+K" | "alt+mod+shift+X" | (string & {});
-  trigger?: TriggerType;
+  trigger?: `${TriggerValues}`;
   ref?: RefObject<T>;
+  // ref?: React.MutableRefObject<T | null>;
+  info?: Partial<RectElement>;
+  align?: `${AlignValues}`;
+  side?: `${SideValues}`;
+  sideOffset?: number;
+  hotKeys?: "/" | "M" | "ctrl+J" | "ctrl+K" | "alt+mod+shift+X" | (string & {});
 };
 
-export function useOpenState<T>(OpenState: UseOpenStateType<T> = {}) {
+export function useOpenState<T extends HTMLElement = any>(OpenState: UseOpenStateType<T> = {}) {
   const {
     ref,
     defaultOpen = false,
@@ -31,8 +51,11 @@ export function useOpenState<T>(OpenState: UseOpenStateType<T> = {}) {
     hotKeys = "",
     trigger = "click",
     durationClose = 100,
-    widthHasScrollbar = false,
     clickOutsideToClose = false,
+    modal: widthHasScrollbar = false,
+    side = "bottom",
+    align = "center",
+    sideOffset = 0,
   } = OpenState;
 
   const [openState, setOpenState] = useState(defaultOpen);
@@ -43,7 +66,12 @@ export function useOpenState<T>(OpenState: UseOpenStateType<T> = {}) {
   const [initialOpen, setInitialOpen] = useState(false);
   const [hasScrollbar, scrollbarWidth] = useHasScrollbar();
 
-  const refs = createRefs<T, OriginState>(Object.values(OriginState), ref);
+  const refs = createRefs<T, `${OriginState}`>(Object.values(OriginState), ref);
+
+  const bounding = {
+    trigger: useElementInfo<T>(refs?.trigger?.current),
+    content: useElementInfo<T>(refs?.content?.current),
+  };
 
   useHotkeys([[hotKeys, () => setOpen(!open)]]);
 
@@ -81,30 +109,9 @@ export function useOpenState<T>(OpenState: UseOpenStateType<T> = {}) {
     };
   }, [open, durationClose, setRender, clickOutsideToClose]);
 
-  useEffect(() => {
-    const root = refs?.root?.current as HTMLElement;
-    const trigger = refs?.trigger?.current as HTMLElement;
-    const content = refs?.content?.current as HTMLElement;
-    const clickOutsideHandler = (event: MouseEvent) => {
-      if (
-        open &&
-        clickOutsideToClose &&
-        !root?.contains(event.target as Node) &&
-        !trigger?.contains(event.target as Node) &&
-        !content?.contains(event.target as Node)
-      ) {
-        setOpen(false);
-      }
-    };
+  useWidthScrollbar({ open: render, widthHasScrollbar, hasScrollbar, scrollbarWidth, durationClose });
 
-    if (open && clickOutsideToClose) {
-      document.addEventListener("click", clickOutsideHandler);
-    }
-
-    return () => {
-      document.removeEventListener("click", clickOutsideHandler);
-    };
-  }, [open, clickOutsideToClose, setOpen, refs.content, refs.root, refs.trigger]);
+  useClickOutside(() => clickOutsideToClose && setOpen(false), [refs.trigger, refs.content]);
 
   const handleOpen = () => {
     if (trigger === "click") {
@@ -150,9 +157,46 @@ export function useOpenState<T>(OpenState: UseOpenStateType<T> = {}) {
     (e: React.KeyboardEvent<HTMLElement>) => e.key === "Enter" && handleOpen();
   };
 
-  useWidthScrollbar({ open, widthHasScrollbar, hasScrollbar, scrollbarWidth, durationClose });
-
   const dataState = open ? (initialOpen ? "open" : "opened") : "closed";
+
+  const styles = (as: `${OriginState}`): { [key: string]: string } => {
+    const vars: { [key: string]: string } = {};
+    const setVars = (as: `${OriginState}`, info?: RectElement) => {
+      if (info) {
+        vars[`--${as}-h`] = `${info.height}px`;
+        vars[`--${as}-w`] = `${info.width}px`;
+        vars[`--${as}-x`] = `${info.x}px`;
+        vars[`--${as}-y`] = `${info.y}px`;
+        vars[`--${as}-r`] = `${info.right}px`;
+        vars[`--${as}-b`] = `${info.bottom}px`;
+      }
+    };
+    switch (as) {
+      case "root":
+        vars["--offset"] = `${sideOffset}px`;
+        setVars("trigger", bounding.trigger.rect);
+        setVars("content", bounding.content.rect);
+        break;
+      case "trigger":
+        setVars(as, bounding.trigger.rect);
+        break;
+      case "content":
+        vars["--offset"] = `${sideOffset}px`;
+        setVars("trigger", bounding.trigger.rect);
+        setVars("content", bounding.content.rect);
+        break;
+    }
+    return vars;
+  };
+
+  const attrData = (as: `${OriginState}`): { [key: string]: string } => ({
+    "data-state": dataState,
+    "data-side": side,
+    "data-align": align,
+    "data-origin": as,
+  });
+
+  const styleAt = (as: `${OriginState}`) => ({ ...attrData(as), style: { ...styles(as) } });
 
   return {
     refs,
@@ -167,5 +211,11 @@ export function useOpenState<T>(OpenState: UseOpenStateType<T> = {}) {
     onMouseLeave,
     onKeyDown,
     dataState,
+    bounding,
+    styleAt,
+    attrData,
+    styles,
+    side,
+    align,
   };
 }

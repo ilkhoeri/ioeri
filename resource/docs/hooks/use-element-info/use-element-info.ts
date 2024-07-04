@@ -1,10 +1,9 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 export type RectInfo = "x" | "y" | "width" | "height" | "top" | "right" | "bottom" | "left" | "scrollX" | "scrollY";
 export type RectElement = Record<RectInfo, number>;
 export type InitialInfo = { initial?: Partial<RectElement> };
-
-export function useElementInfo<T extends HTMLElement | null>({ initial }: InitialInfo = {}) {
+export function useElementInfo<T extends HTMLElement | null>(element?: T | null, { initial }: InitialInfo = {}) {
   const [rect, setRect] = useState<RectElement>({ ...(initial || {}) } as RectElement);
   const [hovered, setHovered] = useState<DOMRect | null>(null);
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -12,10 +11,13 @@ export function useElementInfo<T extends HTMLElement | null>({ initial }: Initia
   const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
 
   const ref = useRef<T | null>(null);
+  const observerRef = useRef<MutationObserver | null>(null);
+
+  const el = element !== undefined ? element : ref.current;
 
   const updateRectElement = useCallback(() => {
-    if (ref.current) {
-      const rect = ref.current.getBoundingClientRect();
+    if (el) {
+      const rect = el.getBoundingClientRect();
       setRect({
         scrollX: window.scrollX,
         scrollY: window.scrollY,
@@ -29,11 +31,12 @@ export function useElementInfo<T extends HTMLElement | null>({ initial }: Initia
         left: rect.left,
       });
     }
-  }, []);
+  }, [el]);
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrollPosition(ref.current?.scrollTop || 0);
+      const el = element !== undefined ? element : ref.current;
+      setScrollPosition(el?.scrollTop || 0);
       updateRectElement();
     };
 
@@ -47,27 +50,41 @@ export function useElementInfo<T extends HTMLElement | null>({ initial }: Initia
       updateRectElement();
     };
 
+    const observeElement = () => {
+      const el = element !== undefined ? element : ref.current;
+      if (el && !observerRef.current) {
+        observerRef.current = new MutationObserver(() => {
+          updateRectElement();
+        });
+        observerRef.current.observe(el, { attributes: true, childList: true, subtree: true });
+      }
+    };
+
+    const disconnectObserver = () => {
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+        observerRef.current = null;
+      }
+    };
+
     updateRectElement();
     handleResize();
+    observeElement();
 
     window.addEventListener("scroll", handleScrollBody);
     window.addEventListener("resize", handleResize);
-    ref.current?.addEventListener("scroll", handleScroll);
-
-    const resizeObserver = new ResizeObserver(updateRectElement);
-    if (ref.current) {
-      resizeObserver.observe(ref.current);
-    }
+    const el = element !== undefined ? element : ref.current;
+    el?.addEventListener("scroll", handleScroll);
 
     return () => {
       window.removeEventListener("scroll", handleScrollBody);
       window.removeEventListener("resize", handleResize);
-      ref.current?.removeEventListener("scroll", handleScroll);
-      if (ref.current) {
-        resizeObserver.unobserve(ref.current);
+      if (el) {
+        el.removeEventListener("scroll", handleScroll);
+        disconnectObserver();
       }
     };
-  }, [updateRectElement]);
+  }, [element, updateRectElement]);
 
   const onMouseEnter = (event: React.MouseEvent<HTMLElement>) => {
     setHovered(event.currentTarget.getBoundingClientRect());

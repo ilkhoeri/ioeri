@@ -119,9 +119,19 @@ export const Paragraph = React.forwardRef<HTMLElement, ElementType<HTMLElement> 
 );
 Paragraph.displayName = "Paragraph";
 
-export function Portal({ children }: { children: React.ReactNode }) {
+export function Portal({
+  portal = true,
+  children,
+  container,
+  key,
+}: {
+  portal?: boolean;
+  children: React.ReactNode;
+  container: Element | DocumentFragment | null;
+  key?: null | string;
+}) {
   if (typeof document === "undefined") return null;
-  return createPortal(children, document.body);
+  return portal ? createPortal(children, container || document.body, key) : <>{children}</>;
 }
 
 /**

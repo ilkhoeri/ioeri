@@ -5,29 +5,37 @@ Origin folders
   modules
   ├── components
   │   ├── web
-  │   │   ├── collapsible
-  │   │   │   ├── collapsible.tsx
-  │   │   │   ├── collapsible.css
-  │   │   │   ├── collapsible-usage.md
-  │   │   │   └── collapsible-example.tsx
+  │   │   ├── named
+  │   │   │   ├── named.tsx
+  │   │   │   ├── named.css
+  │   │   │   └── named.mdx
   │   │   │
-  │   │   ├── element
-  │   │   │   ├── element.tsx
-  │   │   │   ├── element-usage.md
-  │   │   │   └── element-example.tsx
-  │   │   │
-  │   │   └── others
+  │   │   └── // others...
   │   │
   │   ├── mobile
-  │   │   ├── popover
-  │   │   │   ├── popover.tsx
-  │   │   │   ├── popover.css
-  │   │   │   ├── popover-usage.md
-  │   │   │   └── popover-example.tsx
+  │   │   ├── named
+  │   │   │   ├── named.tsx
+  │   │   │   └── named.mdx
   │   │   │
-  │   │   ├── slider
-  │   │   │   ├── slider.tsx
-  │   │   │   ├── slider-usage.md
-  │   │   │   └── slider-example.tsx
-  │   │   │
+  │   │   └── // others...
+  │   │
+  │   └── // end...
+  │
+  │
+  ├── hooks
+  │   ├── named
+  │   │   ├── named.ts
+  │   │   └── named.mdx
+  │   │
+  │   └── // others...
+  │
+  │
+  ├── utility
+  │   ├── named
+  │   │   ├── named.ts
+  │   │   └── named.mdx
+  │   │
+  │   └── // others...
+  │
+  └── // others...
 ```

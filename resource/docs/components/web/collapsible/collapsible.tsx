@@ -1,8 +1,7 @@
 import * as React from "react";
 
-import { useDialog } from "@/resource/docs/hooks/use-dialog/use-dialog";
-import type * as TYPE from "@/resource/docs/hooks/use-dialog/use-dialog";
-
+import { useOpenState, type UseOpenStateType } from "@/resource/docs/hooks/use-open-state/use-open-state";
+import { InferTypes } from "@/modules/utility/cvx/cvx";
 import { twMerge } from "tailwind-merge";
 
 import "./collapsible.css";
@@ -10,7 +9,7 @@ import "./collapsible.css";
 interface CSSProperties extends React.CSSProperties {
   [key: string]: any;
 }
-interface ProviderProps<T> extends TYPE.UseDialogType<T> {
+interface ProviderProps<T> extends UseOpenStateType<T> {
   children: React.ReactNode;
 }
 type StylesType = {
@@ -18,14 +17,7 @@ type StylesType = {
   style?: CSSProperties;
   className?: string;
 };
-type OriginType = "overlay" | "content" | "root" | "trigger";
-export interface DialogContextProps<T> extends TYPE.UseDialogType<T> {
-  refs: Partial<Record<OriginType, React.MutableRefObject<T | null>>>;
-  render?: boolean;
-  setOpen: (value: boolean) => void;
-  attrData: (as: OriginType) => { [key: string]: string };
-  styles: (as: OriginType) => { [key: string]: string };
-}
+export type DialogContextProps<T> = UseOpenStateType<T> & InferTypes<typeof useOpenState>;
 const CollapsibleContext = React.createContext<DialogContextProps<HTMLElement> | undefined>(undefined);
 
 export function useCollapsibleContext<T>(ref: React.ForwardedRef<T>) {
@@ -37,13 +29,13 @@ export function useCollapsibleContext<T>(ref: React.ForwardedRef<T>) {
 }
 
 export function CollapsibleProvider<T extends HTMLElement>({ children, ref, ...props }: ProviderProps<T>) {
-  const state = useDialog<T>({ ref, ...props });
+  const state = useOpenState<T>({ ref, ...props });
   return <CollapsibleContext.Provider value={state}>{children}</CollapsibleContext.Provider>;
 }
 
 const Collapsible = React.forwardRef<
   React.ElementRef<"div">,
-  React.ComponentPropsWithoutRef<"div"> & TYPE.VALDIALOG & TYPE.DIRDIALOG
+  React.ComponentPropsWithoutRef<"div"> & UseOpenStateType<HTMLDivElement>
 >(({ side, align, sideOffset, open, setOpen, clickOutsideToClose, defaultOpen, ...props }, ref) => {
   const rest = { side, align, sideOffset, open, setOpen, clickOutsideToClose, defaultOpen };
   return (
