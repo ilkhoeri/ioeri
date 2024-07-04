@@ -136,7 +136,7 @@ export function PageHome() {
             </svg>
 
             <h2 className="mt-4 mb-2 text-h6 font-bold text-color">
-              A community of web and mobile applications developers based on React.js
+              Developer of web and mobile applications based on the React.js library
             </h2>
             <p className="text-muted-foreground text-xs md:text-sm 2xl:text-base">
               Crafting and share relevant functionals, styles, and hooks recommendations for react.js applications.

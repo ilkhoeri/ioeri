@@ -23,4 +23,3 @@ const Element = <T extends React.ElementType = "div">(
 export default React.forwardRef(Element) as <T extends React.ElementType = "div">(
   props: PolymorphicWithoutRef<T> & { ref?: PolymorphicRef<T> },
 ) => React.ReactElement | null;
-

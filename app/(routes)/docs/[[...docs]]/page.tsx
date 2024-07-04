@@ -116,8 +116,14 @@ export default async function Page({ params }: DocsParams) {
 
   return (
     <Container>
-      <div id={sanitizedToParams(retitled(params.docs))}>
-        <Title size="h1" variant="segment" title={title || retitled(params.docs)} className="mt-0 mb-12" />
+      <div>
+        <Title
+          size="h1"
+          variant="segment"
+          title={title || retitled(params.docs)}
+          id={sanitizedToParams(retitled(params.docs))}
+          className="mt-0 mb-12"
+        />
         <APIReference setInnerHTML={await highlightCode(reference)} />
         <Customizer setInnerHTML={await highlightCode(consideration)} />
       </div>

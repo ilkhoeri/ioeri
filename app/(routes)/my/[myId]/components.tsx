@@ -12,7 +12,7 @@ import { Confetti, StyleObject, getRandomColor, getTimeAgo } from "@/resource/do
 import type { Address, Blog, Socmed, User, UserProps } from "../types";
 
 import style from "./user.module.css";
-import { AnimationTextSpiral } from "@/resource/docs/components/web";
+import { DoubleHelixWords } from "@/resource/docs/components/web";
 
 interface LengthDatasProps {
   blog: Blog[] | null;
@@ -126,7 +126,7 @@ export function UserPageHeader({ user }: { user: User }) {
   const pict = { style: { backgroundImage: `url("/images/pattern-prisma.svg")` } };
   return (
     <section suppressHydrationWarning {...header}>
-      <AnimationTextSpiral placeholders={user.name} />
+      <DoubleHelixWords placeholders={user.name} />
 
       <figure>
         <picture {...pict} />

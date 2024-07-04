@@ -54,22 +54,16 @@ export const ChildWrapper = ({ children }: { children: React.ReactNode }) => {
   }, [resetIds]);
 
   useEffect(() => {
-    collectIds(
-      children,
-      addIds,
-      ids.map((idDepth) => idDepth.id),
-    );
-  }, [children, addIds, ids]);
-
-  useEffect(() => {
     const elements = document.querySelectorAll("[id]");
+    const newIds: IdDepth[] = [];
     elements.forEach((element) => {
       const depth = getDepth(element); // Calculate the depth
-      if (element.id && !ids.some((idDepth) => idDepth.id === element.id)) {
-        addIds({ id: element.id, depth });
+      if (element.id && !newIds.some((idDepth) => idDepth.id === element.id)) {
+        newIds.push({ id: element.id, depth });
       }
     });
-  }, [children, ids, addIds]);
+    newIds.forEach((idDepth) => addIds(idDepth));
+  }, [children, addIds]);
 
   return <>{children}</>;
 };

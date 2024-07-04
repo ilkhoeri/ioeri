@@ -12,7 +12,7 @@ import { nextValue } from "@/library/utils";
 export const classes = cvx({
   variants: {
     as: {
-      wrapper: "absolute top-4 left-4 flex flex-col items-start gap-4 [&_span]:font-mono [&_span]:text-nowrap",
+      wrapper: "absolute top-4 left-4 flex flex-col items-start gap-x-4 gap-y-2 [&_span]:font-mono [&_span]:text-nowrap",
       wrapp: "flex flex-row items-center gap-4 w-full",
       button: "justify-start w-max rounded-md border px-2 py-1 text-sm bg-background cursor-pointer",
       nameprops: "text-muted-foreground",
@@ -66,10 +66,12 @@ SetProps.Radio.displayName = "Radio";
 SetProps.Text.displayName = "Text";
 SetProps.Nameprops.displayName = "Nameprops";
 
-export function SetPropsText(X: InferTypes<typeof useSetProps>) {
+export function SetPropsText(X: { str: string; setStr: (v: string) => void }) {
   const { str, setStr } = X;
   return (
-    <SetProps.Text id="text" name="text" title="input text" value={str} onChange={(e) => setStr(e.target.value)} />
+    <SetProps.Wrapp>
+      <SetProps.Text id="text" name="text" title="input text" value={str} onChange={(e) => setStr(e.target.value)} />
+    </SetProps.Wrapp>
   );
 }
 

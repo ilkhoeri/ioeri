@@ -1,4 +1,4 @@
-import "./animation-text-spiral.css";
+import "./double-helix-words.css";
 
 import * as React from "react";
 import { cnx } from "@/resource/docs/utility";
@@ -7,11 +7,14 @@ type NestedRecord<U extends [string, unknown], T extends string> = {
   [K in U as K[0]]?: Partial<Record<T, K[1]>>;
 };
 type CSSProperties = React.CSSProperties & { [key: string]: any };
-type T = "root" | "wrapper" | "inner";
+type T = "root" | "backbone" | "bases";
 type U = ["el", React.ElementType] | ["styles", CSSProperties] | ["classNames", string];
 
-export type AnimatedSpiralWordsType = {
+export type DoubleHelixWordsType = {
   placeholders: string | string[];
+  gap?: number;
+  distance?: number;
+  speed?: number;
   duration?: number;
   style?: CSSProperties;
   el?: Partial<Record<T, React.ElementType>>;
@@ -20,7 +23,7 @@ export type AnimatedSpiralWordsType = {
     style?: CSSProperties;
   };
 
-export function useAnimatedSpiralWords({ el, placeholders, duration = 4000 }: AnimatedSpiralWordsType) {
+export function useDoubleHelixWords({ el, placeholders, duration = 4000 }: DoubleHelixWordsType) {
   const words = Array.isArray(placeholders) ? placeholders.join(" ") : placeholders || "";
 
   const refFirst = React.useRef<HTMLElement>(null);
@@ -33,7 +36,7 @@ export function useAnimatedSpiralWords({ el, placeholders, duration = 4000 }: An
 
     const elements = words.split("").map((char, i) => {
       function createElement(offset: number) {
-        const inner = document.createElement((el?.inner as string) || "span");
+        const inner = document.createElement((el?.bases as string) || "span");
         inner.innerText = char;
         inner.style.animationDelay = `-${i * (duration / 16) - offset}ms`;
         return inner;
@@ -53,51 +56,60 @@ export function useAnimatedSpiralWords({ el, placeholders, duration = 4000 }: An
         lastRef.removeChild(lastWrap);
       });
     };
-  }, [el?.inner, duration, words]);
+  }, [el?.bases, duration, words]);
 
   return { refFirst, refLast };
 }
 
-export const AnimationTextSpiral = React.forwardRef<HTMLElement, AnimatedSpiralWordsType>((_props, ref) => {
+export const DoubleHelixWords = React.forwardRef<HTMLElement, DoubleHelixWordsType>((_props, ref) => {
   const {
-    el = { root: "article", wrapper: "section", inner: "span" },
+    el = { root: "article", backbone: "section", bases: "span" },
     placeholders,
     duration,
     className,
     classNames,
     style,
     styles,
+    gap = 6,
+    distance = 100,
+    speed = 4,
     suppressHydrationWarning = true,
     ...others
   } = _props;
 
-  const { refFirst, refLast } = useAnimatedSpiralWords({ el, placeholders, duration });
+  const { refFirst, refLast } = useDoubleHelixWords({ el, placeholders, duration });
 
   const Root: React.ElementType = el.root as React.ElementType;
-  const Wrapper: React.ElementType = el.wrapper as React.ElementType;
+  const Backbone: React.ElementType = el.backbone as React.ElementType;
+
+  const vars: { [key: string]: string } = {
+    "--gap": `${Math.max(0, Math.min(100, gap))}px`,
+    "--distance": `${Math.max(0, Math.min(100, distance))}px`,
+    "--speed": `${Math.max(2, Math.min(52, speed)) * 1000}ms`,
+  };
 
   return (
     <Root
       ref={ref}
       suppressHydrationWarning={suppressHydrationWarning}
-      data-anim="text-spiral"
+      data-anim="DoubleHelix"
       className={cnx(className, classNames?.root)}
-      style={{ ...style, ...styles?.root }}
+      style={{ ...vars, ...style, ...styles?.root }}
       {...others}
     >
-      <Wrapper
+      <Backbone
         ref={refFirst}
         suppressHydrationWarning={suppressHydrationWarning}
-        className={classNames?.wrapper}
-        style={styles?.wrapper}
+        className={classNames?.backbone}
+        style={styles?.backbone}
       />
-      <Wrapper
+      <Backbone
         ref={refLast}
         suppressHydrationWarning={suppressHydrationWarning}
-        className={classNames?.wrapper}
-        style={styles?.wrapper}
+        className={classNames?.backbone}
+        style={styles?.backbone}
       />
     </Root>
   );
 });
-AnimationTextSpiral.displayName = "AnimationTextSpiral";
+DoubleHelixWords.displayName = "DoubleHelixWords";

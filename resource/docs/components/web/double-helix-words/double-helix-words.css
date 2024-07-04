@@ -1,4 +1,4 @@
-[data-anim="text-spiral"] {
+[data-anim="DoubleHelix"] {
   & > * {
     height: 100%;
     width: 100%;
@@ -6,13 +6,13 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: 6px;
+    gap: var(--gap, 8px);
     position: absolute;
     user-select: none;
 
     & * {
-      transform: translateY(calc(sin(var(--angle)) * 100px)) scale(calc(cos(var(--angle)) * 0.5 + 0.5));
-      animation: spiral 4s linear infinite;
+      transform: translateY(calc(sin(var(--angle)) * var(--distance, 100px))) scale(calc(cos(var(--angle)) * 0.5 + 0.5));
+      animation: spiral var(--speed, 4s) linear infinite;
       user-select: none;
     }
   }
