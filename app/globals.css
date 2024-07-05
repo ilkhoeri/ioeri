@@ -72,12 +72,6 @@
   --mischka: 215deg 21% 83%;
   --geyser: 215deg 19% 85%;
 }
-:root * * {
-  --state: var(--light);
-}
-html[class="dark"]:root * * {
-  --state: var(--dark);
-}
 :root {
   --border: 0deg 0% 92%;
   --color: var(--pure-black);
@@ -144,6 +138,13 @@ html[class="dark"]:root {
   --ff-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
     "Noto Color Emoji";
   --ff-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+}
+
+:root * * {
+  --state: var(--light);
+}
+html[class="dark"]:root * * {
+  --state: var(--dark);
 }
 
 * {

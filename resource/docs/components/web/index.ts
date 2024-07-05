@@ -1,6 +1,8 @@
 export * from "./collapsible";
 export * from "./confetti";
+export * from "./dialog";
 export * from "./scroll-area";
+export * from "./tooltip";
 export * from "./double-helix-words";
 
 export * from "../../icons";

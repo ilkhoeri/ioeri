@@ -29,8 +29,7 @@ export function Demo() {
       <div // prettier-ignore
         className="absolute size-full rounded-lg inset-0 min-h-full min-w-full flex items-center justify-center" // prettier-ignore
         style={{ backgroundColor: color }} // prettier-ignore
-      />{" "}
-      {/* prettier-ignore */}
+      /> {/* prettier-ignore */}
     </div>
   );
 }

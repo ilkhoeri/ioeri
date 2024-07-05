@@ -3,6 +3,11 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react
 export type RectInfo = "x" | "y" | "width" | "height" | "top" | "right" | "bottom" | "left" | "scrollX" | "scrollY";
 export type RectElement = Record<RectInfo, number>;
 export type InitialInfo = { initial?: Partial<RectElement> };
+
+function round(num: number) {
+  return Math.round(num * 100) / 100;
+}
+
 export function useElementInfo<T extends HTMLElement | null>(element?: T | null, { initial }: InitialInfo = {}) {
   const [rect, setRect] = useState<RectElement>({ ...(initial || {}) } as RectElement);
   const [hovered, setHovered] = useState<DOMRect | null>(null);
@@ -11,25 +16,28 @@ export function useElementInfo<T extends HTMLElement | null>(element?: T | null,
   const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
 
   const ref = useRef<T | null>(null);
-  const observerRef = useRef<MutationObserver | null>(null);
+  const resizeObserverRef = useRef<ResizeObserver | null>(null);
+  const mutationObserverRef = useRef<MutationObserver | null>(null);
 
   const el = element !== undefined ? element : ref.current;
 
   const updateRectElement = useCallback(() => {
     if (el) {
       const rect = el.getBoundingClientRect();
-      setRect({
-        scrollX: window.scrollX,
-        scrollY: window.scrollY,
-        x: rect.left + window.scrollX,
-        y: rect.top + window.scrollY,
-        width: rect.width,
-        height: rect.height,
-        top: rect.top,
-        bottom: rect.bottom,
-        right: rect.right,
-        left: rect.left,
-      });
+      if (rect.width !== 0 && rect.height !== 0) {
+        setRect({
+          scrollX: round(window.scrollX),
+          scrollY: round(window.scrollY),
+          x: round(rect.left + window.scrollX),
+          y: round(rect.top + window.scrollY),
+          width: round(rect.width),
+          height: round(rect.height),
+          top: round(rect.top),
+          bottom: round(rect.bottom),
+          right: round(rect.right),
+          left: round(rect.left),
+        });
+      }
     }
   }, [el]);
 
@@ -37,37 +45,48 @@ export function useElementInfo<T extends HTMLElement | null>(element?: T | null,
     const handleScroll = () => {
       const el = element !== undefined ? element : ref.current;
       setScrollPosition(el?.scrollTop || 0);
-      updateRectElement();
+      requestAnimationFrame(updateRectElement);
     };
 
     const handleScrollBody = () => {
       setScrollBody(document.documentElement.scrollTop);
-      updateRectElement();
+      requestAnimationFrame(updateRectElement);
     };
 
     const handleResize = () => {
       setWindowSize({ width: window.innerWidth, height: window.innerHeight });
-      updateRectElement();
+      requestAnimationFrame(updateRectElement);
     };
 
     const observeElement = () => {
       const el = element !== undefined ? element : ref.current;
-      if (el && !observerRef.current) {
-        observerRef.current = new MutationObserver(() => {
-          updateRectElement();
-        });
-        observerRef.current.observe(el, { attributes: true, childList: true, subtree: true });
+      if (el) {
+        if (!resizeObserverRef.current) {
+          resizeObserverRef.current = new ResizeObserver(updateRectElement);
+        }
+        if (!mutationObserverRef.current) {
+          mutationObserverRef.current = new MutationObserver(() => {
+            requestAnimationFrame(updateRectElement);
+          });
+        }
+
+        resizeObserverRef.current.observe(el);
+        mutationObserverRef.current.observe(el, { attributes: true, childList: true, subtree: true });
       }
     };
 
-    const disconnectObserver = () => {
-      if (observerRef.current) {
-        observerRef.current.disconnect();
-        observerRef.current = null;
+    const disconnectObservers = () => {
+      if (resizeObserverRef.current) {
+        resizeObserverRef.current.disconnect();
+        resizeObserverRef.current = null;
+      }
+      if (mutationObserverRef.current) {
+        mutationObserverRef.current.disconnect();
+        mutationObserverRef.current = null;
       }
     };
 
-    updateRectElement();
+    requestAnimationFrame(updateRectElement);
     handleResize();
     observeElement();
 
@@ -81,7 +100,7 @@ export function useElementInfo<T extends HTMLElement | null>(element?: T | null,
       window.removeEventListener("resize", handleResize);
       if (el) {
         el.removeEventListener("scroll", handleScroll);
-        disconnectObserver();
+        disconnectObservers();
       }
     };
   }, [element, updateRectElement]);

@@ -131,7 +131,7 @@ export function Portal({
   key?: null | string;
 }) {
   if (typeof document === "undefined") return null;
-  return portal ? createPortal(children, container || document.body, key) : <>{children}</>;
+  return portal ? createPortal(children, container || document.body, key) : children;
 }
 
 /**

@@ -1,26 +1,31 @@
+// @ts-nocheck // prettier-ignore
 "use client";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/modules/components/web";
-import { cvx } from "@/resource/docs/utility";
-import { SetPropsCollapsible, useSetProps } from "../../__set_props";
+import { cvx } from "@/modules/utility";
+import { SetProps, SetPropsBoolean, SetPropsRadio, SetPropsSideAlign, useSetProps } from "../../__set_props";
 
 export function Demo() {
-  const { bool: clickOutsideToClose, numb: offset, side, align, ...props } = useSetProps({ Numb: 16 });
+  const { boo: clickOutsideToClose, str: style, numb: offset, side, align, ...props } = useSetProps({ Numb: 0, Str: "default" });
   return (
     <div>
       <Collapsible align={align} side={side} sideOffset={offset} clickOutsideToClose={clickOutsideToClose}>
-        <CollapsibleTrigger className={classes({ trigger: props.style })}>
+        <CollapsibleTrigger className={classes({ trigger: style })}>
           <span className="sr-only">Trigger</span>
         </CollapsibleTrigger>
 
-        <CollapsibleContent className={classes({ content: props.style })}>
+        <CollapsibleContent className={classes({ content: style })}>
           {[...Array(30)].map((_, index) => (
-            <p key={index} className={classes({ child: props.style })}>
+            <p key={index} className={classes({ child: style })}>
               Lorem ipsum...
             </p>
           ))}
         </CollapsibleContent>
       </Collapsible>
-      <SetPropsCollapsible numb={offset} side={side} align={align} bool={clickOutsideToClose} {...props} />
+      <SetProps.Wrapper>
+        <SetPropsSideAlign numb={offset} side={side} align={align} str={style} boo={clickOutsideToClose} {...props} />
+        <SetPropsBoolean label="clickOutsideToClose" boo={clickOutsideToClose} setBoo={props.setBoo} />
+        <SetPropsRadio label="variants" values={["default", "dropdown"]} str={style} setStr={props.setStr} />
+      </SetProps.Wrapper>
     </div>
   );
 }

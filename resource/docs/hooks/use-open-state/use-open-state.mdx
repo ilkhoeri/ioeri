@@ -45,20 +45,20 @@ function MyComponent() {
 
 ```js showLineNumbers{number}
 function MyComponent() {
-  const {render, handleOpen, handleClose, dataState} = useOpenState({ defaultOpen: true });
+  const {render, handleOpen, handleClose, state} = useOpenState({ defaultOpen: true });
 
   return (
     <>
       <button
         type="button"
-        data-state={dataState}
+        data-state={state}
         onClick={handleOpen}
       >
         Tooltip
       </button>
 
       {render && (
-        <div data-state={dataState}>
+        <div data-state={state}>
           <button type="button" onClick={handleClose}>Close</button>
           <span>Content</span>
         </div>

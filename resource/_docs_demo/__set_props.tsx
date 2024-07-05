@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { AlignValues, SideValues } from "@/resource/docs";
+import { DataAlign, DataSide } from "@/resource/docs";
 import { PolymorphicWithoutRef } from "@/library/components/element";
 import { InferTypes, cvx } from "@/resource/docs/utility";
 
@@ -12,10 +12,11 @@ import { nextValue } from "@/library/utils";
 export const classes = cvx({
   variants: {
     as: {
-      wrapper: "absolute top-4 left-4 flex flex-col items-start gap-x-4 gap-y-2 [&_span]:font-mono [&_span]:text-nowrap",
+      wrapper:
+        "absolute top-4 left-4 flex flex-col items-start gap-x-4 gap-y-2 [&_span]:font-mono [&_span]:text-nowrap",
       wrapp: "flex flex-row items-center gap-4 w-full",
       button: "justify-start w-max rounded-md border px-2 py-1 text-sm bg-background cursor-pointer",
-      nameprops: "text-muted-foreground",
+      nameprops: "text-muted-foreground italic",
       labelOnly:
         "absolute top-4 left-4 text-h1 font-extrabold opacity-20 hover:opacity-100 z-9 cursor-pointer select-none",
     },
@@ -66,6 +67,18 @@ SetProps.Radio.displayName = "Radio";
 SetProps.Text.displayName = "Text";
 SetProps.Nameprops.displayName = "Nameprops";
 
+export function SetPropsBoolean(X: { label: string; boo: boolean; setBoo: (v: boolean) => void }) {
+  const { label, boo, setBoo } = X;
+  return (
+    <SetProps.Wrapp>
+      <SetProps.Button onClick={() => setBoo(!boo)}>
+        <SetProps.Nameprops>{label}=</SetProps.Nameprops>
+        &#123;<span className="italic">{boo ? "true" : "false"}</span>&#125;
+      </SetProps.Button>
+    </SetProps.Wrapp>
+  );
+}
+
 export function SetPropsText(X: { str: string; setStr: (v: string) => void }) {
   const { str, setStr } = X;
   return (
@@ -80,7 +93,8 @@ export function SetPropsRange(X: { setNumb: (e: number) => void } & PolymorphicW
   return (
     <SetProps.Wrapp>
       <label htmlFor={title} className={classes({ as: "button", size: "36" })}>
-        {title}=&#123;{value}&#125;
+        <SetProps.Nameprops>{title}=</SetProps.Nameprops>
+        <span>&#123;{value}&#125;</span>
       </label>
       <SetProps.Range
         name={title}
@@ -163,13 +177,14 @@ export function SetPropsSvg(X: InferTypes<typeof useSetProps>) {
   );
 }
 
-export function SetPropsCollapsible(X: InferTypes<typeof useSetProps>) {
-  const { side, align, numb, setNumb, bool, setBool, style, setAlign, setSide, setStyle } = X;
+export function SetPropsSideAlign(X: InferTypes<typeof useSetProps>) {
+  const { side, align, numb, setNumb, setAlign, setSide } = X;
   return (
-    <SetProps.Wrapper>
+    <>
       <SetProps.Wrapp>
         <label htmlFor="setSideOffset" className={classes({ as: "button", size: "36" })}>
-          sideOffset=&#123;{numb}&#125;
+          <SetProps.Nameprops>sideOffset=</SetProps.Nameprops>
+          <span>&#123;{numb}&#125;</span>
         </label>
 
         <input
@@ -186,59 +201,49 @@ export function SetPropsCollapsible(X: InferTypes<typeof useSetProps>) {
       </SetProps.Wrapp>
 
       <SetProps.Wrapp>
-        <SetProps.Button onClick={() => setSide(nextValue(side, sideValues))}>
-          <SetProps.Nameprops>side:</SetProps.Nameprops> <span>&quot;{side}&quot;</span>
+        <SetProps.Button onClick={() => setSide(nextValue(side, dataSide))}>
+          <SetProps.Nameprops>side=</SetProps.Nameprops>
+          <span>&quot;{side}&quot;</span>
         </SetProps.Button>
 
-        <SetProps.Button onClick={() => setAlign(nextValue(align, alignValues))}>
-          <SetProps.Nameprops>align=</SetProps.Nameprops> <span>&quot;{align}&quot;</span>
+        <SetProps.Button onClick={() => setAlign(nextValue(align, dataAlign))}>
+          <SetProps.Nameprops>align=</SetProps.Nameprops>
+          <span>&quot;{align}&quot;</span>
         </SetProps.Button>
       </SetProps.Wrapp>
-
-      <SetProps.Button onClick={() => setStyle(nextValue(style, styleValues))}>
-        <SetProps.Nameprops>classes</SetProps.Nameprops>
-        <span>(&#123;&nbsp;content:&quot;{style}&quot;&nbsp;&#125;)</span>
-      </SetProps.Button>
-
-      <SetProps.Button onClick={() => setBool(!bool)}>
-        <SetProps.Nameprops>clickOutsideToClose=</SetProps.Nameprops>
-        &#123;<span className="italic">{bool ? "true" : "false"}</span>&#125;
-      </SetProps.Button>
-    </SetProps.Wrapper>
+    </>
   );
 }
 
 export function useSetProps({
   Numb = 0,
   Str = "",
-  Bool = false,
-}: { Numb?: number; Str?: string; Bool?: boolean } = {}) {
-  const [side, setSide] = React.useState<`${SideValues}`>("bottom");
-  const [align, setAlign] = React.useState<`${AlignValues}`>("center");
-  const [style, setStyle] = React.useState<"default" | "dropdown">("dropdown");
-  // ...fixshared
+  Boo = false,
+  Align = "center",
+  Side = "bottom",
+}: { Numb?: number; Str?: string; Boo?: boolean; Align?: `${DataAlign}`; Side?: `${DataSide}` } = {}) {
+  const [align, setAlign] = React.useState<`${DataAlign}`>(Align);
+  const [side, setSide] = React.useState<`${DataSide}`>(Side);
   const [numb, setNumb] = React.useState<number>(Numb);
   const [str, setStr] = React.useState<string>(Str);
-  const [bool, setBool] = React.useState<boolean>(Bool);
+  const [boo, setBoo] = React.useState<boolean>(Boo);
 
   return {
     numb,
     setNumb,
     str,
     setStr,
-    bool,
-    setBool,
+    boo,
+    setBoo,
     side,
     setSide,
     align,
     setAlign,
-    style,
-    setStyle,
   };
 }
 
 type PositionValue = React.CSSProperties["position"] | (string & NonNullable<unknown>);
 const pointValues: ("x" | "y")[] = ["x", "y"];
 const styleValues: ("default" | "dropdown")[] = ["default", "dropdown"];
-const sideValues: `${SideValues}`[] = Object.values(SideValues);
-const alignValues: `${AlignValues}`[] = Object.values(AlignValues);
+const dataSide: `${DataSide}`[] = Object.values(DataSide);
+const dataAlign: `${DataAlign}`[] = Object.values(DataAlign);

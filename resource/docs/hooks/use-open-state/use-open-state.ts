@@ -1,26 +1,32 @@
+import { createPortal } from "react-dom";
 import { RefObject, useEffect, useState } from "react";
 import { useHasScrollbar, useWidthScrollbar, useHotkeys, createRefs } from "@/resource/docs/hooks";
 import { useClickOutside } from "../use-click-outside/use-click-outside";
-import { InitialInfo, RectElement, useElementInfo } from "../use-element-info/use-element-info";
+import { RectElement, useElementInfo } from "../use-element-info/use-element-info";
 
-export enum OriginState {
+export enum DataOrigin {
   Root = "root",
   Trigger = "trigger",
   Content = "content",
   Overlay = "overlay",
 }
-export enum AlignValues {
+export enum DataAlign {
   start = "start",
   center = "center",
   end = "end",
 }
-export enum SideValues {
+export enum DataSide {
   top = "top",
   right = "right",
   bottom = "bottom",
   left = "left",
 }
-export enum TriggerValues {
+export enum DataState {
+  open = "open",
+  opened = "opened",
+  closed = "closed",
+}
+export enum DataTrigger {
   hover = "hover",
   click = "click",
 }
@@ -32,14 +38,14 @@ export type UseOpenStateType<T> = {
   durationClose?: number;
   modal?: boolean;
   clickOutsideToClose?: boolean;
-  trigger?: `${TriggerValues}`;
+  trigger?: `${DataTrigger}`;
   ref?: RefObject<T>;
-  // ref?: React.MutableRefObject<T | null>;
   info?: Partial<RectElement>;
-  align?: `${AlignValues}`;
-  side?: `${SideValues}`;
+  align?: `${DataAlign}`;
+  side?: `${DataSide}`;
   sideOffset?: number;
   hotKeys?: "/" | "M" | "ctrl+J" | "ctrl+K" | "alt+mod+shift+X" | (string & {});
+  base?: boolean;
 };
 
 export function useOpenState<T extends HTMLElement = any>(OpenState: UseOpenStateType<T> = {}) {
@@ -56,24 +62,22 @@ export function useOpenState<T extends HTMLElement = any>(OpenState: UseOpenStat
     side = "bottom",
     align = "center",
     sideOffset = 0,
+    base = false,
   } = OpenState;
 
   const [openState, setOpenState] = useState(defaultOpen);
   const open = externalOpen !== undefined ? externalOpen : openState;
   const setOpen = externalSetOpen !== undefined ? externalSetOpen : setOpenState;
-
-  const [render, setRender] = useState(open);
   const [initialOpen, setInitialOpen] = useState(false);
+  const [render, setRender] = useState(open);
   const [hasScrollbar, scrollbarWidth] = useHasScrollbar();
 
-  const refs = createRefs<T, `${OriginState}`>(Object.values(OriginState), ref);
+  const refs = createRefs<T, `${DataOrigin}`>(Object.values(DataOrigin), ref);
 
   const bounding = {
     trigger: useElementInfo<T>(refs?.trigger?.current),
     content: useElementInfo<T>(refs?.content?.current),
   };
-
-  useHotkeys([[hotKeys, () => setOpen(!open)]]);
 
   useEffect(() => {
     if (open !== defaultOpen) {
@@ -108,6 +112,8 @@ export function useOpenState<T extends HTMLElement = any>(OpenState: UseOpenStat
       }
     };
   }, [open, durationClose, setRender, clickOutsideToClose]);
+
+  useHotkeys([[hotKeys, () => setOpen(!open)]]);
 
   useWidthScrollbar({ open: render, widthHasScrollbar, hasScrollbar, scrollbarWidth, durationClose });
 
@@ -157,52 +163,22 @@ export function useOpenState<T extends HTMLElement = any>(OpenState: UseOpenStat
     (e: React.KeyboardEvent<HTMLElement>) => e.key === "Enter" && handleOpen();
   };
 
-  const dataState = open ? (initialOpen ? "open" : "opened") : "closed";
+  const state = open ? (initialOpen ? "open" : "opened") : "closed";
 
-  const styles = (as: `${OriginState}`): { [key: string]: string } => {
-    const vars: { [key: string]: string } = {};
-    const setVars = (as: `${OriginState}`, info?: RectElement) => {
-      if (info) {
-        vars[`--${as}-h`] = `${info.height}px`;
-        vars[`--${as}-w`] = `${info.width}px`;
-        vars[`--${as}-x`] = `${info.x}px`;
-        vars[`--${as}-y`] = `${info.y}px`;
-        vars[`--${as}-r`] = `${info.right}px`;
-        vars[`--${as}-b`] = `${info.bottom}px`;
-      }
-    };
-    switch (as) {
-      case "root":
-        vars["--offset"] = `${sideOffset}px`;
-        setVars("trigger", bounding.trigger.rect);
-        setVars("content", bounding.content.rect);
-        break;
-      case "trigger":
-        setVars(as, bounding.trigger.rect);
-        break;
-      case "content":
-        vars["--offset"] = `${sideOffset}px`;
-        setVars("trigger", bounding.trigger.rect);
-        setVars("content", bounding.content.rect);
-        break;
-    }
-    return vars;
-  };
-
-  const attrData = (as: `${OriginState}`): { [key: string]: string } => ({
-    "data-state": dataState,
-    "data-side": side,
-    "data-align": align,
-    "data-origin": as,
+  const styleAt = (as: `${DataOrigin}`, { style }: { style?: React.CSSProperties & { [key: string]: any } } = {}) => ({
+    ...getAttributes(as, state, align, side, base),
+    style: {
+      ...style,
+      ...styles(as, sideOffset, bounding.trigger.rect, bounding.content.rect),
+    },
   });
-
-  const styleAt = (as: `${OriginState}`) => ({ ...attrData(as), style: { ...styles(as) } });
 
   return {
     refs,
     render,
     open,
     setOpen,
+    Portal,
     onHandle,
     handleBack,
     handleOpen,
@@ -210,12 +186,80 @@ export function useOpenState<T extends HTMLElement = any>(OpenState: UseOpenStat
     onMouseEnter,
     onMouseLeave,
     onKeyDown,
-    dataState,
+    state,
     bounding,
     styleAt,
-    attrData,
     styles,
     side,
     align,
   };
 }
+
+function Portal({
+  portal = true,
+  children,
+  container,
+  key,
+}: {
+  portal?: boolean;
+  children: React.ReactNode;
+  container: Element | DocumentFragment | null;
+  key?: null | string;
+}) {
+  if (typeof document === "undefined") return null;
+  return portal ? createPortal(children, container || document.body, key) : children;
+}
+
+const getAttributes = (
+  origin: `${DataOrigin}`,
+  state: `${DataState}`,
+  align?: `${DataAlign}`,
+  side?: `${DataSide}`,
+  base: boolean = false,
+): { [key: string]: string } => {
+  const attrs: { [key: string]: string } = {
+    "data-origin": origin,
+    "data-state": state,
+  };
+  if (!base) {
+    if (align) attrs["data-align"] = align;
+    if (side) attrs["data-side"] = side;
+  }
+  return attrs;
+};
+
+const setVars = (as: `${DataOrigin}`, vars: { [key: string]: string }, info?: RectElement) => {
+  if (info) {
+    const properties = ["height", "width", "x", "y", "right", "bottom"] as const;
+    properties.forEach((key) => {
+      if (info[key] !== undefined) {
+        vars[`--${as}-${key[0]}`] = `${info[key]}px`;
+      }
+    });
+  }
+};
+
+const styles = (
+  as: `${DataOrigin}`,
+  sideOffset: number,
+  triggerRect: RectElement,
+  contentRect: RectElement,
+): { [key: string]: string } => {
+  const vars: { [key: string]: string } = {};
+  switch (as) {
+    case "root":
+      vars["--offset"] = `${sideOffset}px`;
+      setVars("trigger", vars, triggerRect);
+      setVars("content", vars, contentRect);
+      break;
+    case "trigger":
+      setVars(as, vars, triggerRect);
+      break;
+    case "content":
+      vars["--offset"] = `${sideOffset}px`;
+      setVars("trigger", vars, triggerRect);
+      setVars("content", vars, contentRect);
+      break;
+  }
+  return vars;
+};

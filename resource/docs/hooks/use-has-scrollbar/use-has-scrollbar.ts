@@ -35,9 +35,9 @@ export function useHasScrollbar(): [boolean, number] {
   return [hasScrollbar, scrollbarWidth] as const;
 }
 
-type DataState = "opened" | "open" | "closed";
+type State = "opened" | "open" | "closed";
 
-export function attributeState(element: HTMLElement, state: DataState) {
+export function attributeState(element: HTMLElement, state: State) {
   element.setAttribute("data-state", state as string);
 }
 

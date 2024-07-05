@@ -29,8 +29,7 @@ export function Demo() {
         onClick={onClickImage}
         className="size-24 border rounded-lg bg-black mt-12"
       />
-      <span className="text-sm font-medium mt-4">use with ref, click image to view fullscreen</span>{" "}
-      {/* prettier-ignore */}
+      <span className="text-sm font-medium mt-4">use with ref, click image to view fullscreen</span> {/* prettier-ignore */}
       <SetProps.LabelOnly htmlFor="fullscreen-toggle">{fullscreen ? "Click to Minimize" : "Click to Maximize"}</SetProps.LabelOnly>
     </div>
   );

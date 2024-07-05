@@ -1,10 +1,10 @@
 "use client";
 import React, { createContext, useContext, ReactNode } from "react";
 import { useOpenState } from "../../hooks/use-open-state/use-open-state";
-import type { UseOpenStateType, OriginState } from "../../hooks/use-open-state/use-open-state";
+import type { UseOpenStateType, DataOrigin } from "../../hooks/use-open-state/use-open-state";
 
 interface OpenStateContextProps<T> {
-  dataState: string;
+  state: string;
   defaultOpen?: boolean;
   clickOutsideToClose?: boolean;
   render: boolean;
@@ -16,7 +16,7 @@ interface OpenStateContextProps<T> {
   onMouseEnter: () => void;
   onMouseLeave: () => void;
   onKeyDown: () => void;
-  refs: Partial<Record<OriginState, React.MutableRefObject<T | null>>>;
+  refs: Partial<Record<DataOrigin, React.MutableRefObject<T | null>>>;
 }
 
 interface OpenStateProviderProps<T> extends UseOpenStateType<T> {
