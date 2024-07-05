@@ -1,6 +1,7 @@
 // @ts-nocheck // prettier-ignore
 "use client";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/modules/components/web";
+import { ChevronIcon } from "@/modules/icons";
 import { cvx } from "@/modules/utility";
 import { SetProps, SetPropsBoolean, SetPropsRadio, SetPropsSideAlign, useSetProps } from "../../__set_props";
 
@@ -11,6 +12,7 @@ export function Demo() {
       <Collapsible align={align} side={side} sideOffset={offset} clickOutsideToClose={clickOutsideToClose}>
         <CollapsibleTrigger className={classes({ trigger: style })}>
           <span className="sr-only">Trigger</span>
+          <ChevronIcon chevron="down" data-origin="arrow-collapsible" />
         </CollapsibleTrigger>
 
         <CollapsibleContent className={classes({ content: style })}>
@@ -36,7 +38,7 @@ const classes = cvx({
       default:
         "relative before:content-['Open'] data-[state=open]:before:content-['Close'] before:size-max font-semibold px-2 py-1 rounded-none data-[side=top]:w-80 data-[side=bottom]:w-80 data-[side=left]:w-max data-[side=right]:w-max group-data-[side=top]:border-t group-data-[side=bottom]:border-b group-data-[side=left]:border-l group-data-[side=right]:border-r",
       dropdown:
-        "relative before:content-['Open'] data-[state=open]:before:content-['Close'] rounded-md font-semibold text-span bg-color text-background hover:bg-color/90 h-9 px-2.5",
+        "relative before:content-['Open'] data-[state=open]:before:content-['Close'] rounded-md font-semibold text-span bg-color text-background hover:bg-color/90 h-9 px-2.5 [&_svg]:hidden",
     },
     content: {
       default:

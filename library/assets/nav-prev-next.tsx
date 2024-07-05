@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { ChevronLeftIcon, ChevronRightIcon } from "@/resource/docs";
+import { ChevronIcon } from "@/modules/icons";
 import { InnerRoutes, SingleRoute } from "@/library/routes";
 import { cnx } from "@/resource/docs/ondevelopment/utils/cnx";
 import { displayName } from "../utils";
@@ -39,7 +39,7 @@ export function NavBottom({ routes }: { routes: SingleRoute[] | null }) {
     <nav className="flex flex-row items-center justify-between pt-12">
       {previousRoute && (
         <Link className={cnx(classLink, "pr-4 pl-3")} href={previousRoute ? previousRoute.href : ""}>
-          <ChevronLeftIcon className="size-4" />
+          <ChevronIcon chevron="left" className="size-4" />
           <span className="truncate">{previousRoute ? displayName(previousRoute.title) : "Previous"}</span>
         </Link>
       )}
@@ -47,7 +47,7 @@ export function NavBottom({ routes }: { routes: SingleRoute[] | null }) {
       {nextRoute && (
         <Link className={cnx(classLink, "pl-4 pr-3 ml-auto")} href={nextRoute ? nextRoute.href : ""}>
           <span className="truncate">{nextRoute ? displayName(nextRoute.title) : "Next"}</span>
-          <ChevronRightIcon className="size-4" />
+          <ChevronIcon chevron="right" className="size-4" />
         </Link>
       )}
     </nav>

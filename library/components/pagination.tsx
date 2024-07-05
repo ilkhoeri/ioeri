@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ChevronLeftIcon, ChevronRightIcon, DotsIcon } from "@/resource/docs";
+import { ChevronIcon, DotsIcon } from "@/resource/docs";
 import { twMerge } from "tailwind-merge";
 
 const Pagination = ({ className, ...props }: React.ComponentProps<"nav">) => (
@@ -51,7 +51,7 @@ const PaginationPrevious = ({ className, ...props }: React.ComponentProps<typeof
     )}
     {...props}
   >
-    <ChevronLeftIcon className="h-4 w-4" />
+    <ChevronIcon chevron="left" className="h-4 w-4" />
     <span>Previous</span>
   </PaginationButton>
 );
@@ -67,7 +67,7 @@ const PaginationNext = ({ className, ...props }: React.ComponentProps<typeof Pag
     {...props}
   >
     <span>Next</span>
-    <ChevronRightIcon className="h-4 w-4" />
+    <ChevronIcon chevron="right" className="h-4 w-4" />
   </PaginationButton>
 );
 PaginationNext.displayName = "PaginationNext";
