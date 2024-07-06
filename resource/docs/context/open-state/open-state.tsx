@@ -13,8 +13,8 @@ interface OpenStateContextProps<T> {
   handleOpen: () => void;
   handleClose: () => void;
   onHandle: () => void;
-  onMouseEnter: () => void;
-  onMouseLeave: () => void;
+  onStartEnter: () => void;
+  onEndLeave: () => void;
   onKeyDown: () => void;
   refs: Partial<Record<DataOrigin, React.MutableRefObject<T | null>>>;
 }
