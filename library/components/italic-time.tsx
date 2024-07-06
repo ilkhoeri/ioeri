@@ -3,9 +3,6 @@
 import React, { useEffect, useState } from "react";
 import { sortStringDate } from "@/resource/docs";
 import { twMerge } from "tailwind-merge";
-import { Tooltip } from "../assets/tooltip";
-
-import style from "@/library/styles/ioeri.module.css";
 
 const ItalicTime: React.FC<{ time: string | undefined; util: "created" | "updated" }> = ({ time, util }) => {
   const [isMounted, setIsMounted] = useState(false);
@@ -19,6 +16,7 @@ const ItalicTime: React.FC<{ time: string | undefined; util: "created" | "update
   }
   const timeCreated = util === "created";
   const timeUpdated = util === "updated";
+  
   const timingUpdated = sortStringDate(new Date(time), {
     options: {
       month: "short",
@@ -32,16 +30,7 @@ const ItalicTime: React.FC<{ time: string | undefined; util: "created" | "update
   const dateTime = timeUpdated ? timingUpdated : sortStringDate(new Date(time));
 
   return (
-    <Tooltip
-      withArrow
-      asChild={false}
-      align="start"
-      classNames={{
-        root: "w-max cursor-default my-2 font-mono",
-        trigger: "flex flex-row flex-nowrap items-center text-sm text-muted-foreground space-x-2",
-      }}
-      tooltip={util}
-    >
+    <>
       <svg
         stroke="currentColor"
         fill="none"
@@ -74,7 +63,7 @@ const ItalicTime: React.FC<{ time: string | undefined; util: "created" | "update
         {dateTime}
       </time>
       .
-    </Tooltip>
+    </>
   );
 };
 
