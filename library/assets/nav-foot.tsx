@@ -4,8 +4,8 @@ import { ThemeToggle } from "./theme";
 import Element from "@/library/components/element";
 import { NavLinkItem } from "./nav-link";
 import { appRoutes } from "@/library/routes";
-import { IoeriIcon } from "@/resource/docs";
-import { cvx } from "@/resource/docs/utility";
+import { IoeriIcon } from "@/modules/icons";
+import { cvx } from "@/modules/utility";
 
 import type { Params } from "@/app/(routes)/my/types";
 

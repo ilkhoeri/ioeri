@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 
-import { mergeRefs, useScrollArea, type UseScrollAreaType } from "@/resource/docs";
+import { mergeRefs, useScrollArea, type UseScrollAreaType } from "@/modules/hooks";
 import { twMerge } from "tailwind-merge";
 
 type ScrollAreaOrigin = "content" | "thumb";

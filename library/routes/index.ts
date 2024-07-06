@@ -1,5 +1,5 @@
-import { IconType } from "@/resource/docs/components/web/svg/svg";
-import { ExpoIcon, ReactIcon, NextjsIcon, GatsbyIcon, RemixIcon, ViteIcon } from "@/resource/docs";
+import { IconType } from "@/modules/components/web";
+import { ExpoIcon, ReactIcon, NextjsIcon, GatsbyIcon, RemixIcon, ViteIcon } from "@/modules/icons";
 
 export type InnerRoutes = { title: string; href: string };
 export type SingleRoute = { title: string; data: InnerRoutes[] };

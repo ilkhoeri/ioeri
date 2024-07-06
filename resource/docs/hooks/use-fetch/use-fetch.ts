@@ -10,7 +10,7 @@ export function useFetch<T>(url: string, { autoInvoke = true, ...options }: UseF
   const [error, setError] = useState<Error | null>(null);
   const controller = useRef<AbortController | null>(null);
 
-  const refetch = useCallback(() => {
+  const refetch = useCallback(async () => {
     if (!url) {
       return;
     }
@@ -22,24 +22,23 @@ export function useFetch<T>(url: string, { autoInvoke = true, ...options }: UseF
     controller.current = new AbortController();
 
     setLoading(true);
+    setError(null);
 
-    return fetch(url, { signal: controller.current.signal, ...options })
-      .then((res) => res.json())
-      .then((res) => {
-        setData(res);
-        setLoading(false);
-        return res as T;
-      })
-      .catch((err) => {
-        setLoading(false);
-
-        if (err.name !== "AbortError") {
-          setError(err);
-        }
-
-        throw err;
-      });
-  }, [url]);
+    try {
+      const response = await fetch(url, { signal: controller.current.signal, ...options });
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`);
+      }
+      const result = await response.json();
+      setData(result);
+    } catch (err: any) {
+      if (err.name !== "AbortError") {
+        setError(err);
+      }
+    } finally {
+      setLoading(false);
+    }
+  }, [url, options]);
 
   useEffect(() => {
     if (autoInvoke) {
@@ -51,7 +50,6 @@ export function useFetch<T>(url: string, { autoInvoke = true, ...options }: UseF
     return () => {
       if (controller.current) {
         controller.current.abort();
-        controller.current = null;
       }
     };
   }, []);

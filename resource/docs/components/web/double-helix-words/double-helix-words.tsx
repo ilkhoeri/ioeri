@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import { cnx } from "@/resource/docs/utility";
+import { cnx } from "@/modules/utility";
 
 import "./double-helix-words.css";
 

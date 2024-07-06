@@ -12,8 +12,7 @@ export {
   attributeState,
   useWidthScrollbar,
 } from "./use-has-scrollbar/use-has-scrollbar";
-export { getHotkeyHandler, getHotkeyMatcher, parseHotkey } from "./use-hotkeys/parse-hotkey";
-export { useHotkeys } from "./use-hotkeys/use-hotkeys";
+export { useHotkeys, getHotkeyHandler, getHotkeyMatcher, parseHotkey } from "./use-hotkeys/use-hotkeys";
 export { useHover } from "./use-hover/use-hover";
 export { useIntersection } from "./use-intersection/use-intersection";
 export { useInterval } from "./use-interval/use-interval";
@@ -37,10 +36,9 @@ export {
 export { useUncontrolled } from "./use-uncontrolled/use-uncontrolled";
 export { useViewportSize } from "./use-viewport-size/use-viewport-size";
 export { useWindowEvent } from "./use-window-event/use-window-event";
-export { useWindowScroll, useScroll } from "./use-window-scroll/use-window-scroll";
-export { useId } from "./use-id/use-id";
+export { useWindowScroll } from "./use-window-scroll/use-window-scroll";
+export { useId, useReactId } from "./use-id/use-id";
 export { useImagePopup } from "./use-image-popup/use-image-popup";
-export { useReactId } from "./use-id/use-react-id";
 export { useIsomorphicEffect } from "./use-isomorphic-effect/use-isomorphic-effect";
 export { getInputOnChange, useInputState } from "./use-input-state/use-input-state";
 export { useStateHistory } from "./use-state-history/use-state-history";
@@ -58,8 +56,8 @@ export { usePWAInstaller } from "./use-pwa-installer/use-pwa-installer";
 export { useElementInfo } from "./use-element-info/use-element-info";
 export { useScrollArea, type UseScrollAreaType } from "./use-scroll-area/use-scroll-area";
 
-export type { Hotkey, HotkeyItemOptions, KeyboardModifiers } from "./use-hotkeys/parse-hotkey";
-export type { HotkeyItem } from "./use-hotkeys/use-hotkeys";
+export type { HotkeyItem, Hotkey, HotkeyItemOptions, KeyboardModifiers } from "./use-hotkeys/use-hotkeys";
+export type { InitialInfo, RectElement, RectInfo } from "./use-element-info/use-element-info";
 export type { UseMediaQueryOptions } from "./use-media-query/use-media-query";
 export type { UseMovePosition } from "./use-move/use-move";
 export type { UseOpenStateType } from "./use-open-state/use-open-state";

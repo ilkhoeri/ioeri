@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useIsomorphicEffect } from "@/resource/docs";
+import { useIsomorphicEffect } from "@/modules/hooks";
 
 export function useOrientation() {
   const [orientation, setOrientation] = useState({ angle: 0, type: "landscape-primary" });

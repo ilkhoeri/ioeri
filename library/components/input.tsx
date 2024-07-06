@@ -3,7 +3,7 @@
 import * as React from "react";
 import { attr, capitalizeWords, sanitizedToParams } from "@/resource/docs";
 import { twMerge } from "tailwind-merge";
-import { cvx } from "@/resource/docs/utility/cvx/cvx";
+import { cvx } from "@/modules/utility";
 import { cn } from "../utils";
 
 const inputVariants = cvx({

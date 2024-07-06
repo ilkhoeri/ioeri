@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from "react";
-import { useHasScrollbar, attributeState, removeBodyProperty, setBodyProperty } from "@/resource/docs";
+import { useHasScrollbar, attributeState, removeBodyProperty, setBodyProperty } from "@/modules/hooks";
 
 import "./use-image-popup.css";
 

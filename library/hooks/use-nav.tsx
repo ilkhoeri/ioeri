@@ -2,14 +2,9 @@
 
 import { usePathname } from "next/navigation";
 import React, { createContext, useContext, ReactNode, useState, useEffect } from "react";
-import {
-  useElementSize as useHeaderSize,
-  useElementSize as useFooterSize,
-  useOpenState,
-  useMediaQuery,
-} from "@/resource/docs";
+import { useOpenState, useMediaQuery } from "@/modules/hooks";
 
-import type { UseOpenStateType } from "@/resource/docs";
+import type { UseOpenStateType } from "@/modules/hooks";
 
 interface MediaQuery {
   mediaQuery?: number;

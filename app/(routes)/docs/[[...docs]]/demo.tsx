@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
 import { Spinner } from "@/library/assets/anim-loader";
-import { FileIcon } from "@/resource/docs";
+import { FileIcon } from "@/modules/icons";
 import { sourceFiles } from "@/library/utils";
 
 interface DocsParams {

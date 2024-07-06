@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Element from "@/library/components/element";
-import { DiscordIcon, GithubIcon, IoeriTextIcon, LineMenuBarIcon } from "@/resource/docs";
+import { DiscordIcon, GithubIcon, IoeriTextIcon, LineMenuBarIcon } from "@/modules/icons";
 import { useHoveredElement } from "@/library/hooks/use-hovered-element";
 import { useNavContext } from "../hooks/use-nav";
 import { appRoutes } from "@/library/routes";

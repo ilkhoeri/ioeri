@@ -1,4 +1,4 @@
-import { cvx } from "@/resource/docs/utility/cvx/cvx";
+import { cvx } from "@/modules/utility/cvx/cvx";
 
 const Styles = cvx({
   variants: {

@@ -1,6 +1,6 @@
 "use client";
 import { forwardRef } from "react";
-import { mergeRefs } from "@/resource/docs/hooks";
+import { mergeRefs } from "@/modules/hooks";
 import { useConfetti, UseConfettiProps } from "./use-confetti";
 
 export const Confetti = forwardRef<

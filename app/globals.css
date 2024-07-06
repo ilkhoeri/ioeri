@@ -750,7 +750,7 @@ hr {
   }
 }
 
-[data-block="api-reference"] [data-block="body"] {
+[data-block="reference"] [data-block="body"] {
   & > * {
     @apply relative white-space-pre-wrap text-base flex flex-row items-center flex-wrap gap-4;
     & a {

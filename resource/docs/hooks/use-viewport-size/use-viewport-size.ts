@@ -1,5 +1,5 @@
 import { useCallback, useState, useEffect } from "react";
-import { useWindowEvent } from "@/resource/docs/hooks";
+import { useWindowEvent } from "@/modules/hooks";
 
 const eventListerOptions = {
   passive: true,

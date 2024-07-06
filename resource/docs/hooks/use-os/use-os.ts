@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useIsomorphicEffect } from "@/resource/docs/hooks";
+import { useIsomorphicEffect } from "@/modules/hooks";
 
 export type OS = "undetermined" | "macos" | "ios" | "windows" | "android" | "linux";
 

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export type RectInfo = "x" | "y" | "width" | "height" | "top" | "right" | "bottom" | "left" | "scrollX" | "scrollY";
 export type RectElement = Record<RectInfo, number>;
@@ -14,6 +14,8 @@ export function useElementInfo<T extends HTMLElement | null>(element?: T | null,
   const [scrollPosition, setScrollPosition] = useState(0);
   const [scrollBody, setScrollBody] = useState(0);
   const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
+  const [attributes, setAttributes] = useState<{ [key: string]: string }>({});
+  const [elementName, setElementName] = useState<string>("");
 
   const ref = useRef<T | null>(null);
   const resizeObserverRef = useRef<ResizeObserver | null>(null);
@@ -61,6 +63,13 @@ export function useElementInfo<T extends HTMLElement | null>(element?: T | null,
     const observeElement = () => {
       const el = element !== undefined ? element : ref.current;
       if (el) {
+        setElementName(el.tagName.toLowerCase());
+        const attrs: { [key: string]: string } = {};
+        for (const attr of el.attributes) {
+          attrs[attr.name] = attr.value;
+        }
+        setAttributes(attrs);
+
         if (!resizeObserverRef.current) {
           resizeObserverRef.current = new ResizeObserver(updateRectElement);
         }
@@ -117,6 +126,8 @@ export function useElementInfo<T extends HTMLElement | null>(element?: T | null,
     windowSize,
     scrollBody,
     scrollPosition,
+    attributes,
+    elementName,
     onMouseEnter,
     onMouseLeave,
     hovered,

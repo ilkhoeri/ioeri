@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import { TabsContent, TabsList, TabsTrigger } from "@/library/components/tabs";
 import { Button } from "@/library/components/button";
-import { cvx } from "@/resource/docs/utility";
+import { cvx } from "@/modules/utility";
 import { nextValue } from "../utils";
 import { capitalizeWords } from "@/modules/index";
 

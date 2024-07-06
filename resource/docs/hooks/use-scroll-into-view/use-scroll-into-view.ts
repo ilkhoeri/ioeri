@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef } from "react";
-import { useReducedMotion, useWindowEvent } from "@/resource/docs/hooks";
+import { useReducedMotion, useWindowEvent } from "@/modules/hooks";
 
 interface ScrollIntoViewAnimation {
   alignment?: "start" | "end" | "center";

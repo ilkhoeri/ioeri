@@ -1,9 +1,9 @@
 "use client";
 
 import * as React from "react";
-import { DataAlign, DataSide } from "@/resource/docs";
+import { DataAlign, DataSide } from "@/modules/index";
 import { PolymorphicWithoutRef } from "@/library/components/element";
-import { InferTypes, cvx } from "@/resource/docs/utility";
+import { InferTypes, cvx } from "@/modules/utility";
 
 import { twMerge } from "tailwind-merge";
 import globalStyle from "@/library/styles/styles";

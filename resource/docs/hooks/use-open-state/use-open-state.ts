@@ -1,9 +1,15 @@
-import { createPortal } from "react-dom";
 import { RefObject, useEffect, useState } from "react";
-import { useHasScrollbar, useWidthScrollbar, useHotkeys, createRefs } from "@/resource/docs/hooks";
-import { useClickOutside } from "../use-click-outside/use-click-outside";
-import { RectElement, useElementInfo } from "../use-element-info/use-element-info";
-import { useHover } from "../use-hover/use-hover";
+import { createPortal } from "react-dom";
+import {
+  useHasScrollbar,
+  useWidthScrollbar,
+  useHotkeys,
+  createRefs,
+  useClickOutside,
+  RectElement,
+  useElementInfo,
+  useHover,
+} from "@/modules/hooks";
 
 export enum DataOrigin {
   Root = "root",
@@ -47,6 +53,7 @@ export type UseOpenStateType<T> = {
   sideOffset?: number;
   hotKeys?: "/" | "M" | "ctrl+J" | "ctrl+K" | "alt+mod+shift+X" | (string & {});
   base?: boolean;
+  touch?: boolean;
 };
 
 export function useOpenState<T extends HTMLElement = any>(OpenState: UseOpenStateType<T> = {}) {
@@ -64,6 +71,7 @@ export function useOpenState<T extends HTMLElement = any>(OpenState: UseOpenStat
     align = "center",
     sideOffset = 0,
     base = false,
+    touch = false,
   } = OpenState;
 
   const [openState, setOpenState] = useState(defaultOpen);
@@ -116,7 +124,7 @@ export function useOpenState<T extends HTMLElement = any>(OpenState: UseOpenStat
 
   useHover(
     trigger === "hover" ? refs?.trigger?.current : null,
-    trigger === "hover" ? { open, setOpen } : { open: undefined, setOpen: undefined },
+    trigger === "hover" ? { open, setOpen, touch } : { open: undefined, setOpen: undefined, touch: undefined },
   );
 
   useHotkeys([[hotKeys, () => setOpen(!open)]]);

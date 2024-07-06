@@ -1,5 +1,5 @@
-import { cnx, type ClassValue } from "@/resource/docs/utility";
-import { cvx, type VariantsType } from "@/resource/docs/utility";
+import { cnx, type ClassValue } from "@/modules/utility";
+import { cvx, type VariantsType } from "@/modules/utility";
 import { twMerge } from "tailwind-merge";
 
 export const compoundStyle = cvx({

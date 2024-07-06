@@ -1,7 +1,8 @@
 import * as React from "react";
 import { CopyToggle, GetCodeToggle } from "./toggle";
-import { CSSIcon, TypescriptIcon } from "@/resource/docs";
+import { CSSIcon, TypescriptIcon } from "@/modules/icons";
 import { twMerge } from "tailwind-merge";
+import { sanitizedToParams } from "@/modules/index";
 
 type CodeCustomizer = {
   code?: string | null;
@@ -57,10 +58,10 @@ export function Code(Text: CodeCustomizer & ExtIconsType) {
 export function Customizer(Text: CodeCustomizer) {
   if (!Text.code && !Text.setInnerHTML) return null;
   return (
-    <div className={twMerge("mb-12", Text.className)} data-rehype-customizer="">
+    <div className={twMerge("mb-12 text-base", Text.className)} data-rehype-customizer="">
       {Text.title && <h4>{Text.title}</h4>}
       <div
-        className="md_custom relative white-space-pre-wrap text-base"
+        className="md_custom relative white-space-pre-wrap"
         data-language="tsx"
         data-theme="default"
         dangerouslySetInnerHTML={Text.setInnerHTML ? { __html: Text.setInnerHTML } : undefined}
@@ -71,16 +72,18 @@ export function Customizer(Text: CodeCustomizer) {
   );
 }
 
-export function APIReference(Text: CodeCustomizer) {
+export function Reference(Text: CodeCustomizer) {
   if (!Text.code && !Text.setInnerHTML) return null;
   return (
-    <div data-block="api-reference" className="-mt-4">
-      <h4 id="api-reference" data-block="title">
-        {Text.title || "API reference"}
-      </h4>
+    <div data-block="reference" className={twMerge("-mt-4 text-base", Text.className)}>
+      {Text.title && (
+        <h4 id={sanitizedToParams(Text.title)} data-block="title">
+          {Text.title}
+        </h4>
+      )}
 
       <div
-        className="relative white-space-pre-wrap text-base mt-4 mb-12 flex flex-col gap-6"
+        className="relative white-space-pre-wrap mt-4 mb-12 flex flex-col gap-6"
         data-block="body"
         dangerouslySetInnerHTML={Text.setInnerHTML ? { __html: Text.setInnerHTML } : undefined}
       >

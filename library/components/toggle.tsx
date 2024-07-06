@@ -6,9 +6,9 @@ import { Anchor } from "./anchor";
 import { UnstyledButton } from "./button";
 
 import { twMerge } from "tailwind-merge";
-import { useClipboard, useScroll } from "@/resource/docs/hooks";
+import { useClipboard, useWindowScroll } from "@/modules/hooks";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/modules/components/web";
-import { ChevronDownSquareIcon, GithubIcon, CheckIcon, CopyIcon } from "@/resource/docs/icons";
+import { ChevronDownSquareIcon, GithubIcon, CheckIcon, CopyIcon } from "@/modules/icons";
 import { tocopy } from "../utils";
 import globalStyle from "../styles/styles";
 
@@ -37,7 +37,7 @@ export const GetCodeToggle = React.forwardRef<
         </Anchor>
       </TooltipTrigger>
 
-      <TooltipContent className="flex flex-col">
+      <TooltipContent className="min-w-[86px]">
         <span>Repository</span>
       </TooltipContent>
     </Tooltip>
@@ -77,8 +77,8 @@ export const CopyToggle = React.forwardRef<
         </UnstyledButton>
       </TooltipTrigger>
 
-      <TooltipContent className="flex flex-col">
-        <span>Copy</span>
+      <TooltipContent className="min-w-[86px]">
+        <span>{clipboard.copied ? "Success" : "Copy"}</span>
       </TooltipContent>
     </Tooltip>
   );
@@ -89,7 +89,7 @@ export const ScrollToggle = React.forwardRef<
   React.ElementRef<typeof UnstyledButton>,
   React.ComponentPropsWithoutRef<typeof UnstyledButton>
 >(({ className, ...props }, ref) => {
-  const { bottom, scrollWindow, mounted } = useScroll();
+  const { bottom, scrollWindow, mounted } = useWindowScroll();
   // const [hovered, setHovered] = React.useState(false);
   // const visible = hovered || isScroll;
 

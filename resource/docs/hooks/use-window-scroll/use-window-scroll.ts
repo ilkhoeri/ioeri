@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useWindowEvent } from "@/resource/docs/hooks";
+import { useWindowEvent } from "@/modules/hooks";
 
 interface ScrollPosition {
   x: number;
@@ -26,17 +26,6 @@ function scrollTo({ x, y }: Partial<ScrollPosition>) {
   }
 }
 
-export function useWindowScroll() {
-  const [position, setPosition] = useState<ScrollPosition>({ x: 0, y: 0 });
-
-  useWindowEvent("scroll", () => setPosition(getScrollPosition()));
-  useWindowEvent("resize", () => setPosition(getScrollPosition()));
-  useEffect(() => {
-    setPosition(getScrollPosition());
-  }, []);
-  return [position, scrollTo] as const;
-}
-
 function checkIfBottom(): boolean {
   const windowHeight = window.innerHeight;
   const documentHeight = document.documentElement.scrollHeight;
@@ -46,7 +35,7 @@ function checkIfBottom(): boolean {
   return scrollTop + windowHeight + tolerance >= documentHeight;
 }
 
-export function useScroll() {
+export function useWindowScroll() {
   const [bottom, setBottom] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [position, setPosition] = useState<ScrollPosition>({ x: 0, y: 0 });
@@ -66,13 +55,12 @@ export function useScroll() {
 
     scrollTimeout = setTimeout(() => {
       setIsScroll(false);
-    }, 1500); // Duration to detect when scrolling stops
+    }, 1500);
   };
 
   useWindowEvent("scroll", handleScroll);
   useWindowEvent("resize", handleScroll);
 
-  // Sets scroll position and bottom state when the component is first loaded
   useEffect(() => {
     handleScroll();
     setMounted(true);

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { useWindowEvent } from "@/resource/docs";
+import { useWindowEvent } from "@/modules/hooks";
 
 interface NetworkStatus {
   downlink?: number;

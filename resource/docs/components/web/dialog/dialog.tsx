@@ -1,8 +1,8 @@
 "use client";
 import * as React from "react";
 
-import { useOpenState, type UseOpenStateType } from "@/resource/docs/hooks/use-open-state/use-open-state";
-import { InferTypes } from "@/modules/utility/cvx/cvx";
+import { useOpenState, type UseOpenStateType } from "@/modules/hooks";
+import { InferTypes } from "@/modules/utilit";
 import { twMerge } from "tailwind-merge";
 
 interface CSSProperties extends React.CSSProperties {

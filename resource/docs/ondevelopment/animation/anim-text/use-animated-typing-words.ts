@@ -1,7 +1,7 @@
 import React from "react";
 
-import type { CSSProperties } from "@/resource/docs/types/shared";
-import type { DispatchType } from "@/resource/docs/types/dispatch";
+import type { CSSProperties } from "@/modules/types/shared";
+import type { DispatchType } from "@/modules/types/dispatch";
 
 export type AnimatedTypingWordsType = {
   el?: React.ElementType;

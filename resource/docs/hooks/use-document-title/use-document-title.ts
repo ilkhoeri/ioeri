@@ -1,4 +1,4 @@
-import { useIsomorphicEffect } from "@/resource/docs";
+import { useIsomorphicEffect } from "@/modules/hooks";
 
 export function useDocumentTitle(title: string) {
   useIsomorphicEffect(() => {

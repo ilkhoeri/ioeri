@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useUncontrolled } from "@/resource/docs/hooks";
+import { useUncontrolled } from "@/modules/hooks";
 
 export function range(start: number, end: number) {
   const length = end - start + 1;

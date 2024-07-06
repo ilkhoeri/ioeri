@@ -2,8 +2,8 @@ import React from "react";
 import Link, { LinkProps } from "next/link";
 import { useRouter } from "next/navigation";
 import { twMerge } from "tailwind-merge";
-import { AnchorTargets } from "@/resource/docs";
-import { cvx, type VariantsType } from "@/resource/docs/utility/cvx/cvx";
+import { AnchorTargets } from "@/modules/types/anchor";
+import { cvx, type VariantsType } from "@/modules/utility/cvx/cvx";
 
 export const variantLinkButton = cvx({
   assign: "cursor-pointer",

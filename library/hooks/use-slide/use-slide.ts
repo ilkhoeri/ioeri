@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useWindowScroll } from "@/resource/docs";
+import { useWindowScroll } from "@/modules/hooks";
 
 export type UseSlideType = {
   threshold?: number;
@@ -9,7 +9,7 @@ export type UseSlideType = {
 export type ScrollDirectionType = "up" | "down";
 
 export function useSlide({ threshold = 50, speedThreshold = 5 }: UseSlideType = {}) {
-  const [position] = useWindowScroll();
+  const { position } = useWindowScroll();
   const [scrollDirection, setScrollDirection] = useState<ScrollDirectionType>("up");
   const [open, setOpen] = useState(false);
   const [touchStartY, setTouchStartY] = useState(0);

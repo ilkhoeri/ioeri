@@ -1,6 +1,6 @@
-import { CSSProperties } from "@/resource/docs";
 import { cnx } from "../utils/cnx";
-import type { Commons, NamedColor } from "@/resource/docs/types/shared";
+import { CSSProperties } from "@/modules/types/shared";
+import type { Commons, NamedColor } from "@/modules/types/shared";
 
 import s from "./loader.module.css";
 

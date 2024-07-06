@@ -1,7 +1,7 @@
 import { Tabs } from "@/library/components/tabs";
 import { retitled, slug, sourceFiles } from "@/library/utils";
 import { Playground } from "@/library/components/playground";
-import { Code, Customizer, APIReference } from "@/library/components/code";
+import { Code, Customizer, Reference } from "@/library/components/code";
 import { Container, Title } from "@/library/components/components";
 import { getMdx, getContent, type Content, getRepo } from "@/library/scripts/get-contents";
 import { escapeCode, highlightCode, mdCustom } from "@/library/utils/escape-code";
@@ -68,16 +68,18 @@ export default async function Page({ params }: DocsParams) {
   const usage = await getUsage({ params }, rename).then((res) => res.content);
   const reUsage = usage === null ? await getReUsage({ params }) : null;
 
-  const [css, title, reference, consideration, description, explanation, conclusion, notes] = await Promise.all([
-    getCss({ params }).then((res) => res.content),
-    getSection({ params }, "title"),
-    getSection({ params }, "api-reference"),
-    getSection({ params }, "consideration"),
-    getSection({ params }, "description"),
-    getSection({ params }, "explanation"),
-    getSection({ params }, "conclusion"),
-    getSection({ params }, "notes"),
-  ]);
+  const [css, title, dependOn, reference, consideration, description, explanation, conclusion, notes] =
+    await Promise.all([
+      getCss({ params }).then((res) => res.content),
+      getSection({ params }, "title"),
+      getSection({ params }, "depend-on"),
+      getSection({ params }, "api-reference"),
+      getSection({ params }, "consideration"),
+      getSection({ params }, "description"),
+      getSection({ params }, "explanation"),
+      getSection({ params }, "conclusion"),
+      getSection({ params }, "notes"),
+    ]);
 
   const usages: { [key: string]: React.JSX.Element | null } = {};
   const codes: { [key: string]: React.JSX.Element | null } = {};
@@ -124,7 +126,7 @@ export default async function Page({ params }: DocsParams) {
           id={sanitizedToParams(retitled(params.docs))}
           className="mt-0 mb-12"
         />
-        <APIReference setInnerHTML={await highlightCode(reference)} />
+        <Reference title="API reference" setInnerHTML={await highlightCode(reference)} />
         <Customizer setInnerHTML={await highlightCode(consideration)} />
       </div>
 
@@ -138,6 +140,7 @@ export default async function Page({ params }: DocsParams) {
       )}
 
       <div id="code">
+        <Customizer setInnerHTML={await highlightCode(dependOn)} className="mb-4 text-paragraph border-t pt-4" />
         <Tabs defaultValue="code" className="w-full mb-12">
           <Playground childrens={codes} />
         </Tabs>
