@@ -68,9 +68,9 @@ function Tooltip() {
         role="button"
         ref={state.refs.trigger as React.RefObject<HTMLButtonElement>}
         {...state.styleAt("trigger")}
-        onMouseEnter={state.onMouseEnter}
-        onMouseLeave={state.onMouseLeave}
-        className={globalStyle({ button: "default", size: "sm" })}
+        onMouseEnter={state.onStartEnter}
+        onMouseLeave={state.onEndLeave}
+        className={globalStyle({ button: "default", size: "sm" }, "w-24")}
       >
         Tooltip
       </button>

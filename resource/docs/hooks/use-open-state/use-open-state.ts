@@ -3,6 +3,7 @@ import { RefObject, useEffect, useState } from "react";
 import { useHasScrollbar, useWidthScrollbar, useHotkeys, createRefs } from "@/resource/docs/hooks";
 import { useClickOutside } from "../use-click-outside/use-click-outside";
 import { RectElement, useElementInfo } from "../use-element-info/use-element-info";
+import { useHover } from "../use-hover/use-hover";
 
 export enum DataOrigin {
   Root = "root",
@@ -113,6 +114,11 @@ export function useOpenState<T extends HTMLElement = any>(OpenState: UseOpenStat
     };
   }, [open, durationClose, setRender, clickOutsideToClose]);
 
+  useHover(
+    trigger === "hover" ? refs?.trigger?.current : null,
+    trigger === "hover" ? { open, setOpen } : { open: undefined, setOpen: undefined },
+  );
+
   useHotkeys([[hotKeys, () => setOpen(!open)]]);
 
   useWidthScrollbar({ open: render, widthHasScrollbar, hasScrollbar, scrollbarWidth, durationClose });
@@ -127,34 +133,26 @@ export function useOpenState<T extends HTMLElement = any>(OpenState: UseOpenStat
       setOpen(!open);
     }
   };
-
-  const handleBack = () => {
-    if (open) {
-      window.history.back();
+  const handleClose = () => {
+    setTimeout(() => {
       setOpen(false);
-    }
+    }, durationClose);
   };
   const onHandle = () => {
     if (!open) {
       window.history.pushState({ open: true }, "");
       setOpen(true);
     } else if (open) {
-      handleBack();
+      window.history.back();
+      setOpen(false);
     }
   };
-
-  const handleClose = () => {
-    setTimeout(() => {
-      setOpen(false);
-    }, durationClose);
-  };
-
-  const onMouseEnter = () => {
+  const onStartEnter = () => {
     if (trigger === "hover") {
       setOpen(true);
     }
   };
-  const onMouseLeave = () => {
+  const onEndLeave = () => {
     if (trigger === "hover") {
       setOpen(false);
     }
@@ -180,11 +178,10 @@ export function useOpenState<T extends HTMLElement = any>(OpenState: UseOpenStat
     setOpen,
     Portal,
     onHandle,
-    handleBack,
     handleOpen,
     handleClose,
-    onMouseEnter,
-    onMouseLeave,
+    onStartEnter,
+    onEndLeave,
     onKeyDown,
     state,
     bounding,

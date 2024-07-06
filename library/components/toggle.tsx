@@ -7,16 +7,9 @@ import { UnstyledButton } from "./button";
 
 import { twMerge } from "tailwind-merge";
 import { useClipboard, useScroll } from "@/resource/docs/hooks";
-import {
-  ClipboardCopyIcon,
-  ClipboardCheckIcon,
-  ChevronDownSquareIcon,
-  GithubIcon,
-  CheckIcon,
-  CopyIcon,
-} from "@/resource/docs/icons";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/modules/components/web";
+import { ChevronDownSquareIcon, GithubIcon, CheckIcon, CopyIcon } from "@/resource/docs/icons";
 import { tocopy } from "../utils";
-import { recallHtml } from "../utils/escape-code";
 import globalStyle from "../styles/styles";
 
 export const GetCodeToggle = React.forwardRef<
@@ -30,16 +23,24 @@ export const GetCodeToggle = React.forwardRef<
     return null;
   }
   return (
-    <Anchor
-      ref={ref}
-      {...props}
-      href={href || `https://github.com/ilkhoeri/ioeri/blob/main/resource/docs/${repo}`}
-      tabIndex={-1}
-      title="Get Code"
-      className={globalStyle({ toggle: "item", size: "icon-xs" }, className)}
-    >
-      <GithubIcon className="size-5" />
-    </Anchor>
+    <Tooltip side="left" sideOffset={6}>
+      <TooltipTrigger asChild>
+        <Anchor
+          ref={ref}
+          {...props}
+          href={href || `https://github.com/ilkhoeri/ioeri/blob/main/resource/docs/${repo}`}
+          tabIndex={-1}
+          title="Get Code"
+          className={globalStyle({ toggle: "item", size: "icon-xs" }, className)}
+        >
+          <GithubIcon className="size-5" />
+        </Anchor>
+      </TooltipTrigger>
+
+      <TooltipContent className="flex flex-col">
+        <span>Repository</span>
+      </TooltipContent>
+    </Tooltip>
   );
 });
 GetCodeToggle.displayName = "GetCodeToggle";
@@ -50,29 +51,36 @@ export const CopyToggle = React.forwardRef<
 >(({ text, className, ...props }, ref) => {
   const clipboard = useClipboard({ timeout: 1000 });
   return (
-    <UnstyledButton
-      ref={ref}
-      {...props}
-      tabIndex={-1}
-      title="Copy"
-      onClick={() => {
-        if (text) {
-          clipboard.copy(tocopy(text));
-        }
-      }}
-      disabled={!text}
-      className={globalStyle(
-        { toggle: "item", size: "icon-xs" },
-        clipboard.copied ? "bg-muted" : "bg-background",
-        className,
-      )}
-    >
-      {clipboard.copied ? (
-        <CheckIcon className="size-5 animate-fade-in fade-in-0 zoom-in-0 [animation-duration:150ms]" />
-      ) : (
-        <CopyIcon className="size-5" />
-      )}
-    </UnstyledButton>
+    <Tooltip side="left" sideOffset={6}>
+      <TooltipTrigger asChild>
+        <UnstyledButton
+          ref={ref}
+          {...props}
+          tabIndex={-1}
+          onClick={() => {
+            if (text) {
+              clipboard.copy(tocopy(text));
+            }
+          }}
+          disabled={!text}
+          className={globalStyle(
+            { toggle: "item", size: "icon-xs" },
+            clipboard.copied ? "bg-muted" : "bg-background",
+            className,
+          )}
+        >
+          {clipboard.copied ? (
+            <CheckIcon className="size-5 animate-fade-in fade-in-0 zoom-in-0 [animation-duration:150ms]" />
+          ) : (
+            <CopyIcon className="size-5" />
+          )}
+        </UnstyledButton>
+      </TooltipTrigger>
+
+      <TooltipContent className="flex flex-col">
+        <span>Copy</span>
+      </TooltipContent>
+    </Tooltip>
   );
 });
 CopyToggle.displayName = "CopyToggle";

@@ -16,7 +16,7 @@ export function Demo() {
         role="button"
         data-state={open ? "open" : "closed"}
         onClick={() => setOpen(!open)}
-        className={globalStyle({ button: "default", size: "sm" })}
+        className={globalStyle({ button: "default", size: "sm" }, "w-24")}
       >
         {open ? "Close" : "Open"}
       </button>

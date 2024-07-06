@@ -23,8 +23,8 @@ interface NavContextProps extends MediaQuery, UseOpenStateType<HTMLElement> {
   handleOpen: () => void;
   handleClose: () => void;
   onHandle: () => void;
-  onMouseEnter: () => void;
-  onMouseLeave: () => void;
+  onStartEnter: () => void;
+  onEndLeave: () => void;
   onKeyDown: () => void;
   minQuery: boolean | undefined;
   maxQuery: boolean | undefined;

@@ -39,31 +39,38 @@ function Tooltip<T extends HTMLElement>({ children, ref, withArrow, sideOffset, 
   return <TooltipContext.Provider value={{ withArrow, ...state }}>{children}</TooltipContext.Provider>;
 }
 
-const TooltipTrigger = React.forwardRef<React.ElementRef<"div">, React.ComponentPropsWithoutRef<"div"> & SharedType>(
-  ({ role = "button", className, unstyled, style, onMouseEnter, onMouseLeave, ...props }, ref) => {
-    const tooltip = useTooltipContext<HTMLDivElement>(ref);
-    const rest = {
-      role,
-      ...tooltip.styleAt("trigger", { style }),
-      className: twMerge(!unstyled && "flex font-medium text-sm select-none z-9 rounded-sm py-1", className),
+const PrimitiveSlot = React.forwardRef(
+  <T extends React.ElementType>(
+    { children, ...props }: { children: React.ReactElement } & Omit<React.ComponentProps<T>, "ref">,
+    ref: React.Ref<any>,
+  ) => {
+    const child = React.Children.only(children);
+
+    return React.cloneElement(child, {
+      ref,
       ...props,
-    };
-    return (
-      <div
-        ref={tooltip.refs.trigger as React.RefObject<HTMLDivElement>}
-        onMouseEnter={(e) => {
-          tooltip.onMouseEnter();
-          if (onMouseEnter) onMouseEnter(e);
-        }}
-        onMouseLeave={(e) => {
-          tooltip.onMouseLeave();
-          if (onMouseLeave) onMouseLeave(e);
-        }}
-        {...rest}
-      />
-    );
+      style: { ...props.style, ...child.props.style },
+      className: twMerge(child.props.className, props.className),
+    });
   },
 );
+PrimitiveSlot.displayName = "PrimitiveSlot";
+
+const TooltipTrigger = React.forwardRef<
+  React.ElementRef<"button">,
+  React.ComponentPropsWithoutRef<"button"> & SharedType & { asChild?: boolean }
+>(({ type = "button", role = "button", asChild, className, unstyled, style, ...props }, ref) => {
+  const tooltip = useTooltipContext<HTMLButtonElement>(ref);
+  const Component = asChild ? PrimitiveSlot : ("button" as React.ElementType);
+  const rest = {
+    role,
+    type,
+    ...tooltip.styleAt("trigger", { style }),
+    className,
+    ...props,
+  };
+  return <Component ref={tooltip.refs.trigger as React.RefObject<HTMLDivElement>} {...rest} />;
+});
 TooltipTrigger.displayName = "TooltipTrigger";
 
 const content = cvx({
@@ -108,12 +115,22 @@ const arrow = cvx({
 
 const TooltipContent = React.forwardRef<React.ElementRef<"div">, React.ComponentPropsWithoutRef<"div"> & SharedType>(
   (
-    { style, className, children, unstyled, "aria-disabled": ariaDisabled, onMouseEnter, onMouseLeave, ...props },
+    {
+      style,
+      className,
+      children,
+      unstyled,
+      "aria-disabled": ariaDisabled,
+      onMouseEnter,
+      onMouseLeave,
+      role = "tooltip",
+      ...props
+    },
     ref,
   ) => {
     const tooltip = useTooltipContext<HTMLDivElement>(ref);
     const { withArrow, align, side } = tooltip;
-    const rest = { "aria-disabled": ariaDisabled || (tooltip.open ? "false" : "true"), ...props };
+    const rest = { "aria-disabled": ariaDisabled || (tooltip.open ? "false" : "true"), role, ...props };
 
     if (!tooltip.render) return null;
     return (
@@ -123,11 +140,11 @@ const TooltipContent = React.forwardRef<React.ElementRef<"div">, React.Component
           {...tooltip.styleAt("content", { style })}
           className={twMerge(!unstyled && content({ align, side }), className)}
           onMouseEnter={(e) => {
-            tooltip.onMouseEnter();
+            tooltip.onStartEnter();
             if (onMouseEnter) onMouseEnter(e);
           }}
           onMouseLeave={(e) => {
-            tooltip.onMouseLeave();
+            tooltip.onEndLeave();
             if (onMouseLeave) onMouseLeave(e);
           }}
           {...rest}
