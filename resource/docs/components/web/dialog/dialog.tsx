@@ -1,3 +1,4 @@
+"use client";
 import * as React from "react";
 
 import { useOpenState, type UseOpenStateType } from "@/resource/docs/hooks/use-open-state/use-open-state";
@@ -10,7 +11,7 @@ interface CSSProperties extends React.CSSProperties {
 interface ProviderProps<T> extends UseOpenStateType<T> {
   children: React.ReactNode;
 }
-type StylesType = {
+type SharedType = {
   unstyled?: boolean;
   style?: CSSProperties;
   className?: string;
@@ -33,7 +34,7 @@ function Dialog<T extends HTMLElement>({ children, ref, modal = true, ...props }
 
 const DialogTrigger = React.forwardRef<
   React.ElementRef<"button">,
-  React.ComponentPropsWithoutRef<"button"> & StylesType
+  React.ComponentPropsWithoutRef<"button"> & SharedType
 >(({ type = "button", onClick, className, unstyled, style, ...props }, ref) => {
   const { refs, open, setOpen, styleAt } = useDialogContext<HTMLButtonElement>(ref);
   return (
@@ -56,7 +57,7 @@ const DialogTrigger = React.forwardRef<
 });
 DialogTrigger.displayName = "DialogTrigger";
 
-const DialogOverlay = React.forwardRef<React.ElementRef<"div">, React.ComponentPropsWithoutRef<"div"> & StylesType>(
+const DialogOverlay = React.forwardRef<React.ElementRef<"div">, React.ComponentPropsWithoutRef<"div"> & SharedType>(
   ({ className, style, unstyled, onClick, ...props }, ref) => {
     const { refs, render, setOpen, styleAt, Portal } = useDialogContext<HTMLDivElement>(ref);
 
@@ -84,7 +85,7 @@ const DialogOverlay = React.forwardRef<React.ElementRef<"div">, React.ComponentP
 );
 DialogOverlay.displayName = "DialogOverlay";
 
-const DialogContent = React.forwardRef<React.ElementRef<"div">, React.ComponentPropsWithoutRef<"div"> & StylesType>(
+const DialogContent = React.forwardRef<React.ElementRef<"div">, React.ComponentPropsWithoutRef<"div"> & SharedType>(
   ({ style, className, unstyled, ...props }, ref) => {
     const { refs, render, styleAt, Portal } = useDialogContext<HTMLDivElement>(ref);
 

@@ -1,7 +1,8 @@
-import "./double-helix-words.css";
-
+"use client";
 import * as React from "react";
 import { cnx } from "@/resource/docs/utility";
+
+import "./double-helix-words.css";
 
 type NestedRecord<U extends [string, unknown], T extends string> = {
   [K in U as K[0]]?: Partial<Record<T, K[1]>>;
@@ -72,7 +73,7 @@ export const DoubleHelixWords = React.forwardRef<HTMLElement, DoubleHelixWordsTy
     styles,
     gap = 6,
     distance = 100,
-    speed = 4,
+    speed = 400,
     suppressHydrationWarning = true,
     ...others
   } = _props;
@@ -85,7 +86,7 @@ export const DoubleHelixWords = React.forwardRef<HTMLElement, DoubleHelixWordsTy
   const vars: { [key: string]: string } = {
     "--gap": `${Math.max(0, Math.min(100, gap))}px`,
     "--distance": `${Math.max(0, Math.min(100, distance))}px`,
-    "--speed": `${Math.max(2, Math.min(52, speed)) * 1000}ms`,
+    "--speed": `${Math.max(200, Math.min(1200, speed)) * 10}ms`,
   };
 
   return (

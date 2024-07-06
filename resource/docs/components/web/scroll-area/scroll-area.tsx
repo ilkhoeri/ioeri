@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 
 import { mergeRefs, useScrollArea, type UseScrollAreaType } from "@/resource/docs";

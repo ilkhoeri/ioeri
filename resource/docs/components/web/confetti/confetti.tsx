@@ -1,3 +1,4 @@
+"use client";
 import { forwardRef } from "react";
 import { mergeRefs } from "@/resource/docs/hooks";
 import { useConfetti, UseConfettiProps } from "./use-confetti";

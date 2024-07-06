@@ -1,3 +1,4 @@
+"use client";
 import * as React from "react";
 
 import { useOpenState, type UseOpenStateType } from "@/resource/docs/hooks/use-open-state/use-open-state";
@@ -12,7 +13,7 @@ interface CSSProperties extends React.CSSProperties {
 interface ProviderProps<T> extends UseOpenStateType<T> {
   children: React.ReactNode;
 }
-type StylesType = {
+type SharedType = {
   unstyled?: boolean;
   style?: CSSProperties;
   className?: string;
@@ -23,7 +24,7 @@ const CollapsibleContext = React.createContext<DialogContextProps<HTMLElement> |
 export function useCollapsibleContext<T>(ref: React.ForwardedRef<T>) {
   const context = React.useContext(CollapsibleContext);
   if (!context) {
-    throw new Error("Collapsible component trees must be wrap within an Collapsible");
+    throw new Error("Collapsible component trees must be wrap within an <CollapsibleProvider>");
   }
   return { ...context, ref };
 }
@@ -46,7 +47,7 @@ const Collapsible = React.forwardRef<
 });
 Collapsible.displayName = "Collapsible";
 
-const CollapsibleRoot = React.forwardRef<React.ElementRef<"div">, React.ComponentPropsWithoutRef<"div"> & StylesType>(
+const CollapsibleRoot = React.forwardRef<React.ElementRef<"div">, React.ComponentPropsWithoutRef<"div"> & SharedType>(
   ({ className, unstyled, style, ...props }, ref) => {
     const { refs, styleAt } = useCollapsibleContext<HTMLDivElement>(ref);
     return (
@@ -67,7 +68,7 @@ CollapsibleRoot.displayName = "CollapsibleTrigger";
 
 const CollapsibleTrigger = React.forwardRef<
   React.ElementRef<"button">,
-  React.ComponentPropsWithoutRef<"button"> & StylesType
+  React.ComponentPropsWithoutRef<"button"> & SharedType
 >(({ type = "button", onClick, className, unstyled, style, ...props }, ref) => {
   const { refs, open, setOpen, styleAt } = useCollapsibleContext<HTMLButtonElement>(ref);
   return (
@@ -95,7 +96,7 @@ CollapsibleTrigger.displayName = "CollapsibleTrigger";
 
 const CollapsibleContent = React.forwardRef<
   React.ElementRef<"div">,
-  React.ComponentPropsWithoutRef<"div"> & StylesType
+  React.ComponentPropsWithoutRef<"div"> & SharedType
 >(({ style, className, unstyled, "aria-disabled": ariaDisabled, ...props }, ref) => {
   const { refs, render, open, styleAt } = useCollapsibleContext<HTMLDivElement>(ref);
   const rest = { "aria-disabled": ariaDisabled || (open ? "false" : "true"), ...props };

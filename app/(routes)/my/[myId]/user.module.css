@@ -1,12 +1,12 @@
 /* Page User */
 .user_header {
-  @apply -mt-14 md:-mt-20 xl:-mt-24 relative w-full max-w-full h-dvh min-h-dvh max-h-dvh flex items-center justify-center flex-col after:content-[''] after:w-[100dvw] after:h-1/2 after:bg-gradient-to-t after:from-background after:absolute after:z-[+1] after:bottom-0 after:inset-x-0 after:-mb-[98px] after:mx-0;
+  @apply -mt-14 md:-mt-20 xl:-mt-24 relative w-full max-w-full h-dvh min-h-dvh max-h-dvh flex items-start justify-start pt-[calc(var(--navbar)*2)] px-8 md:px-12 flex-col after:content-[''] after:w-[100dvw] after:h-1/2 after:bg-gradient-to-t after:from-background after:absolute after:z-[+1] after:bottom-0 after:inset-x-0 after:-mb-[98px] after:mx-0;
 
   & > article {
     @apply min-h-dvh h-dvh w-full flex items-center justify-center text-h3 font-semibold font-montserrat absolute;
   }
 
-  & > figure {
+  & [data-bg] {
     @apply h-full w-full absolute bg-fixed -z-1 top-0 left-0 right-0;
 
     & picture {
@@ -16,25 +16,25 @@
   & figcaption {
     @apply relative grid grid-flow-row items-center justify-center justify-items-center gap-3 text-center font-montserrat;
 
-    & h2 {
-      font-size: clamp(16px, 16px + 3.5vw, 3.5rem);
-      line-height: 1;
+    & h1 {
+      font-size: clamp(1rem, 0.75rem + 2vw, 1.35rem);
+      line-height: 1.75rem;
       font-weight: 500;
-      text-transform: uppercase;
+      margin-bottom: 1rem;
       text-wrap: wrap;
       background-image: linear-gradient(to bottom right, var(--gradient-stops));
-      --gradient-stops: var(--text-gradient-from), var(--text-gradient-to);
+      --gradient-stops: hsl(var(--color)), hsl(var(--color));
       background-clip: text;
       color: transparent;
       transition: all ease 0.2s;
-      -webkit-text-stroke-width: 2px;
+      -webkit-text-stroke-width: 0.5px;
       -webkit-background-clip: text;
     }
   }
 }
 
 .portfolio_section {
-  @apply bg-background relative z-11 mt-12 -mb-14 md:-mb-20 xl:-mb-24 -mx-6 md:-mx-9 xl:-mx-12;
+  @apply relative z-11 mt-12 px-6 pb-8 md:px-8 md:pb-12 bg-background;
 
   & .portfolio_wrapper {
     @apply p-8 font-montserrat mt-24 rounded-xl shadow-[0px_10px_30px_10px_rgba(0,0,0,0.1)];

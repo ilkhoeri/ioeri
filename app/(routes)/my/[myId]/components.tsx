@@ -27,10 +27,8 @@ interface UserPortfolioProps extends UserProps, Omit<LengthDatasProps, "shortPos
 export function UserPortfolio({ user, address, blog, socmed, children }: UserPortfolioProps) {
   const { birthday, ageString } = getFullAge(user.birth);
 
-  if (typeof document === "undefined") return null;
-
-  return createPortal(
-    <article className="absolute z-[86] inset-0 size-full md:bg-background">
+  return (
+    <article className="relative size-full">
       {birthday && <Confetti lifespan={5000} />}
 
       <UserPageHeader user={user} />
@@ -79,8 +77,7 @@ export function UserPortfolio({ user, address, blog, socmed, children }: UserPor
           {children}
         </div>
       </section>
-    </article>,
-    document.body,
+    </article>
   );
 }
 
@@ -126,14 +123,22 @@ export function UserPageHeader({ user }: { user: User }) {
   const pict = { style: { backgroundImage: `url("/images/pattern-prisma.svg")` } };
   return (
     <section suppressHydrationWarning {...header}>
-      <DoubleHelixWords placeholders={user.name} />
+      {/* <DoubleHelixWords placeholders={user.name} /> */}
 
-      <figure>
+      <a href="https://github.com/ioeridev/ioeri/graphs/contributors">
+        <figure>
+          <figcaption>
+            <h1>Thank&apos;s for contributors</h1>
+          </figcaption>
+          <picture>
+            <img src="https://contrib.rocks/image?repo=ilkhoeri/ioeri" alt="contributors" height={32} />
+          </picture>
+        </figure>
+      </a>
+
+      <div data-bg="">
         <picture {...pict} />
-      </figure>
-      <figcaption>
-        <h2>{user.alias || user.name}</h2>
-      </figcaption>
+      </div>
     </section>
   );
 }

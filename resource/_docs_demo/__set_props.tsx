@@ -177,7 +177,14 @@ export function SetPropsSvg(X: InferTypes<typeof useSetProps>) {
   );
 }
 
-export function SetPropsSideAlign(X: InferTypes<typeof useSetProps>) {
+export function SetPropsSideAlign(X: {
+  setAlign: (v: `${DataAlign}`) => void;
+  setSide: (v: `${DataSide}`) => void;
+  setNumb: (v: number) => void;
+  align: `${DataAlign}`;
+  side: `${DataSide}`;
+  numb: number;
+}) {
   const { side, align, numb, setNumb, setAlign, setSide } = X;
   return (
     <>

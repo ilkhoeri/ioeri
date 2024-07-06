@@ -18,7 +18,7 @@ interface FooterProps {
 const Styles = cvx({
   variants: {
     as: {
-      footer: "mx-auto flex flex-col w-full relative text-sm bg-background-theme max-w-screen-3xl",
+      footer: "mx-auto flex flex-col w-full relative text-sm bg-background max-w-screen-3xl",
       section: "px-6 md:px-8 lg:px-10 xl:px-10",
       list: "gap-x-6 grid sm:grid-cols-2 md:grid-flow-col md:grid-cols-4 md:grid-rows-5 lg:grid-cols-5",
       listitem: "content-center !list-none flex items-center",
