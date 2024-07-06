@@ -1,4 +1,3 @@
-"use client";
 import { DoubleHelixWords } from "@/modules/components/web";
 import { SetProps, SetPropsRange, SetPropsText, useSetProps } from "../../__set_props";
 

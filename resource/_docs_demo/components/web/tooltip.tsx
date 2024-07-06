@@ -1,4 +1,3 @@
-"use client";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/modules/components/web";
 import { SetProps, SetPropsSideAlign, useSetProps } from "../../__set_props";
 

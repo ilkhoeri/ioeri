@@ -1,3 +1,4 @@
+"use client";
 import { useEyeDropper } from "@/modules/hooks";
 import { PickColorIcon } from "@/modules/icons";
 import { SetProps } from "../__set_props";
@@ -6,10 +7,8 @@ import globalStyle from "@/library/styles/styles";
 export function Demo() {
   const { pickColor, color, supported, error } = useEyeDropper();
 
-  if (!supported) {
-    return "Your browser does not support the EyeDropper API";
-  }
   let message: string = "Pick color";
+  if (!supported) return "Your browser does not support the EyeDropper API";
   if (error) message = error?.message;
   if (color) message = color;
 

@@ -1,4 +1,3 @@
-"use client";
 import { useState } from "react";
 import { Confetti } from "@/modules/components/web";
 import { SetProps, SetPropsRange, SetPropsSelect, useSetProps } from "../../__set_props";

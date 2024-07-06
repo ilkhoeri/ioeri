@@ -1,3 +1,4 @@
+"use client";
 import { usePWAInstaller } from "@/modules/hooks";
 import globalStyle from "@/library/styles/styles";
 

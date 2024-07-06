@@ -1,4 +1,3 @@
-"use client";
 import { Dialog, DialogContent, DialogTrigger, DialogOverlay } from "@/modules/components/web";
 import { XIcon } from "@/modules/icons";
 

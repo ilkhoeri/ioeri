@@ -1,5 +1,4 @@
 // @ts-nocheck // prettier-ignore
-"use client";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/modules/components/web";
 import { ChevronIcon } from "@/modules/icons";
 import { cvx } from "@/modules/utility";
