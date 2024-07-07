@@ -10,21 +10,27 @@ export const dynamic = "force-dynamic";
 export const dynamicParams = true;
 export const runtime = "nodejs";
 
-async function loadRoutes(sourcePath: string): Promise<SingleRoute[]> {
-  return await getPath(sourcePath);
+async function routes(sourcePath: string): Promise<SingleRoute[]> {
+  return await getPath(["resource", "docs", sourcePath]);
 }
-async function loadNestedRoutes(sourcePath: string): Promise<NestedRoute[]> {
-  return await getPaths(sourcePath);
+async function nestedRoutes(sourcePath: string): Promise<NestedRoute[]> {
+  return await getPaths(["resource", "docs", sourcePath]);
+}
+async function examplesRoutes(sourcePath: string): Promise<SingleRoute[]> {
+  return await getPath(["resource", sourcePath]);
 }
 
 export default async function NotFound() {
-  const nested = await loadNestedRoutes("components");
-  const utility = await loadRoutes("utility");
-  const hooks = await loadRoutes("hooks");
+  const [utility, nested, hooks, examples] = await Promise.all([
+    routes("utility"),
+    nestedRoutes("components"),
+    routes("hooks"),
+    examplesRoutes("examples"),
+  ]);
 
   return (
     <Main className="pb-0">
-      <AsideLeft topRoutes={[...utility]} routes={[...hooks]} nestedRoutes={nested} />
+      <AsideLeft routes={[...utility, ...nested, ...hooks, ...examples]} />
 
       <article className="h-dvh w-full max-w-full overflow-hidden flex flex-wrap items-start justify-center p-4 m-0 relative pt-20 after:content-[''] after:w-full after:h-[262px] after:absolute after:bottom-0 after:bg-gradient-to-t after:from-background">
         <h1

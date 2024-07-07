@@ -40,7 +40,7 @@ export const loadComponent = ({ params }: DocsParams) =>
     },
   );
 
-export function Examples({ params }: DocsParams) {
+export function Demos({ params }: DocsParams) {
   const Component = loadComponent({ params });
 
   return (
@@ -53,18 +53,4 @@ export function Examples({ params }: DocsParams) {
       </Suspense>
     </article>
   );
-}
-
-async function importComponent(path: string): Promise<{ default: React.ComponentType<any> }> {
-  return import(`@/resource/_docs_demo/${path}`);
-}
-async function loadExampleComponent({ params }: DocsParams): Promise<React.ComponentType<any> | null> {
-  try {
-    const path = params.docs.join("/");
-    const { default: Component } = await importComponent(path);
-    const Compo = () => <Component />;
-    return Compo;
-  } catch {
-    return null;
-  }
 }

@@ -87,17 +87,6 @@ export const appRoutes = {
     //   href: "",
     // },
   ],
-  fitures: [
-    {
-      title: "Examples",
-      data: [
-        {
-          title: "Markdown Text",
-          href: "/examples/playground/markdown-text",
-        },
-      ],
-    },
-  ],
   footRoutes: [
     {
       title: "Started",

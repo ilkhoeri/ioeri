@@ -37,8 +37,8 @@ export function CollapsibleProvider<T extends HTMLElement>({ children, ref, ...p
 const Collapsible = React.forwardRef<
   React.ElementRef<"div">,
   React.ComponentPropsWithoutRef<"div"> & UseOpenStateType<HTMLDivElement>
->(({ side, align, sideOffset, open, setOpen, clickOutsideToClose, defaultOpen, ...props }, ref) => {
-  const rest = { side, align, sideOffset, open, setOpen, clickOutsideToClose, defaultOpen };
+>(({ side, align, sideOffset, open, onOpenChange, clickOutsideToClose, defaultOpen, ...props }, ref) => {
+  const rest = { side, align, sideOffset, open, onOpenChange, clickOutsideToClose, defaultOpen };
   return (
     <CollapsibleProvider {...rest}>
       <CollapsibleRoot ref={ref} {...props} />
@@ -64,13 +64,13 @@ const CollapsibleRoot = React.forwardRef<React.ElementRef<"div">, React.Componen
     );
   },
 );
-CollapsibleRoot.displayName = "CollapsibleTrigger";
+CollapsibleRoot.displayName = "CollapsibleRoot";
 
 const CollapsibleTrigger = React.forwardRef<
   React.ElementRef<"button">,
   React.ComponentPropsWithoutRef<"button"> & SharedType
->(({ type = "button", onClick, className, unstyled, style, ...props }, ref) => {
-  const { refs, open, setOpen, styleAt } = useCollapsibleContext<HTMLButtonElement>(ref);
+>(({ type = "button", className, unstyled, style, ...props }, ref) => {
+  const { refs, styleAt } = useCollapsibleContext<HTMLButtonElement>(ref);
   return (
     <button
       ref={refs.trigger as React.RefObject<HTMLButtonElement>}
@@ -81,13 +81,6 @@ const CollapsibleTrigger = React.forwardRef<
           "w-full flex flex-nowrap font-medium flex-row items-center justify-between text-sm select-none z-9 rounded-sm py-1",
         className,
       )}
-      onClick={(e) => {
-        e.stopPropagation();
-        setOpen(!open);
-        if (onClick) {
-          onClick(e);
-        }
-      }}
       {...props}
     />
   );
@@ -101,9 +94,7 @@ const CollapsibleContent = React.forwardRef<
   const { refs, render, open, styleAt } = useCollapsibleContext<HTMLDivElement>(ref);
   const rest = { "aria-disabled": ariaDisabled || (open ? "false" : "true"), ...props };
 
-  if (!render) {
-    return null;
-  }
+  if (!render) return null;
   return (
     <div
       ref={refs.content as React.RefObject<HTMLDivElement>}

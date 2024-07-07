@@ -1,7 +1,7 @@
 import * as React from "react";
 import { twMerge } from "tailwind-merge";
 
-const PrimitiveSlot = React.forwardRef(
+export const PrimitiveSlot = React.forwardRef(
   <T extends React.ElementType>(
     { children, ...props }: { children: React.ReactElement } & Omit<React.ComponentProps<T>, "ref">,
     ref: React.Ref<any>,

@@ -9,11 +9,14 @@ export const dynamic = "force-dynamic";
 export const dynamicParams = true;
 export const runtime = "nodejs";
 
-async function loadRoutes(sourcePath: string): Promise<SingleRoute[]> {
-  return await getPath(sourcePath);
+async function routes(sourcePath: string): Promise<SingleRoute[]> {
+  return await getPath(["resource", "docs", sourcePath]);
 }
-async function loadNestedRoutes(sourcePath: string): Promise<NestedRoute[]> {
-  return await getPaths(sourcePath);
+async function nestedRoutes(sourcePath: string): Promise<NestedRoute[]> {
+  return await getPaths(["resource", "docs", sourcePath]);
+}
+async function examplesRoutes(sourcePath: string): Promise<SingleRoute[]> {
+  return await getPath(["resource", sourcePath]);
 }
 
 export default async function Layout({
@@ -21,13 +24,16 @@ export default async function Layout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const nested = await loadNestedRoutes("components");
-  const utility = await loadRoutes("utility");
-  const hooks = await loadRoutes("hooks");
+  const [utility, nested, hooks, examples] = await Promise.all([
+    routes("utility"),
+    nestedRoutes("components"),
+    routes("hooks"),
+    examplesRoutes("examples"),
+  ]);
 
   return (
     <Element el="main" className={[style.main_home, "[--hex:#f2f2f2] dark:[--hex:#171717]"].join(" ")}>
-      <AsideLeft topRoutes={[...utility]} routes={[...hooks]} nestedRoutes={nested} />
+      <AsideLeft routes={[...utility, ...nested, ...hooks, ...examples]} />
       {children}
     </Element>
   );

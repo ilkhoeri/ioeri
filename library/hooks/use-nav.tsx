@@ -15,12 +15,8 @@ interface NavContextProps extends MediaQuery, UseOpenStateType<HTMLElement> {
   render: boolean;
   open: boolean;
   setOpen: (value: boolean) => void;
-  handleOpen: () => void;
-  handleClose: () => void;
   onHandle: () => void;
-  onStartEnter: () => void;
-  onEndLeave: () => void;
-  onKeyDown: () => void;
+  onKeyDown: (e: React.KeyboardEvent<HTMLElement>) => false | void;
   minQuery: boolean | undefined;
   maxQuery: boolean | undefined;
   homeQuery: boolean | undefined;

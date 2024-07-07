@@ -1,7 +1,6 @@
 "use client";
 
-import React from "react";
-import { appRoutes } from "@/library/routes";
+import React, { useState } from "react";
 import { useNavContext } from "@/library/hooks/use-nav";
 import { NavLinkItem } from "./nav-link";
 
@@ -9,39 +8,41 @@ import { twMerge } from "tailwind-merge";
 import { ButtonAside, LinkHome } from "./nav-head";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger, ScrollArea } from "@/modules/components/web";
 
-import type { SingleRoute, NestedRoute } from "@/library/routes";
+import type { SingleRoute, NestedRoute, InnerRoutes } from "@/library/routes";
 
 import style from "./aside.module.css";
 import Styles from "./aside-styles";
 
 export function AsideLeft({
   classNames,
-  topRoutes,
   routes,
-  nestedRoutes,
 }: {
   classNames?: { aside?: string; overlay?: string };
-  topRoutes: SingleRoute[] | null;
-  routes: SingleRoute[] | null;
-  nestedRoutes: NestedRoute[] | null;
+  routes: (SingleRoute | NestedRoute)[] | null;
 }) {
-  const { homeQuery, minQuery, maxQuery, open, setOpen, handleClose } = useNavContext();
+  const { homeQuery, minQuery, maxQuery, open, setOpen, onHandle } = useNavContext();
 
   if (homeQuery) {
     return null;
   }
 
-  const attr = {
+  const events = {
     onClick: () => {
       if (maxQuery) {
         if (open) {
           setTimeout(() => {
-            handleClose();
+            onHandle();
           }, 100);
         }
       }
     },
   };
+
+  function Item({ routes }: { routes: InnerRoutes[] }) {
+    return routes.map((route, index) => (
+      <NavLinkItem key={index} href={route.href} title={route.title} className={style.link} {...events} />
+    ));
+  }
 
   return (
     <>
@@ -53,7 +54,7 @@ export function AsideLeft({
         {maxQuery && (
           <hgroup className={Styles({ style: "hgroup" })}>
             <LinkHome />
-            <ButtonAside hidden={minQuery} open={open} onClick={handleClose} className="mr-1.5" />
+            <ButtonAside hidden={minQuery} open={open} onClick={onHandle} className="mr-1.5" />
           </hgroup>
         )}
 
@@ -68,83 +69,48 @@ export function AsideLeft({
             href="/docs"
             title="Getting Started"
             className="w-full flex flex-nowrap flex-row items-center justify-between text-sm select-none z-9 rounded-sm py-1 font-medium focus-visible:ring-inset focus-visible:ring-offset-[-2px] text-muted-foreground data-[path=active]:text-constructive"
-            {...attr}
+            {...events}
           />
 
-          {topRoutes &&
-            topRoutes.map((i, index) => (
-              <Collapsible key={index} defaultOpen align="start" className="h-auto w-full flex flex-col gap-1">
-                <CollapsibleTrigger className={Styles({ style: "trigger" })}>
-                  <span className="truncate">{i.title}</span>
-                </CollapsibleTrigger>
-
-                <CollapsibleContent className="w-full z-1 px-0.5">
-                  {i.data.map((i, index) => (
-                    <NavLinkItem key={index} href={i.href} title={i.title} className={style.link} {...attr} />
-                  ))}
-                </CollapsibleContent>
-              </Collapsible>
-            ))}
-
-          {nestedRoutes &&
-            nestedRoutes.map((i, index) => (
-              <Collapsible key={index} defaultOpen align="start" className="h-auto w-full flex flex-col">
-                <CollapsibleTrigger className={Styles({ style: "trigger" })}>
-                  <span className="truncate">{i.title}</span>
-                </CollapsibleTrigger>
-
-                <CollapsibleContent className="w-full z-1">
-                  {i.data.map((i, index) => (
-                    <Collapsible key={index} defaultOpen align="start">
-                      <CollapsibleTrigger className={twMerge(Styles({ style: "trigger" }), "pl-1.5")}>
-                        <span className="truncate">{i.title}</span>
-                      </CollapsibleTrigger>
-
-                      <CollapsibleContent className="w-full z-1 px-0.5">
-                        {i.data.map((i, index) => (
-                          <NavLinkItem
-                            key={index}
-                            href={i.href}
-                            title={i.title}
-                            className={[style.link, "capitalize"].join(" ")}
-                            {...attr}
-                          />
-                        ))}
-                      </CollapsibleContent>
-                    </Collapsible>
-                  ))}
-                </CollapsibleContent>
-              </Collapsible>
-            ))}
-
           {routes &&
-            routes.map((i, index) => (
-              <Collapsible key={index} defaultOpen align="start" className="h-auto w-full flex flex-col gap-1">
-                <CollapsibleTrigger className={Styles({ style: "trigger" })}>
-                  <span className="truncate">{i.title}</span>
-                </CollapsibleTrigger>
-
-                <CollapsibleContent className="w-full z-1 px-0.5">
-                  {i.data.map((i, index) => (
-                    <NavLinkItem key={index} href={i.href} title={i.title} className={style.link} {...attr} />
-                  ))}
-                </CollapsibleContent>
-              </Collapsible>
-            ))}
-
-          {appRoutes["fitures"].map((i, index) => (
-            <Collapsible key={index} defaultOpen align="start" className="h-auto w-full flex flex-col gap-1">
-              <CollapsibleTrigger className={Styles({ style: "trigger" })}>
-                <span className="truncate">{i.title}</span>
-              </CollapsibleTrigger>
-
-              <CollapsibleContent className="w-full z-1 px-0.5">
-                {i.data.map((i, index) => (
-                  <NavLinkItem key={index} href={i.href} title={i.title} className={style.link} {...attr} />
-                ))}
-              </CollapsibleContent>
-            </Collapsible>
-          ))}
+            routes.map((route, index) => {
+              if ((route as NestedRoute).data[0].data) {
+                // Handle NestedRoute
+                const nestedRoute = route as NestedRoute;
+                return (
+                  <Collapsible key={index} defaultOpen align="start" className={style.collapse}>
+                    <CollapsibleTrigger className={Styles({ style: "trigger" })}>
+                      <span className="truncate">{nestedRoute.title}</span>
+                    </CollapsibleTrigger>
+                    <CollapsibleContent className="w-full z-1">
+                      {nestedRoute.data.map((singleRoute, singleIndex) => (
+                        <Collapsible key={singleIndex} defaultOpen align="start">
+                          <CollapsibleTrigger className={Styles({ style: "trigger" })}>
+                            <span className="truncate">{singleRoute.title}</span>
+                          </CollapsibleTrigger>
+                          <CollapsibleContent data-inner-collapse="">
+                            <Item routes={singleRoute.data} />
+                          </CollapsibleContent>
+                        </Collapsible>
+                      ))}
+                    </CollapsibleContent>
+                  </Collapsible>
+                );
+              } else {
+                // Handle SingleRoute
+                const singleRoute = route as SingleRoute;
+                return (
+                  <Collapsible key={index} defaultOpen align="start" className={style.collapse}>
+                    <CollapsibleTrigger className={Styles({ style: "trigger" })}>
+                      <span className="truncate">{singleRoute.title}</span>
+                    </CollapsibleTrigger>
+                    <CollapsibleContent data-inner-collapse="">
+                      <Item routes={singleRoute.data} />
+                    </CollapsibleContent>
+                  </Collapsible>
+                );
+              }
+            })}
         </ScrollArea>
       </aside>
 
@@ -169,3 +135,5 @@ function Overlay({
   }
   return <span onClick={() => setOpen(false)} className={twMerge(Styles({ style: "overlay" }), className)} />;
 }
+
+

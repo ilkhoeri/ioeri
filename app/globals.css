@@ -1675,7 +1675,7 @@ body [data-sheet="box"] {
     --focus: 2px hsl(var(--constructive) / 0.35);
     --border: hsl(var(--border));
     --border-hover: hsl(var(--constructive));
-    --background: hsl(var(--color));
+    --background: hsl(var(--muted-foreground));
     --disabled: hsl(var(--muted));
     --disabled-inner: #e1e6f9;
     -webkit-appearance: none;

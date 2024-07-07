@@ -5,7 +5,7 @@ export function Demo() {
   const { numb: offset, side, align, boo: withArrow, ...props } = useSetProps({ Numb: 6, Side: "right" });
   return (
     <div>
-      <Tooltip align={align} side={side} sideOffset={offset} withArrow={withArrow}>
+      <Tooltip touch={true} align={align} side={side} sideOffset={offset} withArrow={withArrow}>
         <TooltipTrigger className="flex items-center justify-center rounded-md bg-color text-background border border-background hover:bg-color/90 disabled:opacity-50 h-9 px-2.5">
           <span>Tooltip</span>
         </TooltipTrigger>

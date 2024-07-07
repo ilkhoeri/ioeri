@@ -20,11 +20,14 @@ export const dynamic = "force-dynamic";
 //   return [{ docs: ["hooks", "use-clipboard"] }, { docs: ["b", "2"] }, { docs: ["c", "3"] }];
 // }
 
-async function loadRoutes(sourcePath: string): Promise<SingleRoute[]> {
-  return await getPath(sourcePath);
+async function routes(sourcePath: string): Promise<SingleRoute[]> {
+  return await getPath(["resource", "docs", sourcePath]);
 }
-async function loadNestedRoutes(sourcePath: string): Promise<NestedRoute[]> {
-  return await getPaths(sourcePath);
+async function nestedRoutes(sourcePath: string): Promise<NestedRoute[]> {
+  return await getPaths(["resource", "docs", sourcePath]);
+}
+async function examplesRoutes(sourcePath: string): Promise<SingleRoute[]> {
+  return await getPath(["resource", sourcePath]);
 }
 
 interface DocsParams {
@@ -35,15 +38,18 @@ interface DocsParams {
 }
 
 export default async function Layout({ children, params }: Readonly<DocsParams>) {
-  const nested = await loadNestedRoutes("components");
+  const [utility, nested, hooks, examples] = await Promise.all([
+    routes("utility"),
+    nestedRoutes("components"),
+    routes("hooks"),
+    examplesRoutes("examples"),
+  ]);
   const components = nested.map((i) => i.data).flat();
-  const utility = await loadRoutes("utility");
-  const hooks = await loadRoutes("hooks");
 
   function Template({ children }: { children: React.ReactNode }) {
     return (
       <Main>
-        <AsideLeft topRoutes={[...utility]} routes={[...hooks]} nestedRoutes={nested} />
+        <AsideLeft routes={[...utility, ...nested, ...hooks, ...examples]} />
         <Section>
           <NavigationBreadcrumb />
           <ChildWrapper>{children}</ChildWrapper>

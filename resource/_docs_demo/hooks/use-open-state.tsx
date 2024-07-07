@@ -16,7 +16,7 @@ export function Demo() {
 }
 
 function Dialog() {
-  const state = useOpenState<HTMLElement>({ modal: true, hotKeys: "ctrl+M" });
+  const state = useOpenState<HTMLElement>({ modal: true, popstate: true, hotKeys: "ctrl+M" });
 
   return (
     <>
@@ -25,7 +25,6 @@ function Dialog() {
         role="button"
         ref={state.refs.trigger as React.RefObject<HTMLButtonElement>}
         {...state.styleAt("trigger")}
-        onClick={() => state.setOpen(!state.open)}
         className={globalStyle({ button: "default", size: "sm" })}
       >
         {state.render ? "Close Modal" : "Open Modal"}
@@ -38,7 +37,7 @@ function Dialog() {
             <div
               ref={state.refs.overlay as React.RefObject<HTMLDivElement>}
               {...state.styleAt("overlay")}
-              onClick={() => state.setOpen(false)}
+              onClick={() => state.onHandle()}
               className={dialog({ as: "overlay" })}
             />
             <div
@@ -59,7 +58,7 @@ function Dialog() {
 
 function Tooltip() {
   const [side, setSide] = useState<string>("right");
-  const state = useOpenState<HTMLElement>({ trigger: "hover", sideOffset: 8, side: side as `${DataSide}` });
+  const state = useOpenState<HTMLElement>({ trigger: "hover", sideOffset: 8, touch: true, side: side as `${DataSide}` });
 
   return (
     <>
@@ -68,8 +67,6 @@ function Tooltip() {
         role="button"
         ref={state.refs.trigger as React.RefObject<HTMLButtonElement>}
         {...state.styleAt("trigger")}
-        onMouseEnter={state.onStartEnter}
-        onMouseLeave={state.onEndLeave}
         className={globalStyle({ button: "default", size: "sm" }, "w-24")}
       >
         Tooltip
@@ -100,7 +97,7 @@ const dialog = cvx({
       overlay:
         "fixed inset-0 z-[100] bg-black/50 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
       content:
-        "fixed left-[50%] top-[50%] z-[111] w-80 h-80 translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-300 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[state=open]:zoom-in-100 data-[state=closed]:zoom-out-100 data-[state=open]:slide-in-from-left-1/2 data-[state=closed]:slide-out-to-left-1/2 data-[state=open]:slide-in-from-top-[60%] data-[state=closed]:slide-out-to-top-[60%] sm:rounded-lg",
+        "fixed left-[50%] top-[50%] z-[111] w-80 h-80 translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-300 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[state=open]:zoom-in-100 data-[state=closed]:zoom-out-100 data-[state=open]:slide-in-from-left-1/2 data-[state=closed]:slide-out-to-left-1/2 data-[state=open]:slide-in-from-top-[60%] data-[state=closed]:slide-out-to-top-[60%] rounded-lg",
     },
   },
 });

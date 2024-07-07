@@ -118,7 +118,7 @@ function FrameworksCard() {
 function TypingNotes() {
   return (
     <>
-      <Title el="h2" id="typescript" className="!leading-none">
+      <Title el="h2" id="language" className="!leading-none">
         <TypescriptIcon size={28} fill="#3178c6" className="mr-3 size-[28px] float-left" />
         TypeScript
       </Title>

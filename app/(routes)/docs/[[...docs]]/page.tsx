@@ -4,9 +4,9 @@ import { Playground } from "@/library/components/playground";
 import { Code, Customizer, Reference } from "@/library/components/code";
 import { Container, Title } from "@/library/components/components";
 import { getMdx, getContent, type Content, getRepo } from "@/library/scripts/get-contents";
-import { escapeCode, highlightCode, mdCustom } from "@/library/utils/escape-code";
+import { highlightCode } from "@/library/utils/escape-code";
 import { toPascalCase, sanitizedToParams } from "@/resource/docs";
-import { Examples } from "./demo";
+import { Demos } from "./demo";
 
 import type { Metadata } from "next";
 
@@ -87,7 +87,7 @@ export default async function Page({ params }: DocsParams) {
   const file: string = `${slug(params.docs)}${ce}`;
 
   if (usage) {
-    usages.preview = <Examples params={params} />;
+    usages.preview = <Demos params={params} />;
     usages.usage = (
       <Code title={`${slug(params.docs)}-demo.tsx`} ext=".tsx" code={usage} setInnerHTML={await highlightCode(usage)} />
     );
@@ -129,7 +129,6 @@ export default async function Page({ params }: DocsParams) {
         <Reference title="API reference" setInnerHTML={await highlightCode(reference)} />
         <Customizer setInnerHTML={await highlightCode(consideration)} />
       </div>
-
       {(usage || reUsage) && (
         <div id="usage">
           <Tabs defaultValue={usage ? "preview" : "usage"} className="w-full mb-12">
@@ -138,7 +137,6 @@ export default async function Page({ params }: DocsParams) {
           <Customizer setInnerHTML={await highlightCode(description, { copy: true })} />
         </div>
       )}
-
       <div id="code">
         <Customizer setInnerHTML={await highlightCode(dependOn)} className="mb-4 text-paragraph border-t pt-4" />
         <Tabs defaultValue="code" className="w-full mb-12">
@@ -147,7 +145,6 @@ export default async function Page({ params }: DocsParams) {
         <Customizer setInnerHTML={await highlightCode(explanation, { copy: true })} />
         <Customizer setInnerHTML={await highlightCode(conclusion, { copy: true })} />
       </div>
-
       {conclusion && notes && <hr className="mt-12 b-4 w-full" />}
       <Customizer setInnerHTML={await highlightCode(notes)} />
     </Container>

@@ -50,6 +50,7 @@ export { useEyeDropper, type EyeDropperOpenReturnType } from "./use-eye-dropper/
 export { useFetch, type UseFetchOptions } from "./use-fetch/use-fetch";
 export { useNetwork } from "./use-network/use-network";
 export { useOs, type OS } from "./use-os/use-os";
+export { useTrigger } from "./use-trigger/use-trigger";
 export { useOrientation } from "./use-orientation/use-orientation";
 export { useReload } from "./use-reload/use-reload";
 export { usePWAInstaller } from "./use-pwa-installer/use-pwa-installer";

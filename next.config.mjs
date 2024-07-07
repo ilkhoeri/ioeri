@@ -72,7 +72,7 @@ const Config = withMDX({
       },
       {
         source: "/examples",
-        destination: "/examples/playground/markdown-text",
+        destination: "/examples/playground",
         permanent: true,
       },
     ];

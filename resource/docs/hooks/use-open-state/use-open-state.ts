@@ -1,4 +1,4 @@
-import { RefObject, useEffect, useState } from "react";
+import { RefObject, useCallback, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import {
   useHasScrollbar,
@@ -9,6 +9,7 @@ import {
   RectElement,
   useElementInfo,
   useHover,
+  useTrigger,
 } from "@/modules/hooks";
 
 export enum DataOrigin {
@@ -41,7 +42,7 @@ export enum DataTrigger {
 export type UseOpenStateType<T> = {
   defaultOpen?: boolean;
   open?: boolean;
-  setOpen?: (value: boolean) => void;
+  onOpenChange?: (value: boolean) => void;
   durationClose?: number;
   modal?: boolean;
   clickOutsideToClose?: boolean;
@@ -54,76 +55,48 @@ export type UseOpenStateType<T> = {
   hotKeys?: "/" | "M" | "ctrl+J" | "ctrl+K" | "alt+mod+shift+X" | (string & {});
   base?: boolean;
   touch?: boolean;
+  popstate?: boolean;
 };
 
 export function useOpenState<T extends HTMLElement = any>(OpenState: UseOpenStateType<T> = {}) {
   const {
     ref,
-    defaultOpen = false,
-    open: externalOpen,
-    setOpen: externalSetOpen,
+    sideOffset = 0,
+    durationClose,
+    open: openChange,
+    onOpenChange,
     hotKeys = "",
     trigger = "click",
-    durationClose = 100,
-    clickOutsideToClose = false,
-    modal: widthHasScrollbar = false,
-    side = "bottom",
     align = "center",
-    sideOffset = 0,
+    side = "bottom",
     base = false,
     touch = false,
+    popstate = false,
+    defaultOpen = false,
+    clickOutsideToClose = false,
+    modal: widthHasScrollbar = false,
   } = OpenState;
 
-  const [openState, setOpenState] = useState(defaultOpen);
-  const open = externalOpen !== undefined ? externalOpen : openState;
-  const setOpen = externalSetOpen !== undefined ? externalSetOpen : setOpenState;
-  const [initialOpen, setInitialOpen] = useState(false);
-  const [render, setRender] = useState(open);
   const [hasScrollbar, scrollbarWidth] = useHasScrollbar();
 
   const refs = createRefs<T, `${DataOrigin}`>(Object.values(DataOrigin), ref);
+
+  const { render, initialOpen, open, setOpen } = useTrigger<T>(trigger === "click" ? refs?.trigger?.current : null, {
+    popstate,
+    defaultOpen,
+    durationClose,
+    depend: clickOutsideToClose,
+    open: trigger === "click" ? openChange : undefined,
+    setOpen: trigger === "click" ? onOpenChange : undefined,
+  });
 
   const bounding = {
     trigger: useElementInfo<T>(refs?.trigger?.current),
     content: useElementInfo<T>(refs?.content?.current),
   };
 
-  useEffect(() => {
-    if (open !== defaultOpen) {
-      setInitialOpen(true);
-    }
-  }, [open, defaultOpen]);
-
-  useEffect(() => {
-    const historyPopState = () => {
-      if (open) {
-        setOpen(false);
-      }
-    };
-    window.addEventListener("popstate", historyPopState);
-    return () => {
-      window.removeEventListener("popstate", historyPopState);
-    };
-  }, [open, setOpen]);
-
-  useEffect(() => {
-    let timeoutId: NodeJS.Timeout | null = null;
-    if (open) {
-      setRender(true);
-    } else {
-      timeoutId = setTimeout(() => {
-        setRender(false);
-      }, durationClose - 15);
-    }
-    return () => {
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
-    };
-  }, [open, durationClose, setRender, clickOutsideToClose]);
-
-  useHover(
-    trigger === "hover" ? refs?.trigger?.current : null,
+  useHover<T>(
+    trigger === "hover" ? [refs?.trigger?.current, refs?.content?.current] : undefined,
     trigger === "hover" ? { open, setOpen, touch } : { open: undefined, setOpen: undefined, touch: undefined },
   );
 
@@ -133,41 +106,25 @@ export function useOpenState<T extends HTMLElement = any>(OpenState: UseOpenStat
 
   useClickOutside(() => clickOutsideToClose && setOpen(false), [refs.trigger, refs.content]);
 
-  const handleOpen = () => {
+  const onHandle = useCallback(() => {
     if (trigger === "click") {
       if (!open) {
-        window.history.pushState({ open: true }, "");
+        popstate && window.history.pushState({ open: true }, "");
+        setOpen(true);
+      } else if (open) {
+        popstate && window.history.back();
+        if (durationClose) {
+          setTimeout(() => {
+            setOpen(false);
+          }, durationClose);
+        } else {
+          setOpen(false);
+        }
       }
-      setOpen(!open);
     }
-  };
-  const handleClose = () => {
-    setTimeout(() => {
-      setOpen(false);
-    }, durationClose);
-  };
-  const onHandle = () => {
-    if (!open) {
-      window.history.pushState({ open: true }, "");
-      setOpen(true);
-    } else if (open) {
-      window.history.back();
-      setOpen(false);
-    }
-  };
-  const onStartEnter = () => {
-    if (trigger === "hover") {
-      setOpen(true);
-    }
-  };
-  const onEndLeave = () => {
-    if (trigger === "hover") {
-      setOpen(false);
-    }
-  };
-  const onKeyDown = () => {
-    (e: React.KeyboardEvent<HTMLElement>) => e.key === "Enter" && handleOpen();
-  };
+  }, [trigger, durationClose, popstate, open, setOpen]);
+
+  const onKeyDown = useCallback((e: React.KeyboardEvent<HTMLElement>) => e.key === "Enter" && onHandle(), [onHandle]);
 
   const state = open ? (initialOpen ? "open" : "opened") : "closed";
 
@@ -186,10 +143,6 @@ export function useOpenState<T extends HTMLElement = any>(OpenState: UseOpenStat
     setOpen,
     Portal,
     onHandle,
-    handleOpen,
-    handleClose,
-    onStartEnter,
-    onEndLeave,
     onKeyDown,
     state,
     bounding,

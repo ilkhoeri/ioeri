@@ -1,3 +1,18 @@
+.collapse {
+  @apply h-auto w-full flex flex-col gap-1;
+
+  & [data-inner-collapse] {
+    @apply w-full z-1 px-0.5;
+  }
+
+  & [data-origin="content"] [data-origin="content"] a {
+    @apply capitalize;
+  }
+  & [data-origin="content"] [data-origin="root"] [data-origin="trigger"] {
+    @apply pl-1.5;
+  }
+}
+
 .link,
 .link[data-path="active"] {
   @apply text-muted-foreground text-sm rounded-sm py-1 flex items-center flex-nowrap flex-row justify-start min-w-max h-7 px-4 transition-colors focus-visible:ring-inset focus-visible:ring-offset-[-2px] hover:text-color hover:bg-background-box;

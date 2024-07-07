@@ -5,6 +5,7 @@ import path from "path";
 // import path from "node:path";
 
 import type { InnerRoutes, NestedRoute, SingleRoute } from "../routes/index";
+import { slug } from "../utils";
 
 function toCamelCase(str: string): string {
   return str.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
@@ -12,18 +13,12 @@ function toCamelCase(str: string): string {
 function capitalizeFirst(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
-
-/**
-export function getPath(filePath: string) {
-  return path.posix.resolve(filePath);
+function toSource(str: string[]): string {
+  return str.slice(1).join("/");
 }
-export function getPaths(filePaths: string[]) {
-  return filePaths.map(getPath);
-}
-*/
 
 // Function to generate routes dynamically
-async function generatePath(sourcePath: string, basePath: string): Promise<InnerRoutes[]> {
+async function generatePath(sourcePath: string[], basePath: string): Promise<InnerRoutes[]> {
   const routes = [];
   try {
     const folders = await fs.readdir(basePath);
@@ -34,7 +29,7 @@ async function generatePath(sourcePath: string, basePath: string): Promise<Inner
       if (isDirectory) {
         routes.push({
           title: toCamelCase(folder),
-          href: `/docs/${sourcePath}/${folder}`,
+          href: `/${toSource(sourcePath)}/${folder}`,
         });
       }
     }
@@ -44,12 +39,12 @@ async function generatePath(sourcePath: string, basePath: string): Promise<Inner
   return routes;
 }
 
-export async function getPath(sourcePath: string): Promise<SingleRoute[]> {
+export async function getPath(sourcePath: string[]): Promise<SingleRoute[]> {
   try {
-    const routeData = await generatePath(sourcePath, path.resolve(process.cwd(), `resource/docs/${sourcePath}`));
+    const routeData = await generatePath(sourcePath, path.resolve(process.cwd(), `${sourcePath.join("/")}`));
     return [
       {
-        title: capitalizeFirst(sourcePath),
+        title: capitalizeFirst(slug(sourcePath)),
         data: routeData,
       },
     ];
@@ -59,7 +54,7 @@ export async function getPath(sourcePath: string): Promise<SingleRoute[]> {
   }
 }
 
-async function generatePaths(sourcePath: string, basePath: string): Promise<SingleRoute[]> {
+async function generatePaths(sourcePath: string[], basePath: string): Promise<SingleRoute[]> {
   const routes: SingleRoute[] = [];
   try {
     const folders = await fs.readdir(basePath);
@@ -77,12 +72,12 @@ async function generatePaths(sourcePath: string, basePath: string): Promise<Sing
         if (hasSubFolders) {
           routes.push({
             title: capitalizeFirst(folder),
-            data: await generatePath(`${sourcePath}/${folder}`, folderPath),
+            data: await generatePath(sourcePath.concat(folder), folderPath),
           });
         } else {
           const innerRoutes = subFolders.map((subFolder) => ({
             title: capitalizeFirst(subFolder),
-            href: `/${sourcePath}/${folder}/${subFolder}`,
+            href: `/${sourcePath.join("/")}/${folder}/${subFolder}`,
           }));
           routes.push({
             title: capitalizeFirst(folder),
@@ -97,13 +92,13 @@ async function generatePaths(sourcePath: string, basePath: string): Promise<Sing
   return routes;
 }
 
-export async function getPaths(sourcePath: string): Promise<NestedRoute[]> {
+export async function getPaths(sourcePath: string[]): Promise<NestedRoute[]> {
   try {
-    const basePath = path.resolve(process.cwd(), `resource/docs/${sourcePath}`);
+    const basePath = path.resolve(process.cwd(), `${sourcePath.join("/")}`);
     const routeData = await generatePaths(sourcePath, basePath);
     return [
       {
-        title: capitalizeFirst(sourcePath),
+        title: capitalizeFirst(slug(sourcePath)),
         data: routeData,
       },
     ];

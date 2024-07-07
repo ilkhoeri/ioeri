@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 
 export function useHover<T extends HTMLElement | null>(
-  element?: T | null,
+  elements?: Array<T | null>,
   { touch = false, open, setOpen }: { touch?: boolean; open?: boolean; setOpen?: (v: boolean) => void } = {},
 ) {
   const [opened, setOpened] = useState(false);
@@ -10,13 +10,17 @@ export function useHover<T extends HTMLElement | null>(
   const setHovered = setOpen !== undefined ? setOpen : setOpened;
   const ref = useRef<T>(null);
 
-  const onStartEnter = useCallback(() => {
+  const onMouseEnter = useCallback(() => {
     if (!isTouchDevice) setHovered(true);
   }, [isTouchDevice, setHovered]);
 
-  const onEndLeave = useCallback(() => {
+  const onMouseLeave = useCallback(() => {
     if (!isTouchDevice) setHovered(false);
   }, [isTouchDevice, setHovered]);
+
+  const onMouseMove = useCallback(() => {
+    if (isTouchDevice) setIsTouchDevice(false);
+  }, [isTouchDevice]);
 
   const onTouchStart = useCallback(() => {
     if (touch) {
@@ -26,16 +30,8 @@ export function useHover<T extends HTMLElement | null>(
   }, [setHovered, touch]);
 
   const onTouchEnd = useCallback(() => {
-    if (touch) {
-      setHovered(false);
-    }
+    if (touch) setHovered(false);
   }, [setHovered, touch]);
-
-  const onMouseMove = useCallback(() => {
-    if (isTouchDevice) {
-      setIsTouchDevice(false);
-    }
-  }, [isTouchDevice]);
 
   useEffect(() => {
     const handleTouchStart = () => {
@@ -56,32 +52,53 @@ export function useHover<T extends HTMLElement | null>(
   }, []);
 
   useEffect(() => {
-    const el = element !== undefined ? element : ref.current;
+    const current = ref.current;
 
-    if (el) {
-      el.addEventListener("mouseenter", onStartEnter);
-      el.addEventListener("mouseleave", onEndLeave);
+    const attachListeners = (el: T | null) => {
+      if (el) {
+        el.addEventListener("mouseenter", onMouseEnter);
+        el.addEventListener("mouseleave", onMouseLeave);
+        el.addEventListener("mousemove", onMouseMove);
 
-      if (touch) {
-        el.addEventListener("touchstart", onTouchStart);
-        el.addEventListener("touchend", onTouchEnd);
+        if (touch) {
+          el.addEventListener("touchstart", onTouchStart);
+          el.addEventListener("touchend", onTouchEnd);
+        }
       }
+    };
 
-      el.addEventListener("mousemove", onMouseMove);
-
-      return () => {
-        el.removeEventListener("mouseenter", onStartEnter);
-        el.removeEventListener("mouseleave", onEndLeave);
+    const detachListeners = (el: T | null) => {
+      if (el) {
+        el.removeEventListener("mouseenter", onMouseEnter);
+        el.removeEventListener("mouseleave", onMouseLeave);
+        el.removeEventListener("mousemove", onMouseMove);
 
         if (touch) {
           el.removeEventListener("touchstart", onTouchStart);
           el.removeEventListener("touchend", onTouchEnd);
         }
+      }
+    };
 
-        el.removeEventListener("mousemove", onMouseMove);
-      };
+    if (elements) {
+      elements.forEach((el) => {
+        attachListeners(el);
+      });
     }
-  }, [element, onStartEnter, onEndLeave, onTouchStart, onTouchEnd, onMouseMove, touch]);
+    if (current) {
+      attachListeners(current);
+    }
+    return () => {
+      if (elements) {
+        elements.forEach((el) => {
+          detachListeners(el);
+        });
+      }
+      if (current) {
+        detachListeners(current);
+      }
+    };
+  }, [elements, onMouseEnter, onMouseLeave, onMouseMove, onTouchStart, onTouchEnd, touch]);
 
   return { ref, hovered, setHovered };
 }
