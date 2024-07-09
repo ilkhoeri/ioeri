@@ -11,6 +11,7 @@ import { NavBottom } from "@/library/assets/nav-prev-next";
 import { NavigationBreadcrumb } from "@/library/assets/nav-breadcrumb";
 import { InnerRoutes, NestedRoute, SingleRoute } from "@/library/routes";
 import { ChildWrapper } from "@/library/context/app-context";
+import { Headnav } from "@/library/assets/nav-head";
 
 export const runtime = "nodejs";
 export const dynamicParams = true;
@@ -48,15 +49,19 @@ export default async function Layout({ children, params }: Readonly<DocsParams>)
 
   function Template({ children }: { children: React.ReactNode }) {
     return (
-      <Main>
-        <AsideLeft routes={[...utility, ...nested, ...hooks, ...examples]} />
-        <Section>
-          <NavigationBreadcrumb />
-          <ChildWrapper>{children}</ChildWrapper>
-          <NavBottom routes={[...utility, ...components, ...hooks]} />
-        </Section>
-        <AsideRight />
-      </Main>
+      <>
+        <Headnav routes={[...utility, ...nested, ...hooks, ...examples]} />
+
+        <Main>
+          <AsideLeft routes={[...utility, ...nested, ...hooks, ...examples]} />
+          <Section>
+            <NavigationBreadcrumb />
+            <ChildWrapper>{children}</ChildWrapper>
+            <NavBottom routes={[...utility, ...components, ...hooks]} />
+          </Section>
+          <AsideRight />
+        </Main>
+      </>
     );
   }
 

@@ -1,8 +1,7 @@
-import { RefObject, useCallback, useEffect, useState } from "react";
+import { RefObject, useCallback } from "react";
 import { createPortal } from "react-dom";
 import {
-  useHasScrollbar,
-  useWidthScrollbar,
+  useHideScrollbar,
   useHotkeys,
   createRefs,
   useClickOutside,
@@ -43,7 +42,7 @@ export type UseOpenStateType<T> = {
   defaultOpen?: boolean;
   open?: boolean;
   onOpenChange?: (value: boolean) => void;
-  durationClose?: number;
+  delay?: number;
   modal?: boolean;
   clickOutsideToClose?: boolean;
   trigger?: `${DataTrigger}`;
@@ -62,7 +61,7 @@ export function useOpenState<T extends HTMLElement = any>(OpenState: UseOpenStat
   const {
     ref,
     sideOffset = 0,
-    durationClose,
+    delay,
     open: openChange,
     onOpenChange,
     hotKeys = "",
@@ -74,18 +73,22 @@ export function useOpenState<T extends HTMLElement = any>(OpenState: UseOpenStat
     popstate = false,
     defaultOpen = false,
     clickOutsideToClose = false,
-    modal: widthHasScrollbar = false,
+    modal = false,
   } = OpenState;
-
-  const [hasScrollbar, scrollbarWidth] = useHasScrollbar();
 
   const refs = createRefs<T, `${DataOrigin}`>(Object.values(DataOrigin), ref);
 
-  const { render, initialOpen, open, setOpen } = useTrigger<T>(trigger === "click" ? refs?.trigger?.current : null, {
+  const {
+    ref: handleRef,
+    render,
+    initialOpen,
+    open,
+    setOpen,
+  } = useTrigger<T>(trigger === "click" ? [refs?.trigger?.current, refs?.overlay?.current] : undefined, {
     popstate,
     defaultOpen,
-    durationClose,
-    depend: clickOutsideToClose,
+    delay,
+    depend: [clickOutsideToClose],
     open: trigger === "click" ? openChange : undefined,
     setOpen: trigger === "click" ? onOpenChange : undefined,
   });
@@ -102,7 +105,7 @@ export function useOpenState<T extends HTMLElement = any>(OpenState: UseOpenStat
 
   useHotkeys([[hotKeys, () => setOpen(!open)]]);
 
-  useWidthScrollbar({ open: render, widthHasScrollbar, hasScrollbar, scrollbarWidth, durationClose });
+  useHideScrollbar(render, { modal, delay });
 
   useClickOutside(() => clickOutsideToClose && setOpen(false), [refs.trigger, refs.content]);
 
@@ -113,16 +116,16 @@ export function useOpenState<T extends HTMLElement = any>(OpenState: UseOpenStat
         setOpen(true);
       } else if (open) {
         popstate && window.history.back();
-        if (durationClose) {
+        if (delay) {
           setTimeout(() => {
             setOpen(false);
-          }, durationClose);
+          }, delay);
         } else {
           setOpen(false);
         }
       }
     }
-  }, [trigger, durationClose, popstate, open, setOpen]);
+  }, [trigger, delay, popstate, open, setOpen]);
 
   const onKeyDown = useCallback((e: React.KeyboardEvent<HTMLElement>) => e.key === "Enter" && onHandle(), [onHandle]);
 
@@ -138,6 +141,7 @@ export function useOpenState<T extends HTMLElement = any>(OpenState: UseOpenStat
 
   return {
     refs,
+    handleRef,
     render,
     open,
     setOpen,

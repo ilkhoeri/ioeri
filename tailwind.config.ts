@@ -13,7 +13,7 @@ const config = {
     "./pages/**/*.{js,jsx,ts,tsx,md,mdx}",
     "./library/**/*.{js,jsx,ts,tsx,md,mdx}",
     "./components/**/*.{js,jsx,ts,tsx,md,mdx}",
-    "./modules/**/*.{js,jsx,ts,tsx,md,mdx}",
+    "./resource/**/*.{js,jsx,ts,tsx,md,mdx}",
   ],
   prefix: "",
   theme: {

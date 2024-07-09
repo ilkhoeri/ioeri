@@ -71,6 +71,11 @@ const Config = withMDX({
         permanent: true,
       },
       {
+        source: "/docs/examples",
+        destination: "/examples/playground",
+        permanent: true,
+      },
+      {
         source: "/examples",
         destination: "/examples/playground",
         permanent: true,

@@ -30,7 +30,7 @@ const NESTED_DISPLACEMENT = 16;
 
 const WINDOW_TOP_OFFSET = 26;
 
-const DRAG_CLASS = "vaul-dragging";
+const DRAG_CLASS = "sheet-dragging";
 
 interface WithFadeFromProps {
   snapPoints: (number | string)[];
@@ -177,7 +177,7 @@ function Root({
     const swipeAmount = drawerRef.current ? getTranslate(drawerRef.current, direction) : null;
     const date = new Date();
 
-    if (element.hasAttribute("data-vaul-no-drag") || element.closest("[data-vaul-no-drag]")) {
+    if (element.hasAttribute("data-sheet-no-drag") || element.closest("[data-sheet-no-drag]")) {
       return false;
     }
 
@@ -261,7 +261,7 @@ function Root({
 
       // We need to capture last time when drag with scroll was triggered and have a timeout between
       const absDraggedDistance = Math.abs(draggedDistance);
-      // const wrapper = document.querySelector("[vaul-drawer-wrapper]");
+      // const wrapper = document.querySelector("[sheet-drawer-wrapper]");
       const wrapper = document.querySelector("main");
 
       // Calculate the percentage dragged, where 1 is the closed position
@@ -484,7 +484,7 @@ function Root({
 
   function resetDrawer() {
     if (!drawerRef.current) return;
-    // const wrapper = document.querySelector("[vaul-drawer-wrapper]");
+    // const wrapper = document.querySelector("[sheet-drawer-wrapper]");
     const wrapper = document.querySelector("main");
     const currentSwipeAmount = getTranslate(drawerRef.current, direction);
 
@@ -614,14 +614,14 @@ function Root({
       children?.forEach((child: Element) => {
         const htmlChild = child as HTMLElement;
         if (htmlChild.scrollHeight > htmlChild.clientHeight || htmlChild.scrollWidth > htmlChild.clientWidth) {
-          htmlChild.classList.add("vaul-scrollable");
+          htmlChild.classList.add("sheet-scrollable");
         }
       });
     }
   }, [visible]);
 
   function scaleBackground(open: boolean) {
-    // const wrapper = document.querySelector("[vaul-drawer-wrapper]");
+    // const wrapper = document.querySelector("[sheet-drawer-wrapper]");
     const wrapper = document.querySelector("main");
 
     if (!wrapper || !shouldScaleBackground) return;
@@ -885,12 +885,12 @@ const Handle = React.forwardRef<HTMLDivElement, HandleProps>(function (
       // onPointerUp is already handled by the content component
       ref={ref}
       data-visible={visible ? "true" : "false"}
-      vaul-handle=""
+      sheet-handle=""
       aria-hidden="true"
       {...rest}
     >
       {/* Expand handle's hit area beyond what's visible to ensure a 44x44 tap target for touch devices */}
-      <span vaul-handle-hitarea="" aria-hidden="true">
+      <span sheet-handle-hitarea="" aria-hidden="true">
         {children}
       </span>
     </div>
@@ -911,9 +911,9 @@ const Overlay = React.forwardRef<
       onMouseUp={onRelease}
       ref={composedRef}
       data-visible={visible ? "true" : "false"}
-      vaul-overlay=""
-      vaul-snap-points={isOpen && hasSnapPoints ? "true" : "false"}
-      vaul-snap-points-overlay={isOpen && shouldFade ? "true" : "false"}
+      sheet-overlay=""
+      sheet-snap-points={isOpen && hasSnapPoints ? "true" : "false"}
+      sheet-snap-points-overlay={isOpen && shouldFade ? "true" : "false"}
       {...rest}
     />
   );
@@ -985,7 +985,7 @@ const Content = React.forwardRef<HTMLDivElement, ContentProps>(function (
       data-visible={visible ? "true" : "false"}
       {...rest}
       ref={composedRef}
-      vaul-drawer=""
+      sheet-drawer=""
       style={
         snapPointsOffset && snapPointsOffset.length > 0
           ? ({

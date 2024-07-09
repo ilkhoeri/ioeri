@@ -1,21 +1,22 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { DependencyList, useCallback, useEffect, useRef, useState } from "react";
 
 interface UseTrigger {
   popstate?: boolean;
   open?: boolean;
   setOpen?: (v: boolean) => void;
   defaultOpen?: boolean;
-  durationClose?: number;
-  depend?: any;
+  delay?: number;
+  depend?: DependencyList;
 }
 
-export function useTrigger<T extends HTMLElement | null>(element?: T | null, handle: UseTrigger = {}) {
-  const { popstate, open: exOpen, setOpen: exSetOpen, defaultOpen = false, durationClose = 115, depend } = handle;
+export function useTrigger<T extends HTMLElement | null>(elements?: Array<T | null>, handle: UseTrigger = {}) {
+  const { popstate = false, open: exOpen, setOpen: exSetOpen, defaultOpen = false, delay = 115, depend } = handle;
   const [inOpen, inSetOpen] = useState(defaultOpen);
   const open = exOpen !== undefined ? exOpen : inOpen;
   const setOpen = exSetOpen !== undefined ? exSetOpen : inSetOpen;
-  const [render, setRender] = useState(open);
   const [initialOpen, setInitialOpen] = useState(false);
+
+  const render = useRender(open, delay, depend);
 
   const ref = useRef<T>(null);
 
@@ -46,17 +47,53 @@ export function useTrigger<T extends HTMLElement | null>(element?: T | null, han
 
   usePopState(popstate, { open, setOpen });
 
-  useEffect(() => {
-    const el = element !== undefined ? element : ref.current;
+  const attachListeners = useCallback(
+    (el: T | null) => {
+      if (el) {
+        el.addEventListener("click", toggle);
+      }
+    },
+    [toggle],
+  );
 
-    if (el) {
-      el.addEventListener("click", toggle);
-      return () => {
+  const detachListeners = useCallback(
+    (el: T | null) => {
+      if (el) {
         el.removeEventListener("click", toggle);
-      };
-    }
-  }, [element, toggle]);
+      }
+    },
+    [toggle],
+  );
 
+  useEffect(() => {
+    const current = ref.current;
+
+    if (elements) {
+      elements.forEach((el) => {
+        attachListeners(el);
+      });
+    }
+    if (current) {
+      attachListeners(current);
+    }
+
+    return () => {
+      if (elements) {
+        elements.forEach((el) => {
+          detachListeners(el);
+        });
+      }
+      if (current) {
+        detachListeners(current);
+      }
+    };
+  }, [elements, attachListeners, detachListeners]);
+
+  return { ref, render, open, setOpen, initialOpen };
+}
+
+export function useRender(open: boolean, delay: number = 125, depend?: DependencyList) {
+  const [render, setRender] = useState(open);
   useEffect(() => {
     let timeoutId: NodeJS.Timeout | null = null;
     if (open) {
@@ -64,16 +101,16 @@ export function useTrigger<T extends HTMLElement | null>(element?: T | null, han
     } else {
       timeoutId = setTimeout(() => {
         setRender(false);
-      }, durationClose - 15);
+      }, delay);
     }
     return () => {
       if (timeoutId) {
         clearTimeout(timeoutId);
       }
     };
-  }, [open, durationClose, setRender, depend]);
+  }, [open, setRender, delay, depend]);
 
-  return { ref, render, open, setOpen, initialOpen };
+  return render;
 }
 
 function usePopState(popstate?: boolean, { open, setOpen }: { open?: boolean; setOpen?: (v: boolean) => void } = {}) {

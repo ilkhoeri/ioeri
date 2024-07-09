@@ -29,12 +29,10 @@ export const variantLinkButton = cvx({
 
 export type LinkType = LinkProps & AnchorTargets & React.AnchorHTMLAttributes<HTMLAnchorElement>;
 export type ButtonType = React.ButtonHTMLAttributes<HTMLButtonElement> & { href?: string };
-export type DivType = React.HTMLAttributes<HTMLDivElement>;
 
 export type LinkButtonProps =
-  | ({ el?: "link" } & LinkType & VariantsType<typeof variantLinkButton>)
   | ({ el?: "button" } & ButtonType & VariantsType<typeof variantLinkButton>)
-  | ({ el?: "div" } & DivType & VariantsType<typeof variantLinkButton>);
+  | ({ el?: "link" } & LinkType & VariantsType<typeof variantLinkButton>);
 
 export const LinkButton = (props: LinkButtonProps) => {
   const { el = "link", className, color, variant = "normal", ...rest } = props;
@@ -62,11 +60,6 @@ export const LinkButton = (props: LinkButtonProps) => {
         {...other}
       />
     );
-  }
-
-  if (el === "div") {
-    const { ...other } = rest as DivType;
-    return <div className={classes} {...other} />;
   }
 
   return el;

@@ -5,13 +5,14 @@ export { useDidUpdate } from "./use-did-update/use-did-update";
 export { useDisclosure } from "./use-disclosure/use-disclosure";
 export { useFullscreen } from "./use-fullscreen/use-fullscreen";
 export {
+  useHideScrollbar,
   useHasScrollbar,
   applyStateEffect,
   setBodyProperty,
   removeBodyProperty,
   attributeState,
   useWidthScrollbar,
-} from "./use-has-scrollbar/use-has-scrollbar";
+} from "./use-hide-scrollbar/use-hide-scrollbar";
 export { useHotkeys, getHotkeyHandler, getHotkeyMatcher, parseHotkey } from "./use-hotkeys/use-hotkeys";
 export { useHover } from "./use-hover/use-hover";
 export { useIntersection } from "./use-intersection/use-intersection";
@@ -50,7 +51,7 @@ export { useEyeDropper, type EyeDropperOpenReturnType } from "./use-eye-dropper/
 export { useFetch, type UseFetchOptions } from "./use-fetch/use-fetch";
 export { useNetwork } from "./use-network/use-network";
 export { useOs, type OS } from "./use-os/use-os";
-export { useTrigger } from "./use-trigger/use-trigger";
+export { useTrigger, useRender } from "./use-trigger/use-trigger";
 export { useOrientation } from "./use-orientation/use-orientation";
 export { useReload } from "./use-reload/use-reload";
 export { usePWAInstaller } from "./use-pwa-installer/use-pwa-installer";

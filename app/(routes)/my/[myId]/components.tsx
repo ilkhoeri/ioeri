@@ -1,15 +1,14 @@
 "use client";
 
-import { createPortal } from "react-dom";
 import Link from "next/link";
 import Autoplay from "embla-carousel-autoplay";
 import { Image } from "@/library/components/image";
 
-import { markdownInsertHTML } from "@/library/utils/clean-html";
-import { getFullAge, getSocMedImages } from "../utils";
-import { Confetti, StyleObject, getRandomColor, getTimeAgo } from "@/resource/docs";
-import { DoubleHelixWords } from "@/resource/docs/components/web";
+import { getFullAge } from "../utils";
 import { StateHidden } from "@/library/assets/theme";
+import { Confetti } from "@/modules/components/web";
+import { markdownInsertHTML } from "@/library/utils/clean-html";
+import { StyleObject, getRandomColor, getTimeAgo } from "@/modules/index";
 
 import type { Address, Blog, Socmed, User, UserProps } from "../types";
 

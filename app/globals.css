@@ -944,14 +944,6 @@ hr {
   padding-inline-end: var(--sz-moderate-pr, var(--sz-moderate-px, 12px));
 }
 
-[data-action] svg {
-  --sz-action-icon: 1rem;
-  width: var(--sz-action-icon);
-  min-width: var(--sz-action-icon);
-  height: var(--sz-action-icon);
-  min-height: var(--sz-action-icon);
-}
-
 .fg_wrap {
   @apply aspect-square overflow-hidden list-none align-middle bg-transparent relative centered object-cover rounded-[--fg-rounded,9999px] [border:--fg-bd] [box-shadow:--fg-box-shadow];
   & img {
@@ -1334,7 +1326,7 @@ hr {
   padding: 5px;
 }
 
-body [vaul-drawer],
+body [sheet-drawer],
 body [data-sheet="box"] {
   outline: 0px solid transparent;
 }

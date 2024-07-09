@@ -5,6 +5,7 @@ import Element from "@/library/components/element";
 import { DiscordIcon, GithubIcon, IoeriTextIcon, LineMenuBarIcon } from "@/modules/icons";
 import { useHoveredElement } from "@/library/hooks/use-hovered-element";
 import { useNavContext } from "../hooks/use-nav";
+import { CommandDialog, CommandDialogType } from "./command-dialog";
 import { appRoutes } from "@/library/routes";
 import { NavLinkItem } from "./nav-link";
 import { twMerge } from "tailwind-merge";
@@ -12,7 +13,7 @@ import { twMerge } from "tailwind-merge";
 import style from "./aside.module.css";
 import globalStyle from "../styles/styles";
 
-export function Headnav() {
+export function Headnav({ routes }: CommandDialogType) {
   const { minQuery, onHandle, pathname, open } = useNavContext();
 
   const { hovered, onMouseEnter, onMouseLeave } = useHoveredElement();
@@ -61,20 +62,22 @@ export function Headnav() {
           )}
         </div>
 
-        <div className={globalStyle({ toggle: "group" }, "ml-auto [&_svg]:size-5")}>
+        <div className={globalStyle({ toggle: "group" }, "ml-auto [&_svg]:size-5 [&>:nth-child(1)]:mr-2")}>
+          <CommandDialog routes={routes} />
+
           <NavLinkItem
             icon={GithubIcon}
             target="_blank"
             aria-label="github repository"
             href="https://github.com/ilkhoeri/ioeri"
-            className={globalStyle({ toggle: "item", size: "icon-sm" })}
+            className={globalStyle({ toggle: "item", size: "icon-xs" })}
           />
           <NavLinkItem
             icon={DiscordIcon}
             target="_blank"
             aria-label="discord community"
             href="https://discord.gg/Xct5BBPDZ9"
-            className={globalStyle({ toggle: "item", size: "icon-sm" })}
+            className={globalStyle({ toggle: "item", size: "icon-xs" })}
           />
         </div>
 

@@ -1,5 +1,17 @@
 import { IconType } from "@/modules/components/web";
-import { ExpoIcon, ReactIcon, NextjsIcon, GatsbyIcon, RemixIcon, ViteIcon } from "@/modules/icons";
+import {
+  ExpoIcon,
+  ReactIcon,
+  NextjsIcon,
+  GatsbyIcon,
+  RemixIcon,
+  ViteIcon,
+  ComponentsIcon,
+  Components2Icon,
+  WebHookIcon,
+  UtilityIcon,
+  CommandIcon,
+} from "@/modules/icons";
 
 export type InnerRoutes = { title: string; href: string };
 export type SingleRoute = { title: string; data: InnerRoutes[] };
@@ -87,6 +99,36 @@ export const appRoutes = {
     //   href: "",
     // },
   ],
+  suggestions: {
+    title: "Suggestions",
+    data: [
+      {
+        title: "Getting Started",
+        href: "/docs",
+        icon: CommandIcon,
+      },
+      {
+        title: "Utility",
+        href: "/docs/utility",
+        icon: UtilityIcon,
+      },
+      {
+        title: "Components",
+        href: "/docs/components",
+        icon: ComponentsIcon,
+      },
+      {
+        title: "Hooks",
+        href: "/docs/hooks",
+        icon: WebHookIcon,
+      },
+      {
+        title: "Examples",
+        href: "/examples",
+        icon: Components2Icon,
+      },
+    ],
+  },
   footRoutes: [
     {
       title: "Started",

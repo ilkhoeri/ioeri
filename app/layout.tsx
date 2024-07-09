@@ -4,7 +4,7 @@ import { ThemeProvider } from "@/library/provider/theme-provider";
 import { ThemeStateHidden } from "@/library/assets/theme";
 import { ScrollToggle } from "@/library/components/toggle";
 import { NavProvider } from "@/library/hooks/use-nav";
-import { Headnav } from "@/library/assets/nav-head";
+// import { Headnav } from "@/library/assets/nav-head";
 import { FootNav } from "@/library/assets/nav-foot";
 
 import type { Metadata } from "next";
@@ -207,7 +207,6 @@ export default async function RootLayout({
         <body {...attrBody}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
             <NavProvider>
-              <Headnav />
 
               {children}
 

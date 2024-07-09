@@ -1,6 +1,8 @@
 import Element from "@/library/components/element";
 import { AsideLeft } from "@/library/assets/nav-aside-left";
 import { getPath, getPaths } from "@/library/scripts/get-paths";
+import { Headnav } from "@/library/assets/nav-head";
+
 import type { NestedRoute, SingleRoute } from "@/library/routes";
 
 import style from "@/library/styles/ioeri.module.css";
@@ -32,9 +34,13 @@ export default async function Layout({
   ]);
 
   return (
-    <Element el="main" className={[style.main_home, "[--hex:#f2f2f2] dark:[--hex:#171717]"].join(" ")}>
-      <AsideLeft routes={[...utility, ...nested, ...hooks, ...examples]} />
-      {children}
-    </Element>
+    <>
+      <Headnav routes={[...utility, ...nested, ...hooks, ...examples]} />
+
+      <Element el="main" className={[style.main_home, "[--hex:#f2f2f2] dark:[--hex:#171717]"].join(" ")}>
+        <AsideLeft routes={[...utility, ...nested, ...hooks, ...examples]} />
+        {children}
+      </Element>
+    </>
   );
 }
