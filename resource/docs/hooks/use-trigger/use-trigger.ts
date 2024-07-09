@@ -26,24 +26,19 @@ export function useTrigger<T extends HTMLElement | null>(elements?: Array<T | nu
     }
   }, [open, defaultOpen]);
 
-  const toggle = useCallback(
-    (e: MouseEvent) => {
-      e.stopPropagation();
-      e.preventDefault();
-      if (popstate) {
-        if (!open) {
-          window.history.pushState({ open: true }, "");
-          setOpen(true);
-        } else {
-          window.history.back();
-          setOpen(false);
-        }
+  const toggle = useCallback(() => {
+    if (popstate) {
+      if (!open) {
+        window.history.pushState({ open: true }, "");
+        setOpen(true);
       } else {
-        setOpen(!open);
+        window.history.back();
+        setOpen(false);
       }
-    },
-    [popstate, open, setOpen],
-  );
+    } else {
+      setOpen(!open);
+    }
+  }, [popstate, open, setOpen]);
 
   usePopState(popstate, { open, setOpen });
 
@@ -89,7 +84,7 @@ export function useTrigger<T extends HTMLElement | null>(elements?: Array<T | nu
     };
   }, [elements, attachListeners, detachListeners]);
 
-  return { ref, render, open, setOpen, initialOpen };
+  return { ref, render, open, setOpen, initialOpen, toggle };
 }
 
 export function useRender(open: boolean, delay: number = 125, depend?: DependencyList) {

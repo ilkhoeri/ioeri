@@ -14,7 +14,7 @@ import style from "./aside.module.css";
 import globalStyle from "../styles/styles";
 
 export function Headnav({ routes }: CommandDialogType) {
-  const { minQuery, onHandle, pathname, open } = useNavContext();
+  const { minQuery, toggle, pathname, open } = useNavContext();
 
   const { hovered, onMouseEnter, onMouseLeave } = useHoveredElement();
 
@@ -83,7 +83,7 @@ export function Headnav({ routes }: CommandDialogType) {
 
         <ButtonAside
           open={open}
-          onClick={onHandle}
+          onClick={toggle}
           hidden={minQuery || pathname.split("/").filter(Boolean).includes("examples")}
           className="max-md:ml-6 max-md:data-[state=open]:translate-x-[212px] max-md:data-[state=open]:opacity-0"
         />

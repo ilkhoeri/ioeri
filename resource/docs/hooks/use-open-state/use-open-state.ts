@@ -84,6 +84,7 @@ export function useOpenState<T extends HTMLElement = any>(OpenState: UseOpenStat
     initialOpen,
     open,
     setOpen,
+    toggle,
   } = useTrigger<T>(trigger === "click" ? [refs?.trigger?.current] : undefined, {
     popstate,
     defaultOpen,
@@ -109,25 +110,7 @@ export function useOpenState<T extends HTMLElement = any>(OpenState: UseOpenStat
 
   useClickOutside(() => clickOutsideToClose && setOpen(false), [refs.trigger, refs.content]);
 
-  const onHandle = useCallback(() => {
-    if (trigger === "click") {
-      if (!open) {
-        popstate && window.history.pushState({ open: true }, "");
-        setOpen(true);
-      } else if (open) {
-        popstate && window.history.back();
-        if (delay) {
-          setTimeout(() => {
-            setOpen(false);
-          }, delay);
-        } else {
-          setOpen(false);
-        }
-      }
-    }
-  }, [trigger, delay, popstate, open, setOpen]);
-
-  const onKeyDown = useCallback((e: React.KeyboardEvent<HTMLElement>) => e.key === "Enter" && onHandle(), [onHandle]);
+  const onKeyDown = useCallback((e: React.KeyboardEvent<HTMLElement>) => e.key === "Enter" && toggle(), [toggle]);
 
   const state = open ? (initialOpen ? "open" : "opened") : "closed";
 
@@ -146,7 +129,7 @@ export function useOpenState<T extends HTMLElement = any>(OpenState: UseOpenStat
     open,
     setOpen,
     Portal,
-    onHandle,
+    toggle,
     onKeyDown,
     state,
     bounding,

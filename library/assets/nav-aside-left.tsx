@@ -20,7 +20,7 @@ export function AsideLeft({
   classNames?: { aside?: string; overlay?: string };
   routes: (SingleRoute | NestedRoute)[] | null;
 }) {
-  const { homeQuery, minQuery, maxQuery, open, setOpen, onHandle } = useNavContext();
+  const { homeQuery, minQuery, maxQuery, open, setOpen, toggle } = useNavContext();
 
   if (homeQuery) {
     return null;
@@ -31,7 +31,7 @@ export function AsideLeft({
       if (maxQuery) {
         if (open) {
           setTimeout(() => {
-            onHandle();
+            toggle();
           }, 100);
         }
       }
@@ -54,7 +54,7 @@ export function AsideLeft({
         {maxQuery && (
           <hgroup className={Styles({ style: "hgroup" })}>
             <LinkHome />
-            <ButtonAside hidden={minQuery} open={open} onClick={onHandle} className="mr-1.5" />
+            <ButtonAside hidden={minQuery} open={open} onClick={toggle} className="mr-1.5" />
           </hgroup>
         )}
 

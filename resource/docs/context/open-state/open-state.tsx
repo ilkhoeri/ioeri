@@ -10,7 +10,7 @@ interface OpenStateContextProps<T> {
   render: boolean;
   open: boolean;
   setOpen: (value: boolean) => void;
-  onHandle: () => void;
+  toggle: () => void;
   onKeyDown: (e: React.KeyboardEvent<HTMLElement>) => false | void;
   refs: Partial<Record<DataOrigin, React.MutableRefObject<T | null>>>;
 }

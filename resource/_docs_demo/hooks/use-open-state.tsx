@@ -37,7 +37,7 @@ function Dialog() {
             <div
               ref={state.refs.overlay as React.RefObject<HTMLDivElement>}
               {...state.styleAt("overlay")}
-              onClick={() => state.onHandle()}
+              onClick={() => state.toggle()}
               className={dialog({ as: "overlay" })}
             />
             <div
