@@ -60,6 +60,7 @@ const defaultProps: Partial<CommandProps> = {
   closeOnActionTrigger: true,
   shortcut: "mod + K",
   highlightQuery: false,
+  nothingFound: "Nothing found...",
 };
 
 

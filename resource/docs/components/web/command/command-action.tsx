@@ -11,6 +11,7 @@ import type { Factory, ElementProps, AnchorTargets, CSSProperties, CompoundStyle
 export type CommandActionStylesNames =
   | "action"
   | "actionLabel"
+  | "actionInner"
   | "actionDescription"
   | "actionLeftSection"
   | "actionRightSection"
@@ -103,9 +104,9 @@ export const CommandAction = factory<CommandActionFactory>((_props, ref) => {
     <>
       {leftSection && <span {...ctx.getStyles("actionLeftSection", stylesApi)}>{leftSection}</span>}
 
-      <div {...ctx.getStyles("actionDescription", stylesApi)}>
+      <div {...ctx.getStyles("actionInner", stylesApi)}>
         {labelNode}
-        <span>{description}</span>
+        <span {...ctx.getStyles("actionDescription", stylesApi)}>{description}</span>
       </div>
 
       {rightSection && <span {...ctx.getStyles("actionRightSection", stylesApi)}>{rightSection}</span>}

@@ -12,18 +12,19 @@ const classes = cvx({
       searchWrap: "flex items-center border-b px-3",
       search:
         "flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50",
-      empty: "flex items-center justify-center text-center font-semibold",
+      empty: "flex items-center justify-center text-center font-medium text-muted-foreground pt-10 text-sm",
       actionBody: "flex-1 overflow-y-auto h-full webkit-scrollbar",
       actionSection:
         "data-[dimmed]:opacity-100 data-[dimmed]:text-muted-foreground data-[position=left]:mr-3 data-[position=right]:ml-3 [&>svg]:block",
       actionsList: "p-1 pb-10 h-max min-h-[inherit]",
       actionsGroup:
         "flex empty:hidden flex-col overflow-hidden text-muted-foreground mt-2 pb-2 first:mt-0 border-b last:border-b-0",
-      actionLabel: "flex flex-row items-center px-2 py-1.5 text-xs font-medium text-muted-foreground select-none",
+      actionGroupLabel: "flex flex-row items-center px-2 py-1.5 text-xs font-medium text-muted-foreground select-none",
       action:
-        "relative flex flex-row items-center justify-start gap-3 p-1.5 w-full min-w-full max-w-full text-left select-none rounded-sm px-2 py-1.5 text-sm text-muted-foreground outline-none hover:bg-muted/80 hover:text-color aria-selected:bg-muted/80 aria-selected:text-color data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+        "relative flex flex-row items-center justify-start gap-2 p-1.5 w-full min-w-full max-w-full text-left select-none rounded-sm px-2 py-1.5 text-sm text-muted-foreground outline-none hover:bg-muted/80 hover:text-color aria-selected:bg-muted/80 aria-selected:text-color data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&>[data-command=action-left-section]+[data-command=action-inner]_span]:pl-0",
+      actionLabel: "flex flex-row items-center px-2 text-sm font-medium select-none [&_mark]:rounded-sm",
       actionDescription:
-        "flex flex-col items-start justify-center [&>:nth-child(2)]:block [&>:nth-child(2)]:text-xs [&>:nth-child(2)]:text-muted-foreground",
+        "flex flex-col items-start justify-center text-xs px-2 text-muted-foreground select-none [&>:nth-child(2)]:block [&>:nth-child(2)]:text-xs [&>:nth-child(2)]:text-muted-foreground empty:hidden",
       footer: "border-t",
     },
   },

@@ -16,8 +16,10 @@ export type CommandStylesNames =
   | "actionBody"
   | "actionsList"
   | "actionsGroup"
-  | "actionLabel"
+  | "actionGroupLabel"
   | "action"
+  | "actionInner"
+  | "actionLabel"
   | "actionDescription"
   | "actionLeftSection"
   | "actionRightSection"
@@ -113,6 +115,12 @@ export const CommandContent = factory<CommandContentFactory>((_props, ref) => {
     open ? onCommandOpen?.() : onCommandClose?.();
   }, [open]);
 
+  const onClose = () => {
+    commandActions.close(store!);
+    clearQueryOnClose && setQuery("");
+    commandActions.clearCommandState({ clearQuery: clearQueryOnClose }, store!);
+  };
+
   const attrs = { "data-state": open ? "open" : "closed" };
   const rest = { ...others, ...attrs };
 
@@ -120,7 +128,7 @@ export const CommandContent = factory<CommandContentFactory>((_props, ref) => {
 
   return createPortal(
     <CommandProvider value={{ setQuery, query, store: store!, closeOnActionTrigger, getStyles }}>
-      <div {...attrs} onClick={() => commandActions.close(store!)} {...getStyles("overlay", { classNames, styles })} />
+      <div {...attrs} onClick={onClose} {...getStyles("overlay", { classNames, styles })} />
       <div ref={ref} {...rest} {...getStyles("content", { className, classNames, style, styles })}>
         {children}
       </div>

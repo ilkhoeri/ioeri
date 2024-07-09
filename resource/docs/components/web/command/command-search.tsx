@@ -7,10 +7,9 @@ import { Factory, factory, useProps, CompoundStylesApiProps, ElementProps } from
 
 export type CommandSearchStylesNames = "search" | "section" | "searchWrap";
 
-export interface CommandSearchProps
-  extends CompoundStylesApiProps<CommandSearchFactory>,
-    ElementProps<"input", "size"> {
+export interface CommandSearchProps extends CompoundStylesApiProps<CommandSearchFactory>, ElementProps<"input", "size"> {
   leftSection?: React.ReactNode;
+  rightSection?: React.ReactNode;
   size?: number;
 }
 
@@ -41,11 +40,14 @@ export const CommandSearch = factory<CommandSearchFactory>((props, ref) => {
     onChange,
     value,
     leftSection,
+    rightSection,
     unstyled,
     size,
     ...others
   } = useProps("CommandSearch", defaultProps, props);
   const ctx = useCommandContext();
+
+  const c = ctx.store
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     onKeyDown?.(event);
@@ -87,12 +89,13 @@ export const CommandSearch = factory<CommandSearchFactory>((props, ref) => {
     <div {...ctx.getStyles("searchWrap", { classNames, styles })}>
       <LeftSection leftSection={leftSection} />
       <input {...rest} />
+      {rightSection}
     </div>
   );
 });
 
 function LeftSection({ leftSection }: { leftSection: React.ReactNode }) {
-  if (leftSection) return null;
+  if (leftSection) return leftSection;
   return (
     <svg
       fill="currentColor"

@@ -7,6 +7,7 @@ import { cvx, VariantsType } from "@/modules/utility";
 
 import { type SingleRoute, type NestedRoute, type InnerRoutes, appRoutes } from "@/library/routes";
 import { sanitizedToParams } from "@/modules/index";
+import { commandActions } from "@/modules/components/web/command/command-store";
 
 export type CommandDialogType = { routes: (SingleRoute | NestedRoute)[] | null };
 
@@ -26,6 +27,26 @@ export function useSearch<T>({ clearQuery }: { clearQuery: boolean | undefined }
   return { query, setQuery, value, setValue, suggest, setSuggest };
 }
 
+const actions = [
+  {
+    group: "Pages",
+    actions: [
+      { id: "home", label: "Home page", description: "Where we present the product" },
+      { id: "careers", label: "Careers page", description: "Where we list open positions" },
+      { id: "about-us", label: "About us page", description: "Where we tell what we do" },
+    ],
+  },
+
+  {
+    group: "Apps",
+    actions: [
+      { id: "svg-compressor", label: "SVG compressor", description: "Compress SVG images" },
+      { id: "base64", label: "Base 64 converter", description: "Convert data to base 64 format" },
+      { id: "fake-data", label: "Fake data generator", description: "Lorem ipsum generator" },
+    ],
+  },
+];
+
 export function CommandDialog({ routes }: CommandDialogType) {
   const { query, setQuery, value, setValue } = useSearch({ clearQuery: true });
 
@@ -39,7 +60,64 @@ export function CommandDialog({ routes }: CommandDialogType) {
         </kbd>
       </button>
 
-      <Command.Content {...cn({ as: "command" })} query={query} onQueryChange={setQuery} clearQueryOnClose>
+      <Command
+        actions={filter({ routes })}
+        searchProps={{
+          rightSection: (
+            <button type="button" {...cn({ as: "close" })} onClick={command.close}>
+              <XIcon size={16} />
+            </button>
+          ),
+        }}
+      />
+    </>
+  );
+}
+type actionsxxx = {
+  group: string;
+  actions: {
+    id: string;
+    label: string;
+    description: string;
+  }[];
+}[];
+
+function filter({ routes }: CommandDialogType) {
+  if (!routes) return [];
+
+  const filteredRoutes = routes.flatMap((route) => {
+    const routeData = (route as NestedRoute).data?.[0]?.data ? (route as NestedRoute).data : [route as SingleRoute];
+    return routeData.flatMap((singleRoute) => {
+      const actions = singleRoute.data.map((i) => ({
+        id: i.title,
+        label: i.title,
+        href: i.href,
+        leftSection: <FileIcon />,
+      }));
+      return {
+        group: singleRoute.title,
+        actions,
+      };
+    });
+  });
+
+  return filteredRoutes;
+}
+
+export function CommandDialogOld({ routes }: CommandDialogType) {
+  const { query, setQuery, value, setValue } = useSearch({ clearQuery: true });
+
+  return (
+    <>
+      <button type="button" {...cn({ as: "trigger" })} onClick={command.open}>
+        <span className="hidden lg:inline-flex">Search documentation...</span>
+        <span className="inline-flex lg:hidden">Search...</span>
+        <kbd {...cn({ as: "kbd" })}>
+          <span>⌘</span>K
+        </kbd>
+      </button>
+
+      <Command.Content {...cn({ as: "command" })} query={query} onQueryChange={setQuery}>
         <button type="button" {...cn({ as: "close" })} onClick={command.close}>
           <XIcon size={16} />
         </button>
@@ -106,7 +184,7 @@ function suggestions({ query }: { query: string }) {
 
   const routes = appRoutes["suggestions"];
   return (
-    <Command.ActionsGroup label={routes.title} classNames={{ actionLabel: "border-b mb-2" }}>
+    <Command.ActionsGroup label={routes.title} classNames={{ actionGroupLabel: "border-b mb-2" }}>
       {routes.data.map((i, index) => (
         <Command.Action key={index} href={i.href}>
           <i.icon size={18} />

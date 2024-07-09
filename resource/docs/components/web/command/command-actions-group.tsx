@@ -3,7 +3,7 @@ import React from "react";
 import { useCommandContext } from "./command-context";
 import { factory, useProps, CompoundStylesApiProps, ElementProps, Factory } from "@/modules/factory";
 
-export type CommandActionsGroupStylesNames = "actionsGroup" | "actionLabel";
+export type CommandActionsGroupStylesNames = "actionsGroup" | "actionGroupLabel";
 
 export interface CommandActionsGroupProps
   extends CompoundStylesApiProps<CommandActionsGroupFactory>,
@@ -36,7 +36,7 @@ export const CommandActionsGroup = factory<CommandActionsGroupFactory>((props, r
       {...ctx.getStyles("actionsGroup", { id, className, style, classNames, styles })}
       {...others}
     >
-      {label && <div {...ctx.getStyles("actionLabel", { classNames, styles })}>{label}</div>}
+      {label && <div {...ctx.getStyles("actionGroupLabel", { classNames, styles })}>{label}</div>}
       {children}
     </div>
   );
