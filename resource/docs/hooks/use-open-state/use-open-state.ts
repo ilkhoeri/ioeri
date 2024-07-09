@@ -79,17 +79,16 @@ export function useOpenState<T extends HTMLElement = any>(OpenState: UseOpenStat
   const refs = createRefs<T, `${DataOrigin}`>(Object.values(DataOrigin), ref);
 
   const {
-    ref: handleRef,
-    render,
-    initialOpen,
     open,
-    setOpen,
     toggle,
+    render,
+    setOpen,
+    initialOpen,
+    ref: handleRef,
   } = useTrigger<T>(trigger === "click" ? [refs?.trigger?.current] : undefined, {
+    delay,
     popstate,
     defaultOpen,
-    delay,
-    depend: [clickOutsideToClose],
     open: trigger === "click" ? openChange : undefined,
     setOpen: trigger === "click" ? onOpenChange : undefined,
   });

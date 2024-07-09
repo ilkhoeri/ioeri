@@ -6,17 +6,16 @@ interface UseTrigger {
   setOpen?: (v: boolean) => void;
   defaultOpen?: boolean;
   delay?: number;
-  depend?: DependencyList;
 }
 
 export function useTrigger<T extends HTMLElement | null>(elements?: Array<T | null>, handle: UseTrigger = {}) {
-  const { popstate = false, open: exOpen, setOpen: exSetOpen, defaultOpen = false, delay = 115, depend } = handle;
+  const { popstate = false, open: exOpen, setOpen: exSetOpen, defaultOpen = false, delay = 115 } = handle;
   const [inOpen, inSetOpen] = useState(defaultOpen);
   const open = exOpen !== undefined ? exOpen : inOpen;
   const setOpen = exSetOpen !== undefined ? exSetOpen : inSetOpen;
   const [initialOpen, setInitialOpen] = useState(false);
 
-  const render = useRender(open, delay, depend);
+  const render = useRender(open, delay);
 
   const ref = useRef<T>(null);
 
