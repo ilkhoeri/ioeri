@@ -2,7 +2,7 @@
 import React from "react";
 import { createPortal } from "react-dom";
 import { CommandProvider } from "./command-context";
-import { useDidUpdate, useHotkeys, useRender, useHideScrollbar } from "@/modules/hooks";
+import { useDidUpdate, useHotkeys, useRender, useFixed } from "@/modules/hooks";
 import { useCommand, CommandStore, commandStore, commandActions, getHotkeys } from "./command-store";
 import { Factory, factory, CSSProperties, useProps, StylesApiProps, useStyles } from "@/modules/factory";
 
@@ -107,7 +107,7 @@ export const CommandContent = factory<CommandContentFactory>((_props, ref) => {
 
   useHotkeys(getHotkeys(shortcut, store!), tagsToIgnore, triggerOnContentEditable);
 
-  useHideScrollbar(render);
+  useFixed(render);
 
   useDidUpdate(() => {
     open ? onCommandOpen?.() : onCommandClose?.();

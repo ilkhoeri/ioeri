@@ -1,7 +1,7 @@
 import { RefObject, useCallback } from "react";
 import { createPortal } from "react-dom";
 import {
-  useHideScrollbar,
+  useFixed,
   useHotkeys,
   createRefs,
   useClickOutside,
@@ -105,7 +105,7 @@ export function useOpenState<T extends HTMLElement = any>(OpenState: UseOpenStat
 
   useHotkeys([[hotKeys, () => setOpen(!open)]]);
 
-  useHideScrollbar(render, { modal, delay });
+  useFixed(render, { modal, delay });
 
   useClickOutside(() => clickOutsideToClose && setOpen(false), [refs.trigger, refs.content]);
 

@@ -5,14 +5,14 @@ export { useDidUpdate } from "./use-did-update/use-did-update";
 export { useDisclosure } from "./use-disclosure/use-disclosure";
 export { useFullscreen } from "./use-fullscreen/use-fullscreen";
 export {
-  useHideScrollbar,
+  useFixed,
   useHasScrollbar,
   applyStateEffect,
-  setBodyProperty,
-  removeBodyProperty,
+  attachBodyProperty,
+  detachBodyProperty,
   attributeState,
   useWidthScrollbar,
-} from "./use-hide-scrollbar/use-hide-scrollbar";
+} from "./use-fixed/use-fixed";
 export { useHotkeys, getHotkeyHandler, getHotkeyMatcher, parseHotkey } from "./use-hotkeys/use-hotkeys";
 export { useHover } from "./use-hover/use-hover";
 export { useIntersection } from "./use-intersection/use-intersection";

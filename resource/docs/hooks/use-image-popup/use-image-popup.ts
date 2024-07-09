@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from "react";
-import { useHasScrollbar, attributeState, removeBodyProperty, setBodyProperty } from "@/modules/hooks";
+import { useHasScrollbar, attributeState, attachBodyProperty, detachBodyProperty } from "@/modules/hooks";
 
 import "./use-image-popup.css";
 
@@ -25,7 +25,7 @@ export function useImagePopup({ selectors = ".embeded-image", timeRender = 350 }
         clickedImage.style.filter = "opacity(0)";
         body.style.overflow = "hidden";
 
-        if (hasScrollbar) setBodyProperty(scrollbarWidth);
+        if (hasScrollbar) attachBodyProperty(scrollbarWidth);
 
         const rect = clickedImage.getBoundingClientRect();
 
@@ -69,7 +69,7 @@ export function useImagePopup({ selectors = ".embeded-image", timeRender = 350 }
             body.style.removeProperty("overflow");
             figure.remove();
 
-            if (hasScrollbar) removeBodyProperty();
+            if (hasScrollbar) detachBodyProperty();
           }, timeRender);
         };
 

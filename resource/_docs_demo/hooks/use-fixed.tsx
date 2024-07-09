@@ -1,13 +1,13 @@
 "use client";
 import { useState } from "react";
-import { useHasScrollbar, useHideScrollbar } from "@/modules/hooks";
+import { useHasScrollbar, useFixed } from "@/modules/hooks";
 import globalStyle from "@/library/styles/styles";
 
 export function Demo() {
   const [open, setOpen] = useState<boolean>(false);
   const [_, scrollbarWidth] = useHasScrollbar();
 
-  useHideScrollbar(open);
+  useFixed(open);
 
   return (
     <div className="flex items-center justify-center">
