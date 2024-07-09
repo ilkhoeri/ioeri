@@ -84,7 +84,7 @@ export function useOpenState<T extends HTMLElement = any>(OpenState: UseOpenStat
     initialOpen,
     open,
     setOpen,
-  } = useTrigger<T>(trigger === "click" ? [refs?.trigger?.current, refs?.overlay?.current] : undefined, {
+  } = useTrigger<T>(trigger === "click" ? [refs?.trigger?.current] : undefined, {
     popstate,
     defaultOpen,
     delay,
@@ -93,15 +93,15 @@ export function useOpenState<T extends HTMLElement = any>(OpenState: UseOpenStat
     setOpen: trigger === "click" ? onOpenChange : undefined,
   });
 
-  const bounding = {
-    trigger: useElementInfo<T>(refs?.trigger?.current),
-    content: useElementInfo<T>(refs?.content?.current),
-  };
-
   useHover<T>(
     trigger === "hover" ? [refs?.trigger?.current, refs?.content?.current] : undefined,
     trigger === "hover" ? { open, setOpen, touch } : { open: undefined, setOpen: undefined, touch: undefined },
   );
+
+  const bounding = {
+    trigger: useElementInfo<T>(refs?.trigger?.current),
+    content: useElementInfo<T>(refs?.content?.current),
+  };
 
   useHotkeys([[hotKeys, () => setOpen(!open)]]);
 
