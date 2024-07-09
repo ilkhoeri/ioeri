@@ -65,16 +65,18 @@ export async function FootNav() {
         </Element>
       </Element>
 
-      <ThemeToggle
-        unstyled={{ wrapper: true, buttons: true }}
-        classNames={{
-          wrapper: globalStyle(
-            { toggle: "group" },
-            "pt-2 pb-4 px-4 relative gap-px flex-row flex-nowrap justify-end text-muted-foreground border-b border-b-muted",
-          ),
-          buttons: globalStyle({ toggle: "item", size: "icon-sm" }),
-        }}
-      />
+      <Element
+        el="section"
+        className="w-full pt-2 pb-4 px-4 relative gap-px flex flex-row flex-nowrap justify-end text-muted-foreground border-b border-b-muted"
+      >
+        <ThemeToggle
+          unstyled={{ wrapper: true, buttons: true }}
+          classNames={{
+            wrapper: globalStyle({ toggle: "group" }, "p-[3px] border rounded-full w-max"),
+            buttons: globalStyle({ toggle: "item", size: "icon-xs" }, "rounded-full hover:bg-transparent data-[state=active]:bg-muted data-[state=active]:text-color"),
+          }}
+        />
+      </Element>
 
       <Element el="section" className={Styles({ as: "section", section: "bottom" })}>
         <div className="flex flex-col sm:flex-row items-center gap-x-4">

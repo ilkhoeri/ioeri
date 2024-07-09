@@ -16,26 +16,35 @@ export function ThemeToggle({
   unstyled?: { wrapper?: boolean; buttons?: boolean };
 }) {
   const { theme, setTheme } = useTheme();
+  const [key, setKey] = React.useState<string | null>(null);
 
-  useHotkeys([["mod+J", () => setTheme(theme === "dark" ? "light" : "dark")]]);
+  React.useEffect(() => {
+    const theme = localStorage.getItem("theme");
+    setKey(theme || "system");
+  }, [key]);
+
+  const themed = theme === "dark" ? "light" : "dark";
+  useHotkeys([["mod+J", () => { setTheme(themed); setKey(themed) }]]);
 
   return (
     <section
       className={twMerge(!unstyled?.wrapper && "relative flex items-center flex-flow-row gap-4", classNames?.wrapper)}
     >
-      <code className="tracking-wide select-none">⌘+J</code>
+      <code className="sr-only hidden tracking-wide select-none">⌘+J</code>
       {theming.map((t, index) => (
         <UnstyledButton
+          key={index}
           suppressHydrationWarning
           role="button"
-          key={index}
+          data-state={key === t.name ? "active" : ""}
           onClick={() => {
             setTheme(t.name);
+            setKey(t.name);
           }}
           aria-label={t.name}
           className={twMerge(
             !unstyled?.buttons &&
-              "relative text-[13px] flex items-center justify-center cursor-pointer select-none p-1 outline-0 transition-colors focus:text-neutral-900 disabled:pointer-events-none disabled:opacity-50 dark:focus:text-neutral-50 border border-neutral-200 dark:border-neutral-700 h-[var(--ttg-sz,30px)] w-[var(--ttg-sz,30px)] rounded-lg capitalize focus:bg-[#e4e4e4] dark:focus:bg-[#373737]",
+              "relative text-[13px] flex items-center justify-center cursor-pointer select-none p-1 outline-0 transition-colors focus:text-neutral-900 disabled:pointer-events-none disabled:opacity-50 dark:focus:text-neutral-50 border border-neutral-200 dark:border-neutral-700 h-[var(--ttg-sz,30px)] w-[var(--ttg-sz,30px)] rounded-lg capitalize focus:bg-[#e4e4e4] dark:focus:bg-[#373737] data-[state=active]:bg-muted data-[state=active]:text-color",
             classNames?.buttons,
           )}
         >
