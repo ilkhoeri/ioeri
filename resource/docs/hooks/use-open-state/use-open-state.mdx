@@ -1,88 +1,35 @@
+$:title
+
+
+
+$:api-reference
+
+
+
 $:depend-on
 
 ## Depend on
 
-[useHasScrollbar](/docs/hooks/use-has-scrollbar), [useWidthScrollbar](/docs/hooks/use-has-scrollbar), [useHotkeys](/docs/hooks/use-hotkeys), [createRefs](/docs/hooks/use-merged-ref), [useClickOutside](/docs/hooks/use-click-outside), [useHover](/docs/hooks/use-hover), [useElementInfo](/docs/hooks/use-element-info), [RectElement](/docs/hooks/use-element-info)
+[useFixed](/docs/hooks/use-fixed), [useTrigger](/docs/hooks/use-trigger), [useHotkeys](/docs/hooks/use-hotkeys), [createRefs](/docs/hooks/use-merged-ref), [useClickOutside](/docs/hooks/use-click-outside), [useHover](/docs/hooks/use-hover), [useElementInfo](/docs/hooks/use-element-info), [RectElement](/docs/hooks/use-element-info)
 
 
-$:usage
 
-```js showLineNumbers{number}
-function MyComponent() {
-  const {ref, render, handleOpen, handleClose} = useOpenState();
+$:consideration
 
-  return (
-    <div>
-      <button type="button" onClick={handleOpen}>Open</button>
 
-      {render && (
-        <article ref={ref}>
-          <button type="button" onClick={handleClose}>Close</button>
-          <span>Click outside to close</span>
-        </article>
-      )}
-    </div>
-  );
-}
-```
 
-```js showLineNumbers{number}
-function MyComponent() {
-  const {render, onMouseEnter, onMouseLeave } = useOpenState({ trigger: "hover" });
+$:description
 
-  return (
-    <>
-      <button
-        type="button"
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
-      >
-        Tooltip
-      </button>
 
-      {render && (
-        <div>
-          <span>Content</span>
-        </div>
-      )}
-    </>
-  );
-}
-```
 
-```js showLineNumbers{number}
-function MyComponent() {
-  const {render, handleOpen, handleClose, state} = useOpenState({ defaultOpen: true });
+$:explanation
 
-  return (
-    <>
-      <button
-        type="button"
-        data-state={state}
-        onClick={handleOpen}
-      >
-        Tooltip
-      </button>
 
-      {render && (
-        <div data-state={state}>
-          <button type="button" onClick={handleClose}>Close</button>
-          <span>Content</span>
-        </div>
-      )}
-    </>
-  );
-}
-```
 
-```js showLineNumbers{number}
-// api
-const { open, setOpen } = useOpenState();
+$:conclusion
 
-// or
-const [open, setOpen] = useState(false);
-const { handleOpen, handleClose } = useOpenState({ open, setOpen });
 
-// handleOpen is slightly different with setOpen
-// handleOpen adds history.pushState with empty string, suitable when used for mobile devices
-```
+
+$:notes
+
+
