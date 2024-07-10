@@ -3,12 +3,12 @@
 import React from "react";
 import Link, { LinkProps } from "next/link";
 import { commandActions } from "./command-store";
-import { useCommandContext } from "./command-context";
+import { useCommandContext } from "./command-store";
 import { factory, useProps } from "@/modules/factory";
 
 import type { Factory, ElementProps, AnchorTargets, CSSProperties, CompoundStylesApiProps } from "@/modules/factory";
 
-export type CommandActionStylesNames =
+export type CommandActionOrigin =
   | "action"
   | "actionLabel"
   | "actionInner"
@@ -58,9 +58,9 @@ export interface AnchorProps
 }
 
 export type CommandActionFactory = Factory<{
-  props: CommandActionProps & AnchorProps;
   ref: HTMLAnchorElement;
-  stylesNames: CommandActionStylesNames;
+  props: CommandActionProps & AnchorProps;
+  stylesNames: CommandActionOrigin;
   compound: true;
 }>;
 
@@ -72,19 +72,19 @@ const defaultProps: Partial<CommandActionProps> = {
 export const CommandAction = factory<CommandActionFactory>((_props, ref) => {
   const {
     id,
-    className,
-    style,
-    classNames,
-    styles,
-    description,
     label,
+    style,
+    styles,
+    onClick,
+    children,
+    className,
+    classNames,
+    description,
+    onMouseDown,
     leftSection,
     rightSection,
-    children,
     highlightQuery,
     closeCommandOnTrigger,
-    onClick,
-    onMouseDown,
     href = "",
     ...others
   } = useProps("CommandAction", defaultProps, _props);

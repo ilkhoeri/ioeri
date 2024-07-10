@@ -3,6 +3,25 @@ import { HotkeyItem } from "@/modules/hooks";
 import { clamp } from "@/modules/factory/factory-utils";
 import { createStore, useStore, StoreValue } from "@/modules/factory/factory-store";
 import type { CommandFilterFunction, CommandActionData, CommandActionGroupData, CommandActions } from "./command";
+import { CommandContentFactory } from "./command-content";
+import { createSafeContext, CSSProperties, FactoryPayload, GetStylesApiOptions } from "@/modules/factory";
+
+import type { CommandContentOrigin } from "./command-content";
+import type { CommandActionOrigin } from "./command-action";
+import type { CommandActionsGroupOrigin } from "./command-actions-group";
+import type { CommandActionsListOrigin } from "./command-actions-list";
+import type { CommandEmptyOrigin } from "./command-empty";
+import type { CommandFooterOrigin } from "./command-footer";
+import type { CommandSearchOrigin } from "./command-search";
+
+export type CommandOrigin =
+  | CommandContentOrigin
+  | CommandActionOrigin
+  | CommandActionsGroupOrigin
+  | CommandActionsListOrigin
+  | CommandEmptyOrigin
+  | CommandFooterOrigin
+  | CommandSearchOrigin;
 
 export interface CommandState {
   open: boolean;
@@ -17,13 +36,33 @@ export type CommandStore = StoreValue<CommandState>;
 
 export const createCommandStore = () =>
   createStore<CommandState>({
+    query: "",
+    listId: "",
     open: false,
     empty: false,
     selected: -1,
-    listId: "",
-    query: "",
     registeredActions: new Set(),
   });
+
+export type GetStylesApi<Payload extends FactoryPayload> = (
+  selector: NonNullable<Payload["stylesNames"]>,
+  options?: GetStylesApiOptions,
+) => {
+  className: string;
+  style: CSSProperties;
+};
+
+type CommandContextValue = {
+  query: string;
+  setQuery(query: string): void;
+  getStyles: GetStylesApi<CommandContentFactory>;
+  store: CommandStore;
+  closeOnActionTrigger: boolean | undefined;
+};
+
+export const [CommandProvider, useCommandContext] = createSafeContext<CommandContextValue>(
+  "Command component was not found in tree",
+);
 
 export const useCommand = (store: CommandStore) => useStore(store);
 

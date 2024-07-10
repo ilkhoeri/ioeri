@@ -73,14 +73,6 @@ export function CommandDialog({ routes }: CommandDialogType) {
     </>
   );
 }
-type actionsxxx = {
-  group: string;
-  actions: {
-    id: string;
-    label: string;
-    description: string;
-  }[];
-}[];
 
 function filter({ routes }: CommandDialogType) {
   if (!routes) return [];
@@ -102,6 +94,44 @@ function filter({ routes }: CommandDialogType) {
   });
 
   return filteredRoutes;
+}
+
+type X = {
+  group: string;
+  actions: {
+    id: string;
+    label: string;
+    description: string;
+  }[];
+}[];
+type ExampleData = {
+  userId: number;
+  id: number;
+  title: string;
+  body: string;
+};
+function content({ data }: { data: ExampleData[] | null }) {
+  if (!data) return [];
+  const groupedData = data.reduce(
+    (acc, item) => {
+      const group = item.userId.toString();
+      if (!acc[group]) {
+        acc[group] = [];
+      }
+      acc[group].push({
+        id: item.id.toString(),
+        label: item.title,
+        description: item.body,
+      });
+      return acc;
+    },
+    {} as Record<string, { id: string; label: string; description: string }[]>,
+  );
+
+  return Object.entries(groupedData).map(([group, actions]) => ({
+    group,
+    actions,
+  }));
 }
 
 export function CommandDialogOld({ routes }: CommandDialogType) {

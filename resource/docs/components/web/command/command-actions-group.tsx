@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
-import { useCommandContext } from "./command-context";
+import { useCommandContext } from "./command-store";
 import { factory, useProps, CompoundStylesApiProps, ElementProps, Factory } from "@/modules/factory";
 
-export type CommandActionsGroupStylesNames = "actionsGroup" | "actionGroupLabel";
+export type CommandActionsGroupOrigin = "actionsGroup" | "actionGroupLabel";
 
 export interface CommandActionsGroupProps
   extends CompoundStylesApiProps<CommandActionsGroupFactory>,
@@ -13,9 +13,9 @@ export interface CommandActionsGroupProps
 }
 
 export type CommandActionsGroupFactory = Factory<{
-  props: CommandActionsGroupProps;
   ref: HTMLDivElement;
-  stylesNames: CommandActionsGroupStylesNames;
+  props: CommandActionsGroupProps;
+  stylesNames: CommandActionsGroupOrigin;
   compound: true;
 }>;
 

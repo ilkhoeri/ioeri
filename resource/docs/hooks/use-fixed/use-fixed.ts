@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
-export function useFixed(render: boolean, props: { modal?: boolean; delay?: number } = {}) {
-  const { modal = true, delay } = props;
+export function useFixed(render: boolean, { modal = true, delay = 125 } = {}) {
   const [_, width] = useHasScrollbar();
   useWidthScrollbar({ render, width, modal, delay, has: true });
 }
@@ -36,23 +35,23 @@ export function useHasScrollbar(): [boolean, number] {
     return () => {
       window.removeEventListener("resize", measureScrollbar);
     };
-  }, []);
+  }, [hasScrollbar]);
 
   return [hasScrollbar, scrollbarWidth] as const;
 }
 
 export function useWidthScrollbar({
-  render,
-  modal = true,
-  has = true,
   width,
+  render,
+  has = true,
+  modal = true,
   delay = 125,
 }: {
-  render: boolean;
-  modal: boolean;
   has: boolean;
   width: number;
   delay?: number;
+  modal: boolean;
+  render: boolean;
 }) {
   useEffect(() => {
     let timeoutId: NodeJS.Timeout | null = null;

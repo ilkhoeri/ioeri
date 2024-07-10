@@ -8,9 +8,8 @@ import { CommandActionsGroup } from "./command-actions-group";
 import { Factory, factory, useProps } from "@/modules/factory";
 import { CommandSearch, CommandSearchProps } from "./command-search";
 import { CommandAction, CommandActionProps, CommandHighlight } from "./command-action";
-import { commandStore, command, isActionsGroup, limitActions, defaultFilter } from "./command-store";
-import { DetailsCommandContent, CommandContent, CommandContentProps, CommandStylesNames } from "./command-content";
-
+import { DetailsCommandContent, CommandContent, CommandContentProps } from "./command-content";
+import { commandStore, command, isActionsGroup, limitActions, defaultFilter, CommandOrigin } from "./command-store";
 
 export interface CommandActionData extends CommandActionProps {
   id: string;
@@ -36,7 +35,7 @@ export interface CommandProps extends CommandContentProps {
 export type CommandFactory = Factory<{
   props: CommandProps;
   ref: HTMLDivElement;
-  stylesNames: CommandStylesNames;
+  stylesNames: CommandOrigin;
   staticComponents: {
     Content: typeof CommandContent;
     Search: typeof CommandSearch;
@@ -58,21 +57,19 @@ const defaultProps: Partial<CommandProps> = {
   filter: defaultFilter,
   clearQueryOnClose: true,
   closeOnActionTrigger: true,
-  shortcut: "mod + K",
   highlightQuery: false,
+  shortcut: "mod + K",
   nothingFound: "Nothing found...",
 };
 
-
 export const Command = factory<CommandType>((_props, ref) => {
-  const posprops = useProps("Command", defaultProps, _props);
-  const { searchProps, filter, query, onQueryChange, actions, nothingFound, highlightQuery, limit, ...others } =
-    posprops;
+  const props = useProps("Command", defaultProps, _props);
+  const { searchProps, filter, query, onQueryChange, actions, nothingFound, highlightQuery, limit, ...others } = props;
 
   const [_query, setQuery] = useUncontrolled({
     value: query,
-    defaultValue: "",
     finalValue: "",
+    defaultValue: "",
     onChange: onQueryChange,
   });
 

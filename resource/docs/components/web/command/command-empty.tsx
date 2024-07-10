@@ -1,16 +1,16 @@
 "use client";
 import React from "react";
-import { useCommandContext } from "./command-context";
+import { useCommandContext } from "./command-store";
 import { Factory, factory, useProps, CompoundStylesApiProps, ElementProps } from "@/modules/factory";
 
-export type CommandEmptyStylesNames = "empty";
+export type CommandEmptyOrigin = "empty";
 
 export interface CommandEmptyProps extends CompoundStylesApiProps<CommandEmptyFactory>, ElementProps<"div"> {}
 
 export type CommandEmptyFactory = Factory<{
-  props: CommandEmptyProps;
   ref: HTMLDivElement;
-  stylesNames: CommandEmptyStylesNames;
+  props: CommandEmptyProps;
+  stylesNames: CommandEmptyOrigin;
   compound: true;
 }>;
 

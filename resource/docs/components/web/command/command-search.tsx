@@ -2,10 +2,10 @@
 
 import React from "react";
 import { commandActions } from "./command-store";
-import { useCommandContext } from "./command-context";
+import { useCommandContext } from "./command-store";
 import { Factory, factory, useProps, CompoundStylesApiProps, ElementProps } from "@/modules/factory";
 
-export type CommandSearchStylesNames = "search" | "section" | "searchWrap";
+export type CommandSearchOrigin = "search" | "searchWrap";
 
 export interface CommandSearchProps extends CompoundStylesApiProps<CommandSearchFactory>, ElementProps<"input", "size"> {
   leftSection?: React.ReactNode;
@@ -14,9 +14,9 @@ export interface CommandSearchProps extends CompoundStylesApiProps<CommandSearch
 }
 
 export type CommandSearchFactory = Factory<{
-  props: CommandSearchProps;
   ref: HTMLInputElement;
-  stylesNames: CommandSearchStylesNames;
+  props: CommandSearchProps;
+  stylesNames: CommandSearchOrigin;
   compound: true;
 }>;
 
@@ -26,28 +26,26 @@ const defaultProps: Partial<CommandSearchProps> = {
 
 export const CommandSearch = factory<CommandSearchFactory>((props, ref) => {
   const {
-    className,
-    classNames,
+    id,
+    size,
+    value,
     style,
     styles,
-    id,
-    type = "text",
-    placeholder = "Search...",
-    autoComplete = "off",
-    spellCheck = "false",
-    autoFocus = true,
-    onKeyDown,
     onChange,
-    value,
+    unstyled,
+    onKeyDown,
+    className,
+    classNames,
     leftSection,
     rightSection,
-    unstyled,
-    size,
+    type = "text",
+    autoFocus = true,
+    spellCheck = "false",
+    autoComplete = "off",
+    placeholder = "Search...",
     ...others
   } = useProps("CommandSearch", defaultProps, props);
   const ctx = useCommandContext();
-
-  const c = ctx.store
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     onKeyDown?.(event);
@@ -56,12 +54,10 @@ export const CommandSearch = factory<CommandSearchFactory>((props, ref) => {
       event.preventDefault();
       commandActions.selectNextAction(ctx.store);
     }
-
     if (event.nativeEvent.code === "ArrowUp") {
       event.preventDefault();
       commandActions.selectPreviousAction(ctx.store);
     }
-
     if (event.nativeEvent.code === "Enter") {
       event.preventDefault();
       commandActions.triggerSelectedAction(ctx.store);
@@ -75,12 +71,12 @@ export const CommandSearch = factory<CommandSearchFactory>((props, ref) => {
     spellCheck,
     placeholder,
     autoComplete,
+    onKeyDown: handleKeyDown,
     value: value ?? ctx.query,
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
       ctx.setQuery(event.currentTarget.value);
       onChange?.(event);
     },
-    onKeyDown: handleKeyDown,
     ...ctx.getStyles("search", { id, className, classNames, style, styles }),
     ...others,
   };

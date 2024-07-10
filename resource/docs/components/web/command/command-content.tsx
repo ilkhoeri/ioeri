@@ -1,31 +1,14 @@
 "use client";
 import React from "react";
 import { createPortal } from "react-dom";
-import { CommandProvider } from "./command-context";
+import { CommandProvider } from "./command-store";
 import { useDidUpdate, useHotkeys, useRender, useFixed } from "@/modules/hooks";
-import { useCommand, CommandStore, commandStore, commandActions, getHotkeys } from "./command-store";
 import { Factory, factory, CSSProperties, useProps, StylesApiProps, useStyles } from "@/modules/factory";
+import { useCommand, CommandStore, commandStore, commandActions, getHotkeys, CommandOrigin } from "./command-store";
+
+export type CommandContentOrigin = "overlay" | "content";
 
 import classes from "./command-styles";
-
-export type CommandStylesNames =
-  | "overlay"
-  | "content"
-  | "searchWrap"
-  | "search"
-  | "actionBody"
-  | "actionsList"
-  | "actionsGroup"
-  | "actionGroupLabel"
-  | "action"
-  | "actionInner"
-  | "actionLabel"
-  | "actionDescription"
-  | "actionLeftSection"
-  | "actionRightSection"
-  | "empty"
-  | "footer";
-
 export interface CommandContentProps extends StylesApiProps<CommandContentFactory> {
   store?: CommandStore;
   query?: string;
@@ -37,6 +20,7 @@ export interface CommandContentProps extends StylesApiProps<CommandContentFactor
   disabled?: boolean;
   onCommandOpen?(): void;
   onCommandClose?(): void;
+  modal?: boolean;
   defaultOpen?: boolean;
   closeOnActionTrigger?: boolean;
   children?: React.ReactNode;
@@ -49,7 +33,7 @@ export type DetailsCommandContent = React.DetailedHTMLProps<React.HTMLAttributes
 export type CommandContentFactory = Factory<{
   ref: HTMLDivElement;
   props: CommandContentProps & DetailsCommandContent;
-  stylesNames: CommandStylesNames;
+  stylesNames: CommandOrigin;
   compound: true;
 }>;
 
@@ -58,31 +42,33 @@ const defaultProps: Partial<CommandContentProps> = {
   clearQueryOnClose: true,
   closeOnActionTrigger: true,
   shortcut: "mod + K",
+  modal: true,
 };
 
 export const CommandContent = factory<CommandContentFactory>((_props, ref) => {
   const props = useProps("CommandContent", defaultProps, _props);
   const {
-    store,
-    children,
-    query: baseQuery,
-    onQueryChange,
-    disabled,
-    onCommandOpen,
-    onCommandClose,
-    closeOnActionTrigger,
-    shortcut,
-    tagsToIgnore,
-    triggerOnContentEditable,
-    clearQueryOnClose,
-    defaultOpen,
-    variant,
     vars,
-    className,
-    classNames,
+    store,
+    modal,
     style,
     styles,
+    variant,
+    children,
+    disabled,
     unstyled,
+    shortcut,
+    className,
+    classNames,
+    defaultOpen,
+    tagsToIgnore,
+    onCommandOpen,
+    onQueryChange,
+    onCommandClose,
+    query: baseQuery,
+    clearQueryOnClose,
+    closeOnActionTrigger,
+    triggerOnContentEditable,
     ...others
   } = props;
 
@@ -97,19 +83,18 @@ export const CommandContent = factory<CommandContentFactory>((_props, ref) => {
   const getStyles = useStyles<CommandContentFactory>({
     name: "command",
     props,
-    // @ts-ignore
-    classes,
-    className,
-    classNames,
     style,
     styles,
     unstyled,
+    className,
+    classNames,
+    // @ts-ignore
+    classes,
     ...others,
   });
 
-  useHotkeys(getHotkeys(shortcut, store!), tagsToIgnore, triggerOnContentEditable);
-
   useFixed(render);
+  useHotkeys(getHotkeys(shortcut, store!), tagsToIgnore, triggerOnContentEditable);
 
   useDidUpdate(() => {
     open ? onCommandOpen?.() : onCommandClose?.();
@@ -121,18 +106,22 @@ export const CommandContent = factory<CommandContentFactory>((_props, ref) => {
     commandActions.clearCommandState({ clearQuery: clearQueryOnClose }, store!);
   };
 
-  const attrs = { "data-state": open ? "open" : "closed" };
+  const attrs: Record<string, string | undefined> = {
+    "data-modal": !modal ? "false" : undefined,
+    "data-state": defaultOpen ? "opened" : open ? "open" : "closed",
+  };
   const rest = { ...others, ...attrs };
 
-  if (typeof document === "undefined" || !render || disabled) return null;
+  if (typeof document === "undefined" || !(render || defaultOpen) || disabled) return null;
 
-  return createPortal(
+  const content = (
     <CommandProvider value={{ setQuery, query, store: store!, closeOnActionTrigger, getStyles }}>
-      <div {...attrs} onClick={onClose} {...getStyles("overlay", { classNames, styles })} />
-      <div ref={ref} {...rest} {...getStyles("content", { className, classNames, style, styles })}>
+      <div onClick={onClose} {...getStyles("overlay", { classNames, styles })} {...attrs} />
+      <div ref={ref} {...getStyles("content", { className, classNames, style, styles })} {...rest}>
         {children}
       </div>
-    </CommandProvider>,
-    document.body,
+    </CommandProvider>
   );
+
+  return modal ? createPortal(content, document.body) : content;
 });

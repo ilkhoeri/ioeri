@@ -69,7 +69,10 @@ export interface GetStylesApiOptions {
   styles?: Styles<{ props: any; stylesNames: string }>;
   variant?: string;
   props?: Record<string, any>;
-  attrs?: Record<string, string>;
+  attrs?: Record<string, string | undefined>;
+  // open?: boolean;
+  // modal?: boolean;
+  // defaultOpen?: boolean;
 }
 
 export type StylesApiRecord<Payload extends FactoryPayload, DataType> = Payload["compound"] extends true
@@ -318,6 +321,10 @@ export interface UseStyles<Payload extends FactoryPayload> {
   classNames?: ClassNames<Payload> | ClassNamesArray<Payload>;
   styles?: Styles<Payload>;
   classNamesPrefix?: string;
+  // attrs?: Record<string, string | undefined>;
+  // open?: boolean;
+  // modal?: boolean;
+  // defaultOpen?: boolean;
 }
 
 export type GetStylesApi<Payload extends FactoryPayload> = (

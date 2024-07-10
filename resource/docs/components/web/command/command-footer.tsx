@@ -1,16 +1,16 @@
 "use client";
 import React from "react";
-import { useCommandContext } from "./command-context";
+import { useCommandContext } from "./command-store";
 import { Factory, factory, useProps, CompoundStylesApiProps, ElementProps } from "@/modules/factory";
 
-export type CommandFooterStylesNames = "footer";
+export type CommandFooterOrigin = "footer";
 
 export interface CommandFooterProps extends CompoundStylesApiProps<CommandFooterFactory>, ElementProps<"div"> {}
 
 export type CommandFooterFactory = Factory<{
-  props: CommandFooterProps;
   ref: HTMLDivElement;
-  stylesNames: CommandFooterStylesNames;
+  props: CommandFooterProps;
+  stylesNames: CommandFooterOrigin;
   compound: true;
 }>;
 

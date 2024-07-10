@@ -4,11 +4,9 @@ export function clamp(value: number, min: number | undefined, max: number | unde
   if (min === undefined && max === undefined) {
     return value;
   }
-
   if (min !== undefined && max === undefined) {
     return Math.max(value, min);
   }
-
   if (min === undefined && max !== undefined) {
     return Math.min(value, max);
   }
@@ -17,9 +15,7 @@ export function clamp(value: number, min: number | undefined, max: number | unde
 }
 
 export function camelToKebab(n: string): string {
-  if (n === undefined) {
-    return "";
-  }
+  if (n === undefined) return "";
   return n.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
 }
 
@@ -35,13 +31,16 @@ export function getId({ selector, options }: SelectorOptions) {
   const number = "0123456789";
   const char = alphabet.charAt(charIndex);
   const numb = number.charAt(charIndex);
-  return options?.id || `${camelToKebab(selector)}:-${char + numb}`;
+
+  const uniqueId = `${Date.now()}-${Math.floor(Math.random() * 10000)}`;
+
+  return options?.id || `${camelToKebab(selector)}:-${char + numb}-${uniqueId}`;
 }
 
 export function getAttrs({ selector }: { selector: string }) {
-  const attrs: { [key: string]: string } = {
+  const attr: { [key: string]: string | undefined } = {
     "data-command": camelToKebab(selector),
   };
 
-  return attrs;
+  return attr;
 }
