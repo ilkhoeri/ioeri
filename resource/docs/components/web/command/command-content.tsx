@@ -73,8 +73,11 @@ export const CommandContent = factory<CommandContentFactory>((_props, ref) => {
   } = props;
 
   const { open, query: storeQuery } = useCommand(store!);
+
   const query = baseQuery || storeQuery;
   const render = useRender(open);
+  useFixed(!open ? render : open);
+
   const setQuery = (q: string) => {
     onQueryChange?.(q);
     commandActions.setQuery(q, store!);
@@ -92,8 +95,6 @@ export const CommandContent = factory<CommandContentFactory>((_props, ref) => {
     classes,
     ...others,
   });
-
-  useFixed(render);
   useHotkeys(getHotkeys(shortcut, store!), tagsToIgnore, triggerOnContentEditable);
 
   useDidUpdate(() => {

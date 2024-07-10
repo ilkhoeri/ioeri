@@ -85,7 +85,7 @@ export function useOpenState<T extends HTMLElement = any>(OpenState: UseOpenStat
     setOpen,
     initialOpen,
     ref: handleRef,
-  } = useTrigger<T>(trigger === "click" ? [refs?.trigger?.current] : undefined, {
+  } = useTrigger<T>({
     delay,
     popstate,
     defaultOpen,

@@ -4,7 +4,7 @@ import globalStyle from "@/library/styles/styles";
 import { useRef } from "react";
 
 export function Demo() {
-  const { ref, open } = useTrigger<HTMLButtonElement>(undefined, { defaultOpen: true });
+  const { ref, open } = useTrigger<HTMLButtonElement>({ defaultOpen: true });
 
   return (
     <div className="flex items-center justify-center flex-col gap-4">

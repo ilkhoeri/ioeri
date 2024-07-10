@@ -8,7 +8,7 @@ interface UseTrigger {
   delay?: number;
 }
 
-export function useTrigger<T extends HTMLElement | null>(elements?: Array<T | null>, handle: UseTrigger = {}) {
+export function useTrigger<T extends HTMLElement | null>(handle: UseTrigger = {}) {
   const { popstate = false, open: exOpen, setOpen: exSetOpen, defaultOpen = false, delay = 115 } = handle;
   const [inOpen, inSetOpen] = useState(defaultOpen);
   const open = exOpen !== undefined ? exOpen : inOpen;
@@ -62,28 +62,18 @@ export function useTrigger<T extends HTMLElement | null>(elements?: Array<T | nu
   useEffect(() => {
     const current = ref.current;
 
-    if (elements) {
-      elements.forEach((el) => {
-        attachListeners(el);
-      });
-    }
     if (current) {
       attachListeners(current);
     }
 
     return () => {
-      if (elements) {
-        elements.forEach((el) => {
-          detachListeners(el);
-        });
-      }
       if (current) {
         detachListeners(current);
       }
     };
-  }, [elements, attachListeners, detachListeners]);
+  }, [attachListeners, detachListeners]);
 
-  return { ref, render, open, setOpen, initialOpen, toggle };
+  return { ref, open, setOpen, initialOpen, render, toggle };
 }
 
 export function useRender(open: boolean, delay: number = 125, depend?: DependencyList) {
@@ -102,7 +92,7 @@ export function useRender(open: boolean, delay: number = 125, depend?: Dependenc
         clearTimeout(timeoutId);
       }
     };
-  }, [open, setRender, delay, depend]);
+  }, [open, delay, depend]);
 
   return render;
 }

@@ -49,7 +49,7 @@ const DialogTrigger = React.forwardRef<
       onClick={(e) => {
         e.stopPropagation();
         setOpen(!open);
-        if (onClick) onClick(e);
+        onClick?.(e);
       }}
       {...props}
     />
@@ -75,7 +75,7 @@ const DialogOverlay = React.forwardRef<React.ElementRef<"div">, React.ComponentP
           onClick={(e) => {
             e.stopPropagation();
             setOpen(false);
-            if (onClick) onClick(e);
+            onClick?.(e);
           }}
           {...props}
         />

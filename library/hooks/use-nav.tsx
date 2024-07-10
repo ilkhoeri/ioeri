@@ -12,7 +12,6 @@ interface MediaQuery {
 
 interface NavContextProps extends MediaQuery, UseOpenStateType<HTMLElement> {
   defaultOpen?: boolean;
-  render: boolean;
   open: boolean;
   setOpen: (value: boolean) => void;
   toggle: () => void;
