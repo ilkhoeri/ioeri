@@ -17,6 +17,7 @@ import "./themeid-default.css";
 
 import "../library/styles/mdx.css";
 import "../library/styles/_demo.css";
+import "../library/styles/moonlight.css";
 
 export const metadata: Metadata = {
   title: {

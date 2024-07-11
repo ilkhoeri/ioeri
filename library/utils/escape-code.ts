@@ -10,11 +10,9 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 
 import { transformerCopyButton } from "@rehype-pretty/transformers";
 
-import moonlightTheme from "./moonlight-ii.json" with { type: "json" };
+import moonlightTheme from "./moonlight.json" with { type: "json" };
 
 const behaviors = ["after", "append", "before", "prepend", "wrap"];
-
-
 
 export async function highlightCode(code: string | null, { copy }: { copy?: boolean } = {}) {
   if (!code) return "";

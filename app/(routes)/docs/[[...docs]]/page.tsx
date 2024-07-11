@@ -1,12 +1,12 @@
-import { Tabs } from "@/library/components/tabs";
-import { retitled, slug, sourceFiles } from "@/library/utils";
-import { Playground } from "@/library/components/playground";
-import { Code, Customizer, Reference } from "@/library/components/code";
-import { Container, Title } from "@/library/components/components";
-import { getMdx, getContent, type Content, getRepo } from "@/library/scripts/get-contents";
-import { highlightCode } from "@/library/utils/escape-code";
-import { toPascalCase, sanitizedToParams } from "@/resource/docs";
 import { Demos } from "./demo";
+import { Tabs } from "@/library/components/tabs";
+import { highlightCode } from "@/library/utils/escape-code";
+import { Playground } from "@/library/components/playground";
+import { retitled, slug, sourceFiles } from "@/library/utils";
+import { toPascalCase, sanitizedToParams } from "@/resource/docs";
+import { Container, Title } from "@/library/components/components";
+import { Code, Customizer, Reference } from "@/library/components/code";
+import { getMdx, getContent, type Content, getRepo } from "@/library/scripts/get-contents";
 
 import type { Metadata } from "next";
 
@@ -35,7 +35,6 @@ export async function generateMetadata({ params }: DocsParams): Promise<Metadata
 const gitrepo = `https://raw.githubusercontent.com/ilkhoeri/ioeri/main`;
 
 async function getReCode({ params }: DocsParams, ext: string): Promise<string> {
-  // return (await fetch(`${gitrepo}/resource/docs/${sourceFiles(params.docs)}${ext}`)).text();
   return getRepo(`${gitrepo}/resource/docs/${sourceFiles(params.docs)}`, ext);
 }
 async function getCode({ params }: DocsParams): Promise<Content> {
@@ -63,7 +62,6 @@ export default async function Page({ params }: DocsParams) {
   const code = await getCode({ params });
   const ce = code.extension || ".tsx";
   const reCode = await getReCode({ params }, `${ce}`);
-
   const rename = { Demo: `${toPascalCase(slug(params.docs))}Demo` };
   const usage = await getUsage({ params }, rename).then((res) => res.content);
   const reUsage = usage === null ? await getReUsage({ params }) : null;
@@ -107,7 +105,6 @@ export default async function Page({ params }: DocsParams) {
       <Code title={`${slug(params.docs)}.css`} ext=".css" code={css} setInnerHTML={await highlightCode(css)} />
     );
   }
-
   if (code.content) {
     codes.code = (
       <Code title={file} repo={repo} ext={ce} code={code.content} setInnerHTML={await highlightCode(code.content)} />
@@ -129,6 +126,7 @@ export default async function Page({ params }: DocsParams) {
         <Reference title="API reference" setInnerHTML={await highlightCode(reference)} />
         <Customizer setInnerHTML={await highlightCode(consideration)} />
       </div>
+
       {(usage || reUsage) && (
         <div id="usage">
           <Tabs defaultValue={usage ? "preview" : "usage"} className="w-full mb-12">
@@ -137,6 +135,7 @@ export default async function Page({ params }: DocsParams) {
           <Customizer setInnerHTML={await highlightCode(description, { copy: true })} />
         </div>
       )}
+
       <div id="code">
         <Customizer setInnerHTML={await highlightCode(dependOn)} className="mb-4 text-paragraph border-t pt-4" />
         <Tabs defaultValue="code" className="w-full mb-12">
@@ -145,6 +144,7 @@ export default async function Page({ params }: DocsParams) {
         <Customizer setInnerHTML={await highlightCode(explanation, { copy: true })} />
         <Customizer setInnerHTML={await highlightCode(conclusion, { copy: true })} />
       </div>
+
       {conclusion && notes && <hr className="mt-12 b-4 w-full" />}
       <Customizer setInnerHTML={await highlightCode(notes)} />
     </Container>
