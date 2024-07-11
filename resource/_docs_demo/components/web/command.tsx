@@ -4,19 +4,19 @@ import { CommandIcon, ComponentsIcon, HomeIcon } from "@/modules/icons";
 import { SetProps, SetPropsSelect, useSetProps } from "../../__set_props";
 
 export function Demo() {
-  const props = useSetProps({ Str: "array" });
-  const actions = props.str === "array" ? actionsWithoutGroup : actionsGroup; // prettier-ignore
+  const props = useSetProps({ Str: "single" });
+  const actions = props.str === "single" ? actionsSingle : actionsGroup; // prettier-ignore
   return (
     <div>
-      <Command modal={false} defaultOpen actions={actions} nothingFound="Oops..." />
+      <Command modal={false} defaultOpen actions={actions} nothingFound="Oops..." searchProps={{ autoFocus: false }} />
       <SetProps.Wrapper>
-        <SetPropsSelect values={["array", "group"]} str={props.str} setStr={props.setStr} />
+        <SetPropsSelect values={["single", "group"]} str={props.str} setStr={props.setStr} />
       </SetProps.Wrapper>
     </div>
   );
 }
 
-const actionsWithoutGroup = [
+const actionsSingle = [
   {
     id: "1",
     href: "/",

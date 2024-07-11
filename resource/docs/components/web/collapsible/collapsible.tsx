@@ -22,11 +22,11 @@ export type DialogContextProps<T> = UseOpenStateType<T> & InferTypes<typeof useO
 const CollapsibleContext = React.createContext<DialogContextProps<HTMLElement> | undefined>(undefined);
 
 export function useCollapsibleContext<T>(ref: React.ForwardedRef<T>) {
-  const context = React.useContext(CollapsibleContext);
-  if (!context) {
+  const ctx = React.useContext(CollapsibleContext);
+  if (!ctx) {
     throw new Error("Collapsible component trees must be wrap within an <CollapsibleProvider>");
   }
-  return { ...context, ref };
+  return { ...ctx, ref };
 }
 
 export function CollapsibleProvider<T extends HTMLElement>({ children, ref, ...props }: ProviderProps<T>) {
@@ -49,11 +49,11 @@ Collapsible.displayName = "Collapsible";
 
 const CollapsibleRoot = React.forwardRef<React.ElementRef<"div">, React.ComponentPropsWithoutRef<"div"> & SharedType>(
   ({ className, unstyled, style, ...props }, ref) => {
-    const { refs, styleAt } = useCollapsibleContext<HTMLDivElement>(ref);
+    const ctx = useCollapsibleContext<HTMLDivElement>(ref);
     return (
       <div
-        ref={refs.root as React.RefObject<HTMLDivElement>}
-        {...styleAt("root", { style })}
+        ref={ctx.refs.root as React.RefObject<HTMLDivElement>}
+        {...ctx.styleAt("root", { style })}
         className={twMerge(
           !unstyled && "group relative flex h-auto border-0 select-none gap-[--offset]",
           "data-[side=top]:flex-col-reverse data-[side=right]:flex-row data-[side=bottom]:flex-col data-[side=left]:flex-row-reverse data-[align=start]:items-start data-[align=center]:items-center data-[align=end]:items-end",
@@ -69,13 +69,18 @@ CollapsibleRoot.displayName = "CollapsibleRoot";
 const CollapsibleTrigger = React.forwardRef<
   React.ElementRef<"button">,
   React.ComponentPropsWithoutRef<"button"> & SharedType
->(({ type = "button", className, unstyled, style, ...props }, ref) => {
-  const { refs, styleAt } = useCollapsibleContext<HTMLButtonElement>(ref);
+>(({ type = "button", className, unstyled, style, onClick, ...props }, ref) => {
+  const ctx = useCollapsibleContext<HTMLButtonElement>(ref);
   return (
     <button
-      ref={refs.trigger as React.RefObject<HTMLButtonElement>}
+      ref={ctx.refs.trigger as React.RefObject<HTMLButtonElement>}
       type={type}
-      {...styleAt("trigger", { style })}
+      {...ctx.styleAt("trigger", { style })}
+      onClick={(e) => {
+        e.preventDefault();
+        ctx.toggle();
+        onClick?.(e);
+      }}
       className={twMerge(
         !unstyled &&
           "w-full flex flex-nowrap font-medium flex-row items-center justify-between text-sm select-none z-9 rounded-sm py-1",
@@ -91,14 +96,14 @@ const CollapsibleContent = React.forwardRef<
   React.ElementRef<"div">,
   React.ComponentPropsWithoutRef<"div"> & SharedType
 >(({ style, className, unstyled, "aria-disabled": ariaDisabled, ...props }, ref) => {
-  const { refs, render, open, styleAt } = useCollapsibleContext<HTMLDivElement>(ref);
-  const rest = { "aria-disabled": ariaDisabled || (open ? "false" : "true"), ...props };
+  const ctx = useCollapsibleContext<HTMLDivElement>(ref);
+  const rest = { "aria-disabled": ariaDisabled || (ctx.open ? "false" : "true"), ...props };
 
-  if (!render) return null;
+  if (!ctx.render) return null;
   return (
     <div
-      ref={refs.content as React.RefObject<HTMLDivElement>}
-      {...styleAt("content", { style })}
+      ref={ctx.refs.content as React.RefObject<HTMLDivElement>}
+      {...ctx.styleAt("content", { style })}
       className={twMerge(
         !unstyled &&
           "relative flex flex-col z-50 min-w-[8rem] overflow-hidden data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-100 data-[state=open]:zoom-in-100 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[state=closed]:data-[side=bottom]:slide-out-to-top-2 data-[state=closed]:data-[side=left]:slide-out-to-right-2 data-[state=closed]:data-[side=right]:slide-out-to-left-2 data-[state=closed]:data-[side=top]:slide-out-to-bottom-2",

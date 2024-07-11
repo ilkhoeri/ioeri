@@ -2,7 +2,7 @@
 import React from "react";
 import { createPortal } from "react-dom";
 import { CommandProvider } from "./command-store";
-import { useDidUpdate, useHotkeys, useRender, useFixed } from "@/modules/hooks";
+import { useDidUpdate, useHotkeys, useRender } from "@/modules/hooks";
 import { Factory, factory, CSSProperties, useProps, StylesApiProps, useStyles } from "@/modules/factory";
 import { useCommand, CommandStore, commandStore, commandActions, getHotkeys, CommandOrigin } from "./command-store";
 
@@ -54,10 +54,10 @@ export const CommandContent = factory<CommandContentFactory>((_props, ref) => {
     style,
     styles,
     variant,
+    shortcut,
+    unstyled,
     children,
     disabled,
-    unstyled,
-    shortcut,
     className,
     classNames,
     defaultOpen,
@@ -75,8 +75,7 @@ export const CommandContent = factory<CommandContentFactory>((_props, ref) => {
   const { open, query: storeQuery } = useCommand(store!);
 
   const query = baseQuery || storeQuery;
-  const render = useRender(open);
-  useFixed(!open ? render : open);
+  const render = useRender(open, { modal });
 
   const setQuery = (q: string) => {
     onQueryChange?.(q);

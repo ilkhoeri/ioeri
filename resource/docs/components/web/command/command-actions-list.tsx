@@ -10,7 +10,7 @@ export interface CommandActionsListProps
   extends CompoundStylesApiProps<CommandActionsListFactory>,
     ElementProps<"div"> {
   loading?: boolean;
-  loadingComponent?: React.ReactNode;
+  loader?: React.ReactNode;
 }
 
 export type CommandActionsListFactory = Factory<{
@@ -23,15 +23,15 @@ export type CommandActionsListFactory = Factory<{
 const defaultProps: Partial<CommandActionsListProps> = {};
 
 export const CommandActionsList = factory<CommandActionsListFactory>((props, ref) => {
-  const { id, className, classNames, style, styles, loading, loadingComponent, ...others } = useProps(
+  const { id, className, classNames, style, styles, loading, loader, ...others } = useProps(
     "CommandActionsList",
     defaultProps,
     props,
   );
   const ctx = useCommandContext();
 
-  if (loading && loadingComponent) {
-    return loadingComponent;
+  if (loading && loader) {
+    return loader;
   }
 
   return (

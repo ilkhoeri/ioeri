@@ -25,6 +25,7 @@ function Dialog() {
         role="button"
         ref={state.refs.trigger as React.RefObject<HTMLButtonElement>}
         {...state.styleAt("trigger")}
+        onClick={state.toggle}
         className={globalStyle({ button: "default", size: "sm" })}
       >
         {state.render ? "Close Modal" : "Open Modal"}

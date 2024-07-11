@@ -22,11 +22,11 @@ export type DialogContextProps<T> = UseOpenStateType<T> & InferTypes<typeof useO
 const TooltipContext = React.createContext<DialogContextProps<HTMLElement> | undefined>(undefined);
 
 export function useTooltipContext<T>(ref: React.ForwardedRef<T>) {
-  const context = React.useContext(TooltipContext);
-  if (!context) {
+  const ctx = React.useContext(TooltipContext);
+  if (!ctx) {
     throw new Error("Tooltip component trees must be wrap within an <Tooltip>");
   }
-  return { ...context, ref };
+  return { ...ctx, ref };
 }
 
 function Tooltip<T extends HTMLElement>({ children, ref, withArrow, sideOffset, ...props }: ProviderProps<T>) {
@@ -60,13 +60,13 @@ const TooltipTrigger = React.forwardRef<
   React.ElementRef<"button">,
   React.ComponentPropsWithoutRef<"button"> & SharedType & { asChild?: boolean }
 >(({ type = "button", role = "button", asChild, className, unstyled, style, ...props }, ref) => {
-  const tooltip = useTooltipContext<HTMLButtonElement>(ref);
+  const ctx = useTooltipContext<HTMLButtonElement>(ref);
   const Component = asChild ? PrimitiveSlot : ("button" as React.ElementType);
   const rest = {
-    ref: tooltip.refs.trigger as React.RefObject<HTMLButtonElement>,
+    ref: ctx.refs.trigger as React.RefObject<HTMLButtonElement>,
     role,
     type,
-    ...tooltip.styleAt("trigger", { style }),
+    ...ctx.styleAt("trigger", { style }),
     className,
     ...props,
   };
@@ -116,23 +116,23 @@ const arrow = cvx({
 
 const TooltipContent = React.forwardRef<React.ElementRef<"div">, React.ComponentPropsWithoutRef<"div"> & SharedType>(
   ({ style, className, children, unstyled, "aria-disabled": ariaDisabled, role = "tooltip", ...props }, ref) => {
-    const tooltip = useTooltipContext<HTMLDivElement>(ref);
-    const { withArrow, align, side } = tooltip;
-    const rest = { "aria-disabled": ariaDisabled || (tooltip.open ? "false" : "true"), role, ...props };
+    const ctx = useTooltipContext<HTMLDivElement>(ref);
+    const { withArrow, align, side } = ctx;
+    const rest = { "aria-disabled": ariaDisabled || (ctx.open ? "false" : "true"), role, ...props };
 
-    if (!tooltip.render) return null;
+    if (!ctx.render) return null;
     return (
-      <tooltip.Portal container={document.body}>
+      <ctx.Portal container={document.body}>
         <div
-          ref={tooltip.refs.content as React.RefObject<HTMLDivElement>}
-          {...tooltip.styleAt("content", { style })}
+          ref={ctx.refs.content as React.RefObject<HTMLDivElement>}
+          {...ctx.styleAt("content", { style })}
           className={twMerge(!unstyled && content({ align, side }), className)}
           {...rest}
         >
           {children}
           {withArrow && <ArrowDropdownIcon className={arrow({ align, side })} />}
         </div>
-      </tooltip.Portal>
+      </ctx.Portal>
     );
   },
 );

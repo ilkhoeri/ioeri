@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from "react";
-import { useHasScrollbar, attributeState, attachBodyProperty, detachBodyProperty } from "@/modules/hooks";
+import { useMeasureScrollbar, attributeState, attachBodyProperty, detachBodyProperty } from "@/modules/hooks";
 
 import "./use-image-popup.css";
 
@@ -9,7 +9,7 @@ interface UseImagePopupProps {
 }
 
 export function useImagePopup({ selectors = ".embeded-image", timeRender = 350 }: UseImagePopupProps = {}) {
-  const [hasScrollbar, scrollbarWidth] = useHasScrollbar();
+  const [hasScrollbar, scrollbarWidth] = useMeasureScrollbar();
 
   useEffect(() => {
     const imgElements = document.querySelectorAll(selectors as string);

@@ -1,7 +1,9 @@
 import { DependencyList, useCallback, useEffect, useRef, useState } from "react";
+import { useMeasureScrollbar } from "../use-measure-scrollbar/use-measure-scrollbar";
 
 interface UseTrigger {
   popstate?: boolean;
+  modal?: boolean;
   open?: boolean;
   setOpen?: (v: boolean) => void;
   defaultOpen?: boolean;
@@ -9,15 +11,14 @@ interface UseTrigger {
 }
 
 export function useTrigger<T extends HTMLElement | null>(handle: UseTrigger = {}) {
-  const { popstate = false, open: exOpen, setOpen: exSetOpen, defaultOpen = false, delay = 115 } = handle;
+  const { modal, popstate = false, open: exOpen, setOpen: exSetOpen, defaultOpen = false, delay = 115 } = handle;
   const [inOpen, inSetOpen] = useState(defaultOpen);
   const open = exOpen !== undefined ? exOpen : inOpen;
   const setOpen = exSetOpen !== undefined ? exSetOpen : inSetOpen;
   const [initialOpen, setInitialOpen] = useState(false);
-
-  const render = useRender(open, delay);
-
   const ref = useRef<T>(null);
+
+  const render = useRender(open, { delay, modal });
 
   useEffect(() => {
     if (open !== defaultOpen) {
@@ -41,42 +42,30 @@ export function useTrigger<T extends HTMLElement | null>(handle: UseTrigger = {}
 
   usePopState(popstate, { open, setOpen });
 
-  const attachListeners = useCallback(
-    (el: T | null) => {
-      if (el) {
-        el.addEventListener("click", toggle);
-      }
-    },
-    [toggle],
-  );
-
-  const detachListeners = useCallback(
-    (el: T | null) => {
-      if (el) {
-        el.removeEventListener("click", toggle);
-      }
-    },
-    [toggle],
-  );
-
   useEffect(() => {
     const current = ref.current;
 
-    if (current) {
-      attachListeners(current);
-    }
-
-    return () => {
-      if (current) {
-        detachListeners(current);
+    const attachListeners = (el: T | null) => {
+      if (el) {
+        el.addEventListener("click", toggle);
       }
     };
-  }, [attachListeners, detachListeners]);
+    const detachListeners = (el: T | null) => {
+      if (el) {
+        el.removeEventListener("click", toggle);
+      }
+    };
+
+    attachListeners(current);
+    return () => {
+      detachListeners(current);
+    };
+  }, [ref, toggle]);
 
   return { ref, open, setOpen, initialOpen, render, toggle };
 }
 
-export function useRender(open: boolean, delay: number = 125, depend?: DependencyList) {
+export function useRender(open: boolean, { delay = 125, modal = false } = {}, depend?: DependencyList) {
   const [render, setRender] = useState(open);
   useEffect(() => {
     let timeoutId: NodeJS.Timeout | null = null;
@@ -93,6 +82,8 @@ export function useRender(open: boolean, delay: number = 125, depend?: Dependenc
       }
     };
   }, [open, delay, depend]);
+
+  useMeasureScrollbar(!open ? render : open, { modal, has: true });
 
   return render;
 }

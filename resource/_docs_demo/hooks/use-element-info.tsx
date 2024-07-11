@@ -14,7 +14,7 @@ export function Demo() {
         className="absolute min-w-28 min-h-9 bg-muted/50 placeholder:text-center placeholder:uppercase place-content-center border rounded-lg resize focus-visible:ring-0 focus-visible:outline-0"
         onMouseEnter={info.onMouseEnter}
         onMouseLeave={info.onMouseLeave}
-        style={{ margin: "0", zIndex: "999" }}
+        style={{ margin: "0", zIndex: "9" }}
         data-custom-attribute="customValue"
       />
       <div suppressHydrationWarning className="absolute left-4 top-4 text-xs flex flex-col gap-2 mb-auto [&_*]:font-roboto-mono">
