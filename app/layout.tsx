@@ -1,19 +1,15 @@
-import { AppProvider } from "@/library/context/app-context";
-import { inter, kanit, montserrat, robotoMono } from "@/library/provider/font-provider";
-import { ThemeProvider } from "@/library/provider/theme-provider";
+import { FootNav } from "@/library/assets/nav-foot";
+import { NavProvider } from "@/library/hooks/use-nav";
 import { ThemeStateHidden } from "@/library/assets/theme";
 import { ScrollToggle } from "@/library/components/toggle";
-import { NavProvider } from "@/library/hooks/use-nav";
-// import { Headnav } from "@/library/assets/nav-head";
-import { FootNav } from "@/library/assets/nav-foot";
+import { AppProvider } from "@/library/context/app-context";
+import { ThemeProvider } from "@/library/provider/theme-provider";
+import { inter, kanit, montserrat, robotoMono } from "@/library/provider/font-provider";
 
 import type { Metadata } from "next";
 
 import "./globals.css";
 import "./themeid-default.css";
-// import "./themeid-deulysiea.css";
-// import "./themeid-lyona.css";
-// import "./themeid-protanopia.css";
 
 import "../library/styles/mdx.css";
 import "../library/styles/_demo.css";
@@ -208,7 +204,6 @@ export default async function RootLayout({
         <body {...attrBody}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
             <NavProvider>
-
               {children}
 
               <FootNav />

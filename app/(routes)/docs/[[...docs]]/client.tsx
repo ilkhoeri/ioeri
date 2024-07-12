@@ -2,16 +2,16 @@
 
 import React from "react";
 import Link from "next/link";
-import { Container } from "@/library/components/components";
+import { displayName } from "@/library/utils";
+import { cvx } from "@/resource/docs/utility";
+import { sanitizedToParams } from "@/resource/docs";
 import { Title } from "@/library/components/components";
 import { FilterDocs } from "@/library/components/input";
-import { displayName } from "@/library/utils";
-import { sanitizedToParams } from "@/resource/docs";
-import { cvx } from "@/resource/docs/utility";
-
-import globalStyle from "@/library/styles/styles";
+import { Container } from "@/library/components/components";
 
 import type { SingleRoute, NestedRoute } from "@/library/routes";
+
+import globalStyle from "@/library/styles/styles";
 
 const classes = cvx({
   variants: {

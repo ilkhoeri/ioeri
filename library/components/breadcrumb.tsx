@@ -1,10 +1,9 @@
 import * as React from "react";
 import Link, { type LinkProps } from "next/link";
-
+import { SlashIcon } from "@/modules/icons";
 import { twMerge } from "tailwind-merge";
 import { cn } from "@/library/utils";
 
-import { SlashIcon } from "@/modules/icons";
 import type { IconType } from "@/modules/components/web/svg/svg";
 
 type Unstyled = { unstyled?: boolean };

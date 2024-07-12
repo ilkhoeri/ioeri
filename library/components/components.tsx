@@ -1,17 +1,13 @@
 import * as React from "react";
-import { createPortal } from "react-dom";
 import { cn } from "@/library/utils";
-import { cvx, type VariantsType } from "@/modules/utility/cvx/cvx";
 import { twMerge } from "tailwind-merge";
+import { createPortal } from "react-dom";
+import { cvx, type VariantsType } from "@/modules/utility";
 
 type ElementType<T> = {
   el?: React.ElementType;
   unstyled?: boolean;
 } & React.DetailedHTMLProps<React.HTMLAttributes<T>, T>;
-
-type ContainerProps = {
-  child?: "wrap-only" | "container-only" | "complete";
-} & ElementType<HTMLElement>;
 
 type ComponentType<T> = React.ComponentType<React.HTMLAttributes<T>>;
 
@@ -51,6 +47,10 @@ export const Section = React.forwardRef<HTMLElement, ElementType<HTMLElement>>(
 );
 Section.displayName = "Section";
 
+type ContainerProps = {
+  child?: "wrap-only" | "container-only" | "complete";
+} & ElementType<HTMLElement>;
+
 export const Container = React.forwardRef<HTMLElement, ContainerProps>(
   ({ className, el = "article", unstyled = false, child = "complete", children, ...props }, ref) => {
     let Component: ComponentType<HTMLElement> = el as ComponentType<HTMLElement>;
@@ -66,7 +66,7 @@ export const Container = React.forwardRef<HTMLElement, ContainerProps>(
 );
 Container.displayName = "Container";
 
-const variantH = cvx({
+const headings = cvx({
   assign: "scroll-m-20 first:mt-0",
   variants: {
     variant: {
@@ -79,18 +79,18 @@ const variantH = cvx({
   },
   defaultVariants: { variant: "title", size: "h3" },
 });
-type HeadingList = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+type Headings = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 interface HeadingElement
   extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement>,
-    VariantsType<typeof variantH> {
-  el?: HeadingList;
+    VariantsType<typeof headings> {
+  el?: Headings;
   unstyled?: boolean;
 }
 export const Title = React.forwardRef<HTMLHeadingElement, HeadingElement>(
   ({ el = "h1", children, title, role = "presentation", unstyled, className, variant, size, ...props }, ref) => {
     let Component: React.ElementType = el;
     return (
-      <Component ref={ref} role={role} className={cn(!unstyled && variantH({ variant, size }), className)} {...props}>
+      <Component ref={ref} role={role} className={cn(!unstyled && headings({ variant, size }), className)} {...props}>
         {children || title}
       </Component>
     );

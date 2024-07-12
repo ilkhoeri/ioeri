@@ -22,7 +22,7 @@ const ItalicTime: React.FC<{ time: string | undefined; util: "created" | "update
       month: "short",
       hour: "2-digit",
       minute: "2-digit",
-      hour12: false, // Menggunakan format 24 jam
+      hour12: false,
       timeZoneName: "short",
     },
   }).replace(".", ":");

@@ -2,9 +2,9 @@
 
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
-import { Spinner } from "@/library/assets/anim-loader";
 import { FileIcon } from "@/modules/icons";
 import { sourceFiles } from "@/library/utils";
+import { Spinner } from "@/library/assets/anim-loader";
 
 interface DocsParams {
   params: {

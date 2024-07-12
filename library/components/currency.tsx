@@ -12,8 +12,8 @@ export const formatterIDR = new Intl.NumberFormat("id-ID", {
 export const formatterLong = new Intl.NumberFormat("id-ID", {
   style: "currency",
   currency: "IDR",
-  minimumFractionDigits: 0, // Menetapkan jumlah digit di belakang koma
-  maximumFractionDigits: 0, // Menetapkan jumlah maksimum digit di belakang koma
+  minimumFractionDigits: 0, // minimum number of digits after the comma
+  maximumFractionDigits: 0, // maximum number of digits after the comma
 });
 
 export const formatterIDRK = (value: number) => {
@@ -26,19 +26,14 @@ export const formatterIDRK = (value: number) => {
 
 type CurrencyProps = {
   el?: ElementType;
-
-  value?: string | number;
   quantity?: number;
-
-  format?: "default" | "long" | "medium" | "short";
-
-  className?: string;
-
+  value?: string | number;
   leftSection?: React.ReactNode;
   rightSection?: React.ReactNode;
+  format?: "default" | "long" | "medium" | "short";
 } & React.HTMLAttributes<HTMLElement>;
 
-const Currency: FC<CurrencyProps> = ({
+export const Currency: FC<CurrencyProps> = ({
   value = 0,
   quantity,
   format = "default",
@@ -54,9 +49,7 @@ const Currency: FC<CurrencyProps> = ({
     setIsMounted(true);
   }, []);
 
-  if (!isMounted) {
-    return null;
-  }
+  if (!isMounted) return null;
 
   const rootClassName = twMerge("min-w-max", className);
 
@@ -85,5 +78,3 @@ const Currency: FC<CurrencyProps> = ({
     </Component>
   );
 };
-
-export { Currency };

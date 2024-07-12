@@ -1,25 +1,20 @@
 import Docs from "./docs";
 import RestDocsPage from "./client";
-
 import { notFound } from "next/navigation";
-
+import { Headnav } from "@/library/assets/nav-head";
+import { NavBottom } from "@/library/assets/nav-prev-next";
+import { AsideLeft } from "@/library/assets/nav-aside-left";
+import { ChildWrapper } from "@/library/context/app-context";
+import { AsideRight } from "@/library/assets/nav-aside-right";
 import { Section, Main } from "@/library/components/components";
 import { getPath, getPaths } from "@/library/scripts/get-paths";
-import { AsideLeft } from "@/library/assets/nav-aside-left";
-import { AsideRight } from "@/library/assets/nav-aside-right";
-import { NavBottom } from "@/library/assets/nav-prev-next";
 import { NavigationBreadcrumb } from "@/library/assets/nav-breadcrumb";
 import { InnerRoutes, NestedRoute, SingleRoute } from "@/library/routes";
-import { ChildWrapper } from "@/library/context/app-context";
-import { Headnav } from "@/library/assets/nav-head";
 
 export const runtime = "nodejs";
 export const dynamicParams = true;
 export const dynamic = "force-dynamic";
 // export const fetchCache = "only-no-store";
-// export function generateStaticParams() {
-//   return [{ docs: ["hooks", "use-clipboard"] }, { docs: ["b", "2"] }, { docs: ["c", "3"] }];
-// }
 
 async function routes(sourcePath: string): Promise<SingleRoute[]> {
   return await getPath(["resource", "docs", sourcePath]);
@@ -51,7 +46,6 @@ export default async function Layout({ children, params }: Readonly<DocsParams>)
     return (
       <>
         <Headnav routes={[...utility, ...nested, ...hooks, ...examples]} />
-
         <Main>
           <AsideLeft routes={[...utility, ...nested, ...hooks, ...examples]} />
           <Section>
@@ -67,9 +61,7 @@ export default async function Layout({ children, params }: Readonly<DocsParams>)
 
   if (!params.docs) {
     return (
-      <Template>
-        <Docs />
-      </Template>
+      <Template><Docs /></Template>
     );
   }
 
@@ -100,7 +92,6 @@ const findMatchingRoute = (slug: string[], routes: (InnerRoutes | SingleRoute)[]
     if ("href" in route && route.href === matcher) {
       return true;
     }
-
     if ("data" in route) {
       const matchingData = route.data.some((data) => data.href === matcher);
       if (matchingData) {

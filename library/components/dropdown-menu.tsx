@@ -1,8 +1,8 @@
 "use client";
-
 import * as React from "react";
-import Link, { type LinkProps } from "next/link";
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
+import Link, { type LinkProps } from "next/link";
+
 import { CheckIcon, ChevronIcon, DotFillIcon } from "@/modules/icons";
 import { twMerge } from "tailwind-merge";
 

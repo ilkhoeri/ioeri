@@ -1,8 +1,8 @@
 import * as React from "react";
-import { CopyToggle, GetCodeToggle } from "./toggle";
-import { CSSIcon, TypescriptIcon } from "@/modules/icons";
 import { twMerge } from "tailwind-merge";
 import { sanitizedToParams } from "@/modules/index";
+import { CopyToggle, GetCodeToggle } from "./toggle";
+import { CSSIcon, TypescriptIcon } from "@/modules/icons";
 
 type CodeCustomizer = {
   code?: string | null;

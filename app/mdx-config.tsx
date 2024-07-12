@@ -1,5 +1,4 @@
 "use client";
-
 import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -118,12 +117,9 @@ export const components = {
 
 /**
 import { useMDXComponent } from "next-contentlayer/hooks";
-interface MdxProps {
-  code: string;
-}
+interface MdxProps { code: string }
 export function Mdx({ code }: MdxProps) {
   const Component = useMDXComponent(code);
-
   return (
     <div className="mdx">
       <Component components={components} />

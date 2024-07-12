@@ -1,12 +1,10 @@
 "use client";
-
 import { useState } from "react";
-
-import { TabsContent, TabsList, TabsTrigger } from "@/library/components/tabs";
-import { Button } from "@/library/components/button";
-import { cvx } from "@/modules/utility";
 import { nextValue } from "../utils";
+import { cvx } from "@/modules/utility";
 import { capitalizeWords } from "@/modules/index";
+import { Button } from "@/library/components/button";
+import { TabsContent, TabsList, TabsTrigger } from "@/library/components/tabs";
 
 enum MarkdownValue {
   Edit = "edit",
@@ -16,7 +14,6 @@ enum MarkdownValue {
   Css = "css",
   Usage = "usage",
 }
-
 enum Expands {
   "expand" = "expand",
   "expand-full" = "expand-full",
@@ -29,8 +26,6 @@ type RecordNested<U extends string, T extends string, P = Record<string, unknown
 type PlaygroundType = RecordNested<"childrens", MarkdownValue, React.ReactNode> & {
   defaultState?: MarkdownValue;
 };
-
-const EXPAND_VALUES: `${Expands}`[] = Object.values(Expands);
 
 const classes = cvx({
   variants: {
@@ -54,6 +49,8 @@ const classes = cvx({
   },
 });
 
+const EXPAND_VALUES: `${Expands}`[] = Object.values(Expands);
+
 function Resizer({ expand, setExpand }: { expand: `${Expands}`; setExpand: (v: `${Expands}`) => void }) {
   return (
     <Button
@@ -70,12 +67,10 @@ export function Playground(_Play: PlaygroundType) {
   const { childrens } = _Play;
   const [expand, setExpand] = useState<`${Expands}`>("expand");
 
-  if (!childrens) {
-    return null;
-  }
-
   const tabs = Object.values(MarkdownValue);
   const omitTab = (key: MarkdownValue) => key === "edit" || key === "preview";
+
+  if (!childrens) return null;
 
   return (
     <>

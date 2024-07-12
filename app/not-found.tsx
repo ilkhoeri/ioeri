@@ -1,15 +1,11 @@
 import Link from "next/link";
-import { getPath, getPaths } from "@/library/scripts/get-paths";
-import { AsideLeft } from "@/library/assets/nav-aside-left";
+import { IoeriIcon } from "@/modules/icons";
+import { Headnav } from "@/library/assets/nav-head";
 import { Main } from "@/library/components/components";
-import { IoeriIcon } from "@/resource/docs/icons";
+import { AsideLeft } from "@/library/assets/nav-aside-left";
+import { getPath, getPaths } from "@/library/scripts/get-paths";
 
 import type { NestedRoute, SingleRoute } from "@/library/routes";
-import { Headnav } from "@/library/assets/nav-head";
-
-export const dynamic = "force-dynamic";
-export const dynamicParams = true;
-export const runtime = "nodejs";
 
 async function routes(sourcePath: string): Promise<SingleRoute[]> {
   return await getPath(["resource", "docs", sourcePath]);
@@ -47,9 +43,7 @@ export default async function NotFound() {
 
           <div className="relative z-10 centered flex-col pt-16 min768:pt-[7rem] text-[#909090] dark:text-[#c1c2c5] text-center m-0 leading-normal">
             <Link
-              href={"/"}
-              tabIndex={-1}
-              aria-label="back-home"
+              href="/" tabIndex={-1} aria-label="back-home"
               className="px-4 py-1 rounded-lg sticky top-14 focus-visible:ring-0 focus-visible:border-0 hover:text-color"
             >
               <IoeriIcon size={146} />
