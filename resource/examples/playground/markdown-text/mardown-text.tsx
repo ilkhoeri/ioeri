@@ -47,18 +47,6 @@ export function MarkdownText() {
   );
 }
 
-/**
-// set class `markdown-body` in wrapper
-function MyComponent() {
-  return (
-    <div
-      className="markdown-body" 
-      dangerouslySetInnerHTML={{ __html: markdownText(text) }}
-    />
-  )
-}
- */
-
 const sample = `<div align="center">
   <a href="https://www.github.com/ilkhoeri/modules" target="_blank">
     <img src="https://raw.githubusercontent.com/ioeridev/.github/main/profile/ioeri-512x512.png" alt="ioeri" height="200" style="width: 200px;height: 200px;border-radius: 8px;overflow: hidden;" />
@@ -73,10 +61,10 @@ ___
 
 ### h3
 
-1 List Pertama
-2 List Kedua
-3 List Ketiga
-4 List Keempat
+1 ordered...
+2 ordered...
+3 ordered...
+4 ordered...
 
 - unordered list 1
 - unordered list 2
@@ -110,4 +98,4 @@ function stripHtml(text: string) {
     <img src="https://badgen.now.sh/npm/dm/ioeri" alt="downloads" />
   </a>
 </div>
-`
+`;
