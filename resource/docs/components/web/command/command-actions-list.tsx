@@ -1,10 +1,10 @@
 "use client";
 import React from "react";
-import { useCommandContext } from "./command-store";
+import { commandActions, useCommandContext } from "./command-store";
 
 import { factory, useProps, CompoundStylesApiProps, ElementProps, Factory } from "@/modules/factory";
 
-export type CommandActionsListOrigin = "actionBody" | "actionsList";
+export type CommandActionsListOrigin = "actionsOrder" | "actionsList";
 
 export interface CommandActionsListProps
   extends CompoundStylesApiProps<CommandActionsListFactory>,
@@ -29,13 +29,20 @@ export const CommandActionsList = factory<CommandActionsListFactory>((props, ref
     props,
   );
   const ctx = useCommandContext();
+  const genId = `command-${React.useId().replace(/:/g, "")}`;
+  const setId = id || genId;
+
+  React.useEffect(() => {
+    commandActions.setListId(setId, ctx.store);
+    return () => commandActions.setListId("", ctx.store);
+  }, [setId, ctx.store]);
 
   if (loading && loader) {
     return loader;
   }
 
   return (
-    <div {...ctx.getStyles("actionBody", { id, className, classNames, style, styles })}>
+    <div {...ctx.getStyles("actionsOrder", { id: setId, className, classNames, style, styles })}>
       <div ref={ref} {...ctx.getStyles("actionsList", { id, className, classNames, style, styles })} {...others} />
     </div>
   );

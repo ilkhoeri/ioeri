@@ -1,19 +1,27 @@
 export {
   command,
-  createCommand,
-  createCommandStore,
   useCommand,
+  fuzzySearch,
+  fuzzyFilter,
   openCommand,
   closeCommand,
+  actionsGroup,
+  createCommand,
   toggleCommand,
+  defaultFilter,
+  commandActions,
+  clearCommandState,
+  closeCommandAction,
+  createCommandStore,
+  levenshteinDistance,
 } from "./command-store";
 
 export type {
-  CommandFactory,
-  CommandFilterFunction,
-  CommandActionData,
-  CommandActionGroupData,
   CommandProps,
+  CommandFactory,
+  CommandActionData,
+  CommandFilterFunction,
+  CommandActionGroupData,
 } from "./command";
 
 export { Command } from "./command";
@@ -30,5 +38,5 @@ export type { CommandSearchProps, CommandSearchOrigin } from "./command-search";
 export type { CommandActionProps, CommandActionOrigin } from "./command-action";
 export type { CommandFooterProps, CommandFooterOrigin } from "./command-footer";
 export type { CommandActionsListProps, CommandActionsListOrigin } from "./command-actions-list";
-export type { CommandState, CommandStore, isActionsGroup, CommandOrigin } from "./command-store";
+export type { CommandState, CommandStore, CommandOrigin } from "./command-store";
 export type { CommandActionsGroupProps, CommandActionsGroupOrigin } from "./command-actions-group";

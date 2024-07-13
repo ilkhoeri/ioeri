@@ -14,8 +14,7 @@ export type CommandActionOrigin =
   | "actionInner"
   | "actionDescription"
   | "actionLeftSection"
-  | "actionRightSection"
-  | "actionBody";
+  | "actionRightSection";
 
 export interface CommandActionProps
   extends Omit<LinkProps, "href">,
@@ -114,9 +113,11 @@ export const CommandAction = factory<CommandActionFactory>((_props, ref) => {
   );
 
   const rest = {
-    "data-action": "",
     ...ctx.getStyles("action", { id, className, style, ...stylesApi }),
-    onMouseDown,
+    onMouseDown: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+      e.preventDefault();
+      onMouseDown?.(e);
+    },
     onClick: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
       onClick?.(e);
       if (closeCommandOnTrigger ?? ctx.closeOnActionTrigger) {

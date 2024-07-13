@@ -7,7 +7,9 @@ import { Factory, factory, useProps, CompoundStylesApiProps, ElementProps } from
 
 export type CommandSearchOrigin = "search" | "searchWrap";
 
-export interface CommandSearchProps extends CompoundStylesApiProps<CommandSearchFactory>, ElementProps<"input", "size"> {
+export interface CommandSearchProps
+  extends CompoundStylesApiProps<CommandSearchFactory>,
+    ElementProps<"input", "size"> {
   leftSection?: React.ReactNode;
   rightSection?: React.ReactNode;
   size?: number;
@@ -40,29 +42,15 @@ export const CommandSearch = factory<CommandSearchFactory>((props, ref) => {
     rightSection,
     type = "text",
     autoFocus = true,
+    onCompositionEnd,
+    onCompositionStart,
     spellCheck = "false",
     autoComplete = "off",
     placeholder = "Search...",
     ...others
   } = useProps("CommandSearch", defaultProps, props);
+  const [composition, setComposition] = React.useState(false);
   const ctx = useCommandContext();
-
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    onKeyDown?.(event);
-
-    if (event.nativeEvent.code === "ArrowDown") {
-      event.preventDefault();
-      commandActions.selectNextAction(ctx.store);
-    }
-    if (event.nativeEvent.code === "ArrowUp") {
-      event.preventDefault();
-      commandActions.selectPreviousAction(ctx.store);
-    }
-    if (event.nativeEvent.code === "Enter") {
-      event.preventDefault();
-      commandActions.triggerSelectedAction(ctx.store);
-    }
-  };
 
   const rest = {
     ref,
@@ -71,11 +59,35 @@ export const CommandSearch = factory<CommandSearchFactory>((props, ref) => {
     spellCheck,
     placeholder,
     autoComplete,
-    onKeyDown: handleKeyDown,
     value: value ?? ctx.query,
-    onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
-      ctx.setQuery(event.currentTarget.value);
-      onChange?.(event);
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+      ctx.setQuery(e.currentTarget.value);
+      onChange?.(e);
+    },
+    onCompositionStart: (e: React.CompositionEvent<HTMLInputElement>) => {
+      onCompositionStart?.(e);
+      setComposition(true);
+    },
+    onCompositionEnd: (e: React.CompositionEvent<HTMLInputElement>) => {
+      onCompositionEnd?.(e);
+      setComposition(false);
+    },
+    onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => {
+      onKeyDown?.(e);
+      if (composition) return;
+
+      if (e.nativeEvent.code === "ArrowDown") {
+        e.preventDefault();
+        commandActions.selectNextAction(ctx.store);
+      }
+      if (e.nativeEvent.code === "ArrowUp") {
+        e.preventDefault();
+        commandActions.selectPreviousAction(ctx.store);
+      }
+      if (e.nativeEvent.code === "Enter" || e.nativeEvent.code === "NumpadEnter") {
+        e.preventDefault();
+        commandActions.triggerSelectedAction(ctx.store);
+      }
     },
     ...ctx.getStyles("search", { id, className, classNames, style, styles }),
     ...others,

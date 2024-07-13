@@ -1,3 +1,4 @@
+import React from "react";
 import { GetStylesApiOptions } from "./factory-types";
 
 export function clamp(value: number, min: number | undefined, max: number | undefined) {
@@ -31,10 +32,9 @@ export function getId({ selector, options }: SelectorOptions) {
   const number = "0123456789";
   const char = alphabet.charAt(charIndex);
   const numb = number.charAt(charIndex);
+  const uniqueId = `${Math.floor(Math.random() * 1000)}`;
 
-  const uniqueId = `${Date.now()}-${Math.floor(Math.random() * 3.33)}`;
-
-  return options?.id || `${camelToKebab(selector)}:-${char + numb}-${uniqueId}`;
+  return options?.id || `${camelToKebab(selector)}:-${uniqueId}`;
 }
 
 export function getAttrs({ selector }: { selector: string }) {

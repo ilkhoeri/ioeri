@@ -9,8 +9,8 @@ import { Factory, factory, useProps } from "@/modules/factory";
 import { CommandSearch, CommandSearchProps } from "./command-search";
 import { CommandAction, CommandActionProps, CommandHighlight } from "./command-action";
 import { DetailsCommandContent, CommandContent, CommandContentProps } from "./command-content";
-import { commandStore, command, isActionsGroup, limitActions, defaultFilter, CommandOrigin } from "./command-store";
-
+import { commandStore, command, actionsGroup, limitActions, defaultFilter } from "./command-store";
+import type { CommandOrigin } from "./command-store";
 export interface CommandActionData extends CommandActionProps {
   id: string;
   group?: string;
@@ -20,9 +20,9 @@ export interface CommandActionGroupData {
   actions: CommandActionData[];
 }
 
-export type CommandFilterFunction = (query: string, actions: CommandActions[]) => CommandActions[];
-export type CommandActions = CommandActionData | CommandActionGroupData;
 type CommandType = CommandFactory & DetailsCommandContent;
+export type CommandActions = CommandActionData | CommandActionGroupData;
+export type CommandFilterFunction = (query: string, actions: CommandActions[]) => CommandActions[];
 
 export interface CommandProps extends CommandContentProps {
   searchProps?: CommandSearchProps;
@@ -55,11 +55,11 @@ const defaultProps: Partial<CommandProps> = {
   limit: Infinity,
   store: commandStore,
   filter: defaultFilter,
+  highlightQuery: false,
   clearQueryOnClose: true,
   closeOnActionTrigger: true,
-  highlightQuery: false,
-  shortcut: "mod + K",
   nothingFound: "Nothing found...",
+  shortcut: "mod + K",
 };
 
 export const Command = factory<CommandType>((_props, ref) => {
@@ -73,20 +73,18 @@ export const Command = factory<CommandType>((_props, ref) => {
     onChange: onQueryChange,
   });
 
-  const filteredActions = limitActions(filter!(_query, actions), limit!).map((item) => {
-    if (isActionsGroup(item)) {
-      const items = item.actions.map(({ id, ...actionData }) => (
-        <CommandAction key={id} highlightQuery={highlightQuery} {...actionData} />
-      ));
-
+  const filteredActions = limitActions(filter!(_query, actions), limit!).map((i) => {
+    if (actionsGroup(i)) {
       return (
-        <CommandActionsGroup key={item.group} label={item.group}>
-          {items}
+        <CommandActionsGroup key={i.group} label={i.group}>
+          {i.actions.map(({ id, group, ...actionData }) => (
+            <CommandAction key={id} id={id} data-group={group} highlightQuery={highlightQuery} {...actionData} />
+          ))}
         </CommandActionsGroup>
       );
     }
 
-    return <CommandAction key={item.id} highlightQuery={highlightQuery} {...item} />;
+    return <CommandAction key={i.id} highlightQuery={highlightQuery} {...i} />;
   });
 
   return (

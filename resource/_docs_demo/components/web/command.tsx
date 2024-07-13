@@ -45,11 +45,18 @@ const actionsGroup = [
     group: "Group 1",
     actions: [
       {
-        id: "1",
-        href: "",
+        id: "1-1",
+        href: "/",
         label: "Sunt aut facere repellat provident",
         description:
           "quia et suscipit suscipit recusandae consequuntur expedita et cum reprehenderit nostrum rerum est autem sunt architecto.",
+      },
+      {
+        id: "1-2",
+        href: "",
+        label: "Eum et est occaecati",
+        description:
+          "ullam et saepe reiciendis voluptatem adipisci sit amet autem assumenda provident rerum culpa quis hic commodi.",
       },
     ],
   },
@@ -57,14 +64,14 @@ const actionsGroup = [
     group: "Group 2",
     actions: [
       {
-        id: "1",
+        id: "2-1",
         href: "",
         label: "Qui est esse",
         description:
           "est rerum tempore vitae sequi sint nihil reprehenderit dolor beatae ea dolores neque fugiat blanditiis.",
       },
       {
-        id: "2",
+        id: "2-2",
         href: "",
         label: "Occaecati excepturi optio reprehenderit",
         description:
@@ -76,21 +83,14 @@ const actionsGroup = [
     group: "Group 3",
     actions: [
       {
-        id: "1",
+        id: "3-1",
         href: "",
         label: "Nesciunt quas odio",
         description:
           "repudiandae veniam quaerat sunt sed alias aut fugiat sit autem sed est voluptatem omnis possimus esse voluptatibus.",
       },
       {
-        id: "2",
-        href: "",
-        label: "Eum et est occaecati",
-        description:
-          "ullam et saepe reiciendis voluptatem adipisci sit amet autem assumenda provident rerum culpa quis hic commodi.",
-      },
-      {
-        id: "3",
+        id: "3-2",
         href: "",
         label: "Molestias quasi exercitationem repellat qui ipsa sit aut",
         description:

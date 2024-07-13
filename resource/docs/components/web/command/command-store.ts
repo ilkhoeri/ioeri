@@ -1,18 +1,18 @@
 "use client";
 import { HotkeyItem } from "@/modules/hooks";
 import { clamp } from "@/modules/factory/factory-utils";
-import { createStore, useStore, StoreValue } from "@/modules/factory/factory-store";
-import type { CommandFilterFunction, CommandActionData, CommandActionGroupData, CommandActions } from "./command";
 import { CommandContentFactory } from "./command-content";
+import { createStore, useStore, StoreValue } from "@/modules/factory/factory-store";
 import { createSafeContext, CSSProperties, FactoryPayload, GetStylesApiOptions } from "@/modules/factory";
 
-import type { CommandContentOrigin } from "./command-content";
-import type { CommandActionOrigin } from "./command-action";
-import type { CommandActionsGroupOrigin } from "./command-actions-group";
-import type { CommandActionsListOrigin } from "./command-actions-list";
 import type { CommandEmptyOrigin } from "./command-empty";
+import type { CommandActionOrigin } from "./command-action";
 import type { CommandFooterOrigin } from "./command-footer";
 import type { CommandSearchOrigin } from "./command-search";
+import type { CommandContentOrigin } from "./command-content";
+import type { CommandActionsListOrigin } from "./command-actions-list";
+import type { CommandActionsGroupOrigin } from "./command-actions-group";
+import type { CommandFilterFunction, CommandActionData, CommandActionGroupData, CommandActions } from "./command";
 
 export type CommandOrigin =
   | CommandContentOrigin
@@ -94,8 +94,8 @@ export function setListId(id: string, store: CommandStore) {
 export function selectAction(index: number, store: CommandStore): number {
   const state = store.getState();
   const actionsList = document.getElementById(state.listId);
-  const selected = actionsList?.querySelector<HTMLButtonElement>("[data-selected]");
-  const actions = actionsList?.querySelectorAll<HTMLButtonElement>("[data-action]") ?? [];
+  const selected = actionsList?.querySelector<HTMLAnchorElement>("[data-selected]");
+  const actions = actionsList?.querySelectorAll<HTMLAnchorElement>(`[data-command="action"]`) ?? [];
   const nextIndex = index === -1 ? actions.length - 1 : index === actions.length ? 0 : index;
 
   const selectedIndex = clamp(nextIndex, 0, actions.length - 1);
@@ -117,7 +117,7 @@ export function selectPreviousAction(store: CommandStore) {
 
 export function triggerSelectedAction(store: CommandStore) {
   const state = store.getState();
-  const selected = document.querySelector<HTMLButtonElement>(`#${state.listId} [data-selected]`);
+  const selected = document.querySelector<HTMLAnchorElement>(`#${state.listId} [data-selected]`);
   selected?.click();
 }
 
@@ -246,6 +246,74 @@ export const defaultFilter: CommandFilterFunction = (_query, data) => {
   return flatActionsToGroups(priorityMatrix.flat());
 };
 
+export const fuzzyFilter: CommandFilterFunction = (_query, data) => {
+  const query = _query.trim().toLowerCase();
+  const priorityMatrix: CommandActionData[][] = [[], [], []];
+  const flatActions = getFlatActions(data);
+
+  flatActions.forEach((item) => {
+    if (item.label?.toLowerCase().includes(query)) {
+      priorityMatrix[0].push(item);
+    } else if (item.description?.toLowerCase().includes(query) || getKeywords(item.keywords).includes(query)) {
+      priorityMatrix[1].push(item);
+    }
+  });
+
+  if (priorityMatrix[0].length === 0 && priorityMatrix[1].length === 0) {
+    const labels = flatActions.map((item) => item.label?.toLowerCase() || "");
+    const closestLabel = fuzzySearch(query, labels);
+
+    flatActions.forEach((item) => {
+      if (item.label?.toLowerCase() === closestLabel) {
+        priorityMatrix[2].push(item);
+      }
+    });
+  }
+
+  return flatActionsToGroups(priorityMatrix.flat());
+};
+
+export function fuzzySearch(query: string, terms: string[]): string {
+  function fuzzy(text: string, query: string) {
+    const normalizedQuery = query.trim().toLowerCase();
+    const sanitizedQuery = normalizedQuery.replace(/[.*+?^${}()|[\]\\]/g, "");
+    const regex = new RegExp(`\\b${sanitizedQuery.split("").join(".*")}\\b`, "i");
+    return regex.test(text) || text.toLowerCase().includes(normalizedQuery);
+  }
+
+  const directMatch = terms.find((term) => fuzzy(term, query));
+  if (directMatch) return directMatch;
+
+  const sortedTerms = terms
+    .map((term) => ({ term, distance: levenshteinDistance(term, query) }))
+    .filter((item) => item.distance <= 4)
+    .sort((a, b) => a.distance - b.distance);
+
+  return sortedTerms[0]?.term ?? "";
+}
+
+export function levenshteinDistance(term: string, query: string): number {
+  const matrix = Array.from({ length: query.length + 1 }, () => Array(term.length + 1).fill(0));
+
+  for (let i = 0; i <= query.length; i++) {
+    matrix[i][0] = i;
+  }
+  for (let j = 0; j <= term.length; j++) {
+    matrix[0][j] = j;
+  }
+  for (let i = 1; i <= query.length; i++) {
+    for (let j = 1; j <= term.length; j++) {
+      if (query[i - 1] === term[j - 1]) {
+        matrix[i][j] = matrix[i - 1][j - 1];
+      } else {
+        matrix[i][j] = Math.min(matrix[i - 1][j] + 1, matrix[i][j - 1] + 1, matrix[i - 1][j - 1] + 1);
+      }
+    }
+  }
+
+  return matrix[query.length][term.length];
+}
+
 export function getHotkeys(hotkeys: string | string[] | null | undefined, store: CommandStore): HotkeyItem[] {
   if (!hotkeys) return [];
   const open = () => commandActions.open(store);
@@ -256,7 +324,7 @@ export function getHotkeys(hotkeys: string | string[] | null | undefined, store:
   return [[hotkeys, open]];
 }
 
-export function isActionsGroup(item: CommandActionData | CommandActionGroupData): item is CommandActionGroupData {
+export function actionsGroup(item: CommandActionData | CommandActionGroupData): item is CommandActionGroupData {
   const _item = item as CommandActionGroupData;
   return _item.group !== undefined && Array.isArray(_item.actions);
 }
@@ -270,14 +338,14 @@ export function limitActions(actions: CommandActions[], limit: number) {
 
     if (result.length >= limit) return result;
 
-    if (isActionsGroup(item)) {
+    if (actionsGroup(item)) {
       result.push({
         group: item.group,
         actions: limitActions(item.actions, limit - result.length) as CommandActionData[],
       });
     }
 
-    if (!isActionsGroup(item)) {
+    if (!actionsGroup(item)) {
       result.push(item);
     }
   }
