@@ -115,10 +115,59 @@ export function levenshteinDistance(a: string, b: string): number {
  * ```js
   const filteredSuggestions = searchUsers.filter((user) => fuzzySearch(user.name, inputValue));
  * ```
- * @param a 
- * @param b 
+ * @param a string
+ * @param b string
  * @returns `boolean`
  */
 export function fuzzySearch(a: string, b: string): boolean {
   return a.toLowerCase().includes(b.toLowerCase().trim());
+}
+
+
+function fuzzySearchB(text: string, query: string) {
+  const regex = new RegExp(query.split("").join(".*"), "i");
+  return regex.test(text);
+}
+function fuzzySearchC(input: string, target: string): boolean {
+  const pattern = input.split("").reduce((a, b) => `${a}.*${b}`);
+  return new RegExp(pattern).test(target);
+}
+
+function levenshteinDistanceB(a: string, b: string): number {
+  const matrix = Array.from({ length: b.length + 1 }, (_, i) => [i]);
+  for (let j = 0; j <= a.length; j++) {
+    matrix[0][j] = j;
+  }
+  for (let i = 1; i <= b.length; i++) {
+    for (let j = 1; j <= a.length; j++) {
+      matrix[i][j] =
+        a[j - 1] === b[i - 1]
+          ? matrix[i - 1][j - 1]
+          : Math.min(matrix[i - 1][j - 1] + 1, Math.min(matrix[i][j - 1] + 1, matrix[i - 1][j] + 1));
+    }
+  }
+  return matrix[b.length][a.length];
+}
+function levenshteinDistanceC(a: string, b: string): number {
+  const matrix: number[][] = Array.from({ length: b.length + 1 }, () => []);
+  for (let i = 0; i <= b.length; i++) {
+    matrix[i][0] = i;
+  }
+  for (let j = 0; j <= a.length; j++) {
+    matrix[0][j] = j;
+  }
+  for (let i = 1; i <= b.length; i++) {
+    for (let j = 1; j <= a.length; j++) {
+      if (b[i - 1] === a[j - 1]) {
+        matrix[i][j] = matrix[i - 1][j - 1];
+      } else {
+        matrix[i][j] = Math.min(
+          matrix[i - 1][j] + 1, // deletion
+          matrix[i][j - 1] + 1, // insertion
+          matrix[i - 1][j - 1] + 1, // substitution
+        );
+      }
+    }
+  }
+  return matrix[b.length][a.length];
 }

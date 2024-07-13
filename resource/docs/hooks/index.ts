@@ -54,7 +54,6 @@ export { useOrientation } from "./use-orientation/use-orientation";
 export { useReload } from "./use-reload/use-reload";
 export { usePWAInstaller } from "./use-pwa-installer/use-pwa-installer";
 export { useElementInfo } from "./use-element-info/use-element-info";
-export { useScrollArea, type UseScrollAreaType } from "./use-scroll-area/use-scroll-area";
 
 export type { HotkeyItem, Hotkey, HotkeyItemOptions, KeyboardModifiers } from "./use-hotkeys/use-hotkeys";
 export type { InitialInfo, RectElement, RectInfo } from "./use-element-info/use-element-info";

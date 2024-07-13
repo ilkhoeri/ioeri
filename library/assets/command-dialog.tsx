@@ -1,54 +1,90 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Command, command } from "@/modules/components/web";
-import { FileIcon, SearchIcon, XIcon } from "@/modules/icons";
+import React, { useEffect, useState } from "react";
 import { cvx, VariantsType } from "@/modules/utility";
+import { Command, command } from "@/modules/components/web";
+import { EmptyBoxIcon, FileIcon, XIcon } from "@/modules/icons";
+import { fuzzySearch, levenshteinDistance } from "@/modules/index";
 
 import { type SingleRoute, type NestedRoute, type InnerRoutes, appRoutes } from "@/library/routes";
-import { sanitizedToParams } from "@/modules/index";
-import { commandActions } from "@/modules/components/web/command/command-store";
 
 export type CommandDialogType = { routes: (SingleRoute | NestedRoute)[] | null };
 
 export function useSearch<T>({ clearQuery }: { clearQuery: boolean | undefined }) {
   const [query, setQuery] = useState("");
-  const [value, setValue] = useState("");
   const [suggest, setSuggest] = useState<T[]>([]);
 
   useEffect(() => {
     if (!clearQuery) {
-      setValue("");
       setQuery("");
       setSuggest([]);
     }
   }, [clearQuery]);
 
-  return { query, setQuery, value, setValue, suggest, setSuggest };
+  return { query, setQuery, suggest, setSuggest };
 }
 
-const actions = [
-  {
-    group: "Pages",
-    actions: [
-      { id: "home", label: "Home page", description: "Where we present the product" },
-      { id: "careers", label: "Careers page", description: "Where we list open positions" },
-      { id: "about-us", label: "About us page", description: "Where we tell what we do" },
-    ],
-  },
-
-  {
-    group: "Apps",
-    actions: [
-      { id: "svg-compressor", label: "SVG compressor", description: "Compress SVG images" },
-      { id: "base64", label: "Base 64 converter", description: "Convert data to base 64 format" },
-      { id: "fake-data", label: "Fake data generator", description: "Lorem ipsum generator" },
-    ],
-  },
-];
+interface Suggestion {
+  id: string;
+  label: string;
+  href: string;
+  leftSection: JSX.Element;
+}
+interface FilterResult {
+  group: string;
+  actions: Suggestion[];
+}
 
 export function CommandDialog({ routes }: CommandDialogType) {
-  const { query, setQuery, value, setValue } = useSearch({ clearQuery: true });
+  const { query, setQuery, suggest, setSuggest } = useSearch<FilterResult>({
+    clearQuery: true,
+  });
+
+  useEffect(() => {
+    const results = filter({ routes }, query);
+    setSuggest(results);
+  }, [routes, query, setSuggest]);
+
+  const Suggest = (
+    <React.Fragment>
+      <h4 {...cn({ as: "suggest" })}>Suggestions</h4>
+      {suggest.map((group, index) => (
+        <Command.ActionsGroup key={index} label={group.group}>
+          {group.actions.map((i) => (
+            <Command.Action key={i.label} href={i.href}>
+              {i.leftSection} {i.label}
+            </Command.Action>
+          ))}
+        </Command.ActionsGroup>
+      ))}
+    </React.Fragment>
+  );
+
+  const rightSection = (
+    <button
+      type="button"
+      {...cn({ as: "close" })}
+      onClick={() => {
+        command.close();
+        setQuery("");
+      }}
+    >
+      <XIcon size={16} />
+    </button>
+  );
+
+  const found = (x: React.JSX.Element) => (suggest.length > 0 ? x : <EmptyBoxIcon />);
+
+  const rest = {
+    query,
+    onQueryChange: setQuery,
+    nothingFound: found(Suggest),
+    actions: [...suggestMain({ query }), ...suggest],
+    classNames: {
+      content: "h-2/3",
+      empty: suggest.length > 0 ? "pt-0 [display:unset]" : undefined,
+    },
+  };
 
   return (
     <>
@@ -61,20 +97,18 @@ export function CommandDialog({ routes }: CommandDialogType) {
       </button>
 
       <Command
-        actions={filter({ routes })}
         searchProps={{
-          rightSection: (
-            <button type="button" {...cn({ as: "close" })} onClick={command.close}>
-              <XIcon size={16} />
-            </button>
-          ),
+          rightSection,
+          value: query,
+          onChange: (e) => setQuery(e.target.value),
         }}
+        {...rest}
       />
     </>
   );
 }
 
-function filter({ routes }: CommandDialogType) {
+function filterX({ routes }: CommandDialogType) {
   if (!routes) return [];
 
   const filteredRoutes = routes.flatMap((route) => {
@@ -94,6 +128,76 @@ function filter({ routes }: CommandDialogType) {
   });
 
   return filteredRoutes;
+}
+
+function filter({ routes }: CommandDialogType, query: string) {
+  if (!routes) return [];
+
+  const filteredRoutes = routes.flatMap((route) => {
+    const routeData = (route as NestedRoute).data?.[0]?.data ? (route as NestedRoute).data : [route as SingleRoute];
+
+    return routeData.flatMap((singleRoute) => {
+      const actions = singleRoute.data
+        .filter((i) => fuzzySearch(i.title, query))
+        .map((i) => ({
+          id: i.title,
+          label: i.title,
+          href: i.href,
+          leftSection: <FileIcon />,
+        }));
+
+      return {
+        group: singleRoute.title,
+        actions,
+      };
+    });
+  });
+
+  if (filteredRoutes.some((route) => route.actions.length > 0)) {
+    return filteredRoutes;
+  }
+
+  const levenshteinSuggestions = routes.flatMap((route) => {
+    const routeData = (route as NestedRoute).data?.[0]?.data ? (route as NestedRoute).data : [route as SingleRoute];
+
+    return routeData.flatMap((singleRoute) => {
+      const actions = singleRoute.data
+        .map((i) => ({ item: i, distance: levenshteinDistance(i.title, query) }))
+        .filter(({ distance }) => distance <= 4)
+        .sort((a, b) => a.distance - b.distance)
+        .map(({ item }) => ({
+          id: item.title,
+          label: item.title,
+          href: item.href,
+          leftSection: <FileIcon arrow />,
+        }));
+
+      return {
+        group: singleRoute.title,
+        actions,
+      };
+    });
+  });
+
+  return levenshteinSuggestions.filter((route) => route.actions.length > 0);
+}
+
+function suggestMain({ query }: { query: string }) {
+  if (query) return [];
+
+  const routes = appRoutes["suggestions"];
+  const actions = routes.data.map((i) => ({
+    id: i.title,
+    label: i.title,
+    href: i.href,
+    leftSection: <i.icon />,
+  }));
+  return [
+    {
+      group: routes.title,
+      actions,
+    },
+  ];
 }
 
 type X = {
@@ -135,7 +239,7 @@ function content({ data }: { data: ExampleData[] | null }) {
 }
 
 export function CommandDialogOld({ routes }: CommandDialogType) {
-  const { query, setQuery, value, setValue } = useSearch({ clearQuery: true });
+  const { query, setQuery } = useSearch({ clearQuery: true });
 
   return (
     <>
@@ -152,10 +256,10 @@ export function CommandDialogOld({ routes }: CommandDialogType) {
           <XIcon size={16} />
         </button>
 
-        <Command.Search value={value} onChange={(e) => setValue(e.target.value)} />
+        <Command.Search value={query} onChange={(e) => setQuery(e.target.value)} />
 
         <Command.ActionsList data-group-items="" role="group" classNames={{ actionBody: "h-[calc(100%-41px)]" }}>
-          {suggestions({ query })}
+          {/* {suggestions({ query })} */}
           {filtering({ routes, query })}
         </Command.ActionsList>
       </Command.Content>
@@ -193,38 +297,6 @@ function filtering({ routes, query }: { query: string } & CommandDialogType) {
   return filteredRoutes;
 }
 
-function suggestions({ query }: { query: string }) {
-  if (query) return null;
-
-  /**
-  return (
-    <Command.ActionsGroup label="Suggestions">
-      {routes.map((route, index) => {
-        if ((route as NestedRoute).data[0].data) {
-          const i = route as NestedRoute;
-          return <Links key={i.title} {...i} />;
-        } else {
-          const i = route as SingleRoute;
-          return <Links key={index} {...i} />;
-        }
-      })}
-    </Command.ActionsGroup>
-  );
-  */
-
-  const routes = appRoutes["suggestions"];
-  return (
-    <Command.ActionsGroup label={routes.title} classNames={{ actionGroupLabel: "border-b mb-2" }}>
-      {routes.data.map((i, index) => (
-        <Command.Action key={index} href={i.href}>
-          <i.icon size={18} />
-          {i.title}
-        </Command.Action>
-      ))}
-    </Command.ActionsGroup>
-  );
-}
-
 const classes = cvx({
   variants: {
     as: {
@@ -232,6 +304,8 @@ const classes = cvx({
         "inline-flex items-center whitespace-nowrap transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-muted/60 text-muted-foreground hover:text-color px-4 py-2 relative h-8 w-full justify-start rounded-[0.5rem] text-sm font-normal shadow-none sm:pr-12 md:w-40 lg:w-64",
       kbd: "pointer-events-none absolute right-[0.3rem] top-[0.3rem] hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex [&_span]:text-xs",
       close: "size-4 absolute right-3 top-3 text-muted-foreground hover:text-color rounded-sm disabled:opacity-50",
+      suggest:
+        "text-center px-2 py-1.5 text-sm text-color font-medium select-none border-b flex items-center justify-center load_ after:top-6",
       content: "overflow-hidden p-0 md:w-[520px] md:h-[360px]",
       command: "[&_[data-command=search-wrap]]:pr-10",
     },

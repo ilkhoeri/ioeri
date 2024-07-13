@@ -1,34 +1,32 @@
 "use client";
-
 import * as React from "react";
-
+import { mergeRefs } from "@/modules/hooks";
 import { observeIntersection, styletransformVars } from "./utils-anim-transform";
+
 import type { TransformProps } from "./types-anim-transform";
 
-type ComponentType = React.ComponentType<React.HTMLAttributes<HTMLElement>>;
-
-export const Transform: React.FC<TransformProps> = (props) => {
+export const Transform = React.forwardRef<HTMLElement, TransformProps>((props, ref) => {
   const { style, el = "div", hold, opacity, withoutOpacity, transform, transition, ...others } = props;
-  const ref = React.useRef<HTMLElement>(null);
+  const componentRef = React.useRef<HTMLElement>(null);
 
   React.useEffect(() => {
-    const cleanup = observeIntersection(ref, { hold, opacity, withoutOpacity, transform });
+    const cleanup = observeIntersection(componentRef, { hold, opacity, withoutOpacity, transform });
     return cleanup;
   }, [hold, opacity, transform, withoutOpacity]);
 
-  const attrTransform = {
-    ref: ref,
-    "data-anim": "transform",
-    style: {
-      ...styletransformVars(props as TransformProps),
-      ...style,
-    },
-    ...others,
-  };
+  const Component = el as React.ElementType;
 
-  let Root: ComponentType = el as ComponentType;
+  return (
+    <Component
+      ref={mergeRefs(componentRef, ref)}
+      data-anim="transform"
+      style={{
+        ...styletransformVars(props as TransformProps),
+        ...style,
+      }}
+      {...others}
+    />
+  );
+});
 
-  return <Root {...attrTransform} />;
-};
-
-Transform.displayName = "ioeri/Transform";
+Transform.displayName = "Transform";

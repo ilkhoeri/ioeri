@@ -1,31 +1,26 @@
-import React from "react";
+"use client";
+import * as React from "react";
+import { cnx } from "@/modules/utility";
+import { mergeRefs } from "@/modules/hooks";
 
-import type { CSSProperties, NestedRecord } from "@/modules/types/shared";
-import type { DispatchType } from "@/modules/types/dispatch";
-
-type Trees = "wrap" | "inner";
+type Origin = "wrap" | "inner";
+type CSSProperties = React.CSSProperties & { [key: string]: any };
 type U = ["el", React.ElementType] | ["styles", CSSProperties] | ["classNames", string];
+type NestedRecord<U extends [string, unknown], T extends string> = { [K in U as K[0]]?: Partial<Record<T, K[1]>> };
 
-export type AnimatedRunningWordsType = {
-  /**
-   *```js
-   * // sample
-   * placeholders={['One Two Three Four Five',]}
-   * // *ReactNode
-   *```
-   */
-  placeholders?: string | string[];
-  /** @default ``` "left-to-right" ``` */
+type UseRunningArea = {
+  /** @default ``` "right-to-left" ``` */
   direction?: "right-to-left" | "left-to-right" | "top-to-bottom" | "bottom-to-top";
   /** @default ``` 25 ``` */
-  speed?: number;
-} & NestedRecord<U, Trees> &
-  DispatchType &
+  duration?: number;
+};
+export type RunningAreaType = UseRunningArea &
+  NestedRecord<U, Origin> &
   Omit<React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>, "style"> & {
     style?: CSSProperties;
   };
 
-export function useAnimatedRunningWords({ speed = 25, direction = "left-to-right" }: AnimatedRunningWordsType) {
+export function useRunningArea({ duration = 25, direction }: UseRunningArea) {
   const wrapRef = React.useRef<HTMLElement>(null);
   const innerRef = React.useRef<HTMLElement>(null);
   const animationFrameId = React.useRef<number | null>(null);
@@ -47,32 +42,42 @@ export function useAnimatedRunningWords({ speed = 25, direction = "left-to-right
     let initialX = 0;
     let deltaX = 0;
 
-    const handleTouchStart = (e: TouchEvent) => {
+    const handleStart = (clientX: number) => {
       isDragging = true;
-      initialX = e.touches[0].clientX;
+      initialX = clientX;
       deltaX = 0;
       if (animationFrameId.current !== null) {
         cancelAnimationFrame(animationFrameId.current);
       }
     };
 
-    const handleTouchMove = (e: TouchEvent) => {
+    const handleMove = (clientX: number) => {
       if (!isDragging) return;
-      const currentX = e.touches[0].clientX;
-      deltaX = currentX - initialX;
+      deltaX = clientX - initialX;
       const newPosition = currentPosition.current + deltaX;
       inner.style.transform = `translateX(${newPosition}px)`;
     };
 
-    const handleTouchEnd = () => {
+    const handleEnd = () => {
       isDragging = false;
       currentPosition.current += deltaX;
       requestAnimationFrame(animate);
     };
 
+    const handleTouchStart = (e: TouchEvent) => handleStart(e.touches[0].clientX);
+    const handleTouchMove = (e: TouchEvent) => handleMove(e.touches[0].clientX);
+    const handleTouchEnd = () => handleEnd();
+
+    const handleMouseDown = (e: MouseEvent) => handleStart(e.clientX);
+    const handleMouseMove = (e: MouseEvent) => handleMove(e.clientX);
+    const handleMouseUp = () => handleEnd();
+
     inner.addEventListener("touchstart", handleTouchStart);
     inner.addEventListener("touchmove", handleTouchMove);
     inner.addEventListener("touchend", handleTouchEnd);
+    inner.addEventListener("mousedown", handleMouseDown);
+    inner.addEventListener("mousemove", handleMouseMove);
+    inner.addEventListener("mouseup", handleMouseUp);
 
     const animate = (timestamp: number) => {
       if (!lastTimeRef.current) {
@@ -81,17 +86,17 @@ export function useAnimatedRunningWords({ speed = 25, direction = "left-to-right
 
       const elapsed = timestamp - lastTimeRef.current;
 
-      if (elapsed >= speed) {
-        lastTimeRef.current = timestamp - (elapsed % speed);
+      if (elapsed >= duration) {
+        lastTimeRef.current = timestamp - (elapsed % duration);
 
         if (!isDragging) {
           if (direction === "right-to-left" || direction === "bottom-to-top") {
-            currentPosition.current -= Math.floor(elapsed / speed);
+            currentPosition.current -= Math.floor(elapsed / duration);
             if (currentPosition.current <= -contentWidth) {
               currentPosition.current = containerWidth;
             }
           } else if (direction === "left-to-right" || direction === "top-to-bottom") {
-            currentPosition.current += Math.floor(elapsed / speed);
+            currentPosition.current += Math.floor(elapsed / duration);
             if (currentPosition.current >= containerWidth) {
               currentPosition.current = -contentWidth;
             }
@@ -111,15 +116,51 @@ export function useAnimatedRunningWords({ speed = 25, direction = "left-to-right
     animationFrameId.current = requestAnimationFrame(animate);
 
     return () => {
-      inner.remove();
       inner.removeEventListener("touchstart", handleTouchStart);
       inner.removeEventListener("touchmove", handleTouchMove);
       inner.removeEventListener("touchend", handleTouchEnd);
+      inner.removeEventListener("mousedown", handleMouseDown);
+      inner.removeEventListener("mousemove", handleMouseMove);
+      inner.removeEventListener("mouseup", handleMouseUp);
       if (animationFrameId.current) {
         cancelAnimationFrame(animationFrameId.current);
       }
     };
-  }, [speed, direction]);
+  }, [duration, direction]);
 
   return { wrapRef, innerRef };
 }
+
+export const RunningArea = React.forwardRef<HTMLElement, RunningAreaType>((_props, ref) => {
+  const {
+    el = { wrap: "div", inner: "div" },
+    children,
+    className,
+    classNames,
+    style,
+    styles,
+    direction = "right-to-left",
+    duration = 25,
+    ...rest
+  } = _props;
+  const { wrapRef, innerRef } = useRunningArea({ direction, duration });
+
+  const Wrap = el.wrap as React.ElementType;
+  const Inner = el.inner as React.ElementType;
+
+  return (
+    <Wrap
+      ref={mergeRefs(wrapRef, ref)}
+      data-anim="RunningArea"
+      data-direction={direction}
+      className={cnx(className, classNames?.wrap)}
+      style={{ ...style, ...styles?.wrap }}
+      {...rest}
+    >
+      <Inner ref={innerRef} className={classNames?.inner} style={styles?.inner}>
+        {children}
+      </Inner>
+    </Wrap>
+  );
+});
+RunningArea.displayName = "RunningArea";

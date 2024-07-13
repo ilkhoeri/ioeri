@@ -270,7 +270,7 @@
   }
 }
 
-@keyframes progress {
+@keyframes progressX {
   0%,
   100% {
     translate: calc(var(--sz-rx) * -0) 0;
@@ -279,7 +279,7 @@
     translate: calc(var(--sz-rx) * -2.35) 0;
   }
 }
-@keyframes borderAnimation {
+@keyframes borderAnimationX {
   0% {
     stroke-dashoffset: -8;
   }
@@ -287,7 +287,7 @@
     stroke-dashoffset: 20;
   }
 }
-@keyframes strokeAnimation {
+@keyframes strokeAnimationX {
   0%,
   100% {
     stroke: hsl(var(--color));
@@ -370,3 +370,5 @@
     }
   }
 }
+
+

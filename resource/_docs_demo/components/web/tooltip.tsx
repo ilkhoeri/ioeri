@@ -11,11 +11,9 @@ export function Demo() {
         </TooltipTrigger>
 
         <TooltipContent className="flex flex-col">
-          <span>Lorem ipsum...</span>
-          <span>Lorem ipsum...</span>
-          <span>Lorem ipsum...</span>
-          <span>Lorem ipsum...</span>
-          <span>Lorem ipsum...</span>
+          {[...Array(4)].map((_, index) => (
+            <span key={index}>Lorem ipsum...</span>
+          ))}
         </TooltipContent>
       </Tooltip>
       <SetProps.Wrapper>

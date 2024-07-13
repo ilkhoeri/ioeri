@@ -1831,12 +1831,38 @@ input[type="color"]::-moz-color-swatch {
   outline: none;
 }
 
+/* === input[type=text] === */
+input[type="text"]:placeholder-shown {
+  background-color: hsl(var(--background)) !important;
+}
+input[type="text"]:-webkit-autofill {
+  -webkit-box-shadow:
+    0 0 0 1000px hsl(var(--background)) inset,
+    var(--tw-ring-offset-shadow),
+    var(--tw-ring-shadow),
+    var(--tw-shadow, 0 0 #0000);
+  box-shadow:
+    0 0 0 1000px hsl(var(--background)) inset,
+    var(--tw-ring-offset-shadow),
+    var(--tw-ring-shadow),
+    var(--tw-shadow, 0 0 #0000);
+  -webkit-text-fill-color: hsl(var(--color)) !important;
+}
+input[type="text"]:-moz-autofill {
+  background-color: hsl(var(--background)) !important;
+}
+input[type="text"]:-ms-autofill {
+  background-color: hsl(var(--background)) !important;
+}
+input[type="text"]:autofill {
+  background-color: hsl(var(--background)) !important;
+}
+
 /* === input[type="range"] === */
 input[type="range"] {
   font-size: 1rem;
   width: 100%;
 }
-
 input[type="range"] {
   --thumb-height: 1em;
   --track-height: 0.25em;
@@ -1845,14 +1871,12 @@ input[type="range"] {
   --brightness-down: 80%;
   --clip-edges: 0.25em;
 }
-
 input[type="range"] {
   color: hsl(var(--color));
   --thumb-height: 1em;
   --thumb-width: 1em;
   --clip-edges: 0.0125em;
 }
-
 input[type="range"] {
   position: relative;
   background: transparent;
@@ -1862,7 +1886,6 @@ input[type="range"] {
 input[type="range"]:active {
   cursor: grabbing;
 }
-
 input[type="range"]:disabled {
   filter: grayscale(1);
   opacity: 0.3;
@@ -1876,13 +1899,11 @@ input[type="range"]::-webkit-slider-thumb {
   height: var(--thumb-height);
   border-radius: 9999px;
 }
-
 input[type="range"]::-webkit-slider-runnable-track,
 input[type="range"]::-webkit-slider-thumb {
   position: relative;
   border-radius: 9999px;
 }
-
 input[type="range"]::-webkit-slider-thumb {
   --thumb-radius: calc((var(--thumb-height) * 0.5) - 1px);
   --clip-top: calc((var(--thumb-height) - var(--track-height)) * 0.5 - 0.5px);
@@ -1908,22 +1929,18 @@ input[type="range"]::-webkit-slider-thumb {
     var(--clip-further) var(--clip-further)
   );
 }
-
 input[type="range"]:hover::-webkit-slider-thumb {
   filter: brightness(var(--brightness-hover));
   cursor: grab;
 }
-
 input[type="range"]:active::-webkit-slider-thumb {
   filter: brightness(var(--brightness-down));
   cursor: grabbing;
 }
-
 input[type="range"]::-webkit-slider-runnable-track {
   background: linear-gradient(var(--track-color) 0 0) scroll no-repeat center / 100% calc(var(--track-height) + 1px);
   border-radius: 9999px;
 }
-
 input[type="range"]:disabled::-webkit-slider-thumb {
   cursor: not-allowed;
 }

@@ -4,9 +4,10 @@ import React from "react";
 import Link from "next/link";
 import { cn } from "@/library/utils";
 import { useTheme } from "next-themes";
-import { BookOpen2Icon, GithubIcon, ArrowsSquareIcon } from "@/resource/docs/icons";
+import { TypingWords } from "@/modules/components/web";
+import { Transform } from "@/resource/docs/ondevelopment";
 import { sanitizedToParams } from "@/resource/docs/ondevelopment/utils";
-import { AnimText, Transform } from "@/resource/docs/ondevelopment";
+import { BookOpen2Icon, GithubIcon, ArrowsSquareIcon } from "@/resource/docs/icons";
 
 import style from "@/library/styles/ioeri.module.css";
 
@@ -33,7 +34,7 @@ export function PageHome() {
         <article className={style.hero}>
           <Transform el="h1" hold={0}>
             <span>bring</span>
-            <AnimText el="span" anim="typing" placeholders={TYPING_DEFAULT} duration={{ break: 2500 }} />
+            <TypingWords el="span" placeholders={TYPING_DEFAULT} duration={{ break: 2500 }} />
             <span>together</span>
           </Transform>
 
@@ -142,9 +143,8 @@ export function PageHome() {
               Crafting and share relevant functionals, styles, and hooks recommendations for react.js applications.
             </p>
           </div>
-          <div className="relative mt-16 mb-12 bg-background grid overflow-hidden rounded-xl border text-muted-foreground sm:grid-cols-2 lg:grid-cols-4 lg:divide-y-0 xl:grid-cols-4">
-            <FeaturesList features={features} />
-          </div>
+
+          <FeaturesList features={features} />
         </div>
       </section>
     </>
@@ -155,7 +155,7 @@ function CheckBox() {
   const { theme, setTheme } = useTheme();
   return (
     <Transform
-      el="div"
+      // el="div"
       data-icon="🥳"
       className={style.checkbox_wrap}
       transition={{ delay: "300ms, 300ms" }}
@@ -183,33 +183,37 @@ function FeaturesList({
   if (!features?.length) {
     return null;
   }
-  return features.map((i, index) => (
-    <div key={index} className="group relative transition cursor-default">
-      <div className="relative space-y-4 py-8 px-6">
-        <svg width="64" height="64" className="text-color size-10" onContextMenu={(e) => e.preventDefault()}>
-          <use href={i.image} />
-        </svg>
+  return (
+    <div className="relative mt-16 mb-12 bg-background grid overflow-hidden rounded-xl border text-muted-foreground sm:grid-cols-2 lg:grid-cols-4 lg:divide-y-0 xl:grid-cols-4">
+      {features.map((i, index) => (
+        <div key={index} className="group relative transition cursor-default">
+          <div className="relative space-y-4 py-8 px-6">
+            <svg width="64" height="64" className="text-color size-10" onContextMenu={(e) => e.preventDefault()}>
+              <use href={i.image} />
+            </svg>
 
-        <div className="space-y-1">
-          {i?.title && <h5 className="text-h6 font-semibold text-color transition">{i.title}</h5>}
-          {i?.notes && <p className="text-muted-foreground text-xs md:text-sm 2xl:text-base">{i.notes}</p>}
+            <div className="space-y-1">
+              {i?.title && <h5 className="text-h6 font-semibold text-color transition">{i.title}</h5>}
+              {i?.notes && <p className="text-muted-foreground text-xs md:text-sm 2xl:text-base">{i.notes}</p>}
+            </div>
+            {i?.slug && (
+              <Link
+                href={i.slug}
+                className="!hidden !sr-only flex items-center justify-start gap-4 rounded-sm group-hover:text-color"
+              >
+                <span className="text-sm">Read</span>
+                <ArrowsSquareIcon
+                  square={false}
+                  arrow="right"
+                  className="size-6 -translate-x-4 text-2xl transition duration-300 group-hover:translate-x-0 opacity-0 group-hover:opacity-100"
+                />
+              </Link>
+            )}
+          </div>
         </div>
-        {i?.slug && (
-          <Link
-            href={i.slug}
-            className="!hidden !sr-only flex items-center justify-start gap-4 rounded-sm group-hover:text-color"
-          >
-            <span className="text-sm">Read</span>
-            <ArrowsSquareIcon
-              square={false}
-              arrow="right"
-              className="size-6 -translate-x-4 text-2xl transition duration-300 group-hover:translate-x-0 opacity-0 group-hover:opacity-100"
-            />
-          </Link>
-        )}
-      </div>
+      ))}
     </div>
-  ));
+  );
 }
 
 const links = [

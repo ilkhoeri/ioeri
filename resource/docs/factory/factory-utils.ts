@@ -32,7 +32,7 @@ export function getId({ selector, options }: SelectorOptions) {
   const char = alphabet.charAt(charIndex);
   const numb = number.charAt(charIndex);
 
-  const uniqueId = `${Date.now()}-${Math.floor(Math.random() * 10000)}`;
+  const uniqueId = `${Date.now()}-${Math.floor(Math.random() * 3.33)}`;
 
   return options?.id || `${camelToKebab(selector)}:-${char + numb}-${uniqueId}`;
 }

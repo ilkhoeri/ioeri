@@ -38,7 +38,10 @@ export default async function Layout({
       <Headnav routes={[...utility, ...nested, ...hooks, ...examples]} />
 
       <Element el="main" className={[style.main_home, "[--hex:#f2f2f2] dark:[--hex:#171717]"].join(" ")}>
-        <AsideLeft routes={[...utility, ...nested, ...hooks, ...examples]} />
+        <AsideLeft
+          routes={[...utility, ...nested, ...hooks, ...examples]}
+          classNames={{ aside: "md:!hidden md:!sr-only" }}
+        />
         {children}
       </Element>
     </>

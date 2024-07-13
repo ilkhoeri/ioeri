@@ -100,7 +100,7 @@ export const appRoutes = {
     // },
   ],
   suggestions: {
-    title: "Suggestions",
+    title: "Main",
     data: [
       {
         title: "Getting Started",
