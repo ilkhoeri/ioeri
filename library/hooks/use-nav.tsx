@@ -28,9 +28,9 @@ interface NavProviderProps extends UseOpenStateType<HTMLElement>, MediaQuery {
 
 const NavContext = createContext<NavContextProps | undefined>(undefined);
 
-export const NavProvider: React.FC<NavProviderProps> = ({ children, mediaQuery = 768, ...rest }) => {
+export const NavProvider: React.FC<NavProviderProps> = ({ children, popstate = true, mediaQuery = 768, ...rest }) => {
   const pathname = usePathname();
-  const state = useOpenState({ ...rest });
+  const state = useOpenState({ popstate, ...rest });
   const { open } = state;
 
   const minQuery = useMediaQuery(`(min-width: ${mediaQuery}px)`);

@@ -1,5 +1,5 @@
 import { DependencyList, useCallback, useEffect, useRef, useState } from "react";
-import { useMeasureScrollbar } from "../use-measure-scrollbar/use-measure-scrollbar";
+import { useMeasureScrollbar } from "@/modules/hooks";
 
 interface UseTrigger {
   popstate?: boolean;

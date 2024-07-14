@@ -23,23 +23,23 @@ export const GetCodeToggle = React.forwardRef<
     return null;
   }
   return (
-    <Tooltip side="left" sideOffset={6}>
-      <TooltipTrigger asChild>
-        <Anchor
-          ref={ref}
-          {...props}
-          href={href || `https://github.com/ilkhoeri/ioeri/blob/main/resource/docs/${repo}`}
-          tabIndex={-1}
-          title="Get Code"
-          className={globalStyle({ toggle: "item", size: "icon-xs" }, className)}
-        >
-          <GithubIcon className="size-5" />
-        </Anchor>
-      </TooltipTrigger>
-
-      <TooltipContent className="min-w-[86px]">
-        <span>Repository</span>
-      </TooltipContent>
+    <Tooltip
+      asChild
+      side="left"
+      sideOffset={6}
+      content={<span>Repository</span>}
+      contentProps={{ className: "min-w-[86px]" }}
+    >
+      <Anchor
+        ref={ref}
+        {...props}
+        href={href || `https://github.com/ilkhoeri/ioeri/blob/main/resource/docs/${repo}`}
+        tabIndex={-1}
+        title="Get Code"
+        className={globalStyle({ toggle: "item", size: "icon-xs" }, className)}
+      >
+        <GithubIcon className="size-5" />
+      </Anchor>
     </Tooltip>
   );
 });
@@ -51,35 +51,35 @@ export const CopyToggle = React.forwardRef<
 >(({ text, className, ...props }, ref) => {
   const clipboard = useClipboard({ timeout: 1000 });
   return (
-    <Tooltip side="left" sideOffset={6}>
-      <TooltipTrigger asChild>
-        <UnstyledButton
-          ref={ref}
-          {...props}
-          tabIndex={-1}
-          onClick={() => {
-            if (text) {
-              clipboard.copy(tocopy(text));
-            }
-          }}
-          disabled={!text}
-          className={globalStyle(
-            { toggle: "item", size: "icon-xs" },
-            clipboard.copied ? "bg-muted" : "bg-background",
-            className,
-          )}
-        >
-          {clipboard.copied ? (
-            <CheckIcon className="size-5 animate-fade-in fade-in-0 zoom-in-0 [animation-duration:150ms]" />
-          ) : (
-            <CopyIcon className="size-5" />
-          )}
-        </UnstyledButton>
-      </TooltipTrigger>
-
-      <TooltipContent className="min-w-[86px]">
-        <span>{clipboard.copied ? "Success" : "Copy"}</span>
-      </TooltipContent>
+    <Tooltip
+      asChild
+      side="left"
+      sideOffset={6}
+      contentProps={{ className: "min-w-[86px]" }}
+      content={<span>{clipboard.copied ? "Success" : "Copy"}</span>}
+    >
+      <UnstyledButton
+        ref={ref}
+        {...props}
+        tabIndex={-1}
+        onClick={() => {
+          if (text) {
+            clipboard.copy(tocopy(text));
+          }
+        }}
+        disabled={!text}
+        className={globalStyle(
+          { toggle: "item", size: "icon-xs" },
+          clipboard.copied ? "bg-muted" : "bg-background",
+          className,
+        )}
+      >
+        {clipboard.copied ? (
+          <CheckIcon className="size-5 animate-fade-in fade-in-0 zoom-in-0 [animation-duration:150ms]" />
+        ) : (
+          <CopyIcon className="size-5" />
+        )}
+      </UnstyledButton>
     </Tooltip>
   );
 });

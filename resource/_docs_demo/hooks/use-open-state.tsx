@@ -1,22 +1,21 @@
 "use client";
 import { useState } from "react";
-import { createPortal } from "react-dom";
-import { useOpenState, DataSide } from "@/modules/hooks";
 import { cvx } from "@/modules/utility";
+import { useOpenState, DataSide } from "@/modules/hooks";
 import { SetProps, SetPropsSelect } from "../__set_props";
 import globalStyle from "@/library/styles/styles";
 
 export function Demo() {
   return (
     <div className="flex flex-col items-center justify-center gap-8">
-      <Dialog />
+      <Modal />
       <Tooltip />
     </div>
   );
 }
 
-function Dialog() {
-  const state = useOpenState<HTMLElement>({ modal: true, popstate: true, hotKeys: "ctrl+M" });
+function Modal() {
+  const state = useOpenState<HTMLElement>({ modal: true, hotKeys: "ctrl+M" });
 
   return (
     <>
@@ -25,41 +24,40 @@ function Dialog() {
         role="button"
         ref={state.refs.trigger as React.RefObject<HTMLButtonElement>}
         {...state.styleAt("trigger")}
-        onClick={state.toggle}
         className={globalStyle({ button: "default", size: "sm" })}
       >
-        {state.render ? "Close Modal" : "Open Modal"}
+        Create Modal
       </button>
 
-      {state.render &&
-        typeof document !== "undefined" &&
-        createPortal(
-          <>
-            <div
-              ref={state.refs.overlay as React.RefObject<HTMLDivElement>}
-              {...state.styleAt("overlay")}
-              onClick={() => state.toggle()}
-              className={dialog({ as: "overlay" })}
-            />
-            <div
-              role="dialog"
-              ref={state.refs.content as React.RefObject<HTMLDivElement>}
-              {...state.styleAt("content")}
-              className={dialog({ as: "content" })}
-            >
-              <span className="size-full flex items-center justify-center">Click overlay to close</span>
-              <span className="text-xs font-roboto-mono font-medium -mt-1">or use ctrl+M</span>
-            </div>
-          </>,
-          document.body,
-        )}
+      <state.Portal render={state.render}>
+        <div
+          ref={state.refs.overlay as React.RefObject<HTMLDivElement>}
+          {...state.styleAt("overlay")}
+          onClick={() => state.toggle()}
+          className={modal({ as: "overlay" })}
+        />
+        <div
+          role="dialog"
+          ref={state.refs.content as React.RefObject<HTMLDivElement>}
+          {...state.styleAt("content")}
+          className={modal({ as: "content" })}
+        >
+          <span className="size-full flex items-center justify-center">Click overlay to close</span>
+          <span className="text-xs font-roboto-mono font-medium -mt-1">or use ctrl+M</span>
+        </div>
+      </state.Portal>
     </>
   );
 }
 
 function Tooltip() {
-  const [side, setSide] = useState<string>("right");
-  const state = useOpenState<HTMLElement>({ trigger: "hover", sideOffset: 8, touch: true, side: side as `${DataSide}` });
+  const [side, setSide] = useState<string>("bottom");
+  const state = useOpenState<HTMLElement>({
+    trigger: "hover",
+    sideOffset: 8,
+    touch: true,
+    side: side as `${DataSide}`,
+  });
 
   return (
     <>
@@ -68,23 +66,22 @@ function Tooltip() {
         role="button"
         ref={state.refs.trigger as React.RefObject<HTMLButtonElement>}
         {...state.styleAt("trigger")}
-        className={globalStyle({ button: "default", size: "sm" }, "w-24")}
+        className={globalStyle({ button: "default", size: "sm" })}
       >
-        Tooltip
+       Create Tooltip
       </button>
 
-      {state.render && (
-        <state.Portal portal={false} container={document.body}>
-          <div
-            role="dialog"
-            ref={state.refs.content as React.RefObject<HTMLDivElement>}
-            {...state.styleAt("content")}
-            className={tooltip({ align: "center", side: side as `${DataSide}` })}
-          >
-            <span className="size-full text-center">TOOLTIP CONTENT</span>
-          </div>
-        </state.Portal>
-      )}
+      <state.Portal render={state.render}>
+        <div
+          role="dialog"
+          ref={state.refs.content as React.RefObject<HTMLDivElement>}
+          {...state.styleAt("content")}
+          className={tooltip({ align: "center", side: side as `${DataSide}` })}
+        >
+          <span className="size-full text-center">TOOLTIP CONTENT</span>
+        </div>
+      </state.Portal>
+
       <SetProps.Wrapper>
         <SetPropsSelect values={Object.values(DataSide)} str={side} setStr={setSide} />
       </SetProps.Wrapper>
@@ -92,7 +89,7 @@ function Tooltip() {
   );
 }
 
-const dialog = cvx({
+const modal = cvx({
   variants: {
     as: {
       overlay:
@@ -105,21 +102,20 @@ const dialog = cvx({
 
 const tooltip = cvx({
   assign:
-    "fixed min-w-max z-[999] text-[13px] rounded-md border bg-background text-popover-foreground shadow-md outline-none focus-visible:ring-0 flex items-center justify-center py-1 px-2 w-max max-w-max data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in data-[state=open]:fade-out data-[state=open]:zoom-in-100 data-[state=closed]:zoom-out-75",
+    "group absolute min-w-max z-20 text-[13px] rounded-md border bg-background text-popover-foreground shadow-md outline-none focus-visible:ring-0 flex items-center justify-center py-1 px-2 w-max max-w-max data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[state=open]:zoom-in-100 data-[state=closed]:zoom-out-75 data-[side=top]:top-[calc(var(--top)-var(--offset))] data-[side=bottom]:top-[calc(var(--top)+var(--offset))]",
   variants: {
     align: {
-      center:
-        "data-[side=top]:data-[align=center]:left-[calc(var(--trigger-r)-calc(calc(var(--trigger-w)*0.5)+calc(var(--content-w)*0.5)))] data-[side=bottom]:data-[align=center]:left-[calc(var(--trigger-r)-calc(calc(var(--trigger-w)*0.5)+calc(var(--content-w)*0.5)))] data-[side=right]:data-[align=center]:top-[calc(var(--trigger-b)-calc(calc(var(--trigger-h)*0.5)+calc(var(--content-h)*0.5)))] data-[side=left]:data-[align=center]:top-[calc(var(--trigger-b)-calc(calc(var(--trigger-h)*0.5)+calc(var(--content-h)*0.5)))]",
-      start: "",
-      end: "",
+      center: "data-[side=top]:data-[align=center]:[]",
+      start: "data-[side=top]:data-[align=start]:[]",
+      end: "data-[side=top]:data-[align=end]:[]",
     },
     side: {
-      top: "data-[side=top]:slide-in-from-bottom-2 data-[side=top]:data-[state=closed]:slide-out-to-bottom-4 data-[side=top]:top-[calc(calc(var(--trigger-b)-calc(var(--trigger-h)+var(--content-h)))-var(--offset))] ",
+      top: "data-[side=top]:slide-in-from-bottom-2 data-[side=top]:data-[state=closed]:slide-out-to-bottom-4 left-[--left]",
       right:
-        "data-[side=right]:slide-in-from-left-2 data-[side=right]:data-[state=closed]:slide-out-to-left-4 data-[side=right]:left-[calc(var(--trigger-x)+calc(var(--trigger-w)+var(--offset)))] ",
+        "data-[side=right]:slide-in-from-left-2 data-[side=right]:data-[state=closed]:slide-out-to-left-4 top-[--top] left-[calc(var(--left)+var(--offset))]",
       bottom:
-        "data-[side=bottom]:slide-in-from-top-2 data-[side=bottom]:data-[state=closed]:slide-out-to-top-4 data-[side=bottom]:top-[calc(var(--trigger-b)+var(--offset))] ",
-      left: "data-[side=left]:slide-in-from-right-2 data-[side=left]:data-[state=closed]:slide-out-to-right-4 data-[side=left]:left-[calc(calc(var(--trigger-x)-var(--content-w))-var(--offset))] ",
+        "data-[side=bottom]:slide-in-from-top-2 data-[side=bottom]:data-[state=closed]:slide-out-to-top-4 left-[--left]",
+      left: "data-[side=left]:slide-in-from-right-2 data-[side=left]:data-[state=closed]:slide-out-to-right-4 top-[--top] left-[calc(var(--left)-var(--offset))]",
     },
   },
 });

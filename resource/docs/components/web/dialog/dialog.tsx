@@ -35,7 +35,7 @@ function Dialog<T extends HTMLElement>({ children, ref, modal = true, ...props }
 const DialogTrigger = React.forwardRef<
   React.ElementRef<"button">,
   React.ComponentPropsWithoutRef<"button"> & SharedType
->(({ type = "button", onClick, className, unstyled, style, ...props }, ref) => {
+>(({ type = "button", className, unstyled, style, ...props }, ref) => {
   const ctx = useDialogContext<HTMLButtonElement>(ref);
   return (
     <button
@@ -46,11 +46,6 @@ const DialogTrigger = React.forwardRef<
         !unstyled && "flex flex-nowrap font-medium text-sm select-none z-9 rounded-sm py-1",
         className,
       )}
-      onClick={(e) => {
-        e.preventDefault();
-        ctx.toggle();
-        onClick?.(e);
-      }}
       {...props}
     />
   );
@@ -58,12 +53,11 @@ const DialogTrigger = React.forwardRef<
 DialogTrigger.displayName = "DialogTrigger";
 
 const DialogOverlay = React.forwardRef<React.ElementRef<"div">, React.ComponentPropsWithoutRef<"div"> & SharedType>(
-  ({ className, style, unstyled, onClick, ...props }, ref) => {
+  ({ className, style, unstyled, ...props }, ref) => {
     const ctx = useDialogContext<HTMLDivElement>(ref);
 
-    if (!ctx.render) return null;
     return (
-      <ctx.Portal container={document.body}>
+      <ctx.Portal render={ctx.render}>
         <div
           ref={ctx.refs.overlay as React.RefObject<HTMLDivElement>}
           {...ctx.styleAt("overlay", { style })}
@@ -72,11 +66,6 @@ const DialogOverlay = React.forwardRef<React.ElementRef<"div">, React.ComponentP
               "fixed inset-0 z-[100] bg-black/50 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
             className,
           )}
-          onClick={(e) => {
-            e.preventDefault();
-            ctx.toggle();
-            onClick?.(e);
-          }}
           {...props}
         />
       </ctx.Portal>
@@ -89,9 +78,8 @@ const DialogContent = React.forwardRef<React.ElementRef<"div">, React.ComponentP
   ({ style, className, unstyled, ...props }, ref) => {
     const ctx = useDialogContext<HTMLDivElement>(ref);
 
-    if (!ctx.render) return null;
     return (
-      <ctx.Portal container={document.body}>
+      <ctx.Portal render={ctx.render}>
         <div
           ref={ctx.refs.content as React.RefObject<HTMLDivElement>}
           {...ctx.styleAt("content", { style })}

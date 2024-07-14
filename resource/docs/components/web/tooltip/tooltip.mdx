@@ -16,10 +16,44 @@ $:consideration
 
 $:description
 
+## Alternative
+
+```js
+// Usage with tooltip origin
+export function MyToggle() {
+  return (
+    <TooltipProvider side="left" sideOffset={6}>
+      <TooltipTrigger asChild>
+        <button>
+          <GithubIcon className="size-5" />
+        </button>
+      </TooltipTrigger>
+
+      <TooltipContent className="min-w-[86px]">
+        <span>Repository</span>
+      </TooltipContent>
+    </TooltipProvider>
+  )
+}
+
+// Usage with ref
+export const MyToggle = React.forwardRef<
+  React.ElementRef<"a">,
+  React.ComponentPropsWithoutRef<"a">
+>(({ ...props }, ref) => {
+  return (
+    <Tooltip side="left" sideOffset={6} asChild content={<span>Repository</span>}>
+      <a ref={ref}>
+        <Icon className="size-5" />
+      </a>
+    </Tooltip>
+  );
+});
+MyToggle.displayName = "MyToggle";
+```
 
 
 $:explanation
-
 
 
 $:conclusion

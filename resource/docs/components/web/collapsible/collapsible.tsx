@@ -69,18 +69,13 @@ CollapsibleRoot.displayName = "CollapsibleRoot";
 const CollapsibleTrigger = React.forwardRef<
   React.ElementRef<"button">,
   React.ComponentPropsWithoutRef<"button"> & SharedType
->(({ type = "button", className, unstyled, style, onClick, ...props }, ref) => {
+>(({ type = "button", className, unstyled, style, ...props }, ref) => {
   const ctx = useCollapsibleContext<HTMLButtonElement>(ref);
   return (
     <button
       ref={ctx.refs.trigger as React.RefObject<HTMLButtonElement>}
       type={type}
       {...ctx.styleAt("trigger", { style })}
-      onClick={(e) => {
-        e.preventDefault();
-        ctx.toggle();
-        onClick?.(e);
-      }}
       className={twMerge(
         !unstyled &&
           "w-full flex flex-nowrap font-medium flex-row items-center justify-between text-sm select-none z-9 rounded-sm py-1",

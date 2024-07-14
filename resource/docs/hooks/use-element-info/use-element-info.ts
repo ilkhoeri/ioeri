@@ -27,18 +27,20 @@ export function useElementInfo<T extends HTMLElement | null>(element?: T | null,
     if (el) {
       const rect = el.getBoundingClientRect();
       if (rect.width !== 0 && rect.height !== 0) {
-        setRect({
-          scrollX: round(window.scrollX),
-          scrollY: round(window.scrollY),
-          x: round(rect.left + window.scrollX),
-          y: round(rect.top + window.scrollY),
-          width: round(rect.width),
-          height: round(rect.height),
-          top: round(rect.top),
-          bottom: round(rect.bottom),
-          right: round(rect.right),
-          left: round(rect.left),
-        });
+        requestAnimationFrame(() =>
+          setRect({
+            scrollX: round(window.scrollX),
+            scrollY: round(window.scrollY),
+            x: round(rect.left + window.scrollX),
+            y: round(rect.top + window.scrollY),
+            width: round(rect.width),
+            height: round(rect.height),
+            top: round(rect.top),
+            bottom: round(rect.bottom),
+            right: round(rect.right),
+            left: round(rect.left),
+          }),
+        );
       }
     }
   }, [el]);
@@ -47,17 +49,17 @@ export function useElementInfo<T extends HTMLElement | null>(element?: T | null,
     const handleScroll = () => {
       const el = element !== undefined ? element : ref.current;
       setScrollPosition(el?.scrollTop || 0);
-      requestAnimationFrame(updateRectElement);
+      updateRectElement();
     };
 
     const handleScrollBody = () => {
       setScrollBody(document.documentElement.scrollTop);
-      requestAnimationFrame(updateRectElement);
+      updateRectElement();
     };
 
     const handleResize = () => {
       setWindowSize({ width: window.innerWidth, height: window.innerHeight });
-      requestAnimationFrame(updateRectElement);
+      updateRectElement();
     };
 
     const observeElement = () => {
@@ -75,7 +77,7 @@ export function useElementInfo<T extends HTMLElement | null>(element?: T | null,
         }
         if (!mutationObserverRef.current) {
           mutationObserverRef.current = new MutationObserver(() => {
-            requestAnimationFrame(updateRectElement);
+            updateRectElement();
           });
         }
 
@@ -95,7 +97,7 @@ export function useElementInfo<T extends HTMLElement | null>(element?: T | null,
       }
     };
 
-    requestAnimationFrame(updateRectElement);
+    updateRectElement();
     handleResize();
     observeElement();
 

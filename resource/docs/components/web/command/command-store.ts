@@ -3,7 +3,7 @@ import { HotkeyItem } from "@/modules/hooks";
 import { clamp } from "@/modules/factory/factory-utils";
 import { CommandContentFactory } from "./command-content";
 import { createStore, useStore, StoreValue } from "@/modules/factory/factory-store";
-import { createSafeContext, CSSProperties, FactoryPayload, GetStylesApiOptions } from "@/modules/factory";
+import { Portal, createSafeContext, CSSProperties, FactoryPayload, GetStylesApiOptions } from "@/modules/factory";
 
 import type { CommandEmptyOrigin } from "./command-empty";
 import type { CommandActionOrigin } from "./command-action";
@@ -30,6 +30,17 @@ export interface CommandState {
   query: string;
   empty: boolean;
   registeredActions: Set<string>;
+  Portal({
+    render,
+    children,
+    container,
+    key,
+  }: {
+    render: boolean;
+    children: React.ReactNode;
+    container?: Element | DocumentFragment | null;
+    key?: null | string;
+  }): React.ReactPortal | null;
 }
 
 export type CommandStore = StoreValue<CommandState>;
@@ -42,6 +53,7 @@ export const createCommandStore = () =>
     empty: false,
     selected: -1,
     registeredActions: new Set(),
+    Portal: Portal,
   });
 
 export type GetStylesApi<Payload extends FactoryPayload> = (

@@ -1,4 +1,5 @@
 import React, { createContext, forwardRef, useContext } from "react";
+import { createPortal } from "react-dom";
 
 import type {
   Component,
@@ -14,9 +15,9 @@ import type {
   UseStyles,
   VarsResolver,
 } from "./factory-types";
+import { getStyle } from "./get-style/get-style";
 import { getAttrs, getId } from "./factory-utils";
 import { getClassName } from "./get-classname/get-classname";
-import { getStyle } from "./get-style/get-style";
 
 export function identity<T>(value: T): T {
   return value;
@@ -66,7 +67,7 @@ export function createSafeContext<ContextValue>(errorMessage: string) {
       throw new Error(errorMessage);
     }
 
-    return ctx;
+    return { ...ctx, Portal };
   };
 
   const Provider = ({ children, value }: { value: ContextValue; children: React.ReactNode }) => (
@@ -74,6 +75,18 @@ export function createSafeContext<ContextValue>(errorMessage: string) {
   );
 
   return [Provider, useSafeContext] as const;
+}
+
+interface PortalProps {
+  render: boolean;
+  children: React.ReactNode;
+  container?: Element | DocumentFragment | null;
+  key?: null | string;
+}
+export function Portal(_props: PortalProps) {
+  const { render, children, container, key } = _props;
+  if (typeof document === "undefined" || !render) return null;
+  return createPortal(children, container || document.body, key);
 }
 
 export function polymorphicFactory<Payload extends PolymorphicFactoryPayload>(
