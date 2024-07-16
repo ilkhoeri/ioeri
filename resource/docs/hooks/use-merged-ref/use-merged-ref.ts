@@ -16,65 +16,6 @@ export function mergeRefs<T>(...refs: PossibleRef<T>[]) {
   };
 }
 
-type Refs<T> = RefObject<T> | MutableRefObject<T>;
-interface CreateRefsOptions<F, K extends string> {
-  ref?: ForwardedRef<F>;
-  assignRef?: K;
-}
-
-export function createRefsX<T, U extends string, F = T>(keys: U[], ...refs: PossibleRef<F>[]): { [K in U]: Refs<T> } {
-  return keys.reduce(
-    (acc, key) => {
-      const currentRef = useRef<T>(null);
-      acc[key] = refs !== undefined ? { current: null } : currentRef;
-      if (refs) {
-        const mergedRef = (node: T | null) => {
-          if (node) refs.forEach((ref) => assignRef(ref, node as F));
-        };
-        (acc[key] as any) = { current: null, ...mergedRef };
-      }
-      return acc;
-    },
-    {} as { [K in U]: Refs<T> },
-  );
-}
-
-export function createRefsY<T, U extends string, F = T>(keys: U[], ...refs: PossibleRef<F>[]): { [K in U]: Refs<F> } {
-  return keys.reduce(
-    (acc, key) => {
-      const currentRef = useRef<F>(null);
-      acc[key] = currentRef;
-
-      if (refs.length > 0) {
-        const mergedRef = (node: T | null) => {
-          if (node !== null && node !== undefined) {
-            refs.forEach((ref) => assignRef(ref, node as F));
-          }
-        };
-        (acc[key] as any) = { current: null, ...mergedRef };
-      }
-
-      return acc;
-    },
-    {} as { [K in U]: Refs<F> },
-  );
-}
-
-export function createRefsZ<T, U extends string>(keys: U[], ref?: ForwardedRef<T>): { [K in U]: Refs<T> } {
-  return keys.reduce(
-    (acc, key) => {
-      const currentRef = useRef<T>(null);
-      acc[key] = ref !== undefined ? { current: null } : currentRef;
-      if (ref !== undefined) {
-        const mergedRef = mergeRefs(currentRef, ref);
-        (acc[key] as any) = { current: null, ...mergedRef };
-      }
-      return acc;
-    },
-    {} as { [K in U]: Refs<T> },
-  );
-}
-
 export function createRefs<F, U extends string>(keys: U[]): { [K in U]: React.RefObject<F> } {
   return keys.reduce(
     (acc, key) => {

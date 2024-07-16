@@ -26,21 +26,21 @@ export function AsideLeft({
     return null;
   }
 
-  const events = {
-    onClick: () => {
-      if (maxQuery) {
-        if (open) {
-          setTimeout(() => {
-            toggle();
-          }, 100);
-        }
-      }
-    },
-  };
-
   function Item({ routes }: { routes: InnerRoutes[] }) {
     return routes.map((route, index) => (
-      <NavLinkItem key={index} href={route.href} title={route.title} className={style.link} {...events} />
+      <NavLinkItem
+        key={index}
+        href={route.href}
+        title={route.title}
+        className={style.link}
+        onClick={() => {
+          if (maxQuery) {
+            setTimeout(() => {
+              setOpen(false);
+            }, 500);
+          }
+        }}
+      />
     ));
   }
 
@@ -69,14 +69,19 @@ export function AsideLeft({
             href="/docs"
             title="Getting Started"
             className="w-full flex flex-nowrap flex-row items-center justify-between text-sm select-none z-9 rounded-sm py-1 font-medium focus-visible:ring-inset focus-visible:ring-offset-[-2px] text-muted-foreground data-[path=active]:text-constructive"
-            {...events}
+            onClick={() => {
+              if (maxQuery) {
+                setTimeout(() => {
+                  setOpen(false);
+                }, 500);
+              }
+            }}
           />
 
           {routes &&
             routes.map((route, index) => {
               if ((route as NestedRoute).data[0].data) {
-                // Handle NestedRoute
-                const nestedRoute = route as NestedRoute;
+                const nestedRoute = route as NestedRoute; // Handle NestedRoute
                 return (
                   <Collapsible key={index} defaultOpen align="start" className={style.collapse}>
                     <CollapsibleTrigger className={Styles({ style: "trigger" })}>
@@ -97,8 +102,7 @@ export function AsideLeft({
                   </Collapsible>
                 );
               } else {
-                // Handle SingleRoute
-                const singleRoute = route as SingleRoute;
+                const singleRoute = route as SingleRoute; // Handle SingleRoute
                 return (
                   <Collapsible key={index} defaultOpen align="start" className={style.collapse}>
                     <CollapsibleTrigger className={Styles({ style: "trigger" })}>
@@ -135,5 +139,3 @@ function Overlay({
   }
   return <span onClick={() => setOpen(false)} className={twMerge(Styles({ style: "overlay" }), className)} />;
 }
-
-

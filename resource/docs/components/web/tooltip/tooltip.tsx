@@ -116,9 +116,21 @@ type TooltipType = Omit<TooltipTriggerType, "content"> &
     contentProps?: Omit<TooltipContentType, "children">;
   };
 const Tooltip = React.forwardRef<React.ElementRef<"button">, TooltipType>((_props, ref) => {
-  const { content, contentProps, ...props } = _props;
-
-  const { ...state } = props as HoverStateOptions;
+  const {
+    content,
+    contentProps,
+    onOpenChange,
+    sideOffset,
+    withArrow,
+    touch,
+    align,
+    base,
+    delay,
+    open,
+    side,
+    ...props
+  } = _props;
+  const state = { withArrow, touch, align, base, delay, onOpenChange, open, side, sideOffset };
 
   return (
     <TooltipProvider {...state}>
