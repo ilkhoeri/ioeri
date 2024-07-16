@@ -52,14 +52,11 @@ export const CopyToggle = React.forwardRef<
   const clipboard = useClipboard({ timeout: 1000 });
   return (
     <Tooltip
-      touch
       ref={ref}
       {...props}
       tabIndex={-1}
       onClick={() => {
-        if (text) {
-          clipboard.copy(tocopy(text));
-        }
+        if (text) clipboard.copy(tocopy(text));
       }}
       disabled={!text}
       className={globalStyle(
