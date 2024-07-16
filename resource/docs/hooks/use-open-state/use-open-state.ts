@@ -1,12 +1,12 @@
 import { createPortal } from "react-dom";
-import { RefObject, useCallback, useEffect, useRef, useState } from "react";
-import { useHotkeys, createRefs, useClickOutside, RectElement, useMeasureScrollbar } from "@/modules/hooks";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useHotkeys, useClickOutside, RectElement, useMeasureScrollbar, createRefs } from "@/modules/hooks";
 
 export enum DataOrigin {
-  Root = "root",
   Trigger = "trigger",
   Content = "content",
   Overlay = "overlay",
+  Root = "root",
 }
 export enum DataAlign {
   start = "start",
@@ -29,29 +29,32 @@ export enum DataTrigger {
   click = "click",
 }
 
-export type UseOpenStateType<T> = {
-  defaultOpen?: boolean;
-  open?: boolean;
-  onOpenChange?: (value: boolean) => void;
-  delay?: number;
-  modal?: boolean;
-  clickOutsideToClose?: boolean;
-  trigger?: `${DataTrigger}`;
-  ref?: RefObject<T>;
-  info?: Partial<RectElement>;
+interface StateSharedOptions {
   align?: `${DataAlign}`;
   side?: `${DataSide}`;
   sideOffset?: number;
-  hotKeys?: "/" | "M" | "ctrl+J" | "ctrl+K" | "alt+mod+shift+X" | (string & {});
   base?: boolean;
+  open?: boolean;
+  onOpenChange?: (value: boolean) => void;
+  delay?: { open?: number; closed?: number };
+}
+export interface HoverStateOptions extends StateSharedOptions {
   touch?: boolean;
+}
+export interface ClickStateOptions extends StateSharedOptions {
+  modal?: boolean;
   popstate?: boolean;
-};
+  defaultOpen?: boolean;
+  clickOutsideToClose?: boolean;
+  hotKeys?: "/" | "M" | "ctrl+J" | "ctrl+K" | "alt+mod+shift+X" | (string & {});
+}
 
-export function useOpenState<T extends HTMLElement = any>(OpenState: UseOpenStateType<T> = {}) {
+export interface OpenStateOptions extends HoverStateOptions, ClickStateOptions {
+  trigger?: `${DataTrigger}`;
+}
+
+export function useOpenState<T extends HTMLElement = any>(options: OpenStateOptions = {}) {
   const {
-    ref,
-    delay = 115,
     hotKeys = "",
     side = "bottom",
     align = "center",
@@ -64,10 +67,11 @@ export function useOpenState<T extends HTMLElement = any>(OpenState: UseOpenStat
     popstate = false,
     defaultOpen = false,
     clickOutsideToClose = false,
+    delay = { open: 0, closed: 115 },
     modal = false,
-  } = OpenState;
+  } = options;
 
-  const refs = createRefs<T, `${DataOrigin}`>(Object.values(DataOrigin), ref);
+  const refs = createRefs<T, `${DataOrigin}`>(Object.values(DataOrigin));
 
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const open = openChange !== undefined ? openChange : isOpen;
@@ -75,6 +79,8 @@ export function useOpenState<T extends HTMLElement = any>(OpenState: UseOpenStat
   const [render, setRender] = useState(open);
   const [initialOpen, setInitialOpen] = useState(false);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const [prepare, setPrepare] = useState(false);
+  const [updatedSide, setUpdatedSide] = useState(side);
 
   useHotkeys([[hotKeys, () => setOpen(!open)]]);
 
@@ -87,21 +93,24 @@ export function useOpenState<T extends HTMLElement = any>(OpenState: UseOpenStat
     content: useRect<T>(refs?.content?.current),
   };
 
-  const updatedSide = useUpdateSide(align, side, bounding.trigger.rect, bounding.content.rect);
-
   const toggle = useCallback(() => {
-    if (popstate) {
-      if (!open) {
-        window.history.pushState({ open: true }, "");
-        setOpen(true);
-      } else {
-        window.history.back();
-        setOpen(false);
-      }
-    } else {
+    if (trigger === "hover") {
       setOpen(!open);
     }
-  }, [popstate, open, setOpen]);
+    if (trigger === "click") {
+      if (!popstate) {
+        setOpen(!open);
+      } else {
+        if (!open) {
+          window.history.pushState({ open: true }, "");
+          setOpen(true);
+        } else {
+          window.history.back();
+          setOpen(false);
+        }
+      }
+    }
+  }, [trigger, popstate, open, setOpen]);
 
   useEffect(() => {
     if (open !== defaultOpen) {
@@ -111,35 +120,18 @@ export function useOpenState<T extends HTMLElement = any>(OpenState: UseOpenStat
 
   useEffect(() => {
     const historyPopState = () => {
-      if (open && setOpen) {
+      if (open) {
         setOpen(false);
       }
     };
     if (popstate) {
       window.addEventListener("popstate", historyPopState);
-    }
-    return () => {
-      if (popstate) {
-        window.removeEventListener("popstate", historyPopState);
-      }
-    };
-  }, [popstate, open, setOpen]);
 
-  useEffect(() => {
-    let timeoutId: NodeJS.Timeout | null = null;
-    if (open) {
-      setRender(true);
-    } else {
-      timeoutId = setTimeout(() => {
-        setRender(false);
-      }, delay);
+      return () => {
+        window.removeEventListener("popstate", historyPopState);
+      };
     }
-    return () => {
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
-    };
-  }, [open, delay]);
+  }, [popstate, open, setOpen]);
 
   useEffect(() => {
     const handleTouchStart = () => {
@@ -150,36 +142,56 @@ export function useOpenState<T extends HTMLElement = any>(OpenState: UseOpenStat
       setIsTouchDevice(false);
     };
 
-    window.addEventListener("touchstart", handleTouchStart);
-    window.addEventListener("mousemove", handleMouseMove);
+    if (trigger === "hover") {
+      window.addEventListener("touchstart", handleTouchStart);
+      window.addEventListener("mousemove", handleMouseMove);
 
-    return () => {
-      window.removeEventListener("touchstart", handleTouchStart);
-      window.removeEventListener("mousemove", handleMouseMove);
-    };
-  }, []);
+      return () => {
+        window.removeEventListener("touchstart", handleTouchStart);
+        window.removeEventListener("mousemove", handleMouseMove);
+      };
+    }
+  }, [trigger]);
 
   useEffect(() => {
-    const elements =
-      trigger === "hover" ? [refs.trigger.current, refs.content.current] : [refs.trigger.current, refs.overlay.current];
+    const onPrepare = () => {
+      setPrepare(true);
+      setTimeout(() => {
+        setPrepare(false);
+      }, 50);
+    };
 
     const onMouseEnter = () => {
-      if (!isTouchDevice) setOpen(true);
+      if (!isTouchDevice) {
+        setOpen(true);
+        onPrepare();
+      }
     };
     const onMouseLeave = () => {
-      if (!isTouchDevice) setOpen(false);
+      if (!isTouchDevice) {
+        setTimeout(() => {
+          setOpen(false);
+        }, 0);
+      }
     };
     const onMouseMove = () => {
-      if (isTouchDevice) setIsTouchDevice(false);
+      if (isTouchDevice) {
+        setIsTouchDevice(false);
+      }
     };
     const onTouchStart = () => {
       if (touch) {
         setIsTouchDevice(true);
         setOpen(true);
+        onPrepare();
       }
     };
     const onTouchEnd = () => {
-      if (touch) setOpen(false);
+      if (touch) {
+        setTimeout(() => {
+          setOpen(false);
+        }, 0);
+      }
     };
 
     const attachListeners = (el: T | null) => {
@@ -217,15 +229,78 @@ export function useOpenState<T extends HTMLElement = any>(OpenState: UseOpenStat
       }
     };
 
-    elements.forEach((el) => {
-      attachListeners(el);
-    });
+    attachListeners(refs.trigger.current);
     return () => {
-      elements.forEach((el) => {
-        detachListeners(el);
-      });
+      detachListeners(refs.trigger.current);
     };
-  }, [trigger, toggle, refs.trigger, refs.overlay, refs.content, setOpen, isTouchDevice, touch]);
+  }, [trigger, toggle, refs.trigger, setOpen, isTouchDevice, touch]);
+
+  const updateSide = useCallback(() => {
+    const triggerRect = bounding.trigger.rect;
+    const contentRect = bounding.content.rect;
+    if (triggerRect && contentRect) {
+      const [top, left] = getInset(align, side, triggerRect, contentRect);
+
+      const checkOutOfViewport = (rect: Record<string, number>): boolean => {
+        return rect.top < 0 || rect.left < 0 || rect.bottom > window.innerHeight || rect.right > window.innerWidth;
+      };
+
+      const rect = {
+        top,
+        left,
+        bottom: top + contentRect.height,
+        right: left + contentRect.width,
+        width: contentRect.width,
+        height: contentRect.height,
+      };
+
+      if (checkOutOfViewport(rect)) {
+        switch (side) {
+          case DataSide.top:
+            setUpdatedSide(DataSide.bottom);
+            break;
+          case DataSide.right:
+            setUpdatedSide(DataSide.left);
+            break;
+          case DataSide.bottom:
+            setUpdatedSide(DataSide.top);
+            break;
+          case DataSide.left:
+            setUpdatedSide(DataSide.right);
+            break;
+        }
+      } else {
+        setUpdatedSide(side);
+      }
+    }
+  }, [align, side, bounding.trigger.rect, bounding.content.rect]);
+
+  useEffect(() => {
+    updateSide();
+    window.addEventListener("scroll", updateSide);
+    window.addEventListener("resize", updateSide);
+
+    return () => {
+      window.removeEventListener("scroll", updateSide);
+      window.removeEventListener("resize", updateSide);
+    };
+  }, [side, align, updateSide]);
+
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout | null = null;
+    if (open) {
+      setRender(true);
+    } else {
+      timeoutId = setTimeout(() => {
+        setRender(false);
+      }, 120);
+    }
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [trigger, open]);
 
   const onKeyDown = useCallback((e: React.KeyboardEvent<HTMLElement>) => e.key === "Enter" && toggle(), [toggle]);
 
@@ -237,7 +312,7 @@ export function useOpenState<T extends HTMLElement = any>(OpenState: UseOpenStat
     ...getAttributes(as, dataState, align, dataSide, base),
     style: {
       ...style,
-      ...styles(as, trigger, sideOffset, align, dataSide, bounding.trigger.rect, bounding.content.rect),
+      ...styles(as, trigger, sideOffset, prepare, align, dataSide, bounding.trigger.rect, bounding.content.rect),
     },
   });
 
@@ -251,7 +326,6 @@ export function useOpenState<T extends HTMLElement = any>(OpenState: UseOpenStat
     onKeyDown,
     bounding,
     styleAt,
-    styles,
     align,
     state: dataState,
     side: dataSide,
@@ -359,6 +433,7 @@ function useRect<T extends HTMLElement | null>(el: T | null) {
 
     window.addEventListener("scroll", handleScrollBody);
     window.addEventListener("resize", handleResize);
+
     el?.addEventListener("scroll", handleScroll);
 
     return () => {
@@ -375,61 +450,6 @@ function useRect<T extends HTMLElement | null>(el: T | null) {
 }
 
 type defineProps = [align: `${DataAlign}`, side: `${DataSide}`, triggerRect: RectElement, contentRect: RectElement];
-
-function useUpdateSide(...[align, side, triggerRect, contentRect]: defineProps) {
-  const [updatedSide, setUpdatedSide] = useState(side);
-
-  const checkOutOfViewport = (rect: Record<string, number>): boolean => {
-    return rect.top < 0 || rect.left < 0 || rect.bottom > window.innerHeight || rect.right > window.innerWidth;
-  };
-
-  const updateSide = useCallback(() => {
-    if (triggerRect && contentRect) {
-      const [top, left] = getInset(align, side, triggerRect, contentRect);
-
-      const rect = {
-        top,
-        left,
-        bottom: top + contentRect.height,
-        right: left + contentRect.width,
-        width: contentRect.width,
-        height: contentRect.height,
-      };
-
-      if (checkOutOfViewport(rect)) {
-        switch (side) {
-          case DataSide.top:
-            setUpdatedSide(DataSide.bottom);
-            break;
-          case DataSide.right:
-            setUpdatedSide(DataSide.left);
-            break;
-          case DataSide.bottom:
-            setUpdatedSide(DataSide.top);
-            break;
-          case DataSide.left:
-            setUpdatedSide(DataSide.right);
-            break;
-        }
-      } else {
-        setUpdatedSide(side);
-      }
-    }
-  }, [align, side, triggerRect, contentRect]);
-
-  useEffect(() => {
-    updateSide();
-    window.addEventListener("scroll", updateSide);
-    window.addEventListener("resize", updateSide);
-
-    return () => {
-      window.removeEventListener("scroll", updateSide);
-      window.removeEventListener("resize", updateSide);
-    };
-  }, [side, align, updateSide]);
-
-  return updatedSide;
-}
 
 const getAttributes = (
   origin: `${DataOrigin}`,
@@ -492,6 +512,7 @@ const styles = (
   as: `${DataOrigin}`,
   trigger: `${DataTrigger}`,
   sideOffset: number,
+  prepare: boolean,
   align: `${DataAlign}`,
   side: `${DataSide}`,
   triggerRect: RectElement,
@@ -545,6 +566,7 @@ const styles = (
           vars["--top"] = `${top + triggerRect.scrollY}px`;
           vars["--left"] = `${left + triggerRect.scrollX}px`;
           vars["--offset"] = `${sideOffset}px`;
+          prepare && (vars.opacity = "0");
           setVars("trigger", triggerRect);
           setVars("content", contentRect);
           break;

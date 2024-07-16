@@ -29,3 +29,35 @@ $:conclusion
 $:notes
 
 
+
+$:usage
+
+```
+import { createRefs } from "@/modules/hooks";
+
+export enum Structure {
+  Root = "root",
+  Wrap = "wrap",
+  Inner = "inner",
+}
+
+export function MyComponent() {
+  const refs = createRefs<HTMLDivElement, `${Structure}`>(Object.values(Structure));
+
+  // more actions for each ref
+
+  return (
+    <div ref={refs.root}>
+      <div ref={refs.wrap}>
+        <div ref={refs.inner}>inner<div/>
+        <div ref={refs.inner}>inner<div/>
+      </div>
+
+      <div ref={refs.wrap}>
+        <div ref={refs.inner}>inner<div/>
+        <div ref={refs.inner}>inner<div/>
+      </div>
+    </div>
+  )
+}
+```

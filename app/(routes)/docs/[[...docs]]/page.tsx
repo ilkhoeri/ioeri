@@ -61,10 +61,13 @@ async function getSection({ params }: DocsParams, id: string): Promise<string | 
 export default async function Page({ params }: DocsParams) {
   const code = await getCode({ params });
   const ce = code.extension || ".tsx";
-  const reCode = await getReCode({ params }, `${ce}`);
   const rename = { Demo: `${toPascalCase(slug(params.docs))}Demo` };
   const usage = await getUsage({ params }, rename).then((res) => res.content);
   const reUsage = usage === null ? await getReUsage({ params }) : null;
+  let reCode = null;
+  if (process.env.NODE_ENV === "production") {
+    reCode = await getReCode({ params }, `${ce}`);
+  }
 
   const [css, title, dependOn, reference, consideration, description, explanation, conclusion, notes] =
     await Promise.all([

@@ -43,7 +43,7 @@ const classes = cvx({
     },
     button: {
       resizer:
-        "absolute bottom-4 inset-x-[calc(50%-3rem)] z-[99] px-3 min-w-26 w-max transition-[bottom,color,opacity]",
+        "absolute bottom-4 inset-x-[calc(50%-3rem)] z-9 px-3 min-w-26 w-max transition-[bottom,color,opacity]",
       tabs: "h-9 font-semibold rounded-none data-[state=active]:[box-shadow:0_2px_0_0_hsl(var(--color))] [&_svg]:sizer [--sz:20px] select-none",
     },
   },

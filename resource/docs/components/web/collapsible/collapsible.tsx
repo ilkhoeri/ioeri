@@ -1,7 +1,7 @@
 "use client";
 import * as React from "react";
 
-import { useOpenState, type UseOpenStateType } from "@/modules/hooks";
+import { useOpenState, type ClickStateOptions } from "@/modules/hooks";
 import { InferTypes } from "@/modules/utility";
 import { twMerge } from "tailwind-merge";
 
@@ -10,7 +10,7 @@ import "./collapsible.css";
 interface CSSProperties extends React.CSSProperties {
   [key: string]: any;
 }
-interface ProviderProps<T> extends UseOpenStateType<T> {
+interface ProviderProps extends ClickStateOptions {
   children: React.ReactNode;
 }
 type SharedType = {
@@ -18,38 +18,37 @@ type SharedType = {
   style?: CSSProperties;
   className?: string;
 };
-export type DialogContextProps<T> = UseOpenStateType<T> & InferTypes<typeof useOpenState>;
-const CollapsibleContext = React.createContext<DialogContextProps<HTMLElement> | undefined>(undefined);
+export type DialogContextProps = ClickStateOptions & InferTypes<typeof useOpenState>;
+const CollapsibleContext = React.createContext<DialogContextProps | undefined>(undefined);
 
-export function useCollapsibleContext<T>(ref: React.ForwardedRef<T>) {
+export function useCollapsibleContext() {
   const ctx = React.useContext(CollapsibleContext);
   if (!ctx) {
     throw new Error("Collapsible component trees must be wrap within an <CollapsibleProvider>");
   }
-  return { ...ctx, ref };
+  return ctx;
 }
 
-export function CollapsibleProvider<T extends HTMLElement>({ children, ref, ...props }: ProviderProps<T>) {
-  const state = useOpenState<T>({ ref, ...props });
+export function CollapsibleProvider({ children, ...props }: ProviderProps) {
+  const state = useOpenState({ ...props });
   return <CollapsibleContext.Provider value={state}>{children}</CollapsibleContext.Provider>;
 }
 
-const Collapsible = React.forwardRef<
-  React.ElementRef<"div">,
-  React.ComponentPropsWithoutRef<"div"> & UseOpenStateType<HTMLDivElement>
->(({ side, align, sideOffset, open, onOpenChange, clickOutsideToClose, defaultOpen, ...props }, ref) => {
-  const rest = { side, align, sideOffset, open, onOpenChange, clickOutsideToClose, defaultOpen };
-  return (
-    <CollapsibleProvider {...rest}>
-      <CollapsibleRoot ref={ref} {...props} />
-    </CollapsibleProvider>
-  );
-});
+const Collapsible = React.forwardRef<React.ElementRef<"div">, React.ComponentPropsWithoutRef<"div"> & ClickStateOptions>(
+  ({ side, align, sideOffset, open, onOpenChange, clickOutsideToClose, defaultOpen, ...props }, ref) => {
+    const rest = { side, align, sideOffset, open, onOpenChange, clickOutsideToClose, defaultOpen };
+    return (
+      <CollapsibleProvider {...rest}>
+        <CollapsibleRoot ref={ref} {...props} />
+      </CollapsibleProvider>
+    );
+  },
+);
 Collapsible.displayName = "Collapsible";
 
 const CollapsibleRoot = React.forwardRef<React.ElementRef<"div">, React.ComponentPropsWithoutRef<"div"> & SharedType>(
   ({ className, unstyled, style, ...props }, ref) => {
-    const ctx = useCollapsibleContext<HTMLDivElement>(ref);
+    const ctx = useCollapsibleContext();
     return (
       <div
         ref={ctx.refs.root as React.RefObject<HTMLDivElement>}
@@ -70,7 +69,7 @@ const CollapsibleTrigger = React.forwardRef<
   React.ElementRef<"button">,
   React.ComponentPropsWithoutRef<"button"> & SharedType
 >(({ type = "button", className, unstyled, style, ...props }, ref) => {
-  const ctx = useCollapsibleContext<HTMLButtonElement>(ref);
+  const ctx = useCollapsibleContext();
   return (
     <button
       ref={ctx.refs.trigger as React.RefObject<HTMLButtonElement>}
@@ -91,7 +90,7 @@ const CollapsibleContent = React.forwardRef<
   React.ElementRef<"div">,
   React.ComponentPropsWithoutRef<"div"> & SharedType
 >(({ style, className, unstyled, "aria-disabled": ariaDisabled, ...props }, ref) => {
-  const ctx = useCollapsibleContext<HTMLDivElement>(ref);
+  const ctx = useCollapsibleContext();
   const rest = { "aria-disabled": ariaDisabled || (ctx.open ? "false" : "true"), ...props };
 
   if (!ctx.render) return null;

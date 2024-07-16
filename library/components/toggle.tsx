@@ -52,34 +52,31 @@ export const CopyToggle = React.forwardRef<
   const clipboard = useClipboard({ timeout: 1000 });
   return (
     <Tooltip
-      asChild
+      touch
+      ref={ref}
+      {...props}
+      tabIndex={-1}
+      onClick={() => {
+        if (text) {
+          clipboard.copy(tocopy(text));
+        }
+      }}
+      disabled={!text}
+      className={globalStyle(
+        { toggle: "item", size: "icon-xs" },
+        clipboard.copied ? "bg-muted" : "bg-background",
+        className,
+      )}
       side="left"
       sideOffset={6}
       contentProps={{ className: "min-w-[86px]" }}
       content={<span>{clipboard.copied ? "Success" : "Copy"}</span>}
     >
-      <UnstyledButton
-        ref={ref}
-        {...props}
-        tabIndex={-1}
-        onClick={() => {
-          if (text) {
-            clipboard.copy(tocopy(text));
-          }
-        }}
-        disabled={!text}
-        className={globalStyle(
-          { toggle: "item", size: "icon-xs" },
-          clipboard.copied ? "bg-muted" : "bg-background",
-          className,
-        )}
-      >
-        {clipboard.copied ? (
-          <CheckIcon className="size-5 animate-fade-in fade-in-0 zoom-in-0 [animation-duration:150ms]" />
-        ) : (
-          <CopyIcon className="size-5" />
-        )}
-      </UnstyledButton>
+      {clipboard.copied ? (
+        <CheckIcon className="size-5 animate-fade-in fade-in-0 zoom-in-0 [animation-duration:150ms]" />
+      ) : (
+        <CopyIcon className="size-5" />
+      )}
     </Tooltip>
   );
 });

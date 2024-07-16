@@ -8,6 +8,9 @@ $:api-reference
 
 $:depend-on
 
+## Depend on
+
+[useOpenState](/docs/hooks/use-open-state)
 
 
 $:consideration
@@ -16,10 +19,21 @@ $:consideration
 
 $:description
 
+## Tooltip children
+
+Tooltip requires a trigger as an `content` anchors, you can provide children strings, fragments, numbers, and several elements/components which will later be wrapped in a `<button>`.
+In contrast, when you use `asChild` props, use an element or component as a single child – providing strings, fragments, numbers, and multiple elements/components will cause errors.
+
+The `content` property is `ReactNode`, its will pass children to the tooltip content. Use `contentProps` to change style, attributes, and pass all properties to the content body.
+
+
 ## Alternative
 
+You can use several ways to use Tooltip.
+
+1. Using with `TooltipProvider` and `Origin/Trees` Tooltip will provide full flexibility in customization.
+
 ```js
-// Usage with tooltip origin
 export function MyToggle() {
   return (
     <TooltipProvider side="left" sideOffset={6}>
@@ -30,19 +44,49 @@ export function MyToggle() {
       </TooltipTrigger>
 
       <TooltipContent className="min-w-[86px]">
-        <span>Repository</span>
+        <span>Lorem...</span>
       </TooltipContent>
     </TooltipProvider>
   )
 }
+```
 
-// Usage with ref
+
+2. Using inline components will make your writing more concise.
+
+- without `asChild` property
+```js
+export function MyToggle() {
+  return (
+    <Tooltip asChild side="left" sideOffset={6} content="Lorem...">
+      Button
+    </Tooltip>
+  );
+}
+```
+
+- with asChild property
+```js
+export function MyToggle() {
+  return (
+    <Tooltip asChild side="left" sideOffset={6} content={<span>Lorem...</span>}>
+      <a>
+        <Icon className="size-5" />
+      </a>
+    </Tooltip>
+  );
+}
+```
+
+3. Using ref in the trigger component.
+
+```js
 export const MyToggle = React.forwardRef<
   React.ElementRef<"a">,
   React.ComponentPropsWithoutRef<"a">
 >(({ ...props }, ref) => {
   return (
-    <Tooltip side="left" sideOffset={6} asChild content={<span>Repository</span>}>
+    <Tooltip asChild side="left" sideOffset={6} content={<span>Lorem...</span>}>
       <a ref={ref}>
         <Icon className="size-5" />
       </a>

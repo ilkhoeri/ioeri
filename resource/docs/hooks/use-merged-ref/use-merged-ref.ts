@@ -1,6 +1,6 @@
-import { useCallback, Ref, useRef, MutableRefObject } from "react";
+import { useCallback, Ref, useRef, ForwardedRef, RefObject, MutableRefObject } from "react";
 
-type PossibleRef<T> = Ref<T> | MutableRefObject<T | null> | undefined;
+export type PossibleRef<T> = Ref<T> | MutableRefObject<T | null> | undefined;
 
 export function assignRef<T>(ref: PossibleRef<T>, value: T) {
   if (typeof ref === "function") {
@@ -16,10 +16,51 @@ export function mergeRefs<T>(...refs: PossibleRef<T>[]) {
   };
 }
 
-export function createRefs<T, U extends string>(
-  keys: U[],
-  ref?: MutableRefObject<T | null>,
-): { [K in U]: MutableRefObject<T | null> } {
+type Refs<T> = RefObject<T> | MutableRefObject<T>;
+interface CreateRefsOptions<F, K extends string> {
+  ref?: ForwardedRef<F>;
+  assignRef?: K;
+}
+
+export function createRefsX<T, U extends string, F = T>(keys: U[], ...refs: PossibleRef<F>[]): { [K in U]: Refs<T> } {
+  return keys.reduce(
+    (acc, key) => {
+      const currentRef = useRef<T>(null);
+      acc[key] = refs !== undefined ? { current: null } : currentRef;
+      if (refs) {
+        const mergedRef = (node: T | null) => {
+          if (node) refs.forEach((ref) => assignRef(ref, node as F));
+        };
+        (acc[key] as any) = { current: null, ...mergedRef };
+      }
+      return acc;
+    },
+    {} as { [K in U]: Refs<T> },
+  );
+}
+
+export function createRefsY<T, U extends string, F = T>(keys: U[], ...refs: PossibleRef<F>[]): { [K in U]: Refs<F> } {
+  return keys.reduce(
+    (acc, key) => {
+      const currentRef = useRef<F>(null);
+      acc[key] = currentRef;
+
+      if (refs.length > 0) {
+        const mergedRef = (node: T | null) => {
+          if (node !== null && node !== undefined) {
+            refs.forEach((ref) => assignRef(ref, node as F));
+          }
+        };
+        (acc[key] as any) = { current: null, ...mergedRef };
+      }
+
+      return acc;
+    },
+    {} as { [K in U]: Refs<F> },
+  );
+}
+
+export function createRefsZ<T, U extends string>(keys: U[], ref?: ForwardedRef<T>): { [K in U]: Refs<T> } {
   return keys.reduce(
     (acc, key) => {
       const currentRef = useRef<T>(null);
@@ -30,7 +71,17 @@ export function createRefs<T, U extends string>(
       }
       return acc;
     },
-    {} as { [K in U]: MutableRefObject<T | null> },
+    {} as { [K in U]: Refs<T> },
+  );
+}
+
+export function createRefs<F, U extends string>(keys: U[]): { [K in U]: React.RefObject<F> } {
+  return keys.reduce(
+    (acc, key) => {
+      acc[key] = useRef<F>(null);
+      return acc;
+    },
+    {} as { [K in U]: React.RefObject<F> },
   );
 }
 

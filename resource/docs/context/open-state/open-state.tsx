@@ -1,9 +1,9 @@
 "use client";
 import React, { createContext, useContext, ReactNode } from "react";
 import { useOpenState } from "../../hooks/use-open-state/use-open-state";
-import type { UseOpenStateType, DataOrigin } from "../../hooks/use-open-state/use-open-state";
+import type { OpenStateOptions, DataOrigin } from "../../hooks/use-open-state/use-open-state";
 
-interface OpenStateContextProps<T> {
+interface OpenStateContextProps {
   state: string;
   defaultOpen?: boolean;
   clickOutsideToClose?: boolean;
@@ -12,16 +12,16 @@ interface OpenStateContextProps<T> {
   setOpen: (value: boolean) => void;
   toggle: () => void;
   onKeyDown: (e: React.KeyboardEvent<HTMLElement>) => false | void;
-  refs: Partial<Record<DataOrigin, React.MutableRefObject<T | null>>>;
+  refs: Partial<Record<DataOrigin, React.MutableRefObject<HTMLElement | null>>>;
 }
 
-interface OpenStateProviderProps<T> extends UseOpenStateType<T> {
+interface OpenStateProviderProps extends OpenStateOptions {
   children: ReactNode;
 }
 
-const OpenStateContext = createContext<OpenStateContextProps<HTMLElement> | undefined>(undefined);
+const OpenStateContext = createContext<OpenStateContextProps | undefined>(undefined);
 
-export const OpenStateProvider: React.FC<OpenStateProviderProps<HTMLElement>> = ({ children, ...rest }) => {
+export const OpenStateProvider: React.FC<OpenStateProviderProps> = ({ children, ...rest }) => {
   const value = useOpenState({ ...rest });
   return <OpenStateContext.Provider value={value}>{children}</OpenStateContext.Provider>;
 };

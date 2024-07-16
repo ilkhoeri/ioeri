@@ -59,6 +59,6 @@ export type { HotkeyItem, Hotkey, HotkeyItemOptions, KeyboardModifiers } from ".
 export type { InitialInfo, RectElement, RectInfo } from "./use-element-info/use-element-info";
 export type { UseMediaQueryOptions } from "./use-media-query/use-media-query";
 export type { UseMovePosition } from "./use-move/use-move";
-export type { UseOpenStateType } from "./use-open-state/use-open-state";
+export type { OpenStateOptions, ClickStateOptions, HoverStateOptions } from "./use-open-state/use-open-state";
 export type { PaginationParams } from "./use-pagination/use-pagination";
 export type { StateHistory, UseStateHistoryHandlers } from "./use-state-history/use-state-history";

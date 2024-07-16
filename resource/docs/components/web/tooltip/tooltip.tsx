@@ -1,7 +1,7 @@
 "use client";
 import * as React from "react";
 
-import { useOpenState, type UseOpenStateType } from "@/modules/hooks";
+import { mergeRefs, useOpenState, type HoverStateOptions } from "@/modules/hooks";
 import { cvx, InferTypes } from "@/modules/utility/cvx/cvx";
 import { ArrowDropdownIcon } from "@/modules/icons";
 import { twMerge } from "tailwind-merge";
@@ -9,7 +9,7 @@ import { twMerge } from "tailwind-merge";
 interface CSSProperties extends React.CSSProperties {
   [key: string]: any;
 }
-interface ProviderProps<T> extends UseOpenStateType<T> {
+interface ProviderProps extends HoverStateOptions {
   children: React.ReactNode;
   withArrow?: boolean;
 }
@@ -18,7 +18,7 @@ type SharedType = {
   style?: CSSProperties;
   className?: string;
 };
-export type DialogContextProps<T> = UseOpenStateType<T> & InferTypes<typeof useOpenState> & { withArrow?: boolean };
+export type DialogContextProps<T> = HoverStateOptions & InferTypes<typeof useOpenState> & { withArrow?: boolean };
 const TooltipContext = React.createContext<DialogContextProps<HTMLElement> | undefined>(undefined);
 
 export function useTooltipContext<T>(ref: React.ForwardedRef<T>) {
@@ -29,9 +29,8 @@ export function useTooltipContext<T>(ref: React.ForwardedRef<T>) {
   return { ...ctx, ref };
 }
 
-function TooltipProvider<T extends HTMLElement>({ children, ref, withArrow, sideOffset, ...props }: ProviderProps<T>) {
+function TooltipProvider<T extends HTMLElement>({ children, withArrow, sideOffset, ...props }: ProviderProps) {
   const state = useOpenState<T>({
-    ref,
     trigger: "hover",
     sideOffset: withArrow ? Number(sideOffset) + 9 : sideOffset,
     ...props,
@@ -39,44 +38,31 @@ function TooltipProvider<T extends HTMLElement>({ children, ref, withArrow, side
   return <TooltipContext.Provider value={{ withArrow, ...state }}>{children}</TooltipContext.Provider>;
 }
 
-const PrimitiveSlot = React.forwardRef(
-  <T extends React.ElementType>(
-    { children, ...props }: { children: React.ReactElement } & Omit<React.ComponentProps<T>, "ref">,
-    ref: React.Ref<any>,
-  ) => {
-    const child = React.Children.only(children);
-
-    return React.cloneElement(child, {
-      ref,
-      ...props,
-      style: { ...props.style, ...child.props.style },
-      className: twMerge(child.props.className, props.className),
-    });
-  },
-);
-PrimitiveSlot.displayName = "PrimitiveSlot";
-
 type TooltipTriggerType = React.ComponentPropsWithoutRef<"button"> & SharedType & { asChild?: boolean };
 const TooltipTrigger = React.forwardRef<React.ElementRef<"button">, TooltipTriggerType>(
-  ({ type = "button", role = "button", asChild, className, unstyled, style, ...props }, ref) => {
+  ({ type = "button", asChild, unstyled, style, children, ...props }, ref) => {
     const ctx = useTooltipContext<HTMLButtonElement>(ref);
-    const Component = asChild ? PrimitiveSlot : ("button" as React.ElementType);
-    const rest = {
-      ref: ctx.refs.trigger as React.RefObject<HTMLButtonElement>,
-      role,
-      type,
-      ...ctx.styleAt("trigger", { style }),
-      className,
-      ...props,
-    };
-    return <Component {...rest} />;
+    const rest = { ref: mergeRefs(ctx.refs.trigger, ref), type, ...props };
+    const child = React.Children.only(children as React.ReactElement);
+
+    return asChild ? (
+      React.cloneElement(child, {
+        ...rest,
+        ...ctx.styleAt("trigger", { style: { ...style, ...child.props.style } }),
+        className: twMerge(child.props.className, props.className),
+      })
+    ) : (
+      <button {...ctx.styleAt("trigger", { style })} {...rest}>
+        {children}
+      </button>
+    );
   },
 );
 TooltipTrigger.displayName = "TooltipTrigger";
 
-const content = cvx({
+const classes = cvx({
   assign:
-    "group absolute min-w-max z-20 text-[13px] rounded-md border bg-background text-popover-foreground shadow-md outline-none focus-visible:ring-0 flex items-center justify-center py-1 px-2 w-max max-w-max data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[state=open]:zoom-in-100 data-[state=closed]:zoom-out-75 data-[side=top]:top-[calc(var(--top)-var(--offset))] data-[side=bottom]:top-[calc(var(--top)+var(--offset))]",
+    "group absolute min-w-max z-20 text-[13px] rounded-md border bg-background text-popover-foreground shadow-md outline-none focus-visible:ring-0 flex items-center justify-center py-1 px-2 w-max max-w-max transition-opacity [transition-duration:200ms] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[state=open]:zoom-in-100 data-[state=closed]:zoom-out-95 data-[side=top]:top-[calc(var(--top)-var(--offset))] data-[side=bottom]:top-[calc(var(--top)+var(--offset))]",
   variants: {
     align: {
       center: "data-[side=top]:data-[align=center]:[]",
@@ -84,12 +70,12 @@ const content = cvx({
       end: "data-[side=top]:data-[align=end]:[]",
     },
     side: {
-      top: "data-[side=top]:slide-in-from-bottom-2 data-[side=top]:data-[state=closed]:slide-out-to-bottom-4 left-[--left]",
+      top: "data-[side=top]:slide-in-from-bottom-0 data-[side=top]:data-[state=closed]:slide-out-to-bottom-0 left-[--left]",
       right:
-        "data-[side=right]:slide-in-from-left-2 data-[side=right]:data-[state=closed]:slide-out-to-left-4 top-[--top] left-[calc(var(--left)+var(--offset))]",
+        "data-[side=right]:slide-in-from-left-0 data-[side=right]:data-[state=closed]:slide-out-to-left-0 top-[--top] left-[calc(var(--left)+var(--offset))]",
       bottom:
-        "data-[side=bottom]:slide-in-from-top-2 data-[side=bottom]:data-[state=closed]:slide-out-to-top-4 left-[--left]",
-      left: "data-[side=left]:slide-in-from-right-2 data-[side=left]:data-[state=closed]:slide-out-to-right-4 top-[--top] left-[calc(var(--left)-var(--offset))]",
+        "data-[side=bottom]:slide-in-from-top-0 data-[side=bottom]:data-[state=closed]:slide-out-to-top-0 left-[--left]",
+      left: "data-[side=left]:slide-in-from-right-0 data-[side=left]:data-[state=closed]:slide-out-to-right-0 top-[--top] left-[calc(var(--left)-var(--offset))]",
     },
   },
 });
@@ -111,7 +97,7 @@ const TooltipContent = React.forwardRef<React.ElementRef<"div">, TooltipContentT
         <div
           ref={ctx.refs.content as React.RefObject<HTMLDivElement>}
           {...ctx.styleAt("content", { style })}
-          className={twMerge(!unstyled && content({ align, side }), className)}
+          className={twMerge(!unstyled && classes({ align, side }), className)}
           {...rest}
         >
           {children}
@@ -123,25 +109,24 @@ const TooltipContent = React.forwardRef<React.ElementRef<"div">, TooltipContentT
 );
 TooltipContent.displayName = "TooltipContent";
 
-type TooltipType = Omit<TooltipTriggerType, "content"> & {
-  withArrow?: boolean;
-  content?: React.ReactNode;
-  contentProps?: Omit<TooltipContentType, "children">;
-};
-const Tooltip = React.forwardRef<HTMLButtonElement, TooltipType & UseOpenStateType<HTMLButtonElement>>(
-  (
-    { side, align, sideOffset, open, onOpenChange, clickOutsideToClose, withArrow, contentProps, content, ...props },
-    ref,
-  ) => {
-    const rest = { side, align, sideOffset, open, onOpenChange, clickOutsideToClose, withArrow };
-    return (
-      <TooltipProvider {...rest}>
-        <TooltipTrigger ref={ref} {...props} />
-        <TooltipContent {...contentProps}>{content}</TooltipContent>
-      </TooltipProvider>
-    );
-  },
-);
+type TooltipType = Omit<TooltipTriggerType, "content"> &
+  HoverStateOptions & {
+    withArrow?: boolean;
+    content?: React.ReactNode;
+    contentProps?: Omit<TooltipContentType, "children">;
+  };
+const Tooltip = React.forwardRef<React.ElementRef<"button">, TooltipType>((_props, ref) => {
+  const { content, contentProps, ...props } = _props;
+
+  const { ...state } = props as HoverStateOptions;
+
+  return (
+    <TooltipProvider {...state}>
+      <TooltipTrigger ref={ref} {...props} />
+      <TooltipContent {...contentProps}>{content}</TooltipContent>
+    </TooltipProvider>
+  );
+});
 Tooltip.displayName = "Tooltip";
 
 export { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent };
