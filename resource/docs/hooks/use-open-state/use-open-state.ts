@@ -67,7 +67,7 @@ export function useOpenState<T extends HTMLElement = any>(options: OpenStateOpti
     popstate = false,
     defaultOpen = false,
     clickOutsideToClose = false,
-    delay = { open: 0, closed: 115 },
+    delay = { open: 0, closed: 0 },
     modal = false,
   } = options;
 
@@ -81,16 +81,22 @@ export function useOpenState<T extends HTMLElement = any>(options: OpenStateOpti
   const [isTouchDevice, setIsTouchDevice] = useState(false);
   const [updatedSide, setUpdatedSide] = useState(side);
 
-  useHotkeys([[hotKeys, () => setOpen(!open)]]);
+  useHotkeys([[hotKeys, () => trigger === "click" && setOpen(!open)]]);
 
   useMeasureScrollbar(!open ? render : open, { modal });
 
-  useClickOutside(() => clickOutsideToClose && setOpen(false), [refs.trigger, refs.content]);
+  useClickOutside(() => trigger === "click" && clickOutsideToClose && setOpen(false), [refs.trigger, refs.content]);
 
   const bounding = {
     trigger: useRect<T>(refs?.trigger?.current),
     content: useRect<T>(refs?.content?.current),
   };
+
+  useEffect(() => {
+    if (open !== defaultOpen) {
+      setInitialOpen(true);
+    }
+  }, [open, defaultOpen]);
 
   const toggle = useCallback(() => {
     if (!open) {
@@ -105,12 +111,6 @@ export function useOpenState<T extends HTMLElement = any>(options: OpenStateOpti
       setOpen(false);
     }
   }, [trigger, popstate, open, setOpen]);
-
-  useEffect(() => {
-    if (open !== defaultOpen) {
-      setInitialOpen(true);
-    }
-  }, [open, defaultOpen]);
 
   useEffect(() => {
     const historyPopState = () => {
@@ -146,11 +146,19 @@ export function useOpenState<T extends HTMLElement = any>(options: OpenStateOpti
       }
     };
     const onTouchStart = () => {
-      setIsTouchDevice(true);
+      if (!isTouchDevice) {
+        setIsTouchDevice(true);
+      }
       setOpen(true);
     };
     const onTouchEnd = () => {
       setOpen(false);
+    };
+
+    const windowTouchStart = () => {
+      if (!isTouchDevice) {
+        setIsTouchDevice(true);
+      }
     };
 
     const attachListeners = (el: T | null) => {
@@ -163,6 +171,9 @@ export function useOpenState<T extends HTMLElement = any>(options: OpenStateOpti
             el.addEventListener("touchstart", onTouchStart);
             el.addEventListener("touchend", onTouchEnd);
           }
+
+          window.addEventListener("touchstart", windowTouchStart);
+          window.addEventListener("mousemove", onMouseMove);
 
           el.addEventListener("mouseenter", onMouseEnter);
           el.addEventListener("mouseleave", onMouseLeave);
@@ -180,6 +191,9 @@ export function useOpenState<T extends HTMLElement = any>(options: OpenStateOpti
             el.removeEventListener("touchstart", onTouchStart);
             el.removeEventListener("touchend", onTouchEnd);
           }
+
+          window.removeEventListener("touchstart", windowTouchStart);
+          window.removeEventListener("mousemove", onMouseMove);
 
           el.removeEventListener("mouseenter", onMouseEnter);
           el.removeEventListener("mouseleave", onMouseLeave);
