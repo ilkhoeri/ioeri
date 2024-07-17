@@ -6,5 +6,4 @@ export {
   CollapsibleContent,
   CollapsibleRoot,
   CollapsibleTrigger,
-  useCollapsibleContext,
 } from "./collapsible";

@@ -21,6 +21,7 @@ export { assignRef, createRefs, mergeRefs, useMergedRef } from "./use-merged-ref
 export { clampUseMovePosition, useMove } from "./use-move/use-move";
 export { useMouse } from "./use-mouse/use-mouse";
 export { useOpenState, DataOrigin, DataTrigger, DataAlign, DataSide } from "./use-open-state/use-open-state";
+export { createStateContext } from "./use-open-state/open-state-context";
 export { DOTS, range, usePagination } from "./use-pagination/use-pagination";
 export { getRandomColor, useRandomColors } from "./use-random-colors/use-random-colors";
 export { useReducedMotion } from "./use-reduced-motion/use-reduced-motion";

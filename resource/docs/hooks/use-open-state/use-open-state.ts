@@ -1,6 +1,6 @@
 import { createPortal } from "react-dom";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useHotkeys, useClickOutside, RectElement, useMeasureScrollbar, createRefs } from "@/modules/hooks";
+import { useHotkeys, useClickOutside, useMeasureScrollbar, createRefs, type RectElement } from "@/modules/hooks";
 
 export enum DataOrigin {
   Trigger = "trigger",
@@ -198,7 +198,7 @@ export function useOpenState<T extends HTMLElement = any>(options: OpenStateOpti
     const triggerRect = bounding.trigger.rect;
     const contentRect = bounding.content.rect;
     if (triggerRect && contentRect) {
-      const [top, left] = getInset(align, side, triggerRect, contentRect);
+      const [top, left] = getInset(align, side, sideOffset, triggerRect, contentRect);
 
       const checkOutOfViewport = (rect: Record<string, number>): boolean => {
         return rect.top < 0 || rect.left < 0 || rect.bottom > window.innerHeight || rect.right > window.innerWidth;
@@ -232,7 +232,7 @@ export function useOpenState<T extends HTMLElement = any>(options: OpenStateOpti
         setUpdatedSide(side);
       }
     }
-  }, [align, side, bounding.trigger.rect, bounding.content.rect]);
+  }, [align, side, sideOffset, bounding.trigger.rect, bounding.content.rect]);
 
   useEffect(() => {
     updateSide();
@@ -428,7 +428,13 @@ const getAttributes = (
   return attrs;
 };
 
-function getInset(align: `${DataAlign}`, side: `${DataSide}`, triggerRect: RectElement, contentRect: RectElement) {
+function getInset(
+  align: `${DataAlign}`,
+  side: `${DataSide}`,
+  sideOffset: number,
+  triggerRect: RectElement,
+  contentRect: RectElement,
+) {
   let top = 0;
   let left = 0;
 
@@ -447,20 +453,20 @@ function getInset(align: `${DataAlign}`, side: `${DataSide}`, triggerRect: RectE
 
   switch (side) {
     case DataSide.top:
-      top = triggerRect.top - contentRect.height;
+      top = triggerRect.top - contentRect.height - sideOffset;
       left = calcAlign(triggerRect.left, triggerRect.width, contentRect.width);
       break;
     case DataSide.right:
       top = calcAlign(triggerRect.top, triggerRect.height, contentRect.height);
-      left = triggerRect.right;
+      left = triggerRect.right + sideOffset;
       break;
     case DataSide.bottom:
-      top = triggerRect.bottom;
+      top = triggerRect.bottom + sideOffset;
       left = calcAlign(triggerRect.left, triggerRect.width, contentRect.width);
       break;
     case DataSide.left:
       top = calcAlign(triggerRect.top, triggerRect.height, contentRect.height);
-      left = triggerRect.left - contentRect.width;
+      left = triggerRect.left - contentRect.width - sideOffset;
       break;
   }
 
@@ -478,7 +484,7 @@ const styles = (
 ): { [key: string]: string } => {
   const vars: { [key: string]: string } = {};
 
-  const [top, left] = getInset(align, side, triggerRect, contentRect);
+  const [top, left] = getInset(align, side, sideOffset, triggerRect, contentRect);
 
   const setVars = (as: `${DataOrigin}`, info?: RectElement) => {
     if (info) {

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { useNavContext } from "@/library/hooks/use-nav";
 import { NavLinkItem } from "./nav-link";
 
