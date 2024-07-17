@@ -35,6 +35,7 @@ interface StateSharedOptions {
   sideOffset?: number;
   base?: boolean;
   open?: boolean;
+  relativeSide?: boolean;
   onOpenChange?: (value: boolean) => void;
   delay?: { open?: number; closed?: number };
 }
@@ -66,6 +67,7 @@ export function useOpenState<T extends HTMLElement = any>(options: OpenStateOpti
     touch = false,
     popstate = false,
     defaultOpen = false,
+    relativeSide = false,
     clickOutsideToClose = false,
     delay = { open: 0, closed: 0 },
     modal = false,
@@ -278,14 +280,14 @@ export function useOpenState<T extends HTMLElement = any>(options: OpenStateOpti
   const onKeyDown = useCallback((e: React.KeyboardEvent<HTMLElement>) => e.key === "Enter" && toggle(), [toggle]);
 
   const dataState = open ? (initialOpen ? "open" : "opened") : "closed";
-
-  const dataSide = trigger === "hover" ? updatedSide : side;
+  const currentSide = trigger === "hover" || relativeSide;
+  const dataSide = currentSide ? updatedSide : side;
 
   const styleAt = (as: `${DataOrigin}`, { style }: { style?: React.CSSProperties & { [key: string]: any } } = {}) => ({
     ...getAttributes(as, dataState, align, dataSide, base),
     style: {
       ...style,
-      ...styles(as, trigger, sideOffset, align, dataSide, bounding.trigger.rect, bounding.content.rect),
+      ...styles(as, currentSide, sideOffset, align, dataSide, bounding.trigger.rect, bounding.content.rect),
     },
   });
 
@@ -489,7 +491,7 @@ function getInset(
 
 const styles = (
   as: `${DataOrigin}`,
-  trigger: `${DataTrigger}`,
+  topLeft: boolean,
   sideOffset: number,
   align: `${DataAlign}`,
   side: `${DataSide}`,
@@ -511,47 +513,23 @@ const styles = (
     }
   };
 
-  switch (trigger) {
-    case "click":
-      switch (as) {
-        case "root":
-          vars["--offset"] = `${sideOffset}px`;
-          setVars("trigger", triggerRect);
-          setVars("content", contentRect);
-          break;
-        case "trigger":
-          setVars(as, triggerRect);
-          break;
-        case "content":
-          vars["--offset"] = `${sideOffset}px`;
-          setVars("trigger", triggerRect);
-          setVars("content", contentRect);
-          break;
-      }
+  switch (as) {
+    case "root":
+      vars["--offset"] = `${sideOffset}px`;
+      setVars("trigger", triggerRect);
+      setVars("content", contentRect);
       break;
-
-    case "hover":
-      switch (as) {
-        case "root":
-          vars["--offset"] = `${sideOffset}px`;
-          setVars("trigger", triggerRect);
-          setVars("content", contentRect);
-          break;
-        case "trigger":
-          setVars(as, triggerRect);
-          break;
-        case "content":
-          vars["--top"] = `${top + triggerRect.scrollY}px`;
-          vars["--left"] = `${left + triggerRect.scrollX}px`;
-          vars["--offset"] = `${sideOffset}px`;
-          // prepare && (vars.opacity = "0");
-          setVars("trigger", triggerRect);
-          setVars("content", contentRect);
-          break;
-      }
+    case "trigger":
+      setVars(as, triggerRect);
       break;
-
-    default:
+    case "content":
+      if (topLeft) {
+        vars["--top"] = `${top + triggerRect.scrollY}px`;
+        vars["--left"] = `${left + triggerRect.scrollX}px`;
+      }
+      vars["--offset"] = `${sideOffset}px`;
+      setVars("trigger", triggerRect);
+      setVars("content", contentRect);
       break;
   }
 

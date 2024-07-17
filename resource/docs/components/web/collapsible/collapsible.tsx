@@ -10,25 +10,23 @@ import "./collapsible.css";
 interface CSSProperties extends React.CSSProperties {
   [key: string]: any;
 }
-interface ProviderProps extends ClickStateOptions {
-  children: React.ReactNode;
-}
 type SharedType = {
   unstyled?: boolean;
   style?: CSSProperties;
   className?: string;
 };
-export type CollapsibleValue = ClickStateOptions & InferTypes<typeof useOpenState>;
+export type CollapsibleValue = ClickStateOptions & InferTypes<typeof useOpenState> & { passPortal?: boolean };
 type CollapsibleRootType = React.ComponentPropsWithoutRef<"div"> & SharedType;
 type CollapsibleTriggerType = React.ComponentPropsWithoutRef<"button"> & SharedType;
 type CollapsibleContentType = React.ComponentPropsWithoutRef<"div"> & SharedType;
-type CollapsibleType = React.ComponentPropsWithoutRef<"div"> & ClickStateOptions;
+type CollapsibleType = React.ComponentPropsWithoutRef<"div"> &
+  ClickStateOptions & { passRoot?: boolean; passPortal?: boolean };
 
 const [Provider, useCollapsibleContext] = createStateContext<CollapsibleValue>(
   "Tooltip component trees must be wrap within an <CollapsibleProvider> or <Collapsible>",
 );
 
-const CollapsibleProvider = (props: ClickStateOptions & { children: React.ReactNode }) => {
+const CollapsibleProvider = (props: ClickStateOptions & { children: React.ReactNode; passPortal?: boolean }) => {
   const ctx = useOpenState<HTMLElement>({
     trigger: "click",
     ...props,
@@ -37,11 +35,44 @@ const CollapsibleProvider = (props: ClickStateOptions & { children: React.ReactN
 };
 
 const Collapsible = React.forwardRef<React.ElementRef<"div">, CollapsibleType>(
-  ({ side, align, sideOffset, open, onOpenChange, clickOutsideToClose, defaultOpen, ...props }, ref) => {
-    const rest = { side, align, sideOffset, open, onOpenChange, clickOutsideToClose, defaultOpen };
+  (
+    {
+      align,
+      side,
+      open,
+      onOpenChange,
+      sideOffset,
+      clickOutsideToClose,
+      defaultOpen,
+      relativeSide,
+      children,
+      passRoot,
+      passPortal,
+      ...props
+    },
+    ref,
+  ) => {
+    const rest = {
+      passPortal,
+      passRoot,
+      side,
+      align,
+      sideOffset,
+      open,
+      onOpenChange,
+      clickOutsideToClose,
+      defaultOpen,
+      relativeSide,
+    };
     return (
       <CollapsibleProvider {...rest}>
-        <CollapsibleRoot ref={ref} {...props} />
+        {passRoot ? (
+          children
+        ) : (
+          <CollapsibleRoot ref={ref} {...props}>
+            {children}
+          </CollapsibleRoot>
+        )}
       </CollapsibleProvider>
     );
   },
@@ -93,7 +124,8 @@ const CollapsibleContent = React.forwardRef<React.ElementRef<"div">, Collapsible
     const rest = { "aria-disabled": ariaDisabled || (ctx.open ? "false" : "true"), ...props };
 
     if (!ctx.render) return null;
-    return (
+
+    const content = (
       <div
         ref={ctx.refs.content as React.RefObject<HTMLDivElement>}
         {...ctx.styleAt("content", { style })}
@@ -105,6 +137,8 @@ const CollapsibleContent = React.forwardRef<React.ElementRef<"div">, Collapsible
         {...rest}
       />
     );
+
+    return ctx.passPortal ? <ctx.Portal render={ctx.render}>{content}</ctx.Portal> : content;
   },
 );
 CollapsibleContent.displayName = "CollapsibleContent";
