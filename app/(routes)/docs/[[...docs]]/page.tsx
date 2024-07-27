@@ -43,36 +43,6 @@ async function getReUsage({ params }: DocsParams): Promise<string | null> {
   if (!params.docs) return null;
   return getMdx(`/resource/docs/${sourceFiles(params.docs)}`, "usage");
 }
-/**
-async function getCodeDemo({ params }: DocsParams, files: string[]) {
-  const usageMap: { [key: string]: string | null } = {};
-  const referenceMap: { [key: string]: string | null } | string | null = {};
-  const descriptionMap: { [key: string]: string | null } | string | null = {};
-  const considerationMap: { [key: string]: string | null } | string | null = {};
-  for (const file of files) {
-    const usage = await getContent(`resource/_docs_demo/${readdirPrefix("readdir", params.docs)}/${file}`, undefined, {
-      Demo: `${prefixName(params.docs, file)}Demo`,
-    });
-
-    const [reference, description, consideration] = await Promise.all([
-      getMdx(`/resource/docs/${sourceFiles(params.docs)}`, `api-reference-${file}`),
-      getMdx(`/resource/docs/${sourceFiles(params.docs)}`, `description-${file}`),
-      getMdx(`/resource/docs/${sourceFiles(params.docs)}`, `consideration-${file}`),
-    ]);
-
-    usageMap[file] = usage.content;
-    referenceMap[file] = reference;
-    descriptionMap[file] = description;
-    considerationMap[file] = consideration;
-  }
-  return {
-    usages: usageMap,
-    reference: referenceMap,
-    description: descriptionMap,
-    consideration: considerationMap,
-  };
-}
-*/
 async function getCodeDemo({ params }: DocsParams, files: string[]) {
   if (!files.length) {
     return {
@@ -114,11 +84,6 @@ async function getCodeDemo({ params }: DocsParams, files: string[]) {
     consideration: considerationMap,
   };
 }
-
-async function getUsage({ params }: DocsParams, replace?: Record<string, string>): Promise<Content> {
-  if (!params.docs) return { content: null, extension: null };
-  return getContent(`/resource/_docs_demo/${params.docs.join("/")}`, undefined, replace);
-}
 async function getCss({ params }: DocsParams): Promise<Content> {
   if (!params.docs) return { content: null, extension: null };
   return getContent(`/resource/docs/${sourceFiles(params.docs)}`, [".css"], undefined, { lang: "css" });
@@ -133,10 +98,7 @@ export default async function Page({ params }: DocsParams) {
   const ce = code.extension || ".tsx";
   const files = getFilesWithPrefix({ params });
   const demo = await getCodeDemo({ params }, files);
-  let reCode = null;
-  if (process.env.NODE_ENV === "production") {
-    reCode = await getReCode({ params }, `${ce}`);
-  }
+  const reCode = await getReCode({ params }, `${ce}`);
 
   const [css, dependOn, explanation, conclusion, notes] = await Promise.all([
     getCss({ params }).then((res) => res.content),
