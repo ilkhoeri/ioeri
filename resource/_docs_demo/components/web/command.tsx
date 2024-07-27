@@ -5,10 +5,10 @@ import { SetProps, SetPropsSelect, useSetProps } from "../../__set_props";
 
 export function Demo() {
   const props = useSetProps({ Str: "single" });
-  const actions = props.str === "single" ? actionsSingle : actionsGroup; // prettier-ignore
+  const data = props.str === "single" ? dataSingle : dataGroup; // prettier-ignore
   return (
     <div>
-      <Command modal={false} defaultOpen actions={actions} nothingFound="Oops..." searchProps={{ autoFocus: false }} />
+      <Command modal={false} defaultOpen actions={data} nothingFound="Oops..." searchProps={{ autoFocus: false }} />
       <SetProps.Wrapper>
         <SetPropsSelect values={["single", "group"]} str={props.str} setStr={props.setStr} />
       </SetProps.Wrapper>
@@ -16,7 +16,7 @@ export function Demo() {
   );
 }
 
-const actionsSingle = [
+const dataSingle = [
   {
     id: "1",
     href: "/",
@@ -40,61 +40,61 @@ const actionsSingle = [
   },
 ];
 
-const actionsGroup = [
+const dataGroup = [
   {
-    group: "Group 1",
+    group: "Group (1)",
     actions: [
       {
         id: "1-1",
         href: "/",
-        label: "Sunt aut facere repellat provident",
+        label: "Repellat provident",
         description:
-          "quia et suscipit suscipit recusandae consequuntur expedita et cum reprehenderit nostrum rerum est autem sunt architecto.",
+          "expedita et cum reprehenderit nostrum rerum est autem sunt architecto.",
       },
       {
         id: "1-2",
         href: "",
         label: "Eum et est occaecati",
         description:
-          "ullam et saepe reiciendis voluptatem adipisci sit amet autem assumenda provident rerum culpa quis hic commodi.",
+          "assumenda provident rerum culpa quis hic commodi.",
       },
     ],
   },
   {
-    group: "Group 2",
+    group: "Group (2)",
     actions: [
       {
         id: "2-1",
         href: "",
         label: "Qui est esse",
         description:
-          "est rerum tempore vitae sequi sint nihil reprehenderit dolor beatae ea dolores neque fugiat blanditiis.",
+          "reprehenderit dolor beatae ea dolores neque fugiat blanditiis.",
       },
       {
         id: "2-2",
         href: "",
-        label: "Occaecati excepturi optio reprehenderit",
+        label: "Optio reprehenderit",
         description:
-          "repudiandae veniam quaerat sunt sed alias aut fugiat sit autem sed est voluptatem omnis possimus.",
+          "aut fugiat sit autem sed est voluptatem omnis possimus.",
       },
     ],
   },
   {
-    group: "Group 3",
+    group: "Group (3)",
     actions: [
       {
         id: "3-1",
         href: "",
         label: "Nesciunt quas odio",
         description:
-          "repudiandae veniam quaerat sunt sed alias aut fugiat sit autem sed est voluptatem omnis possimus esse voluptatibus.",
+          "sit autem sed est voluptatem omnis possimus esse voluptatibus.",
       },
       {
         id: "3-2",
         href: "",
-        label: "Molestias quasi exercitationem repellat qui ipsa sit aut",
+        label: "Repellat qui ipsa sit aut",
         description:
-          "et iusto sed quo iure voluptatem occaecati omnis eligendi aut ad voluptatem doloribus vel accusantium quis pariatur.",
+          "aut ad voluptatem doloribus vel accusantium quis pariatur.",
       },
     ],
   },

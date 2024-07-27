@@ -45,38 +45,14 @@ const defaultProps: Partial<CommandContentProps> = {
   modal: true,
 };
 
+// prettier-ignore
 export const CommandContent = factory<CommandContentFactory>((_props, ref) => {
   const props = useProps("CommandContent", defaultProps, _props);
-  const {
-    vars,
-    store,
-    modal,
-    style,
-    styles,
-    variant,
-    shortcut,
-    unstyled,
-    children,
-    disabled,
-    className,
-    classNames,
-    defaultOpen,
-    tagsToIgnore,
-    onCommandOpen,
-    onQueryChange,
-    onCommandClose,
-    query: baseQuery,
-    clearQueryOnClose,
-    closeOnActionTrigger,
-    triggerOnContentEditable,
-    ...others
-  } = props;
+  const { vars, store, modal, style, styles, variant, shortcut, unstyled, children, disabled, className, classNames, defaultOpen, tagsToIgnore, onCommandOpen, onQueryChange, onCommandClose, query: baseQuery, clearQueryOnClose, closeOnActionTrigger, triggerOnContentEditable, ...others } = props;
 
   const { open, query: storeQuery } = useCommand(store!);
-
   const query = baseQuery || storeQuery;
   const render = useRender(open, { modal });
-
   const setQuery = (q: string) => {
     onQueryChange?.(q);
     commandActions.setQuery(q, store!);
@@ -94,6 +70,7 @@ export const CommandContent = factory<CommandContentFactory>((_props, ref) => {
     classes,
     ...others,
   });
+
   useHotkeys(getHotkeys(shortcut, store!), tagsToIgnore, triggerOnContentEditable);
 
   useDidUpdate(() => {

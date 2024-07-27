@@ -5,8 +5,8 @@ export function Demo() {
   const { ...props } = useSetProps({ Str: "Input Your Words" });
   const placeholders = [props.str]; // prettier-ignore
   return (
-    <div>
-      <TypingWords placeholders={placeholders} />
+    <div className="w-80 text-left">
+      <TypingWords placeholders={placeholders} withCursor />
       <SetProps.Wrapper>
         <SetPropsText {...props} />
       </SetProps.Wrapper>

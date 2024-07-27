@@ -11,6 +11,7 @@ import { CommandAction, CommandActionProps, CommandHighlight } from "./command-a
 import { DetailsCommandContent, CommandContent, CommandContentProps } from "./command-content";
 import { commandStore, command, actionsGroup, limitActions, defaultFilter } from "./command-store";
 import type { CommandOrigin } from "./command-store";
+
 export interface CommandActionData extends CommandActionProps {
   id: string;
   group?: string;
@@ -19,7 +20,6 @@ export interface CommandActionGroupData {
   group: string;
   actions: CommandActionData[];
 }
-
 type CommandType = CommandFactory & DetailsCommandContent;
 export type CommandActions = CommandActionData | CommandActionGroupData;
 export type CommandFilterFunction = (query: string, actions: CommandActions[]) => CommandActions[];
@@ -32,24 +32,6 @@ export interface CommandProps extends CommandContentProps {
   highlightQuery?: boolean;
   limit?: number;
 }
-export type CommandFactory = Factory<{
-  props: CommandProps;
-  ref: HTMLDivElement;
-  stylesNames: CommandOrigin;
-  staticComponents: {
-    Content: typeof CommandContent;
-    Search: typeof CommandSearch;
-    ActionsList: typeof CommandActionsList;
-    Action: typeof CommandAction;
-    Highlight: typeof CommandHighlight;
-    Empty: typeof CommandEmpty;
-    Footer: typeof CommandFooter;
-    ActionsGroup: typeof CommandActionsGroup;
-    open: typeof command.open;
-    close: typeof command.close;
-    toggle: typeof command.toggle;
-  };
-}>;
 
 const defaultProps: Partial<CommandProps> = {
   limit: Infinity,
@@ -97,6 +79,25 @@ export const Command = factory<CommandType>((_props, ref) => {
     </CommandContent>
   );
 });
+
+export type CommandFactory = Factory<{
+  props: CommandProps;
+  ref: HTMLDivElement;
+  stylesNames: CommandOrigin;
+  staticComponents: {
+    Content: typeof CommandContent;
+    Search: typeof CommandSearch;
+    ActionsList: typeof CommandActionsList;
+    Action: typeof CommandAction;
+    Highlight: typeof CommandHighlight;
+    Empty: typeof CommandEmpty;
+    Footer: typeof CommandFooter;
+    ActionsGroup: typeof CommandActionsGroup;
+    open: typeof command.open;
+    close: typeof command.close;
+    toggle: typeof command.toggle;
+  };
+}>;
 
 Command.Content = CommandContent;
 Command.Search = CommandSearch;

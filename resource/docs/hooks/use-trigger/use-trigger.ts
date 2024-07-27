@@ -65,7 +65,7 @@ export function useTrigger<T extends HTMLElement | null>(handle: UseTrigger = {}
   return { ref, open, setOpen, initialOpen, render, toggle };
 }
 
-export function useRender(open: boolean, { delay = 125, modal = false } = {}, depend?: DependencyList) {
+export function useRender(open: boolean, { delay = 150, modal = false } = {}, depend?: DependencyList) {
   const [render, setRender] = useState(open);
   useEffect(() => {
     let timeoutId: NodeJS.Timeout | null = null;

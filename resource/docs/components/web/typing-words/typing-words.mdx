@@ -14,7 +14,35 @@ $:consideration
 
 
 
-$:description
+$:description-typing-words
+
+## Animation
+
+The `typing-words` cursor styles use keyframe animation which by default is set using the tailwindcss class.
+
+Add the following [`animation`](https://tailwindcss.com/docs/animation#customizing-your-theme) to your [`tailwind.config.js`](https://tailwindcss.com/docs/configuration) file:
+
+```js
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  theme: {
+    extend: {
+      animation: {
+        "cursor-bar": "cursor-bar 0.5s step-end infinite alternate, cursor-blink 0.5s infinite",
+      },
+      keyframes: {
+        "cursor-bar": { "50%": { borderRightColor: "transparent" } },
+        "cursor-blink": {
+          "20%": { transform: "scaleY(1)" },
+          "50%": { transform: "scaleY(0)" },
+          "80%": { transform: "scaleY(1)" },
+        },
+      },
+    },
+  },
+}
+
+```
 
 
 

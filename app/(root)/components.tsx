@@ -19,7 +19,7 @@ export function PageHome() {
       <section
         id="header-section"
         className={cn(
-          "relative flex flex-col items-center justify-around w-full max-w-7xl h-[90vh] max-h-[42.5rem] px-6 [--sz-rx:2.25rem] [--sz-ry:7.5rem] [--sz-circle:clamp(3rem,1rem+5dvw,4rem)] [transition:height_185ms_ease]",
+          "relative flex flex-col items-center justify-around w-full max-w-7xl h-[90vh] max-h-[42.5rem] px-6 [--sz-rx:2.25rem] [--sz-ry:7.5rem] [--sz-circle:clamp(3rem,1rem+5dvw,4.5rem)] [transition:height_185ms_ease]",
           style.header_home,
         )}
       >

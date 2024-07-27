@@ -93,6 +93,12 @@ const config = {
         "danger-area": "repeating-linear-gradient(var(--danger-bg-image))",
       },
       keyframes: {
+        "cursor-bar": { "50%": { borderRightColor: "transparent" } },
+        "cursor-blink": {
+          "20%": { transform: "scaleY(1)" },
+          "50%": { transform: "scaleY(0)" },
+          "80%": { transform: "scaleY(1)" },
+        },
         "fade-in": {
           from: { opacity: "var(--tw-enter-opacity, initial)", scale: "var(--tw-enter-scale, initial)" },
         },
@@ -144,6 +150,7 @@ const config = {
         "pulse-6": { "0%, 50%, 100%": { opacity: "0" }, "66.667%, 83.333%": { opacity: "1" } },
       },
       animation: {
+        "cursor-bar": "cursor-bar 0.5s step-end infinite alternate, cursor-blink 0.5s infinite",
         "collapse-open": "collapse-open 0.2s ease forwards",
         "collapse-closed": "collapse-closed 0.2s ease forwards",
         "fade-in": "fade-in ease-in forwards",

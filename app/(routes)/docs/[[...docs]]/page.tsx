@@ -1,20 +1,17 @@
 import { Demos } from "./demo";
 import { Tabs } from "@/library/components/tabs";
+import { Container } from "@/library/components/components";
 import { highlightCode } from "@/library/utils/escape-code";
 import { Playground } from "@/library/components/playground";
+import { Code, Customizer, Reference } from "@/library/components/code";
 import { prefixName, retitled, slug, sourceFiles } from "@/library/utils";
 import { getFilesWithPrefix, readdirPrefix } from "@/library/scripts/get-demos";
-import { toPascalCase, sanitizedToParams } from "@/resource/docs";
-import { Container, Title } from "@/library/components/components";
-import { Code, Customizer, Reference } from "@/library/components/code";
 import { getMdx, getContent, type Content, getRepo } from "@/library/scripts/get-contents";
 
 import type { Metadata } from "next";
 
 interface DocsParams {
-  params: {
-    docs: string[];
-  };
+  params: { docs: string[] };
 }
 
 export async function generateMetadata({ params }: DocsParams): Promise<Metadata> {
@@ -46,31 +43,78 @@ async function getReUsage({ params }: DocsParams): Promise<string | null> {
   if (!params.docs) return null;
   return getMdx(`/resource/docs/${sourceFiles(params.docs)}`, "usage");
 }
+/**
 async function getCodeDemo({ params }: DocsParams, files: string[]) {
+  const usageMap: { [key: string]: string | null } = {};
+  const referenceMap: { [key: string]: string | null } | string | null = {};
+  const descriptionMap: { [key: string]: string | null } | string | null = {};
+  const considerationMap: { [key: string]: string | null } | string | null = {};
+  for (const file of files) {
+    const usage = await getContent(`resource/_docs_demo/${readdirPrefix("readdir", params.docs)}/${file}`, undefined, {
+      Demo: `${prefixName(params.docs, file)}Demo`,
+    });
+
+    const [reference, description, consideration] = await Promise.all([
+      getMdx(`/resource/docs/${sourceFiles(params.docs)}`, `api-reference-${file}`),
+      getMdx(`/resource/docs/${sourceFiles(params.docs)}`, `description-${file}`),
+      getMdx(`/resource/docs/${sourceFiles(params.docs)}`, `consideration-${file}`),
+    ]);
+
+    usageMap[file] = usage.content;
+    referenceMap[file] = reference;
+    descriptionMap[file] = description;
+    considerationMap[file] = consideration;
+  }
+  return {
+    usages: usageMap,
+    reference: referenceMap,
+    description: descriptionMap,
+    consideration: considerationMap,
+  };
+}
+*/
+async function getCodeDemo({ params }: DocsParams, files: string[]) {
+  if (!files.length) {
+    return {
+      usages: await highlightCode(await getMdx(`/resource/docs/${sourceFiles(params.docs)}`, "usage")),
+      reference: await highlightCode(await getMdx(`/resource/docs/${sourceFiles(params.docs)}`, "api-reference")),
+      description: await highlightCode(await getMdx(`/resource/docs/${sourceFiles(params.docs)}`, "description"), {
+        copy: true,
+      }),
+      consideration: await highlightCode(await getMdx(`/resource/docs/${sourceFiles(params.docs)}`, "consideration")),
+    };
+  }
+
   const usageMap: { [key: string]: string | null } = {};
   const referenceMap: { [key: string]: string | null } = {};
   const descriptionMap: { [key: string]: string | null } = {};
   const considerationMap: { [key: string]: string | null } = {};
+
   for (const file of files) {
-    const rename = { Demo: `${prefixName(params.docs, file)}Demo` };
-    const usage = await getContent(
-      `resource/_docs_demo/${readdirPrefix("readdir", params.docs)}/${file}`,
-      undefined,
-      rename,
-    );
+    const usage = await getContent(`resource/_docs_demo/${readdirPrefix("readdir", params.docs)}/${file}`, undefined, {
+      Demo: `${prefixName(params.docs, file)}Demo`,
+    });
+
+    const [reference, description, consideration] = await Promise.all([
+      getMdx(`/resource/docs/${sourceFiles(params.docs)}`, `api-reference-${file}`),
+      getMdx(`/resource/docs/${sourceFiles(params.docs)}`, `description-${file}`),
+      getMdx(`/resource/docs/${sourceFiles(params.docs)}`, `consideration-${file}`),
+    ]);
+
     usageMap[file] = usage.content;
-
-    const reference = await getMdx(`/resource/docs/${sourceFiles(params.docs)}`, `api-reference-${file}`);
     referenceMap[file] = reference;
-
-    const description = await getMdx(`/resource/docs/${sourceFiles(params.docs)}`, `description-${file}`);
     descriptionMap[file] = description;
-
-    const consideration = await getMdx(`/resource/docs/${sourceFiles(params.docs)}`, `consideration-${file}`);
     considerationMap[file] = consideration;
   }
-  return { usages: usageMap, reference: referenceMap, description: descriptionMap, consideration: considerationMap };
+
+  return {
+    usages: usageMap,
+    reference: referenceMap,
+    description: descriptionMap,
+    consideration: considerationMap,
+  };
 }
+
 async function getUsage({ params }: DocsParams, replace?: Record<string, string>): Promise<Content> {
   if (!params.docs) return { content: null, extension: null };
   return getContent(`/resource/_docs_demo/${params.docs.join("/")}`, undefined, replace);
@@ -89,17 +133,14 @@ export default async function Page({ params }: DocsParams) {
   const ce = code.extension || ".tsx";
   const files = getFilesWithPrefix({ params });
   const demo = await getCodeDemo({ params }, files);
-
-  const reUsage = !demo.usages.length ? await getReUsage({ params }) : null;
   let reCode = null;
   if (process.env.NODE_ENV === "production") {
     reCode = await getReCode({ params }, `${ce}`);
   }
 
-  const [css, dependOn, description, explanation, conclusion, notes] = await Promise.all([
+  const [css, dependOn, explanation, conclusion, notes] = await Promise.all([
     getCss({ params }).then((res) => res.content),
     getSection({ params }, "depend-on"),
-    getSection({ params }, "description"),
     getSection({ params }, "explanation"),
     getSection({ params }, "conclusion"),
     getSection({ params }, "notes"),
@@ -124,15 +165,14 @@ export default async function Page({ params }: DocsParams) {
 
   return (
     <Container>
-      {(demo || reUsage) && (
+      {demo && (
         <Demos
           files={files}
           params={params}
           usage={demo.usages}
           reference={demo.reference}
+          description={demo.description}
           consideration={demo.consideration}
-          reUsage={await highlightCode(reUsage)}
-          description={demo.description || (await highlightCode(description, { copy: true }))}
         />
       )}
 

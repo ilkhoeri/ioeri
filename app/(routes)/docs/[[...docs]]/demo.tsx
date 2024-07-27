@@ -48,20 +48,18 @@ export const loadComponent = ({ params }: DocsParams, filename: string) =>
   );
 
 export function Demos({
+  files,
   params,
   usage,
   reference,
   consideration,
   description,
-  reUsage,
-  files,
 }: DocsParams & {
-  usage: { [key: string]: string | null };
-  reference?: { [key: string]: string | null };
-  consideration?: { [key: string]: string | null };
-  description?: { [key: string]: string | null } | string | null;
-  reUsage?: string | null;
   files: string[];
+  usage: { [key: string]: string | null } | string | null;
+  reference?: { [key: string]: string | null } | string | null;
+  consideration?: { [key: string]: string | null } | string | null;
+  description?: { [key: string]: string | null } | string | null;
 }) {
   if (!files.length) {
     return (
@@ -74,19 +72,22 @@ export function Demos({
           className="mb-12"
         />
 
-        {reUsage && (
+        {reference && typeof reference === "string" && <Reference title="API reference" setInnerHTML={reference} />}
+        {consideration && typeof consideration === "string" && <Customizer setInnerHTML={consideration} />}
+
+        {usage && typeof usage === "string" && (
           <Tabs defaultValue="usage" className="w-full mb-12">
             <Playground
               childrens={{
-                usage: (
-                  <Code title={`${slug(params.docs)}-demo.tsx`} ext=".tsx" code={reUsage} setInnerHTML={reUsage} />
-                ),
+                usage: <Code title={`${slug(params.docs)}-demo.tsx`} ext=".tsx" code={usage} setInnerHTML={usage} />,
               }}
             />
           </Tabs>
         )}
 
-        {reUsage && description && typeof description === "string" && <Customizer setInnerHTML={description} />}
+        {usage && typeof usage === "string" && description && typeof description === "string" && (
+          <Customizer setInnerHTML={description} />
+        )}
       </div>
     );
   }
@@ -97,10 +98,18 @@ export function Demos({
         const Component = loadComponent({ params }, file);
 
         return (
-          <div key={file} id={sanitizedToParams(file)} className="mt-12 pt-8 border-t first:mt-6 first:pt-0 first:border-t-0">
+          <div
+            key={file}
+            id={sanitizedToParams(file)}
+            className="mt-12 pt-8 border-t first:mt-6 first:pt-0 first:border-t-0"
+          >
             <Title size="h1" variant="segment" title={retitled(file)} className="mt-16 mb-12" />
-            {reference && <Reference title="API reference" setInnerHTML={await highlightCode(reference[file])} />}
-            {consideration && <Customizer setInnerHTML={await highlightCode(consideration[file])} />}
+            {reference && typeof reference === "object" && (
+              <Reference title="API reference" setInnerHTML={await highlightCode(reference[file])} />
+            )}
+            {consideration && typeof consideration === "object" && (
+              <Customizer setInnerHTML={await highlightCode(consideration[file])} />
+            )}
 
             <Tabs defaultValue="preview" className="w-full mb-12">
               <Playground
@@ -115,12 +124,12 @@ export function Demos({
                       </React.Suspense>
                     </article>
                   ),
-                  usage: (
+                  usage: usage && typeof usage === "object" && (
                     <Code
                       title={`${file}.tsx`}
                       ext=".tsx"
                       code={usage[file]}
-                      setInnerHTML={await highlightCode(usage[file] || "")}
+                      setInnerHTML={await highlightCode(usage[file])}
                     />
                   ),
                 }}
