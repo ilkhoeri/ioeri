@@ -2,7 +2,8 @@ import { Demos } from "./demo";
 import { Tabs } from "@/library/components/tabs";
 import { highlightCode } from "@/library/utils/escape-code";
 import { Playground } from "@/library/components/playground";
-import { retitled, slug, sourceFiles } from "@/library/utils";
+import { prefixName, retitled, slug, sourceFiles } from "@/library/utils";
+import { getFilesWithPrefix, readdirPrefix } from "@/library/scripts/get-demos";
 import { toPascalCase, sanitizedToParams } from "@/resource/docs";
 import { Container, Title } from "@/library/components/components";
 import { Code, Customizer, Reference } from "@/library/components/code";
@@ -45,6 +46,31 @@ async function getReUsage({ params }: DocsParams): Promise<string | null> {
   if (!params.docs) return null;
   return getMdx(`/resource/docs/${sourceFiles(params.docs)}`, "usage");
 }
+async function getCodeDemo({ params }: DocsParams, files: string[]) {
+  const usageMap: { [key: string]: string | null } = {};
+  const referenceMap: { [key: string]: string | null } = {};
+  const descriptionMap: { [key: string]: string | null } = {};
+  const considerationMap: { [key: string]: string | null } = {};
+  for (const file of files) {
+    const rename = { Demo: `${prefixName(params.docs, file)}Demo` };
+    const usage = await getContent(
+      `resource/_docs_demo/${readdirPrefix("readdir", params.docs)}/${file}`,
+      undefined,
+      rename,
+    );
+    usageMap[file] = usage.content;
+
+    const reference = await getMdx(`/resource/docs/${sourceFiles(params.docs)}`, `api-reference-${file}`);
+    referenceMap[file] = reference;
+
+    const description = await getMdx(`/resource/docs/${sourceFiles(params.docs)}`, `description-${file}`);
+    descriptionMap[file] = description;
+
+    const consideration = await getMdx(`/resource/docs/${sourceFiles(params.docs)}`, `consideration-${file}`);
+    considerationMap[file] = consideration;
+  }
+  return { usages: usageMap, reference: referenceMap, description: descriptionMap, consideration: considerationMap };
+}
 async function getUsage({ params }: DocsParams, replace?: Record<string, string>): Promise<Content> {
   if (!params.docs) return { content: null, extension: null };
   return getContent(`/resource/_docs_demo/${params.docs.join("/")}`, undefined, replace);
@@ -61,47 +87,27 @@ async function getSection({ params }: DocsParams, id: string): Promise<string | 
 export default async function Page({ params }: DocsParams) {
   const code = await getCode({ params });
   const ce = code.extension || ".tsx";
-  const rename = { Demo: `${toPascalCase(slug(params.docs))}Demo` };
-  const usage = await getUsage({ params }, rename).then((res) => res.content);
-  const reUsage = usage === null ? await getReUsage({ params }) : null;
+  const files = getFilesWithPrefix({ params });
+  const demo = await getCodeDemo({ params }, files);
+
+  const reUsage = !demo.usages.length ? await getReUsage({ params }) : null;
   let reCode = null;
   if (process.env.NODE_ENV === "production") {
     reCode = await getReCode({ params }, `${ce}`);
   }
 
-  const [css, title, dependOn, reference, consideration, description, explanation, conclusion, notes] =
-    await Promise.all([
-      getCss({ params }).then((res) => res.content),
-      getSection({ params }, "title"),
-      getSection({ params }, "depend-on"),
-      getSection({ params }, "api-reference"),
-      getSection({ params }, "consideration"),
-      getSection({ params }, "description"),
-      getSection({ params }, "explanation"),
-      getSection({ params }, "conclusion"),
-      getSection({ params }, "notes"),
-    ]);
+  const [css, dependOn, description, explanation, conclusion, notes] = await Promise.all([
+    getCss({ params }).then((res) => res.content),
+    getSection({ params }, "depend-on"),
+    getSection({ params }, "description"),
+    getSection({ params }, "explanation"),
+    getSection({ params }, "conclusion"),
+    getSection({ params }, "notes"),
+  ]);
 
-  const usages: { [key: string]: React.JSX.Element | null } = {};
   const codes: { [key: string]: React.JSX.Element | null } = {};
   const repo: string = `${sourceFiles(params.docs)}${ce}`;
   const file: string = `${slug(params.docs)}${ce}`;
-
-  if (usage) {
-    usages.preview = <Demos params={params} />;
-    usages.usage = (
-      <Code title={`${slug(params.docs)}-demo.tsx`} ext=".tsx" code={usage} setInnerHTML={await highlightCode(usage)} />
-    );
-  } else if (reUsage) {
-    usages.usage = (
-      <Code
-        title={`${slug(params.docs)}-demo.tsx`}
-        ext=".tsx"
-        code={reUsage}
-        setInnerHTML={await highlightCode(reUsage)}
-      />
-    );
-  }
 
   if (css) {
     codes.css = (
@@ -118,25 +124,16 @@ export default async function Page({ params }: DocsParams) {
 
   return (
     <Container>
-      <div>
-        <Title
-          size="h1"
-          variant="segment"
-          title={title || retitled(params.docs)}
-          id={sanitizedToParams(retitled(params.docs))}
-          className="mt-0 mb-12"
+      {(demo || reUsage) && (
+        <Demos
+          files={files}
+          params={params}
+          usage={demo.usages}
+          reference={demo.reference}
+          consideration={demo.consideration}
+          reUsage={await highlightCode(reUsage)}
+          description={demo.description || (await highlightCode(description, { copy: true }))}
         />
-        <Reference title="API reference" setInnerHTML={await highlightCode(reference)} />
-        <Customizer setInnerHTML={await highlightCode(consideration)} />
-      </div>
-
-      {(usage || reUsage) && (
-        <div id="usage">
-          <Tabs defaultValue={usage ? "preview" : "usage"} className="w-full mb-12">
-            <Playground childrens={usages} />
-          </Tabs>
-          <Customizer setInnerHTML={await highlightCode(description, { copy: true })} />
-        </div>
       )}
 
       <div id="code">

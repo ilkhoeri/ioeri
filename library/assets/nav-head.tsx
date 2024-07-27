@@ -85,7 +85,7 @@ export function Headnav({ routes }: CommandDialogType) {
           open={open}
           onClick={toggle}
           hidden={minQuery || pathname.split("/").filter(Boolean).includes("examples")}
-          className="max-md:ml-6 max-md:data-[state=open]:translate-x-[212px] max-md:data-[state=open]:opacity-0"
+          className="max-md:ml-[26px] max-md:data-[state=open]:translate-x-[212px] max-md:data-[state=open]:opacity-0"
         />
       </Element>
     </header>

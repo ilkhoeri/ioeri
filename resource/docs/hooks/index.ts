@@ -21,7 +21,7 @@ export { assignRef, createRefs, mergeRefs, useMergedRef } from "./use-merged-ref
 export { clampUseMovePosition, useMove } from "./use-move/use-move";
 export { useMouse } from "./use-mouse/use-mouse";
 export { useOpenState, DataOrigin, DataTrigger, DataAlign, DataSide } from "./use-open-state/use-open-state";
-export { createStateContext } from "./use-open-state/open-state-context";
+export { createSafeContext, Portal, hasSpecificChildren, modifyChildren } from "./use-open-state/open-state-context";
 export { DOTS, range, usePagination } from "./use-pagination/use-pagination";
 export { getRandomColor, useRandomColors } from "./use-random-colors/use-random-colors";
 export { useReducedMotion } from "./use-reduced-motion/use-reduced-motion";
@@ -60,6 +60,6 @@ export type { HotkeyItem, Hotkey, HotkeyItemOptions, KeyboardModifiers } from ".
 export type { InitialInfo, RectElement, RectInfo } from "./use-element-info/use-element-info";
 export type { UseMediaQueryOptions } from "./use-media-query/use-media-query";
 export type { UseMovePosition } from "./use-move/use-move";
-export type { OpenStateOptions, ClickStateOptions, HoverStateOptions } from "./use-open-state/use-open-state";
+export type { OpenStateOptions, ClickOpenOptions, HoverOpenOptions } from "./use-open-state/use-open-state";
 export type { PaginationParams } from "./use-pagination/use-pagination";
 export type { StateHistory, UseStateHistoryHandlers } from "./use-state-history/use-state-history";

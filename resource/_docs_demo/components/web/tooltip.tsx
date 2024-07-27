@@ -1,8 +1,8 @@
 import { Tooltip } from "@/modules/components/web";
-import { SetProps, SetPropsBoolean, SetPropsSideAlign, useSetProps } from "../../__set_props";
+import { SetProps, SetPropsBoolean, SetPropsRange, SetPropsSideAlign, useSetProps } from "../../__set_props";
 
 export function Demo() {
-  const { numb: offset, side, align, boo: withArrow, ...props } = useSetProps({ Numb: 6, Side: "top" });
+  const { numb: offset, side, align, boo: withArrow, ...x } = useSetProps({ Numb: 6, Side: "top" });
 
   const content = [...Array(4)].map((_, index) => <span key={index}>Lorem ipsum...</span>);
 
@@ -45,8 +45,9 @@ export function Demo() {
         nostrum aperiam magni perspiciatis!
       </p>
       <SetProps.Wrapper>
-        <SetPropsSideAlign numb={offset} side={side} align={align} {...props} />
-        <SetPropsBoolean label="withArrow" boo={withArrow} setBoo={props.setBoo} />
+        <SetPropsRange label="sideOffset" value={offset} setNumb={x.setNumb} />
+        <SetPropsSideAlign side={side} align={align} setAlign={x.setAlign} setSide={x.setSide} />
+        <SetPropsBoolean label="withArrow" boo={withArrow} setBoo={x.setBoo} />
       </SetProps.Wrapper>
     </div>
   );

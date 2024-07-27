@@ -1,4 +1,5 @@
-import { ScrollArea, FileIcon } from "@/modules/components/web";
+import { ScrollArea } from "@/modules/components/web";
+import { FileIcon } from "@/modules/icons";
 import { SetProps, SetPropsRadio, useSetProps } from "../../__set_props";
 
 export function Demo() {

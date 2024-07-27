@@ -4,13 +4,13 @@ import { usePathname } from "next/navigation";
 import React, { createContext, useContext, ReactNode, useEffect } from "react";
 import { useOpenState, useMediaQuery } from "@/modules/hooks";
 
-import type { ClickStateOptions } from "@/modules/hooks";
+import type { ClickOpenOptions } from "@/modules/hooks";
 
 interface MediaQuery {
   mediaQuery?: number;
 }
 
-interface NavContextProps extends MediaQuery, ClickStateOptions {
+interface NavContextProps extends MediaQuery, ClickOpenOptions {
   defaultOpen?: boolean;
   open: boolean;
   setOpen: (value: boolean) => void;
@@ -22,7 +22,7 @@ interface NavContextProps extends MediaQuery, ClickStateOptions {
   pathname: string;
 }
 
-interface NavProviderProps extends ClickStateOptions, MediaQuery {
+interface NavProviderProps extends ClickOpenOptions, MediaQuery {
   children: ReactNode;
 }
 

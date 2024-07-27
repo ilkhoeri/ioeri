@@ -3,13 +3,13 @@
 import * as React from "react";
 import { DataAlign, DataSide } from "@/modules/index";
 import { PolymorphicWithoutRef } from "@/library/components/element";
-import { InferTypes, cvx } from "@/modules/utility";
+import { InferTypes, VariantsType, cvx } from "@/modules/utility";
 
 import { twMerge } from "tailwind-merge";
 import globalStyle from "@/library/styles/styles";
 import { nextValue } from "@/library/utils";
 
-export const classes = cvx({
+export const styles = cvx({
   variants: {
     as: {
       wrapper:
@@ -27,34 +27,53 @@ export const classes = cvx({
   },
 });
 
+function classes(
+  as: VariantsType<typeof styles>["as"],
+  { size, className }: { size?: VariantsType<typeof styles>["size"]; className?: string },
+) {
+  return {
+    className: twMerge(styles({ as, size }), className),
+  };
+}
+
 // prettier-ignore
 export const SetProps = {
-  Wrapper: React.forwardRef<HTMLUListElement, PolymorphicWithoutRef<"ul">>((props, ref) => (
-    <ul ref={ref} role="list" className={twMerge(classes({ as: "wrapper" }), props.className)} {...props} />
+  Wrapper: React.forwardRef<HTMLUListElement, PolymorphicWithoutRef<"ul">>(({ className, ...props }, ref) => (
+    <ul ref={ref} role="list" {...classes("wrapper", { className })} {...props} />
   )),
-  Wrapp: React.forwardRef<HTMLLIElement, PolymorphicWithoutRef<"li">>((props, ref) => (
-    <li ref={ref} role="listitem" className={twMerge(classes({ as: "wrapp" }), props.className)} {...props} />
+  Wrapp: React.forwardRef<HTMLLIElement, PolymorphicWithoutRef<"li">>(({ className, ...props }, ref) => (
+    <li ref={ref} role="listitem" {...classes("wrapp", { className })} {...props} />
   )),
-  Button: React.forwardRef<HTMLButtonElement, PolymorphicWithoutRef<"button">>((props, ref) => (
-    <button ref={ref} type="button" role="button" className={twMerge(classes({ as: "button", size: "26" }), props.className)} {...props} />
+  Button: React.forwardRef<HTMLButtonElement, PolymorphicWithoutRef<"button">>(({ className, ...props }, ref) => (
+    <button ref={ref} type="button" role="button" {...classes("button", { className, size: "26" })} {...props} />
   )),
-  LabelOnly: React.forwardRef<HTMLLabelElement, PolymorphicWithoutRef<"label">>((props, ref) => (
-    <label ref={ref} aria-label="label" className={twMerge(classes({ as: "labelOnly" }), props.className)} {...props} />
+  LabelOnly: React.forwardRef<HTMLLabelElement, PolymorphicWithoutRef<"label">>(({ className, ...props }, ref) => (
+    <label ref={ref} aria-label="label" {...classes("labelOnly", { className })} {...props} />
   )),
-  Label: React.forwardRef<HTMLLabelElement, PolymorphicWithoutRef<"label">>((props, ref) => (
-    <label ref={ref} aria-label="label" className={props.className} {...props} />
+  Label: React.forwardRef<HTMLLabelElement, PolymorphicWithoutRef<"label">>(({ className, ...props }, ref) => (
+    <label ref={ref} aria-label="label" className={className} {...props} />
   )),
-  Range: React.forwardRef<HTMLInputElement, PolymorphicWithoutRef<"input">>((props, ref) => (
-    <input ref={ref} type="range" aria-label="range" className={props.className} {...props} />
+  Range: React.forwardRef<HTMLInputElement, PolymorphicWithoutRef<"input">>(({ className, ...props }, ref) => (
+    <input ref={ref} type="range" aria-label="range" className={className} {...props} />
   )),
-  Radio: React.forwardRef<HTMLInputElement, PolymorphicWithoutRef<"input">>((props, ref) => (
-    <input ref={ref} type="radio" aria-label="radio" className={props.className} {...props} />
+  Radio: React.forwardRef<HTMLInputElement, PolymorphicWithoutRef<"input">>(({ className, ...props }, ref) => (
+    <input ref={ref} type="radio" aria-label="radio" className={className} {...props} />
   )),
-  Text: React.forwardRef<HTMLInputElement, PolymorphicWithoutRef<"input">>((props, ref) => (
-    <input ref={ref} type="text" aria-label="input text" className={globalStyle({ input: "text" }, props.className)} {...props} />
+  Text: React.forwardRef<HTMLInputElement, PolymorphicWithoutRef<"input">>(({ className, ...props }, ref) => (
+    <input
+      ref={ref}
+      type="text"
+      aria-label="input text"
+      className={globalStyle({ input: "text" }, className)}
+      {...props}
+    />
   )),
-  Nameprops: React.forwardRef<HTMLSpanElement, PolymorphicWithoutRef<"span">>((props, ref) => (
-    <span ref={ref} className={twMerge(classes({ as: "nameprops" }), props.className)} {...props} />
+  Nameprops: React.forwardRef<HTMLSpanElement, PolymorphicWithoutRef<"span">>(({ className, ...props }, ref) => (
+    <span
+      ref={ref}
+      {...classes("nameprops", { className })}
+      {...props}
+    />
   )),
 };
 SetProps.Wrapper.displayName = "Wrapper";
@@ -88,17 +107,41 @@ export function SetPropsText(X: { str: string; setStr: (v: string) => void }) {
   );
 }
 
-export function SetPropsRange(X: { setNumb: (e: number) => void } & PolymorphicWithoutRef<"input">) {
-  const { title, value, setNumb, ...props } = X;
+/**
+
+      <SetProps.Wrapp>
+        <label htmlFor="sideOffset" {...classes("button", { size: "36" })}>
+          <SetProps.Nameprops>sideOffset=</SetProps.Nameprops>
+          <span>&#123;{numb}&#125;</span>
+        </label>
+
+        <input
+          type="range"
+          name="sideOffset"
+          id="sideOffset"
+          aria-label="sideOffset"
+          min="0"
+          max="100"
+          value={numb}
+          onChange={(e) => setNumb(Number(e.target.value))}
+          className="w-40"
+        />
+      </SetProps.Wrapp>
+ */
+
+export function SetPropsRange(
+  X: { setNumb: (e: number) => void } & PolymorphicWithoutRef<"input"> & { label: string },
+) {
+  const { label, value, setNumb, ...props } = X;
   return (
     <SetProps.Wrapp>
-      <label htmlFor={title} className={classes({ as: "button", size: "36" })}>
-        <SetProps.Nameprops>{title}=</SetProps.Nameprops>
+      <label htmlFor={label} {...classes("button", { size: "36" })}>
+        <SetProps.Nameprops>{label}=</SetProps.Nameprops>
         <span>&#123;{value}&#125;</span>
       </label>
       <SetProps.Range
-        name={title}
-        id={title}
+        name={label}
+        id={label}
         value={value}
         onChange={(e) => setNumb(Number(e.target.value))}
         className="w-40"
@@ -128,7 +171,7 @@ export function SetPropsSelect(X: { label?: string; values: string[]; str: strin
         id={label}
         title={label}
         aria-label={label}
-        className={twMerge(classes({ as: "button", size: "36" }))}
+        {...classes("button", { size: "36" })}
         value={str}
         onChange={(e) => setStr(e.target.value)}
       >
@@ -157,7 +200,7 @@ export function SetPropsSvg(X: InferTypes<typeof useSetProps>) {
           onChange={(e) => setStr(e.target.value)}
         />
 
-        <label htmlFor="setSize" className={classes({ as: "button", size: "26" })}>
+        <label htmlFor="setSize" {...classes("button", { size: "26" })}>
           size=&#123;{numb}&#125;
         </label>
 
@@ -178,62 +221,53 @@ export function SetPropsSvg(X: InferTypes<typeof useSetProps>) {
 }
 
 export function SetPropsSideAlign(X: {
-  setAlign: (v: `${DataAlign}`) => void;
-  setSide: (v: `${DataSide}`) => void;
-  setNumb: (v: number) => void;
-  align: `${DataAlign}`;
-  side: `${DataSide}`;
-  numb: number;
+  setAlign?: (v: `${DataAlign}`) => void;
+  setSide?: (v: `${DataSide}`) => void;
+  align?: `${DataAlign}`;
+  side?: `${DataSide}`;
 }) {
-  const { side, align, numb, setNumb, setAlign, setSide } = X;
+  const { side, align, setAlign, setSide } = X;
+  if (!side && !align) return null;
   return (
-    <>
-      <SetProps.Wrapp>
-        <label htmlFor="setSideOffset" className={classes({ as: "button", size: "36" })}>
-          <SetProps.Nameprops>sideOffset=</SetProps.Nameprops>
-          <span>&#123;{numb}&#125;</span>
-        </label>
-
-        <input
-          type="range"
-          name="setSideOffset"
-          id="setSideOffset"
-          aria-label="setSideOffset"
-          min="0"
-          max="100"
-          value={numb}
-          onChange={(e) => setNumb(Number(e.target.value))}
-          className="w-40"
-        />
-      </SetProps.Wrapp>
-
-      <SetProps.Wrapp>
+    <SetProps.Wrapp>
+      {setSide && side && (
         <SetProps.Button onClick={() => setSide(nextValue(side, dataSide))}>
           <SetProps.Nameprops>side=</SetProps.Nameprops>
           <span>&quot;{side}&quot;</span>
         </SetProps.Button>
+      )}
 
+      {setAlign && align && (
         <SetProps.Button onClick={() => setAlign(nextValue(align, dataAlign))}>
           <SetProps.Nameprops>align=</SetProps.Nameprops>
           <span>&quot;{align}&quot;</span>
         </SetProps.Button>
-      </SetProps.Wrapp>
-    </>
+      )}
+    </SetProps.Wrapp>
   );
 }
 
-export function useSetProps({
+export function useSetProps<T extends any>({
   Numb = 0,
   Str = "",
   Boo = false,
   Align = "center",
   Side = "bottom",
-}: { Numb?: number; Str?: string; Boo?: boolean; Align?: `${DataAlign}`; Side?: `${DataSide}` } = {}) {
+  Any,
+}: {
+  Numb?: number;
+  Str?: string;
+  Boo?: boolean;
+  Align?: `${DataAlign}`;
+  Side?: `${DataSide}`;
+  Any?: any | any[] | { [key: string]: any } | { [key: string]: any }[];
+} = {}) {
   const [align, setAlign] = React.useState<`${DataAlign}`>(Align);
   const [side, setSide] = React.useState<`${DataSide}`>(Side);
   const [numb, setNumb] = React.useState<number>(Numb);
   const [str, setStr] = React.useState<string>(Str);
   const [boo, setBoo] = React.useState<boolean>(Boo);
+  const [any, setAny] = React.useState<T>(Any);
 
   return {
     numb,

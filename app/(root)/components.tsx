@@ -157,20 +157,22 @@ function CheckBox() {
     <Transform
       // el="div"
       data-icon="🥳"
-      className={style.checkbox_wrap}
+      className={style.switch_wrap}
       transition={{ delay: "300ms, 300ms" }}
       transform={{ before: "translateX(7rem)", after: "translateX(0)", origin: "right" }}
     >
       <input
         checked={theme === "dark"}
         onChange={() => setTheme(theme === "dark" ? "light" : "dark")}
-        className={style.tgl}
+        className={style.switch_input}
         id="checkbox-toggle"
         name="checkbox-toggle"
         aria-label="toggle"
         type="checkbox"
+        hidden
       />
-      <label className={style.tgl_btn} htmlFor="checkbox-toggle" />
+      <label className={style.switch_label} htmlFor="checkbox-toggle" />
+      <span className={style.switch_marbles} />
     </Transform>
   );
 }

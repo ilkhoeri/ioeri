@@ -9,7 +9,7 @@ import { twMerge } from "tailwind-merge";
 
 import type { RecordClasses } from "@/resource/docs";
 import type { AnchorProps } from "@/library/components/anchor";
-import type { IconType } from "@/resource/docs/components/web/svg/svg";
+import type { IconType } from "@/resource/docs/icons";
 
 type NavLinkTrees = "link" | "active" | "svg" | "img" | "mark";
 export type NavLinkClass = RecordClasses<NavLinkTrees>;

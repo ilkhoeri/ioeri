@@ -1,17 +1,39 @@
 import { cnx, type ClassValue } from "@/resource/docs/ondevelopment/utils/cnx";
-import { camelToKebab, capitalizeWords } from "@/resource/docs";
+import { camelToKebab, capitalizeWords, toPascalCase } from "@/resource/docs";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(cnx(...inputs));
 }
 
-export function retitled(texts: string[] | undefined, defaultText: string = "Docs") {
+export function retitled(texts: string[] | string | undefined, defaultText: string = "Docs") {
   if (texts === undefined) return defaultText;
-  const length = texts?.length;
-  const secondLast = length ? texts[texts?.length - 2] : " ";
-  const last = length ? texts[texts?.length - 1] : " ";
-  return capitalizeWords(last);
+  if (Array.isArray(texts)) {
+    const length = texts?.length;
+    const secondLast = length ? texts[texts?.length - 2] : " ";
+    const last = length ? texts[texts?.length - 1] : " ";
+    return capitalizeWords(last);
+  } else {
+    return capitalizeWords(texts);
+  }
+}
+
+export function prefixName(docs: string[], name: string): string {
+  const prefix = docs[docs.length - 1];
+  let strippedName = name;
+
+  if (name.startsWith(prefix)) {
+    strippedName = name.replace(prefix, "").replace(/^-/, "");
+  }
+
+  if (prefix === name) {
+    strippedName = name;
+  }
+
+  return strippedName
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join("");
 }
 
 export function displayName(str: string) {

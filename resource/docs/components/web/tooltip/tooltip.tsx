@@ -1,31 +1,30 @@
 "use client";
 import * as React from "react";
-
 import { twMerge } from "tailwind-merge";
 import { ArrowDropdownIcon } from "@/modules/icons";
 import { cvx, InferTypes } from "@/modules/utility/cvx/cvx";
-import { mergeRefs, useOpenState, createStateContext, type HoverStateOptions } from "@/modules/hooks";
+import { mergeRefs, useOpenState, createSafeContext, type HoverOpenOptions } from "@/modules/hooks";
 
-interface CSSProperties extends React.CSSProperties {
-  [key: string]: any;
-}
-
-type SharedType = { unstyled?: boolean; style?: CSSProperties; className?: string };
-type TooltipContextValue = HoverStateOptions & InferTypes<typeof useOpenState> & { withArrow?: boolean };
+type SharedType = { unstyled?: boolean; style?: React.CSSProperties & { [key: string]: any }; className?: string };
+type TooltipContextValue = HoverOpenOptions & InferTypes<typeof useOpenState> & { withArrow?: boolean; touch?: boolean };
 type TooltipTriggerType = React.ComponentPropsWithoutRef<"button"> & SharedType & { asChild?: boolean };
 type TooltipContentType = React.ComponentPropsWithoutRef<"div"> & SharedType;
 
-const [Provider, useTooltipContext] = createStateContext<TooltipContextValue>(
+const [Provider, useTooltipContext] = createSafeContext<TooltipContextValue>(
   "Tooltip component trees must be wrap within an <Tooltip>",
 );
 
-const TooltipProvider = (props: HoverStateOptions & { children: React.ReactNode; withArrow?: boolean }) => {
+const TooltipProvider = (
+  props: HoverOpenOptions & { children: React.ReactNode; withArrow?: boolean; touch?: boolean },
+) => {
+  const { withArrow, sideOffset, touch, ...rest } = props;
   const ctx = useOpenState<HTMLElement>({
     trigger: "hover",
-    sideOffset: props.withArrow ? Number(props.sideOffset) + 9 : props.sideOffset,
-    ...props,
+    sideOffset: withArrow ? Number(sideOffset) + 9 : sideOffset,
+    observe: { touch, align: true, side: true, sideswipe: true, offset: true, contentRect: true },
+    ...rest,
   });
-  return <Provider value={{ ...props, ...ctx }}>{props.children}</Provider>;
+  return <Provider value={{ withArrow, sideOffset, touch, ...rest, ...ctx }}>{props.children}</Provider>;
 };
 
 const TooltipTrigger = React.forwardRef<React.ElementRef<"button">, TooltipTriggerType>(
@@ -51,20 +50,17 @@ TooltipTrigger.displayName = "TooltipTrigger";
 
 const TooltipContent = React.forwardRef<React.ElementRef<"div">, TooltipContentType>(
   ({ style, className, children, unstyled, "aria-disabled": ariaDisabled, role = "tooltip", ...props }, ref) => {
-    const ctx = useTooltipContext();
-    const { withArrow, align, side } = ctx;
+    const { withArrow, align, side, ...ctx } = useTooltipContext();
     const rest = { "aria-disabled": ariaDisabled || (ctx.open ? "false" : "true"), role, ...props };
 
     return (
       <ctx.Portal render={ctx.render}>
         <div
           ref={mergeRefs(ctx.refs.content, ref)}
-          {...ctx.styleAt("content", { style })}
-          className={twMerge(!unstyled && classes({ align, side }), className)}
+          {...{className: twMerge(!unstyled && classes({ side }), className), ...ctx.styleAt("content", { style })}}
           {...rest}
         >
-          {children}
-          {withArrow && <ArrowDropdownIcon data-side={side} data-align={align} className={arrow()} />}
+          {children}{withArrow && <ArrowDropdownIcon data-side={side} data-align={align} className={arrow()} />}
         </div>
       </ctx.Portal>
     );
@@ -73,32 +69,19 @@ const TooltipContent = React.forwardRef<React.ElementRef<"div">, TooltipContentT
 TooltipContent.displayName = "TooltipContent";
 
 type TooltipType = Omit<TooltipTriggerType, "content"> &
-  HoverStateOptions & {
+  HoverOpenOptions & {
+    touch?: boolean;
     withArrow?: boolean;
     content?: React.ReactNode;
-    contentProps?: Omit<TooltipContentType, "children">;
+    contentProps?: React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> & SharedType;
   };
 const Tooltip = React.forwardRef<React.ElementRef<"button">, TooltipType>((_props, ref) => {
-  const {
-    content,
-    contentProps,
-    onOpenChange,
-    sideOffset,
-    withArrow,
-    touch,
-    align,
-    base,
-    delay,
-    open,
-    side,
-    ...props
-  } = _props;
-  const state = { sideOffset, withArrow, touch, align, base, delay, onOpenChange, open, side };
+  const { content, contentProps, open, onOpenChange, sideOffset, withArrow, touch, align, side, delay, ...props } = _props;
 
   return (
-    <TooltipProvider {...state}>
+    <TooltipProvider {...{ open, onOpenChange, sideOffset, withArrow, touch, align, side, delay }}>
       <TooltipTrigger ref={ref} {...props} />
-      <TooltipContent {...contentProps}>{content}</TooltipContent>
+      {content && <TooltipContent {...contentProps}>{content}</TooltipContent>}
     </TooltipProvider>
   );
 });
@@ -106,13 +89,8 @@ Tooltip.displayName = "Tooltip";
 
 const classes = cvx({
   assign:
-    "group absolute min-w-max z-20 text-[13px] rounded-md border bg-background text-popover-foreground shadow-md outline-none focus-visible:ring-0 flex items-center justify-center py-1 px-2 w-max max-w-max transition-opacity [transition-duration:200ms] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[state=open]:zoom-in-100 data-[state=closed]:zoom-out-95 top-[--top] left-[--left]",
+    "group absolute min-w-max z-20 text-[13px] rounded-md border bg-background text-popover-foreground shadow-md outline-none focus-visible:ring-0 flex items-center justify-center py-1 px-2 w-max max-w-max transition-opacity [transition-duration:200ms] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:duration-200 data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[state=open]:zoom-in-100 data-[state=closed]:zoom-out-95 top-[--top] left-[--left]",
   variants: {
-    align: {
-      center: "data-[side=top]:data-[align=center]:[]",
-      start: "data-[side=top]:data-[align=start]:[]",
-      end: "data-[side=top]:data-[align=end]:[]",
-    },
     side: {
       top: "data-[side=top]:slide-in-from-bottom-0 data-[side=top]:data-[state=closed]:slide-out-to-bottom-0",
       right: "data-[side=right]:slide-in-from-left-0 data-[side=right]:data-[state=closed]:slide-out-to-left-0",

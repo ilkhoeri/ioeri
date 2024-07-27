@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useLayoutEffect, useRef, useState } from "react";
 
 export type RectInfo = "x" | "y" | "width" | "height" | "top" | "right" | "bottom" | "left" | "scrollX" | "scrollY";
 export type RectElement = Record<RectInfo, number>;
@@ -45,7 +45,7 @@ export function useElementInfo<T extends HTMLElement | null>(element?: T | null,
     }
   }, [el]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const handleScroll = () => {
       const el = element !== undefined ? element : ref.current;
       setScrollPosition(el?.scrollTop || 0);

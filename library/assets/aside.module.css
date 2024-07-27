@@ -1,5 +1,5 @@
 .collapse {
-  @apply h-auto w-full flex flex-col gap-1;
+  @apply h-auto w-full flex flex-col gap-1 border-b-0;
 
   & [data-inner-collapse] {
     @apply w-full z-1 px-0.5;
@@ -10,6 +10,11 @@
   }
   & [data-origin="content"] [data-origin="root"] [data-origin="trigger"] {
     @apply pl-1.5;
+  }
+  & [data-origin="root"],
+  & [data-origin="trigger"],
+  & [data-origin="content"] {
+    @apply border-0 w-full;
   }
 }
 

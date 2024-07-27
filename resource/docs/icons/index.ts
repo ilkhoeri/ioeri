@@ -1,3 +1,5 @@
+export * from "../components/web/svg/svg";
+
 export { IoeriIcon } from "./ioeri";
 export { IoeriLogoTextIcon } from "./ioeri-logo-text";
 export { IoeriTextIcon } from "./ioeri-text";

@@ -1,7 +1,6 @@
 "use client";
 import { useTrigger } from "@/modules/hooks";
 import globalStyle from "@/library/styles/styles";
-import { useRef } from "react";
 
 export function Demo() {
   const { ref, open } = useTrigger<HTMLButtonElement>({ defaultOpen: true });

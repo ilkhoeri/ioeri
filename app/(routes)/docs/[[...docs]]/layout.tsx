@@ -61,7 +61,9 @@ export default async function Layout({ children, params }: Readonly<DocsParams>)
 
   if (!params.docs) {
     return (
-      <Template><Docs /></Template>
+      <Template>
+        <Docs />
+      </Template>
     );
   }
 

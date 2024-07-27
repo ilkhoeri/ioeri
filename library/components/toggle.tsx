@@ -6,10 +6,12 @@ import { Anchor } from "./anchor";
 import { UnstyledButton } from "./button";
 
 import { twMerge } from "tailwind-merge";
+import { Tooltip } from "@/modules/components/web";
 import { useClipboard, useWindowScroll } from "@/modules/hooks";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/modules/components/web";
 import { ChevronDownSquareIcon, GithubIcon, CheckIcon, CopyIcon } from "@/modules/icons";
+
 import { tocopy } from "../utils";
+
 import globalStyle from "../styles/styles";
 
 export const GetCodeToggle = React.forwardRef<

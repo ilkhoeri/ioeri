@@ -12,9 +12,9 @@ export function Demo() {
       </div>
       <SetProps.Wrapper>
         <SetPropsText str={placeholders} {...props} />
-        <SetPropsRange title="speed" value={speed} setNumb={pro.setNumb} min="200" max="1200" />
-        <SetPropsRange title="gap" value={gap} setNumb={props.setNumb} min="0" max="100" />
-        <SetPropsRange title="distance" value={distance} setNumb={prop.setNumb} min="0" max="100" />
+        <SetPropsRange label="speed" value={speed} setNumb={pro.setNumb} min="200" max="1200" />
+        <SetPropsRange label="gap" value={gap} setNumb={props.setNumb} min="0" max="100" />
+        <SetPropsRange label="distance" value={distance} setNumb={prop.setNumb} min="0" max="100" />
       </SetProps.Wrapper>
     </div>
   );

@@ -99,13 +99,13 @@ const config = {
         "fade-out": {
           to: { opacity: "var(--tw-exit-opacity, initial)", scale: "var(--tw-exit-scale, initial)" },
         },
-        "accordion-down": {
+        "collapse-open": {
           from: { height: "0" },
-          to: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "var(--measure-available-h)" },
         },
-        "accordion-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0" },
+        "collapse-closed": {
+          from: { height: "var(--measure-available-h)" },
+          to: { height: "0", visibility: "hidden" },
         },
         "bounce-in": {
           "0%": { opacity: "0", scale: "1.3" },
@@ -144,10 +144,10 @@ const config = {
         "pulse-6": { "0%, 50%, 100%": { opacity: "0" }, "66.667%, 83.333%": { opacity: "1" } },
       },
       animation: {
+        "collapse-open": "collapse-open 0.2s ease forwards",
+        "collapse-closed": "collapse-closed 0.2s ease forwards",
         "fade-in": "fade-in ease-in forwards",
         "fade-out": "fade-out ease-out forwards",
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
         "bounce-in": "bounce-in 0.5s linear forwards 0.3s",
         "bounce-out": "bounce-out 0.5s linear forwards 0.3s",
         "wave-in": "wave-in 0.4s ease forwards",

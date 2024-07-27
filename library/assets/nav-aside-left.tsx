@@ -6,7 +6,7 @@ import { NavLinkItem } from "./nav-link";
 
 import { twMerge } from "tailwind-merge";
 import { ButtonAside, LinkHome } from "./nav-head";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger, ScrollArea } from "@/modules/components/web";
+import { Sheets, SheetsContent, SheetsTrigger, ScrollArea } from "@/modules/components/web";
 
 import type { SingleRoute, NestedRoute, InnerRoutes } from "@/library/routes";
 
@@ -83,35 +83,35 @@ export function AsideLeft({
               if ((route as NestedRoute).data[0].data) {
                 const nestedRoute = route as NestedRoute; // Handle NestedRoute
                 return (
-                  <Collapsible key={index} defaultOpen align="start" className={style.collapse}>
-                    <CollapsibleTrigger className={Styles({ style: "trigger" })}>
+                  <div key={index} className={style.collapse}>
+                    <button type="button" className={Styles({ style: "trigger" })}>
                       <span className="truncate">{nestedRoute.title}</span>
-                    </CollapsibleTrigger>
-                    <CollapsibleContent className="w-full z-1">
+                    </button>
+                    <div data-origin="content" className="w-full z-1">
                       {nestedRoute.data.map((singleRoute, singleIndex) => (
-                        <Collapsible key={singleIndex} defaultOpen align="start">
-                          <CollapsibleTrigger className={Styles({ style: "trigger" })}>
+                        <Sheets key={singleIndex} defaultOpen align="start">
+                          <SheetsTrigger unstyled className={Styles({ style: "trigger" })}>
                             <span className="truncate">{singleRoute.title}</span>
-                          </CollapsibleTrigger>
-                          <CollapsibleContent data-inner-collapse="">
+                          </SheetsTrigger>
+                          <SheetsContent data-inner-collapse="">
                             <Item routes={singleRoute.data} />
-                          </CollapsibleContent>
-                        </Collapsible>
+                          </SheetsContent>
+                        </Sheets>
                       ))}
-                    </CollapsibleContent>
-                  </Collapsible>
+                    </div>
+                  </div>
                 );
               } else {
                 const singleRoute = route as SingleRoute; // Handle SingleRoute
                 return (
-                  <Collapsible key={index} defaultOpen align="start" className={style.collapse}>
-                    <CollapsibleTrigger className={Styles({ style: "trigger" })}>
+                  <Sheets key={index} defaultOpen align="start" className={style.collapse}>
+                    <SheetsTrigger unstyled className={Styles({ style: "trigger" })}>
                       <span className="truncate">{singleRoute.title}</span>
-                    </CollapsibleTrigger>
-                    <CollapsibleContent data-inner-collapse="">
+                    </SheetsTrigger>
+                    <SheetsContent data-inner-collapse="">
                       <Item routes={singleRoute.data} />
-                    </CollapsibleContent>
-                  </Collapsible>
+                    </SheetsContent>
+                  </Sheets>
                 );
               }
             })}

@@ -2,7 +2,7 @@
 import * as React from "react";
 import { createPortal } from "react-dom";
 
-export function createStateContext<ContextValue>(errorMessage: string) {
+export function createSafeContext<ContextValue>(errorMessage: string) {
   const Context = React.createContext<ContextValue | null>(null);
   const useSafeContext = () => {
     const ctx = React.useContext(Context);
@@ -29,6 +29,27 @@ export function Portal(_props: PortalProps) {
   if (typeof document === "undefined" || !render) return null;
   return createPortal(children, container || document.body, key);
 }
+
+type Components = (string | false | React.JSXElementConstructor<any>)[];
+
+export const modifyChildren = (children: React.ReactNode, components: Components, props: any): React.ReactNode => {
+  return React.Children.map(children, (child) => {
+    if (!React.isValidElement(child)) return child;
+
+    if (components.includes(child.type)) {
+      return React.cloneElement(child, { ...props });
+    }
+
+    return child;
+  });
+};
+
+export const hasSpecificChildren = (children: React.ReactNode, components: Components): boolean => {
+  return React.Children.toArray(children).some((child) => {
+    const isChild = React.isValidElement(child) && child.type;
+    return components.includes(isChild);
+  });
+};
 
 /**
 export type CssVariable = `--${string}`;

@@ -25,7 +25,7 @@ export function Demo() {
 
       {start && <Confetti lifespan={lifespan} className={position} />}
       <SetProps.Wrapper>
-        <SetPropsRange title="lifespan" value={lifespan} setNumb={props.setNumb} min="5000" max="15000" />
+        <SetPropsRange label="lifespan" value={lifespan} setNumb={props.setNumb} min="5000" max="15000" />
         <SetPropsSelect values={["absolute", "fixed"]} str={position} setStr={props.setStr} />
       </SetProps.Wrapper>
     </div>

@@ -1,0 +1,61 @@
+$:title
+
+
+
+$:api-reference
+
+
+
+$:depend-on
+
+
+
+$:consideration
+
+
+
+$:description-sheets-collapsible
+
+## Animation
+
+The [`accordion`](/docs/components/web/sheets#sheets-accordion) and [`collapsible`](/docs/components/web/sheets#sheets-collapsible) variant components use keyframe animation which by default is set using the tailwindcss class.
+
+Add the following [`animation`](https://tailwindcss.com/docs/animation#customizing-your-theme) to your [`tailwind.config.js`](https://tailwindcss.com/docs/configuration) file:
+
+```js
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  theme: {
+    extend: {
+      animation: {
+        "collapse-open": "collapse-open 0.2s ease forwards",
+        "collapse-closed": "collapse-closed 0.2s ease forwards",
+      },
+      keyframes: {
+        "collapse-open": {
+          from: { height: "0" },
+          to: { height: "var(--measure-available-h)" },
+        },
+        "collapse-closed": {
+          from: { height: "var(--measure-available-h)" },
+          to: { height: "0", visibility: "hidden" },
+        },
+      },
+    },
+  },
+}
+
+```
+
+
+$:explanation
+
+
+
+$:conclusion
+
+
+
+$:notes
+
+

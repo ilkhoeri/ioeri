@@ -1,0 +1,38 @@
+[data-origin="trigger"] [data-origin="arrow-collapse"] {
+  position: relative;
+  margin-left: var(--ml-icon, auto);
+  color: hsl(var(--color) / 0.7);
+  width: var(--sz-icon, 16px);
+  min-width: var(--sz-icon, 16px);
+  max-width: var(--sz-icon, 16px);
+  height: var(--sz-icon, 16px);
+  min-height: var(--sz-icon, 16px);
+  max-height: var(--sz-icon, 16px);
+  transform: rotate(var(--tw-rotate));
+  transition: transform 180ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-origin="trigger"][data-side="top"] [data-origin="arrow-collapse"] {
+  --tw-rotate: -180deg;
+}
+[data-origin="trigger"][data-side="top"][data-state="open"] [data-origin="arrow-collapse"] {
+  --tw-rotate: 0deg;
+}
+[data-origin="trigger"][data-side="right"] [data-origin="arrow-collapse"] {
+  --tw-rotate: 90deg;
+}
+[data-origin="trigger"][data-side="right"][data-state="open"] [data-origin="arrow-collapse"] {
+  --tw-rotate: -90deg;
+}
+[data-origin="trigger"][data-side="bottom"] [data-origin="arrow-collapse"] {
+  --tw-rotate: 0deg;
+}
+[data-origin="trigger"][data-side="bottom"][data-state="open"] [data-origin="arrow-collapse"] {
+  --tw-rotate: -180deg;
+}
+[data-origin="trigger"][data-side="left"] [data-origin="arrow-collapse"] {
+  --tw-rotate: -90deg;
+}
+[data-origin="trigger"][data-side="left"][data-state="open"] [data-origin="arrow-collapse"] {
+  --tw-rotate: 90deg;
+}

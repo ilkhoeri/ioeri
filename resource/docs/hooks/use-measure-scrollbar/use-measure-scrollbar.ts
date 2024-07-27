@@ -4,8 +4,8 @@ export function useMeasureScrollbar(
   render: boolean = false,
   { has = true, modal = true } = {},
 ): [boolean, number] {
-  const [hasScrollbar, setHasScrollbar] = useState(false);
-  const [scrollbarWidth, setScrollbarWidth] = useState(0);
+  const [hasScrollbar, setHasScrollbar] = useState<boolean>(false);
+  const [scrollbarWidth, setScrollbarWidth] = useState<number>(0);
 
   useEffect(() => {
     const measureScrollbar = () => {
