@@ -765,7 +765,7 @@ hr {
 
 .md_custom code,
 .codebox {
-  @apply font-roboto-mono p-[.12em_.25em] rounded-sm border bg-code [font-size:.875em];
+  @apply font-roboto-mono p-[0.07521875em_.25em] leading-normal [font-size:85%] rounded-sm border bg-code;
 }
 
 .indicator_::before {

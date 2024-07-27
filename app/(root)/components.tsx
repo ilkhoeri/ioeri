@@ -3,13 +3,13 @@
 import React from "react";
 import Link from "next/link";
 import { cn } from "@/library/utils";
-import { useTheme } from "next-themes";
 import { TypingWords } from "@/modules/components/web";
 import { Transform } from "@/resource/docs/ondevelopment";
 import { sanitizedToParams } from "@/resource/docs/ondevelopment/utils";
 import { BookOpen2Icon, GithubIcon, ArrowsSquareIcon } from "@/resource/docs/icons";
 
 import style from "@/library/styles/ioeri.module.css";
+import { useNextTheme } from "@/library/assets/theme";
 
 const TYPING_DEFAULT = ["a team", "an idea", "a solution", "a spirit"];
 
@@ -19,7 +19,7 @@ export function PageHome() {
       <section
         id="header-section"
         className={cn(
-          "relative flex flex-col items-center justify-around w-full max-w-7xl h-[90vh] max-h-[42.5rem] px-6 [--sz-rx:2.25rem] [--sz-ry:7.5rem] [--sz-circle:clamp(3rem,1rem+5dvw,5rem)] [transition:height_185ms_ease]",
+          "relative flex flex-col items-center justify-around w-full max-w-7xl h-[90vh] max-h-[42.5rem] px-6 [--sz-rx:2.25rem] [--sz-ry:7.5rem] [--sz-circle:clamp(3rem,1rem+5dvw,4rem)] [transition:height_185ms_ease]",
           style.header_home,
         )}
       >
@@ -152,18 +152,18 @@ export function PageHome() {
 }
 
 function CheckBox() {
-  const { theme, setTheme } = useTheme();
+  const { memoizedTheme, theme } = useNextTheme();
   return (
     <Transform
       // el="div"
       data-icon="🥳"
-      className={style.switch_wrap}
+      className={`${style.switch_wrap} [--ring:white] dark:[--ring:linear-gradient(-45deg,#f8acff,#696eff)]`}
       transition={{ delay: "300ms, 300ms" }}
       transform={{ before: "translateX(7rem)", after: "translateX(0)", origin: "right" }}
     >
       <input
         checked={theme === "dark"}
-        onChange={() => setTheme(theme === "dark" ? "light" : "dark")}
+        onChange={() => memoizedTheme()}
         className={style.switch_input}
         id="checkbox-toggle"
         name="checkbox-toggle"
@@ -171,7 +171,10 @@ function CheckBox() {
         type="checkbox"
         hidden
       />
-      <label className={style.switch_label} htmlFor="checkbox-toggle" />
+      <label
+        className={`${style.switch_label} [--shadow:--switch-shadow-light] dark:[--shadow:--switch-shadow-dark] dark:[--switch-ml:--switch-ml-dark]`}
+        htmlFor="checkbox-toggle"
+      />
       <span className={style.switch_marbles} />
     </Transform>
   );

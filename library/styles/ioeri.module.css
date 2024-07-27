@@ -398,8 +398,6 @@
   --w-switch: calc(calc(var(--round) * 2) + calc(var(--p) * 2));
   --bg-switch: var(--pure-black);
   --box: var(--pure-white);
-  --light: 0;
-  --dark: var(--checked);
 }
 
 .switch_wrap .switch_input {
@@ -425,19 +423,28 @@
   border-width: 0px;
   transition: all linear 300ms;
   box-shadow: var(--shadow);
-  --shadow: hsla(var(--pure-black), 0.4) 0 2px 4px, hsla(var(--pure-black), 0.3) 0 7px 13px -3px,
-    hsla(var(--pure-black), 0.25) -2px -5px 4px inset, hsla(var(--pure-black), 0.2) 0 0 0 1px inset;
+    --switch-shadow-light:hsla(var(--pure-black), 0.4) 0 2px 4px,
+    hsla(var(--pure-black), 0.3) 0 7px 13px -3px,
+    hsla(var(--pure-black), 0.25) -2px -5px 4px inset,
+    hsla(var(--pure-black), 0.2) 0 0 0 1px inset;
+  --switch-shadow-dark: hsla(var(--pure-black), 0.4) 0 2px 4px, hsla(var(--pure-black), 0.35) 0 7px 13px -3px,
+    hsla(var(--pure-black), 0.5) 2px -5px 4px inset, hsla(var(--pure-black), 0.25) 0 0 0 1px inset;
+  --switch-shadow-active: hsla(var(--pure-black), 0.4) 0 2px 4px, hsla(var(--pure-black), 0.3) 0 7px 13px -3px,
+    hsla(var(--pure-black), 0.25) 0px -2px 8px 6px inset, hsla(var(--pure-black), 0.25) 0 0 0 1px inset;
+  --switch-ml-dark: calc(calc(var(--checked) - var(--scale-x)) - var(--p));
+  --light: var(--p);
+  --dark: var(--checked);
 }
 
 .switch_label::after {
-  left: var(--p);
+  left: var(--state, var(--checked, var(--p)));
   position: absolute;
   display: block;
   content: "";
   width: var(--round);
   height: var(--round);
   border-radius: 9999px;
-  background-color: hsl(0, 0%, 100%);
+  background: var(--ring);
   will-change: left, width, margin, padding;
   box-shadow: var(--shadow);
   transition:
@@ -449,26 +456,25 @@
     box-shadow 300ms linear;
 }
 
-.switch_input + .switch_label:active::after {
+.switch_label:active::after {
   width: var(--scale-x);
-  --shadow: hsla(var(--pure-black), 0.4) 0 2px 4px, hsla(var(--pure-black), 0.3) 0 7px 13px -3px,
-    hsla(var(--pure-black), 0.25) 0px -2px 8px 6px inset, hsla(var(--pure-black), 0.25) 0 0 0 1px inset;
+  margin-left: var(--switch-ml, 0);
+  --shadow: var(--switch-shadow-active);
 }
 
 .switch_input:checked + .switch_label {
-  --shadow: hsla(var(--pure-black), 0.4) 0 2px 4px, hsla(var(--pure-black), 0.3) 0 7px 13px -3px,
-    hsla(var(--pure-black), 0.25) 2px -5px 4px inset, hsla(var(--pure-black), 0.2) 0 0 0 1px inset;
+  --shadow: var(--switch-shadow-dark);
   --bg-switch: var(--pure-white);
   --box: var(--pure-black);
 }
 
 .switch_input:checked + .switch_label::after {
-  background: white linear-gradient(-45deg, #f8acff 0%, #696eff 100%);
-  left: var(--state, var(--checked, 0));
+  background: var(--ring);
+  left: var(--state, var(--checked, var(--p)));
 }
 
 .switch_input:checked + .switch_label:active::after {
-  margin-left: calc(calc(var(--checked) - var(--scale-x)) - var(--p));
+  margin-left: var(--switch-ml, var(--switch-ml-dark));
 }
 
 .switch_marbles {
@@ -482,14 +488,15 @@
   border-radius: 9999px;
 }
 
-.switch_input:checked ~ .switch_marbles::after {
+.switch_input:checked ~ .switch_marbles::after,
+.switch_marbles::after {
   content: "";
   height: var(--sz-marbles);
   width: var(--sz-marbles);
   position: absolute;
   border-radius: 9999px;
   z-index: -1;
-  background-image: linear-gradient(-45deg, #f8acff 0%, #696eff);
+  background: var(--ring);
   filter: blur(20px);
   opacity: var(0.7);
 }

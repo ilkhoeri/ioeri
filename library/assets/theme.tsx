@@ -8,6 +8,34 @@ import { twMerge } from "tailwind-merge";
 import { UnstyledButton } from "../components/button";
 import { useHotkeys } from "@/modules/hooks";
 
+export function useNextTheme() {
+  const { theme, setTheme } = useTheme();
+  const [keyTheme, setKeyTheme] = React.useState<string | null>(null);
+
+  const themed = (key: string | null | undefined) => (key === ("dark" || "system") ? "light" : "dark");
+
+  React.useEffect(() => {
+    const isTheme = localStorage.getItem("theme");
+    setKeyTheme(isTheme || "system");
+  }, [keyTheme]);
+
+  const memoizedTheme = React.useCallback(() => {
+    setTheme(themed(theme));
+    setKeyTheme(themed(keyTheme));
+  }, [theme, setTheme, keyTheme, setKeyTheme]);
+
+  useHotkeys([
+    [
+      "mod+J",
+      () => {
+        memoizedTheme();
+      },
+    ],
+  ]);
+
+  return { theme, setTheme, keyTheme, setKeyTheme, themed, memoizedTheme };
+}
+
 export function ThemeToggle({
   classNames,
   unstyled,
@@ -15,25 +43,7 @@ export function ThemeToggle({
   classNames?: { wrapper?: string; buttons?: string };
   unstyled?: { wrapper?: boolean; buttons?: boolean };
 }) {
-  const { theme, setTheme } = useTheme();
-  const [key, setKey] = React.useState<string | null>(null);
-
-  React.useEffect(() => {
-    const theme = localStorage.getItem("theme");
-    setKey(theme || "system");
-  }, [key]);
-
-  const themed = theme === "dark" ? "light" : "dark";
-  useHotkeys([
-    [
-      "mod+J",
-      () => {
-        setTheme(themed);
-        setKey(themed);
-      },
-    ],
-  ]);
-
+  const { setTheme, keyTheme, setKeyTheme } = useNextTheme();
   return (
     <section
       className={twMerge(!unstyled?.wrapper && "relative flex items-center flex-flow-row gap-4", classNames?.wrapper)}
@@ -44,10 +54,10 @@ export function ThemeToggle({
           key={index}
           suppressHydrationWarning
           role="button"
-          data-state={key === t.name ? "active" : ""}
+          data-state={keyTheme === t.name ? "active" : ""}
           onClick={() => {
             setTheme(t.name);
-            setKey(t.name);
+            setKeyTheme(t.name);
           }}
           aria-label={t.name}
           className={twMerge(

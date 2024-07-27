@@ -23,7 +23,7 @@ export default function Docs() {
   );
 }
 
-function A({ href, title }: { href: string; title: string }) {
+function Links({ href, title }: { href: string; title: string }) {
   return (
     <Link href={href} target="_blank" className="links">
       {title}
@@ -54,14 +54,25 @@ function QuickInstallation() {
           latest versions of Node and npm, you should also have npx. Otherwise, you should upgrade Node and/or npm.
         </Paragraph>
       </div>
-      <Paragraph>
-        Once the installation completes, you can run&nbsp;
-        <code className="codebox">http://localhost:3000</code>&nbsp;with your browser to start editing the project and
-        using ioeri modules utility.
+      <Paragraph className="md_custom">
+        Once the installation completes, you can add some tailwindcss class utilities like{" "}
+        <Acode title="tailwind-merge" href="https://www.npmjs.com/package/tailwind-merge" /> and{" "}
+        <Acode title="tailwindcss-animate" href="https://www.npmjs.com/package/tailwindcss-animate" />, then run{" "}
+        <code>http://localhost:3000</code> with your browser to start editing the project and using the ioeri module
+        utilities.
       </Paragraph>
     </>
   );
 }
+
+function Acode({ href, title }: { href: string; title: string }) {
+  return (
+    <a href={href} target="_blank" tabIndex={-1} rel="noopener noreferrer nofollow">
+      <code>{title}</code>
+    </a>
+  );
+}
+
 
 function FrameworksCard() {
   return (
@@ -73,18 +84,18 @@ function FrameworksCard() {
 
       <Paragraph color="default">
         This project is based on the&nbsp;
-        <A title="React.js" href="https://react.dev/learn/" />
+        <Links title="React.js" href="https://react.dev/learn/" />
         &nbsp;library.
       </Paragraph>
       <Paragraph color="default">
         On web projects we recommend using&nbsp;
-        <A title="Next.js" href="https://nextjs.org/" />
+        <Links title="Next.js" href="https://nextjs.org/" />
         , or&nbsp;
-        <A title="Remix" href="https://remix.run/docs/" />
+        <Links title="Remix" href="https://remix.run/docs/" />
         , or&nbsp;
-        <A title="Gatsby" href="https://www.gatsbyjs.com/docs/" />
+        <Links title="Gatsby" href="https://www.gatsbyjs.com/docs/" />
         &nbsp;framework. On native projects we recommend using&nbsp;
-        <A title="Expo" href="https://docs.expo.dev/" />
+        <Links title="Expo" href="https://docs.expo.dev/" />
         &nbsp;framework.
       </Paragraph>
 
