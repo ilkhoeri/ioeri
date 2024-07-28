@@ -98,11 +98,7 @@ export default async function Page({ params }: DocsParams) {
   const ce = code.extension || ".tsx";
   const files = getFilesWithPrefix({ params });
   const demo = await getCodeDemo({ params }, files);
-  const file: string = `${slug(params.docs)}${ce}`;
-  const repo: string = `${sourceFiles(params.docs)}${ce}`;
-  const codes: { [key: string]: React.JSX.Element | null } = {};
-
-  const reCode = process.env.NODE_ENV !== "production" ? await getReCode({ params }, `${ce}`) : code.content;
+  const reCode = !code.content ? await getReCode({ params }, `${ce}`) : code.content;
 
   const [css, dependOn, explanation, conclusion, notes] = await Promise.all([
     getCss({ params }).then((res) => res.content),
@@ -111,6 +107,10 @@ export default async function Page({ params }: DocsParams) {
     getSection({ params }, "conclusion"),
     getSection({ params }, "notes"),
   ]);
+
+  const file: string = `${slug(params.docs)}${ce}`;
+  const repo: string = `${sourceFiles(params.docs)}${ce}`;
+  const codes: { [key: string]: React.JSX.Element | null } = {};
 
   if (css) {
     codes.css = (

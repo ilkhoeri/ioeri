@@ -6,7 +6,8 @@ import { cvx, InferTypes } from "@/modules/utility/cvx/cvx";
 import { mergeRefs, useOpenState, createSafeContext, type HoverOpenOptions } from "@/modules/hooks";
 
 type SharedType = { unstyled?: boolean; style?: React.CSSProperties & { [key: string]: any }; className?: string };
-type TooltipContextValue = HoverOpenOptions & InferTypes<typeof useOpenState> & { withArrow?: boolean; touch?: boolean };
+type TooltipContextValue = HoverOpenOptions &
+  InferTypes<typeof useOpenState> & { withArrow?: boolean; touch?: boolean };
 type TooltipTriggerType = React.ComponentPropsWithoutRef<"button"> & SharedType & { asChild?: boolean };
 type TooltipContentType = React.ComponentPropsWithoutRef<"div"> & SharedType;
 
@@ -57,10 +58,11 @@ const TooltipContent = React.forwardRef<React.ElementRef<"div">, TooltipContentT
       <ctx.Portal render={ctx.render}>
         <div
           ref={mergeRefs(ctx.refs.content, ref)}
-          {...{className: twMerge(!unstyled && classes({ side }), className), ...ctx.styleAt("content", { style })}}
+          {...{ className: twMerge(!unstyled && classes({ side }), className), ...ctx.styleAt("content", { style }) }}
           {...rest}
         >
-          {children}{withArrow && <ArrowDropdownIcon data-side={side} data-align={align} className={arrow()} />}
+          {children}
+          {withArrow && <ArrowDropdownIcon data-side={side} data-align={align} className={arrow()} />}
         </div>
       </ctx.Portal>
     );
@@ -76,7 +78,8 @@ type TooltipType = Omit<TooltipTriggerType, "content"> &
     contentProps?: React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> & SharedType;
   };
 const Tooltip = React.forwardRef<React.ElementRef<"button">, TooltipType>((_props, ref) => {
-  const { content, contentProps, open, onOpenChange, sideOffset, withArrow, touch, align, side, delay, ...props } = _props;
+  const { content, contentProps, open, onOpenChange, sideOffset, withArrow, touch, align, side, delay, ...props } =
+    _props;
 
   return (
     <TooltipProvider {...{ open, onOpenChange, sideOffset, withArrow, touch, align, side, delay }}>
