@@ -98,7 +98,7 @@ export default async function Page({ params }: DocsParams) {
   const ce = code.extension || ".tsx";
   const files = getFilesWithPrefix({ params });
   const demo = await getCodeDemo({ params }, files);
-  const reCode = await getReCode({ params }, `${ce}`);
+  const reCode = !code.content ? await getReCode({ params }, `${ce}`) : code.content;
 
   const [css, dependOn, explanation, conclusion, notes] = await Promise.all([
     getCss({ params }).then((res) => res.content),
@@ -108,20 +108,16 @@ export default async function Page({ params }: DocsParams) {
     getSection({ params }, "notes"),
   ]);
 
-  const codes: { [key: string]: React.JSX.Element | null } = {};
-  const repo: string = `${sourceFiles(params.docs)}${ce}`;
   const file: string = `${slug(params.docs)}${ce}`;
+  const repo: string = `${sourceFiles(params.docs)}${ce}`;
+  const codes: { [key: string]: React.JSX.Element | null } = {};
 
   if (css) {
     codes.css = (
       <Code title={`${slug(params.docs)}.css`} ext=".css" code={css} setInnerHTML={await highlightCode(css)} />
     );
   }
-  if (code.content) {
-    codes.code = (
-      <Code title={file} repo={repo} ext={ce} code={code.content} setInnerHTML={await highlightCode(code.content)} />
-    );
-  } else if (reCode) {
+  if (reCode) {
     codes.code = <Code title={file} repo={repo} ext={ce} code={reCode} setInnerHTML={await highlightCode(reCode)} />;
   }
 
