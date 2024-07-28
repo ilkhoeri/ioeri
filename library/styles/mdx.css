@@ -89,18 +89,22 @@
     @apply list-item [text-align:-webkit-match-parent] [unicode-bidi:isolate] leading-normal;
   }
 }
+[data-rehype-pretty-code-fragment],
 [data-rehype-customizer] {
-  --copy-icon: url('data:image/svg+xml,<svg fill="none" stroke="%23909293" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" height="16px" width="16px"><path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z"></path><path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1"></path></svg>');
-  --success-icon: url('data:image/svg+xml,<svg fill="none" stroke="%23909293" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" height="16px" width="16px"><path d="M5 12l5 5l10 -10"></path></svg>');
-  & span.ready {
-    @apply hover:bg-muted/75;
-  }
-  & span.success {
-    @apply bg-muted/75 animate-fade-in fade-in-0 zoom-in-0 [animation-duration:150ms];
-  }
-  & span.ready,
-  & span.success {
-    @apply [background-size:20px] bg-center size-8 min-w-8 min-h-8 -mt-4 rounded-md bg-no-repeat mr-4;
+  & .rehype-pretty-copy {
+    @apply size-8 top-2 right-[0.8rem] mr-0;
+    --copy-icon: url('data:image/svg+xml,<svg fill="none" stroke="%23909293" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" height="16px" width="16px"><path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z"></path><path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1"></path></svg>');
+    --success-icon: url('data:image/svg+xml,<svg fill="none" stroke="%23909293" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" height="16px" width="16px"><path d="M5 12l5 5l10 -10"></path></svg>');
+    & span.ready {
+      @apply hover:bg-muted/75;
+    }
+    & span.success {
+      @apply bg-muted/75 animate-fade-in fade-in-0 zoom-in-0 [animation-duration:150ms];
+    }
+    & span.ready,
+    & span.success {
+      @apply [background-size:20px] bg-center size-8 min-w-8 min-h-8 rounded-md bg-no-repeat;
+    }
   }
 }
 [data-rehype-customizer] {
@@ -118,6 +122,12 @@
 
   & figure pre code {
     @apply py-6 px-7 overflow-x-auto scrollbar;
+  }
+  & figure pre:has(+ [data-rehype-pretty-code-caption]) code {
+    @apply rounded-b-none;
+  }
+  & figure pre + figcaption[data-rehype-pretty-code-caption] {
+    @apply font-roboto-mono p-[.25em_.5em] leading-normal [font-size:75%] rounded-b-sm border border-t-0 bg-code/40;
   }
 }
 [data-rehype-pretty-code-figure] mark {
@@ -172,5 +182,36 @@ code[data-theme*=" "] span {
   code[data-theme*=" "] span {
     color: var(--shiki-dark);
     background-color: var(--shiki-dark-bg);
+  }
+}
+
+.prefers_code_fragment [data-rehype-customizer] .md_custom {
+  @apply p-4;
+}
+
+.prefers_code_fragment [data-rehype-pretty-code-fragment] {
+  & > pre > code[data-language][data-theme] {
+    @apply w-full max-w-full;
+    & p {
+      @apply w-max;
+    }
+    & hr {
+      @apply my-8;
+    }
+    & > figure[data-rehype-pretty-code-figure] {
+      @apply min-w-full w-full;
+      & > pre {
+        @apply min-w-full max-w-full;
+      }
+      & > pre > code {
+        @apply py-6 px-4 min-w-full max-w-full border rounded-md overflow-x-auto scrollbar;
+        & [data-line] {
+          @apply w-max;
+        }
+        & > button {
+          @apply top-4 m-0;
+        }
+      }
+    }
   }
 }

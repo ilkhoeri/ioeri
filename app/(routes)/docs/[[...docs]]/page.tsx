@@ -42,7 +42,7 @@ async function getCode({ params }: DocsParams): Promise<Content> {
 async function getCodeDemo({ params }: DocsParams, files: string[]) {
   if (!files.length) {
     return {
-      usages: await highlightCode(await getMdx(`/resource/docs/${sourceFiles(params.docs)}`, "usage")),
+      usages: await getMdx(`/resource/docs/${sourceFiles(params.docs)}`, "usage"),
       reference: await highlightCode(await getMdx(`/resource/docs/${sourceFiles(params.docs)}`, "api-reference")),
       description: await highlightCode(await getMdx(`/resource/docs/${sourceFiles(params.docs)}`, "description"), {
         copy: true,
@@ -120,7 +120,7 @@ export default async function Page({ params }: DocsParams) {
   return (
     <Container>
       {demo && (
-        <Demos files={files} params={params} usage={demo.usages} reference={demo.reference} description={demo.description} consideration={demo.consideration} />
+        <Demos files={files} params={params} usage={typeof demo.usages === "object" ? demo.usages : await highlightCode(demo.usages, { copy: true })} {...demo} />
       )}
 
       <div id="code">

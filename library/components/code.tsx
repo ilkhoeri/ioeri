@@ -23,10 +23,7 @@ export function ExtIcons({ ext }: ExtIconsType) {
 
 export function Code(Text: CodeCustomizer & ExtIconsType) {
   const { code, setInnerHTML, title, repo, ...rest } = Text;
-  if (!code) return null;
-  if (setInnerHTML && !code) {
-    throw new Error("because setInnerHTML is true, setInnerHTML and code must be defined");
-  }
+
   return (
     <>
       <div className="w-full h-12 border-b rounded-t-[inherit] p-[0_12px_0_16px] to-background-code-header flex flex-row items-center">
@@ -36,18 +33,18 @@ export function Code(Text: CodeCustomizer & ExtIconsType) {
           </div>
         )}
         <div className="flex flex-row items-center gap-1 ml-auto">
-          {repo && <GetCodeToggle repo={repo} />} <CopyToggle text={Text.code} />
+          {repo && <GetCodeToggle repo={repo} />} {code && <CopyToggle text={code} />}
         </div>
       </div>
 
-      <div data-rehype-pretty-code-fragment="" className="scrollbar">
-        <pre className="p-4 rounded-lg" data-language="tsx" data-theme="default">
+      <div data-rehype-pretty-code-fragment="" data-code-fragment="" className="scrollbar">
+        <pre className="p-4 rounded-lg [&>code>[data-rehype-pretty-code-figure]]:pr-8" data-language="tsx" data-theme="default">
           <code
             data-language="tsx"
             data-theme="default"
-            dangerouslySetInnerHTML={Text.setInnerHTML ? { __html: Text.setInnerHTML } : undefined}
+            dangerouslySetInnerHTML={setInnerHTML ? { __html: setInnerHTML } : undefined}
           >
-            {Text.setInnerHTML ? null : Text.code}
+            {setInnerHTML ? null : code}
           </code>
         </pre>
       </div>
@@ -58,7 +55,7 @@ export function Code(Text: CodeCustomizer & ExtIconsType) {
 export function Customizer(Text: CodeCustomizer) {
   if (!Text.code && !Text.setInnerHTML) return null;
   return (
-    <div className={twMerge("mb-12 text-base", Text.className)} data-rehype-customizer="">
+    <div className={twMerge("mb-12 text-base", Text.className)} data-rehype-customizer="" data-code-fragment="">
       {Text.title && <h4>{Text.title}</h4>}
       <div
         className="md_custom relative white-space-pre-wrap"

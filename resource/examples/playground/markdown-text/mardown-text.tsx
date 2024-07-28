@@ -41,7 +41,7 @@ export function MarkdownText() {
   );
 
   return (
-    <Tabs defaultValue="preview" id="preview" className="w-full scroll-m-20">
+    <Tabs defaultValue="preview" id="preview" className="size-full scroll-m-20">
       <Playground childrens={{ edit, preview }} />
     </Tabs>
   );

@@ -32,7 +32,7 @@ $:notes
 
 $:usage
 
-```
+```js
 import { createRefs } from "@/modules/hooks";
 
 export enum Structure {
@@ -44,7 +44,7 @@ export enum Structure {
 export function MyComponent() {
   const refs = createRefs<HTMLDivElement, `${Structure}`>(Object.values(Structure));
 
-  // more actions for each ref
+  // ...more actions for each ref
 
   return (
     <div ref={refs.root}>

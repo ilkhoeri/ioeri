@@ -19,8 +19,6 @@ ___
 - Using `ref`, `attributes` and `event handlers` according to the `el=""` you use,
 - Freestyle variables are used without affecting the default style
 
-$:explanation
-
 ___
 
 ## Alternative
@@ -83,27 +81,57 @@ export default React.forwardRef(Element) as <T extends React.ElementType = "div"
 ```
 
 
+$:explanation
+
+
 $:usage
 
-```js showLineNumbers
-// ref and all props default as div, DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>
+`ref and all property default as div`
+
+```js caption="(property) JSX.IntrinsicElements.div: DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>"
 function MyComponent() {
-  return (
-    <Element
-      style={{
-        "--sz": "0.75rem",
-        width: "var(--sz)",
-        height: "var(--sz)",
-        "--bg-open": "var(--background)",
-      }}
-    />
-  )
+  return <Element />;
 }
 ```
 ___
 
-```js showLineNumbers
-// Pass ref and attributes to first child element
+
+```js caption="(property) JSX.IntrinsicElements.a: React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>"
+function MyComponent() {
+  return <Element el="a" href="" />;
+}
+```
+___
+
+
+```js caption="(property) JSX.IntrinsicElements.img: React.DetailedHTMLProps<React.ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement>"
+function MyComponent() {
+  return <Element el="img" src="" />;
+}
+```
+___
+
+
+```js caption="(property) JSX.IntrinsicElements.nav: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>"
+function MyComponent() {
+  return (
+    <Element
+      el="nav"
+      style={{
+        width: "var(--sz)",
+        height: "var(--sz)",
+        "--sz": "0.75rem",
+        "--bg-open": "var(--background)",
+      }}
+    />
+  );
+}
+```
+___
+
+`Pass ref and attributes to first child element`
+
+```js
 function MyComponent() {
   const containerRef = useRef<HTMLElement>(null); // if usage with ref
 
@@ -112,9 +140,9 @@ function MyComponent() {
       ref={containerRef}
       asChild
       style={{
-        "--sz": "0.75rem",
         width: "var(--sz)",
         height: "var(--sz)",
+        "--sz": "0.75rem",
         "--bg-open": "var(--background)",
       }}
     >
@@ -124,30 +152,6 @@ function MyComponent() {
         <section>Content</section>
       </aside>
     </Element>
-  )
-}
-```
-___
-
-```js showLineNumbers
-// ref and all props as DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>
-function MyComponent() {
-  return <Element el="nav" />
-}
-```
-___
-
-```js showLineNumbers
-// ref and all props as DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>
-function MyComponent() {
-  return <Element el="a" href="" />
-}
-```
-___
-
-```js showLineNumbers
-// ref and all props as DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement>
-function MyComponent() {
-  return <Element el="img" src="" />
+  );
 }
 ```

@@ -36,7 +36,7 @@ export type GetContentOptions = {
 export async function getRepo(
   gitrepo: string,
   ext: string,
-  lang: string = "js showLineNumbers{number}",
+  lang: string = "js showLineNumbers",
 ): Promise<string> {
   const response = await fetch(`${gitrepo}${ext}`);
   let text = await response.text();
@@ -50,7 +50,7 @@ export async function getContent(
   replace: Record<string, string> = {},
   options: GetContentOptions = {},
 ): Promise<Content> {
-  const { lang = "js showLineNumbers{number}", wrap = true } = options;
+  const { lang = "js showLineNumbers", wrap = true } = options;
 
   try {
     for (const ext of extensions) {

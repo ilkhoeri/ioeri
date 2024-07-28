@@ -37,9 +37,9 @@ const classes = cvx({
       expand:
         "h-[20rem] max-h-[20rem] text-muted-foreground before:content-[''] before:absolute before:bottom-0 before:inset-x-0 before:size-full before:bg-gradient-to-t before:from-background/60 before:z-4",
       "expand-full":
-        "h-max max-h-[32rem] [&_[data-rehype-pretty-code-fragment]]:overflow-auto [&_[data-rehype-pretty-code-fragment]]:max-h-[calc(32rem-3rem)]",
+        "h-max max-h-[32rem] [&_[data-code-fragment]]:overflow-auto [&_[data-code-fragment]]:max-h-[calc(32rem-3rem)]",
       collapse:
-        "h-max max-h-max [&_[data-rehype-pretty-code-fragment]]:pb-[2.5rem] [&_[data-rehype-pretty-code-fragment]]:overflow-auto [&_[data-rehype-pretty-code-fragment]]:max-h-max",
+        "h-max max-h-max [&_[data-code-fragment]]:pb-[2.5rem] [&_[data-code-fragment]]:overflow-auto [&_[data-code-fragment]]:max-h-max",
     },
     button: {
       resizer:

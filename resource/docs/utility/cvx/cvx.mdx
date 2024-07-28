@@ -3,19 +3,19 @@ $:title
 Create Variants X
 
 
-$:api-reference-cvx
+$:api-reference
 
 [`inspired by cva`](https://cva.style/docs)
 
 
-$:consideration-cvx
+$:consideration
 
 If you have ever used [class variance authority](https://cva.style/docs) you'r also familiar with the cvx function. You can think of cvx as a simpler or lite version.
 
 cvx was created just as a simple function to pass a string with various variants that you create.
 
 
-$:description-cvx
+$:description
 
 ## IntelliSense
 
@@ -40,3 +40,76 @@ cva uses the first argument as a constant that will be distributed throughout th
 
 $:explanation
 
+$:usage
+
+```js
+import { cvx, type VariantsType } from "@/modules/utility";
+import { twMerge } from "tailwind-merge";
+
+const classes = cvx({
+  assign: "bg-muted rounded-sm px-2 border flex items-center justify-center", // assign values that is definitely returned
+  variants: {
+    variant: {
+      bold: "font-bold",
+      italic: "font-italic",
+      semibold: "font-semibold",
+      light: "font-light",
+    },
+    color: {
+      blue: "text-blue-600",
+      green: "text-green-700",
+      red: "text-red-500",
+      purple: "text-purple-500",
+    },
+    size: {
+      sm: "h-4",
+      md: "h-6",
+      lg: "h-10",
+      xl: "h-14",
+    },
+  },
+  // determine the variance value by default
+  defaultVariants: {
+    variant: "bold",
+    color: "blue",
+    size: "lg",
+  },
+});
+```
+
+
+```js
+type MyVariantsType = VariantsType<typeof classes>;
+interface ClnProps extends MyVariantsType {
+  unstyled?: boolean;
+  className?: string;
+}
+export function clN(props: ClnProps) {
+  const { className, unstyled, ...rest } = props;
+  return { className: twMerge(!unstyled && classes({ ...rest }), className) };
+}
+```
+
+```js
+export function CvxDemo(props: ClnProps) {
+  const { className, color, size, variant, unstyled } = props;
+  return (
+    <div className="flex flex-col gap-4">
+      <div {...clN(props)}>MY COMPONENT</div>
+
+      <div className={classes()}>MY COMPONENT</div>
+
+      <div className={classes({ color: "red", size: "lg" })}>MY COMPONENT</div>
+
+      <div
+        className={twMerge(
+          classes({ color: "red", size: "md" }),
+          "bg-black/60 dark:bg-white/60 text-white dark:text-black font-extrabold border-0",
+        )}
+      >
+        MY COMPONENT
+      </div>
+    </div>
+  );
+}
+```

@@ -3,13 +3,13 @@ $:title
 Classes and X
 
 
-$:api-reference-cnx
+$:api-reference
 
 [`mdn`](https://developer.mozilla.org/en-US/docs/Web/API/Element/classList#examples)
 [`inspired by clsx`](https://www.npmjs.com/package/clsx)
 
 
-$:consideration-cnx
+$:consideration
 
 cnx is inspired by [clsx](https://www.npmjs.com/package/clsx), the arguments you give in cn or clsx you can put into cnx, so that you can think of cnx as clsx from another universe.
 
@@ -18,20 +18,7 @@ function cnx(...inputs: ClassValue[]): string
 ```
 
 
-$:description-cnx
-
-## Return Value
-
-```js
-// allows receiving more than one value
-const className = cnx(["", baz, foo !== "foo" && bar], { "": !props }, "");
-
-// with many First values ​​and Second values
-cnx(["", ""], classLight, classDark);
-
-// ""
-cnx(Boolean, Object, undefined, null, "", 0, NaN);
-```
+$:description
 
 
 ## Merge class
@@ -59,4 +46,28 @@ If you are using the vscode editor, enable autocomplete for the [`tailwindcss`](
   ["cnx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
   ["twMerge\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
 ],
+```
+
+$:usage
+
+```js
+cnx(["foo", 0, false, "bar"])
+// "foo bar"
+
+cnx("hello", true && "foo", false && "bar")
+// "hello foo"
+
+cnx(["foo"], ["", 0, false, "bar"], [["baz", [["hello"], "there"]]])
+// "foo bar baz hello there"
+
+cnx("foo", [1 && "bar", { baz: false, bat: null }, ["hello", ["world"]]], "cya")
+// "foo bar hello world cya"
+```
+
+```js
+// allows receiving Arrays and Objects
+const className = cnx(["", baz, foo !== "foo" && bar], { "": !props }, "");
+
+// ""
+cnx(Boolean, Object, undefined, null, "", 0, NaN);
 ```

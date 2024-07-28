@@ -1,22 +1,20 @@
 "use client";
 import * as React from "react";
 import dynamic from "next/dynamic";
+
 import { FileIcon } from "@/modules/icons";
-import { retitled, slug, sourceFiles } from "@/library/utils";
-import { Spinner } from "@/library/assets/anim-loader";
 import { Tabs } from "@/library/components/tabs";
-import { Playground } from "@/library/components/playground";
-import { Code, Customizer, Reference } from "@/library/components/code";
-import { readdirPrefix } from "@/library/scripts/get-demos";
-import { sanitizedToParams, toPascalCase } from "@/modules/index";
-import { Content } from "@/library/scripts/get-contents";
-import { highlightCode } from "@/library/utils/escape-code";
+import { sanitizedToParams } from "@/modules/index";
+import { Spinner } from "@/library/assets/anim-loader";
 import { Title } from "@/library/components/components";
+import { readdirPrefix } from "@/library/scripts/get-demos";
+import { highlightCode } from "@/library/utils/escape-code";
+import { Playground } from "@/library/components/playground";
+import { retitled, slug, sourceFiles } from "@/library/utils";
+import { Code, Customizer, Reference } from "@/library/components/code";
 
 interface DocsParams {
-  params: {
-    docs: string[];
-  };
+  params: { docs: string[] };
 }
 
 export const FallbackComponent = ({ params }: DocsParams) => (
@@ -64,18 +62,20 @@ export function Demos({
   if (!files.length) {
     return (
       <div id="usage" className="mt-12">
-        <Title size="h1" variant="segment" title={retitled(params.docs)} id={sanitizedToParams(retitled(params.docs))} className="mb-12" />
+        <Title
+          size="h1"
+          variant="segment"
+          title={retitled(params.docs)}
+          id={sanitizedToParams(retitled(params.docs))}
+          className="mb-12"
+        />
 
         {reference && typeof reference === "string" && <Reference title="API reference" setInnerHTML={reference} />}
         {consideration && typeof consideration === "string" && <Customizer setInnerHTML={consideration} />}
 
         {usage && typeof usage === "string" && (
-          <Tabs defaultValue="usage" className="w-full mb-12">
-            <Playground
-              childrens={{
-                usage: <Code title={`${slug(params.docs)}-demo.tsx`} ext=".tsx" code={usage} setInnerHTML={usage} />,
-              }}
-            />
+          <Tabs defaultValue="usage" className="w-full mb-12 prefers_code_fragment">
+            <Playground childrens={{ usage: <Customizer setInnerHTML={usage} className="mb-0 scrollbar" /> }} />
           </Tabs>
         )}
 
@@ -105,22 +105,14 @@ export function Demos({
               <Playground
                 childrens={{
                   preview: (
-                    <article
-                      data-rehype-pretty-code-fragment=""
-                      className="relative min-h-[32rem] mx-auto size-full flex flex-col items-center justify-center"
-                    >
+                    <article data-rehype-pretty-code-fragment="" className="relative min-h-[32rem] mx-auto size-full flex flex-col items-center justify-center">
                       <React.Suspense fallback={<Spinner size={22} classNames={{ root: "my-auto" }} />}>
                         <Component />
                       </React.Suspense>
                     </article>
                   ),
                   usage: usage && typeof usage === "object" && (
-                    <Code
-                      title={`${file}-demo.tsx`}
-                      ext=".tsx"
-                      code={usage[file]}
-                      setInnerHTML={await highlightCode(usage[file])}
-                    />
+                    <Code title={`${file}-demo.tsx`} ext=".tsx" code={usage[file]} setInnerHTML={await highlightCode(usage[file])} />
                   ),
                 }}
               />

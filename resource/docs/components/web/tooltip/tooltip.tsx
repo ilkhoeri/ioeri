@@ -6,8 +6,7 @@ import { cvx, InferTypes } from "@/modules/utility/cvx/cvx";
 import { mergeRefs, useOpenState, createSafeContext, type HoverOpenOptions } from "@/modules/hooks";
 
 type SharedType = { unstyled?: boolean; style?: React.CSSProperties & { [key: string]: any }; className?: string };
-type TooltipContextValue = HoverOpenOptions &
-  InferTypes<typeof useOpenState> & { withArrow?: boolean; touch?: boolean };
+type TooltipContextValue = HoverOpenOptions & InferTypes<typeof useOpenState> & { withArrow?: boolean; touch?: boolean };
 type TooltipTriggerType = React.ComponentPropsWithoutRef<"button"> & SharedType & { asChild?: boolean };
 type TooltipContentType = React.ComponentPropsWithoutRef<"div"> & SharedType;
 
@@ -78,8 +77,7 @@ type TooltipType = Omit<TooltipTriggerType, "content"> &
     contentProps?: React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> & SharedType;
   };
 const Tooltip = React.forwardRef<React.ElementRef<"button">, TooltipType>((_props, ref) => {
-  const { content, contentProps, open, onOpenChange, sideOffset, withArrow, touch, align, side, delay, ...props } =
-    _props;
+  const { content, contentProps, open, onOpenChange, sideOffset, withArrow, touch, align, side, delay, ...props } = _props;
 
   return (
     <TooltipProvider {...{ open, onOpenChange, sideOffset, withArrow, touch, align, side, delay }}>
@@ -102,6 +100,7 @@ const classes = cvx({
     },
   },
 });
+
 const arrow = cvx({
   assign:
     "w-[23px] h-[9px] absolute text-background [&_[data-arrow=border]]:text-border data-[align=center]:data-[side=top]:inset-x-auto data-[align=center]:data-[side=bottom]:inset-x-auto data-[align=center]:data-[side=right]:inset-y-auto data-[align=center]:data-[side=left]:inset-y-auto data-[align=start]:data-[side=top]:left-2 data-[align=start]:data-[side=bottom]:left-2 data-[align=start]:data-[side=right]:top-4 data-[align=start]:data-[side=left]:top-4 data-[align=end]:data-[side=top]:right-2 data-[align=end]:data-[side=bottom]:right-2 data-[align=end]:data-[side=right]:bottom-4 data-[align=end]:data-[side=left]:bottom-4 data-[side=top]:rotate-0 data-[side=top]:top-[calc(var(--content-h)-2px)] data-[side=right]:rotate-90 data-[side=right]:right-[calc(var(--content-w)-9px)] data-[side=bottom]:rotate-180 data-[side=bottom]:bottom-[calc(var(--content-h)-2px)] data-[side=left]:-rotate-90 data-[side=left]:left-[calc(var(--content-w)-9px)]",
