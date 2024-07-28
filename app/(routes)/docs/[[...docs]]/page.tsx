@@ -39,10 +39,6 @@ async function getCode({ params }: DocsParams): Promise<Content> {
   if (!params.docs) return { content: null, extension: null };
   return getContent(`/resource/docs/${sourceFiles(params.docs)}`, [".tsx", ".ts"]);
 }
-async function getReUsage({ params }: DocsParams): Promise<string | null> {
-  if (!params.docs) return null;
-  return getMdx(`/resource/docs/${sourceFiles(params.docs)}`, "usage");
-}
 async function getCodeDemo({ params }: DocsParams, files: string[]) {
   if (!files.length) {
     return {

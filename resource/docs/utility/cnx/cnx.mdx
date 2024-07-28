@@ -3,38 +3,49 @@ $:title
 Classes and X
 
 
-$:api-reference
+$:api-reference-cnx
 
 [`mdn`](https://developer.mozilla.org/en-US/docs/Web/API/Element/classList#examples)
 [`inspired by clsx`](https://www.npmjs.com/package/clsx)
 
 
-$:consideration
+$:consideration-cnx
 
 cnx is inspired by [clsx](https://www.npmjs.com/package/clsx), the arguments you give in cn or clsx you can put into cnx, so that you can think of cnx as clsx from another universe.
 
-
-$:usage
-
-```js showLineNumbers{number}
+```js
 function cnx(...inputs: ClassValue[]): string
-
-// allows receiving more than one value
-  const className = cnx(['', props, !(props === 'foo') && bar], {'': !props}, '');
-
-// with many First values ​​and Second values
-  cnx(['', ''], classLight, classDark)
-
-// ""
-  cnx(Boolean, Object, undefined, null, '', 0, NaN)
-
-// merge with tailwind-merge
-  function cn(...inputs: ClassValue[]) {
-    return twMerge(cnx(...inputs));
-  }
 ```
 
-$:description
+
+$:description-cnx
+
+## Return Value
+
+```js
+// allows receiving more than one value
+const className = cnx(["", baz, foo !== "foo" && bar], { "": !props }, "");
+
+// with many First values ​​and Second values
+cnx(["", ""], classLight, classDark);
+
+// ""
+cnx(Boolean, Object, undefined, null, "", 0, NaN);
+```
+
+
+## Merge class
+
+Merge with tailwind-merge
+
+```js
+import { cnx, type ClassValue } from "@/modules/utility";
+import { twMerge } from "tailwind-merge";
+
+function cn(...inputs: ClassValue[]) {
+  return twMerge(cnx(...inputs));
+}
+```
 
 ## IntelliSense
 

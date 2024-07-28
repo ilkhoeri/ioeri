@@ -116,7 +116,7 @@ export function Demos({
                   ),
                   usage: usage && typeof usage === "object" && (
                     <Code
-                      title={`${file}.tsx`}
+                      title={`${file}-demo.tsx`}
                       ext=".tsx"
                       code={usage[file]}
                       setInnerHTML={await highlightCode(usage[file])}
