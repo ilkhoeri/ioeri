@@ -15,7 +15,7 @@ export default function Error({ error, reset }: { error: Error & { digest?: stri
   return (
     <Section className="font-medium my-12 mt-12 mb-12 gap-4 [&_*]:font-mono">
       <h2 className="">Something went wrong!</h2>
-      {errorMessage}
+      <p className="text-muted-foreground text-[13px] font-mono">{String(error)}</p>
 
       <div className="flex flex-row gap-8 font-medium text-sm">
         <button type="button" aria-label="try-again" onClick={() => reset()}>
