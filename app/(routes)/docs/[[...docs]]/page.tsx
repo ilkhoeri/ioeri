@@ -124,14 +124,7 @@ export default async function Page({ params }: DocsParams) {
   return (
     <Container>
       {demo && (
-        <Demos
-          files={files}
-          params={params}
-          usage={demo.usages}
-          reference={demo.reference}
-          description={demo.description}
-          consideration={demo.consideration}
-        />
+        <Demos files={files} params={params} usage={demo.usages} reference={demo.reference} description={demo.description} consideration={demo.consideration} />
       )}
 
       <div id="code">

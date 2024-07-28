@@ -64,13 +64,7 @@ export function Demos({
   if (!files.length) {
     return (
       <div id="usage" className="mt-12">
-        <Title
-          size="h1"
-          variant="segment"
-          title={retitled(params.docs)}
-          id={sanitizedToParams(retitled(params.docs))}
-          className="mb-12"
-        />
+        <Title size="h1" variant="segment" title={retitled(params.docs)} id={sanitizedToParams(retitled(params.docs))} className="mb-12" />
 
         {reference && typeof reference === "string" && <Reference title="API reference" setInnerHTML={reference} />}
         {consideration && typeof consideration === "string" && <Customizer setInnerHTML={consideration} />}
@@ -98,11 +92,7 @@ export function Demos({
         const Component = loadComponent({ params }, file);
 
         return (
-          <div
-            key={file}
-            id={sanitizedToParams(file)}
-            className="mt-12 pt-8 border-t first:mt-6 first:pt-0 first:border-t-0"
-          >
+          <div key={file} id={sanitizedToParams(file)} className="mt-12 pt-8 border-t first:mt-6 first:pt-0 first:border-t-0">
             <Title size="h1" variant="segment" title={retitled(file)} className="mt-16 mb-12" />
             {reference && typeof reference === "object" && (
               <Reference title="API reference" setInnerHTML={await highlightCode(reference[file])} />
