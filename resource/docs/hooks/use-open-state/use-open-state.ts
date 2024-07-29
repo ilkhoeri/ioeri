@@ -1,6 +1,6 @@
 import { createPortal } from "react-dom";
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { useHotkeys, useMeasureScrollbar, createRefs, type RectElement } from "@/modules/hooks";
+import { useHotkeys, useMeasureScrollbar } from "@/modules/hooks";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 export enum DataOrigin {
   Trigger = "trigger",
@@ -33,20 +33,9 @@ export enum DataOrientation {
   vertical = "vertical",
   horizontal = "horizontal",
 }
-
+type Observes = "side" | "align" | "touch" | "offset" | "sideswipe" | "orientation" | "triggerRect" | "contentRect" | "multipleOpen" | "availableSize";
 interface ObserveOptions {
-  observe?: {
-    side?: boolean;
-    align?: boolean;
-    touch?: boolean;
-    offset?: boolean;
-    sideswipe?: boolean;
-    orientation?: boolean;
-    triggerRect?: boolean;
-    contentRect?: boolean;
-    multipleOpen?: boolean;
-    availableSize?: boolean;
-  };
+  observe?: Partial<Record<Observes, boolean>>;
 }
 interface StateSharedOptions {
   align?: `${DataAlign}`;
@@ -358,7 +347,8 @@ function Portal(_props: {
   return portal ? createPortal(children, container || document.body, key) : children;
 }
 
-const useIsomorphicEffect = typeof document !== "undefined" ? useLayoutEffect : useEffect;
+export type RectInfo = "x" | "y" | "width" | "height" | "top" | "right" | "bottom" | "left" | "scrollX" | "scrollY";
+export type RectElement = Record<RectInfo, number>;
 
 function useElementDimensions<T extends HTMLElement | null>(
   el: T | null,
@@ -487,11 +477,7 @@ function useElementDimensions<T extends HTMLElement | null>(
 }
 
 const getAttributes = (
-  origin: `${DataOrigin}`,
-  dataState: `${DataState}`,
-  dataAlign?: `${DataAlign}`,
-  side?: `${DataSide}`,
-  orientation?: `${DataOrientation}`,
+  origin: `${DataOrigin}`, dataState: `${DataState}`, dataAlign?: `${DataAlign}`, side?: `${DataSide}`, orientation?: `${DataOrientation}`,
   { observe }: ObserveOptions = {},
 ): { [key: string]: string | undefined } => {
   const attrs: { [key: string]: string } = {
@@ -510,13 +496,7 @@ const getAttributes = (
   return attrs;
 };
 
-function getInset(
-  align: `${DataAlign}`,
-  side: `${DataSide}`,
-  sideOffset: number,
-  triggerRect: RectElement,
-  contentRect: RectElement,
-) {
+function getInset( align: `${DataAlign}`, side: `${DataSide}`, sideOffset: number, triggerRect: RectElement, contentRect: RectElement ) {
   let top = 0;
   let left = 0;
 
@@ -556,13 +536,7 @@ function getInset(
 }
 
 const styles = (
-  as: `${DataOrigin}`,
-  sideOffset: number,
-  align: `${DataAlign}`,
-  side: `${DataSide}`,
-  triggerRect: RectElement,
-  contentRect: RectElement,
-  available: { h: number | "auto"; w: number | "auto" },
+  as: `${DataOrigin}`, sideOffset: number, align: `${DataAlign}`, side: `${DataSide}`, triggerRect: RectElement, contentRect: RectElement, available: { h: number | "auto"; w: number | "auto" },
   { observe }: ObserveOptions = {},
 ): { [key: string]: string } => {
   const vars: { [key: string]: string } = {};

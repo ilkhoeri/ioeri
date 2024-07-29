@@ -14,13 +14,11 @@ $:consideration
 
 
 
-$:description
+$:description-use-image-popup
 
+## API
 
-
-$:explanation
-
-By default, selectors using _className="embeded-image"_
+By default, selectors API using `class="embeded-image"`
 ```js showLineNumbers{number} /embeded-image/#i
 function MyComponent() {
   useImagePopup();
@@ -36,7 +34,7 @@ function MyComponent() {
 ```
 ___
 
-Use selectors by _[attribute]_
+Use selectors by `[attribute]`
 ```js showLineNumbers{number} /data-popup/#at
 function MyComponent() {
   useImagePopup({ selectors: "[data-popup]" });
@@ -52,25 +50,30 @@ function MyComponent() {
 ```
 ___
 
-Use selectors by _&lt;img&gt; Element_
-```js showLineNumbers{number} /img/
+Use selectors by `<img>` Element
+```js showLineNumbers{number} /img/ /Image/3-5
+import Image from "next/image";
+
 function MyComponent() {
   useImagePopup({ selectors: "img" });
 
   return (
     <div>
       <article>
-        <img src="https://.../a.png" alt="" width="50" height="50" />
+        <Image src="https://.../a.png" alt="" width="50" height="50" />
         <img src="https://.../b.jpg" alt="" width="50" height="50" />
         <img data-popup="" src="https://.../c.svg" alt="" width="50" height="50" />
       </article>
 
       <img className="embeded-image" src="https://.../x.png" alt="" width="50" height="50" />
-      <img className="" src="https://.../y.png" alt="" width="50" height="50" />
+      <Image className="" src="https://.../y.png" alt="" width="50" height="50" />
     </div>
   );
 }
 ```
+
+
+$:explanation
 
 
 $:conclusion

@@ -4,10 +4,10 @@ import React from "react";
 import Link from "next/link";
 import { displayName } from "@/library/utils";
 import { cvx } from "@/resource/docs/utility";
-import { sanitizedToParams } from "@/resource/docs";
 import { Title } from "@/library/components/components";
 import { FilterDocs } from "@/library/components/input";
 import { Container } from "@/library/components/components";
+import { sanitizedToParams } from "@/modules/ondevelopment/utils";
 
 import type { SingleRoute, NestedRoute } from "@/library/routes";
 

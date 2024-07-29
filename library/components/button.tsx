@@ -2,8 +2,8 @@ import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cvx, type VariantsType } from "@/modules/utility/cvx/cvx";
 
-import { CSSProperties, Spinner } from "@/resource/docs";
 import { twMerge } from "tailwind-merge";
+import { Spinner } from "../assets/anim-loader";
 
 const buttonVariants = cvx({
   assign:
@@ -34,7 +34,7 @@ export type ButtonVariantsType = "destructive" | "constructive" | "conservative"
 export interface UnstyledProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "style"> {
   asChild?: boolean;
   loading?: boolean;
-  style?: CSSProperties;
+  style?: React.CSSProperties & { [key: string]: any };
 }
 export interface ButtonProps extends UnstyledProps, VariantsType<typeof buttonVariants> {
   unstyled?: boolean;

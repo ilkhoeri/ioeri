@@ -3,11 +3,12 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import Element from "@/library/components/element";
-import { useAppContext } from "@/library/context/app-context";
-import { ArrowsSquareIcon, FileIcon, capitalizeWords } from "@/resource/docs";
-import { ClientOnly } from "../components/client-only";
 import { cn, sourceFiles } from "@/library/utils";
+import { ArrowsSquareIcon } from "@/resource/docs";
+import Element from "@/library/components/element";
+import { ClientOnly } from "../components/client-only";
+import { useAppContext } from "@/library/context/app-context";
+import { capitalizeWords } from "@/modules/ondevelopment/utils";
 
 import Styles from "./aside-styles";
 

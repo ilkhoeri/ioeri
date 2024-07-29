@@ -1,5 +1,6 @@
 "use client";
 import { useElementInfo } from "@/modules/hooks";
+import { SetProps } from "../__set_props";
 
 export function Demo() {
   const info = useElementInfo<HTMLTextAreaElement>();
@@ -17,53 +18,28 @@ export function Demo() {
         style={{ margin: "0", zIndex: "9" }}
         data-custom-attribute="customValue"
       />
-      <div suppressHydrationWarning className="absolute left-4 top-4 text-xs flex flex-col gap-2 mb-auto [&_*]:font-roboto-mono">
-        <div>
-          <h3>Element Information</h3>
-          <p>
-            <strong>Component Name:</strong>
-            &nbsp;&lt;{info.elementName}&gt;
-          </p>
-          <p>
-            <strong>hovered:</strong>
-            &nbsp;{info.hovered ? "true" : "false"}
-          </p>
-        </div>
 
-        <div>
-          <h4>Attributes:</h4>
-          <ul>
-            {Object.entries(info.attributes).map(([key, value]) => (
-              <li key={key}>
-                <strong>{key}:</strong>&nbsp;{value}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div>
-          <h4>Rect Information:</h4>
-          <ul>
-            {Object.entries(info.rect).map(([key, value]) => (
-              <li key={key}>
-                <strong>{key}:</strong>&nbsp;{value}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div>
-          <h4>Window Size:</h4>
-          <p>
-            <strong>Width:</strong>&nbsp;{info.windowSize.width}, <strong>Height:</strong>&nbsp;{info.windowSize.height}
-          </p>
-        </div>
-
-        <div>
-          <h4>Scroll Positions:</h4>
-          <p>Scroll Position (Element):&nbsp;{info.scrollPosition}</p>
-          <p>Scroll Position (Body):&nbsp;{info.scrollBody}</p>
-        </div>
+      <div suppressHydrationWarning className="absolute left-4 top-4 text-xs flex flex-col mb-auto [&_*]:font-roboto-mono">
+        <SetProps.Code className="mt-2">Element Information :</SetProps.Code>
+        <p>Component Name=&lt;{info.elementName}&gt;</p>
+        <p>hovered=&quot;{info.hovered ? "true" : "false"}&quot;</p>
+        <SetProps.Code className="mt-2">Attributes:</SetProps.Code>
+        <ul>
+          {Object.entries(info.attributes).map(([key, value]) => (
+            <li key={key}>{key}=&quot;{value}&quot;</li>
+          ))}
+        </ul>
+        <SetProps.Code className="mt-2">Rect Information:</SetProps.Code>
+        <ul>
+          {Object.entries(info.rect).map(([key, value]) => (
+            <li key={key}>{key}=&quot;{value}&quot;</li>
+          ))}
+        </ul>
+        <SetProps.Code className="mt-2">Window Size:</SetProps.Code>
+        <p>Width=&quot;{info.windowSize.width}&quot;, Height=&quot;{info.windowSize.height}&quot;</p>
+        <SetProps.Code className="mt-2">Scroll Positions:</SetProps.Code>
+        <p>Scroll Position (Element)=&quot;{info.scrollPosition}&quot;</p>
+        <p>Scroll Position (Body)=&quot;{info.scrollBody}&quot;</p>
       </div>
     </div>
   );

@@ -2,7 +2,7 @@ $:title
 
 
 
-$:api-reference
+$:api-reference-use-element-info
 
 [`getBoundingClientRect()`](https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect)
 
@@ -12,21 +12,21 @@ $:depend-on
 
 
 
-$:consideration
+$:consideration-use-element-info
 
 Necessary to define a `ref` on the related element to pass `getBoundingClientRect()`.
 The `rect` returned value is a DOMRect object which is the smallest rectangle which contains the entire element, including its padding and border-width.
 
 
 
-$:description
+$:description-use-element-info
+
+windowSize returns the interior width and height of the window in pixels (that is, the width and height of the window's [layout viewport](https://developer.mozilla.org/en-US/docs/Glossary/Layout_viewport)).
+The read-only [innerWidth](https://developer.mozilla.org/en-US/docs/Web/API/Window/innerWidth) and [innerHeight](https://developer.mozilla.org/en-US/docs/Web/API/Window/innerHeight) property of the [Window](https://developer.mozilla.org/en-US/docs/Web/API/Window) interface returns the interior height of the window in pixels, that includes the width of the vertical scroll bar, if one is present and the height of the horizontal scroll bar, if present.
 
 
 
 $:explanation
-
-windowSize returns the interior width and height of the window in pixels (that is, the width and height of the window's [layout viewport](https://developer.mozilla.org/en-US/docs/Glossary/Layout_viewport)).
-The read-only [innerWidth](https://developer.mozilla.org/en-US/docs/Web/API/Window/innerWidth) and [innerHeight](https://developer.mozilla.org/en-US/docs/Web/API/Window/innerHeight) property of the [Window](https://developer.mozilla.org/en-US/docs/Web/API/Window) interface returns the interior height of the window in pixels, that includes the width of the vertical scroll bar, if one is present and the height of the horizontal scroll bar, if present.
 
 
 $:conclusion

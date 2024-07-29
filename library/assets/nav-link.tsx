@@ -4,10 +4,9 @@ import Link from "next/link";
 import Image from "next/image";
 import MarkBoolean from "@/library/components/mark-boolean";
 import { usePathname } from "next/navigation";
-import { PLACEHOLDER_IMAGESRC } from "@/resource/docs";
 import { twMerge } from "tailwind-merge";
+import { PLACEHOLDER_IMAGESRC, RecordClasses } from "@/modules/ondevelopment/utils";
 
-import type { RecordClasses } from "@/resource/docs";
 import type { AnchorProps } from "@/library/components/anchor";
 import type { IconType } from "@/resource/docs/icons";
 

@@ -4,13 +4,13 @@ import dynamic from "next/dynamic";
 
 import { FileIcon } from "@/modules/icons";
 import { Tabs } from "@/library/components/tabs";
-import { sanitizedToParams } from "@/modules/index";
 import { Spinner } from "@/library/assets/anim-loader";
 import { Title } from "@/library/components/components";
 import { readdirPrefix } from "@/library/scripts/get-demos";
 import { highlightCode } from "@/library/utils/escape-code";
 import { Playground } from "@/library/components/playground";
 import { retitled, slug, sourceFiles } from "@/library/utils";
+import { sanitizedToParams } from "@/modules/ondevelopment/utils";
 import { Code, Customizer, Reference } from "@/library/components/code";
 
 interface DocsParams {

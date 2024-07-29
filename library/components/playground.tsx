@@ -2,8 +2,8 @@
 import { useState } from "react";
 import { nextValue } from "../utils";
 import { cvx } from "@/modules/utility";
-import { capitalizeWords } from "@/modules/index";
 import { Button } from "@/library/components/button";
+import { capitalizeWords } from "@/modules/ondevelopment/utils";
 import { TabsContent, TabsList, TabsTrigger } from "@/library/components/tabs";
 
 enum MarkdownValue {

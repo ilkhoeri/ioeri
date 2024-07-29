@@ -1,5 +1,5 @@
 import { cnx, type ClassValue } from "@/resource/docs/ondevelopment/utils/cnx";
-import { camelToKebab, capitalizeWords, toPascalCase } from "@/resource/docs";
+import { camelToKebab, capitalizeWords } from "@/modules/ondevelopment/utils";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {

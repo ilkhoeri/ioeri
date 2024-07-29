@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { sortStringDate } from "@/resource/docs";
+import { sortStringDate } from "@/modules/ondevelopment/utils";
 import { twMerge } from "tailwind-merge";
 
 const ItalicTime: React.FC<{ time: string | undefined; util: "created" | "updated" }> = ({ time, util }) => {
@@ -16,7 +16,7 @@ const ItalicTime: React.FC<{ time: string | undefined; util: "created" | "update
   }
   const timeCreated = util === "created";
   const timeUpdated = util === "updated";
-  
+
   const timingUpdated = sortStringDate(new Date(time), {
     options: {
       month: "short",

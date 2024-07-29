@@ -1,6 +1,6 @@
 import { Examples } from "./client";
-import { sanitizedToParams } from "@/resource/docs";
 import { retitled, sourceFiles } from "@/library/utils";
+import { sanitizedToParams } from "@/modules/ondevelopment/utils";
 import { Container, Title } from "@/library/components/components";
 import { getMdx, getContent, type Content } from "@/library/scripts/get-contents";
 

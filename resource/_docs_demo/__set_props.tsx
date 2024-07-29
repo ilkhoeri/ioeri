@@ -20,6 +20,7 @@ export const styles = cvx({
       labelOnly:
         "absolute top-4 left-4 text-h1 font-extrabold opacity-20 hover:opacity-100 z-9 cursor-pointer select-none",
       comment: "text-[#858AA6] italic font-mono text-sm mt-4",
+      code: "codebox w-max",
     },
     size: {
       "26": "min-w-26",
@@ -75,6 +76,9 @@ export const SetProps = {
   Comment: React.forwardRef<HTMLSpanElement, PolymorphicWithoutRef<"span">>(({ className, ...props }, ref) => (
     <span ref={ref} {...classes("comment", { className })} {...props} >{props.children || props.title}</span>
   )),
+  Code: React.forwardRef<HTMLElement, PolymorphicWithoutRef<"code">>(({ className, ...props }, ref) => (
+    <code ref={ref} {...classes("code", { className })} {...props} >{props.children || props.title}</code>
+  )),
 };
 SetProps.Wrapper.displayName = "Wrapper";
 SetProps.Wrapp.displayName = "Wrapp";
@@ -86,6 +90,7 @@ SetProps.Radio.displayName = "Radio";
 SetProps.Text.displayName = "Text";
 SetProps.Nameprops.displayName = "Nameprops";
 SetProps.Comment.displayName = "Comment";
+SetProps.Code.displayName = "Code";
 
 export function SetPropsBoolean(X: { label: string; boo: boolean; setBoo: (v: boolean) => void }) {
   const { label, boo, setBoo } = X;

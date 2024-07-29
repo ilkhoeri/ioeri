@@ -8,11 +8,12 @@ import { getFullAge } from "../utils";
 import { StateHidden } from "@/library/assets/theme";
 import { Confetti } from "@/modules/components/web";
 import { markdownInsertHTML } from "@/library/utils/clean-html";
-import { StyleObject, getRandomColor, getTimeAgo } from "@/modules/index";
+import { StyleObject, getTimeAgo } from "@/modules/ondevelopment/utils";
 
 import type { Address, Blog, Socmed, User, UserProps } from "../types";
 
 import style from "./user.module.css";
+import { getRandomColor } from "@/modules/hooks";
 
 interface LengthDatasProps {
   blog: Blog[] | null;

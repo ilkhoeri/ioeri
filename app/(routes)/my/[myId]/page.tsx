@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { UserPortfolio } from "./components";
 
-import { sanitizedToParams } from "@/resource/docs";
+import { sanitizedToParams } from "@/modules/ondevelopment/utils";
 import { getAddress, getBlogs, getSocmed, getUser } from "../utils";
 
 type Params = { params: { myId: string } };

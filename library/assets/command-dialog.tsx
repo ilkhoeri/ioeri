@@ -4,8 +4,7 @@ import React, { useEffect, useState } from "react";
 import { cvx, VariantsType } from "@/modules/utility";
 import { Command, command } from "@/modules/components/web";
 import { EmptyBoxIcon, FileIcon, XIcon } from "@/modules/icons";
-import { fuzzySearch, levenshteinDistance } from "@/modules/index";
-
+import { fuzzySearch, levenshteinDistance } from "@/modules/ondevelopment/utils";
 import { appRoutes, type SingleRoute, type NestedRoute, type InnerRoutes } from "@/library/routes";
 
 type Routes = (SingleRoute | NestedRoute)[] | null;

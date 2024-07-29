@@ -127,7 +127,7 @@
     @apply rounded-b-none;
   }
   & figure pre + figcaption[data-rehype-pretty-code-caption] {
-    @apply font-roboto-mono p-[.25em_.5em] leading-normal [font-size:75%] rounded-b-sm border border-t-0 bg-code/40;
+    @apply font-roboto-mono p-[.25em_.5em] leading-normal [font-size:75%] rounded-b-sm border border-t-0 bg-code/40 [overflow-wrap:break-word];
   }
 }
 [data-rehype-pretty-code-figure] mark {

@@ -1,5 +1,5 @@
-export * from "./ondevelopment/utils";
+export * from "./components/web";
 export * from "./hooks";
 export * from "./types";
-export * from "./ondevelopment";
 export * from "./icons";
+export * from "./utility";
