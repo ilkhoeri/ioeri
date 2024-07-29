@@ -2,8 +2,8 @@ import { Demos } from "./demo";
 import { Tabs } from "@/library/components/tabs";
 import { Container } from "@/library/components/components";
 import { highlightCode } from "@/library/utils/escape-code";
+import { Code, Customizer } from "@/library/components/code";
 import { Playground } from "@/library/components/playground";
-import { Code, Customizer, Reference } from "@/library/components/code";
 import { prefixName, retitled, slug, sourceFiles } from "@/library/utils";
 import { getFilesWithPrefix, readdirPrefix } from "@/library/scripts/get-demos";
 import { getMdx, getContent, type Content, getRepo } from "@/library/scripts/get-contents";
@@ -42,18 +42,16 @@ async function getCode({ params }: DocsParams): Promise<Content> {
 async function getCodeDemo({ params }: DocsParams, files: string[]) {
   if (!files.length) {
     return {
+      consideration: await highlightCode(await getMdx(`/resource/docs/${sourceFiles(params.docs)}`, "consideration")),
       usages: await getMdx(`/resource/docs/${sourceFiles(params.docs)}`, "usage"),
-      reference: await highlightCode(await getMdx(`/resource/docs/${sourceFiles(params.docs)}`, "api-reference")),
-      description: await highlightCode(await getMdx(`/resource/docs/${sourceFiles(params.docs)}`, "description"), {
+      explanation: await highlightCode(await getMdx(`/resource/docs/${sourceFiles(params.docs)}`, "explanation"), {
         copy: true,
       }),
-      consideration: await highlightCode(await getMdx(`/resource/docs/${sourceFiles(params.docs)}`, "consideration")),
     };
   }
 
   const usageMap: { [key: string]: string | null } = {};
-  const referenceMap: { [key: string]: string | null } = {};
-  const descriptionMap: { [key: string]: string | null } = {};
+  const explanationMap: { [key: string]: string | null } = {};
   const considerationMap: { [key: string]: string | null } = {};
 
   for (const file of files) {
@@ -61,23 +59,20 @@ async function getCodeDemo({ params }: DocsParams, files: string[]) {
       Demo: `${prefixName(params.docs, file)}Demo`,
     });
 
-    const [reference, description, consideration] = await Promise.all([
-      getMdx(`/resource/docs/${sourceFiles(params.docs)}`, `api-reference-${file}`),
-      getMdx(`/resource/docs/${sourceFiles(params.docs)}`, `description-${file}`),
+    const [explanation, consideration] = await Promise.all([
+      getMdx(`/resource/docs/${sourceFiles(params.docs)}`, `explanation-${file}`),
       getMdx(`/resource/docs/${sourceFiles(params.docs)}`, `consideration-${file}`),
     ]);
 
     usageMap[file] = usage.content;
-    referenceMap[file] = reference;
-    descriptionMap[file] = description;
+    explanationMap[file] = explanation;
     considerationMap[file] = consideration;
   }
 
   return {
-    usages: usageMap,
-    reference: referenceMap,
-    description: descriptionMap,
     consideration: considerationMap,
+    usages: usageMap,
+    explanation: explanationMap,
   };
 }
 async function getCss({ params }: DocsParams): Promise<Content> {
@@ -96,12 +91,9 @@ export default async function Page({ params }: DocsParams) {
   const demo = await getCodeDemo({ params }, files);
   const reCode = !code.content ? await getReCode({ params }, `${ce}`) : code.content;
 
-  const [css, dependOn, explanation, conclusion, notes] = await Promise.all([
+  const [css, conclusion] = await Promise.all([
     getCss({ params }).then((res) => res.content),
-    getSection({ params }, "depend-on"),
-    getSection({ params }, "explanation"),
     getSection({ params }, "conclusion"),
-    getSection({ params }, "notes"),
   ]);
 
   const file: string = `${slug(params.docs)}${ce}`;
@@ -124,16 +116,11 @@ export default async function Page({ params }: DocsParams) {
       )}
 
       <div id="code">
-        <Customizer setInnerHTML={await highlightCode(dependOn)} className="mb-4 text-paragraph border-t pt-4" />
         <Tabs defaultValue="code" className="w-full mb-12">
           <Playground childrens={codes} />
         </Tabs>
-        <Customizer setInnerHTML={await highlightCode(explanation, { copy: true })} />
         <Customizer setInnerHTML={await highlightCode(conclusion, { copy: true })} />
       </div>
-
-      {conclusion && notes && <hr className="mt-12 b-4 w-full" />}
-      <Customizer setInnerHTML={await highlightCode(notes)} />
     </Container>
   );
 }

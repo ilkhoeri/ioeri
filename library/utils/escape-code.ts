@@ -1,5 +1,6 @@
 // import fs from "fs-extra";
 import { unified } from "unified";
+import remarkGfm from "remark-gfm";
 import rehypeSlug from "rehype-slug";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
@@ -21,6 +22,7 @@ export async function highlightCode(code: string | null, { copy }: { copy?: bool
     .use(remarkParse, { fragment: true }) // Convert into markdown AST
     .use(remarkRehype) // Transform to HTML AST
     .use(rehypeSanitize) // Sanitize HTML input
+    .use(remarkGfm) // To support GitHub Flavored Markdown tables
     // @ts-ignore
     .use(rehypePrettyCode, {
       grid: true,

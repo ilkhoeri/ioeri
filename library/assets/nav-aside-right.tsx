@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { cn, sourceFiles } from "@/library/utils";
+import { cleanedIdSlug, cn, sourceFiles } from "@/library/utils";
 import { ArrowsSquareIcon } from "@/resource/docs";
 import Element from "@/library/components/element";
 import { ClientOnly } from "../components/client-only";
@@ -43,8 +43,8 @@ export function AsideRight() {
                       color: idInView === id ? "hsl(var(--constructive))" : "hsl(var(--muted-foreground))",
                     }}
                   >
-                    <Link href={`#${id}`} className="hover:text-color transition-colors">
-                      {capitalizeWords(id)}
+                    <Link href={`${pathname}#${id}`} className="hover:text-color transition-colors">
+                      {cleanedIdSlug(pathname, id)}
                     </Link>
                   </Element>
                 ) : null,

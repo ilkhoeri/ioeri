@@ -1,44 +1,14 @@
-$:title
-
-Create Variants X
-
-
-$:api-reference
-
-[`inspired by cva`](https://cva.style/docs)
-
-
 $:consideration
 
-If you have ever used [class variance authority](https://cva.style/docs) you'r also familiar with the cvx function. You can think of cvx as a simpler or lite version.
+#### API References
+
+- [`inspired by cva`](https://cva.style/docs)
+
+If you have ever used [`class variance authority`](https://cva.style/docs) you'r also familiar with the cvx function. You can think of cvx as a simpler or lite version.
 
 cvx was created just as a simple function to pass a string with various variants that you create.
 
 
-$:description
-
-## IntelliSense
-
-If you are using the vscode editor, enable autocomplete for the [`tailwindcss`](https://tailwindcss.com/docs/editor-setup#intelli-sense-for-vs-code) class using the following command:
-
-1. [Install the "Tailwind CSS IntelliSense" Visual Studio Code extension](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
-2. Add to your [`settings.json`](https://code.visualstudio.com/docs/getstarted/settings):
-
-```js
-"tailwindCSS.experimental.classRegex": [
-  ["cvx\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
-  ["cvx\\(([^)]*)\\)", "(?:'|\"|`)([^'\"`]*)(?:'|\"|`)"],
-  ["assign:\\s*['\"`]([^'\"`]*?)['\"`]", "(?:'|\"|`)([^'\"`\\]]*|\\[[^\\]]+\\])(?:'|\"|`)"],
-  ["assign:\\s*['\"`]([^'\"`]*?)['\"`]", "(?:^|\\s+)([\\w-:\\[\\].()#\\/%]+)(?=\\s+|$)"],
-  ["variants:\\s*\\{([^}]*?)\\}", "(?:'|\"|`)([^'\"`\\]]*|\\[[^\\]]+\\])(?:'|\"|`)"],
-  ["variants:\\s*\\{[^}]*?['\"`\\w]+:\\s*['\"`]([^'\"`]*)['\"`]", "(?:^|\\s+)([\\w-:\\[\\].()#\\/%]+)(?=\\s+|$)"],
-],
-```
-
-cva uses the first argument as a constant that will be distributed throughout the variance, in cvx this argument is moved to the `assign` parameter. cvx does not or has not passed the `class` and `className` parameters.
-
-
-$:explanation
 
 $:usage
 
@@ -113,3 +83,27 @@ export function CvxDemo(props: ClnProps) {
   );
 }
 ```
+
+
+
+$:explanation
+
+#### IntelliSense
+
+If you are using the vscode editor, enable autocomplete for the [`tailwindcss`](https://tailwindcss.com/docs/editor-setup#intelli-sense-for-vs-code) class using the following command:
+
+1. [Install the "Tailwind CSS IntelliSense" Visual Studio Code extension](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
+2. Add to your [`settings.json`](https://code.visualstudio.com/docs/getstarted/settings):
+
+```js
+"tailwindCSS.experimental.classRegex": [
+  ["cvx\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+  ["cvx\\(([^)]*)\\)", "(?:'|\"|`)([^'\"`]*)(?:'|\"|`)"],
+  ["assign:\\s*['\"`]([^'\"`]*?)['\"`]", "(?:'|\"|`)([^'\"`\\]]*|\\[[^\\]]+\\])(?:'|\"|`)"],
+  ["assign:\\s*['\"`]([^'\"`]*?)['\"`]", "(?:^|\\s+)([\\w-:\\[\\].()#\\/%]+)(?=\\s+|$)"],
+  ["variants:\\s*\\{([^}]*?)\\}", "(?:'|\"|`)([^'\"`\\]]*|\\[[^\\]]+\\])(?:'|\"|`)"],
+  ["variants:\\s*\\{[^}]*?['\"`\\w]+:\\s*['\"`]([^'\"`]*)['\"`]", "(?:^|\\s+)([\\w-:\\[\\].()#\\/%]+)(?=\\s+|$)"],
+],
+```
+
+cva uses the first argument as a constant that will be distributed throughout the variance, in cvx this argument is moved to the `assign` parameter. cvx does not or has not passed the `class` and `className` parameters.

@@ -6,6 +6,28 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(cnx(...inputs));
 }
 
+export function cleanedIds(ids: string[], id: string): string[] {
+  return ids.map((i) => {
+    const slugIndex = i.indexOf(id);
+    if (slugIndex !== -1) {
+      return i.slice(0, slugIndex - 1); // -1 to remove the preceding '-'
+    }
+    return i;
+  });
+}
+
+export function cleanedIdSlug(pathname: string, id: string): string {
+  const lastSegment = pathname.split("/").pop();
+  const usagePrefix = "usage-";
+
+  if (id.startsWith(usagePrefix) && id.includes(`-${lastSegment}`)) {
+    return capitalizeWords(id.replace(new RegExp(`-${lastSegment}.*`), ""));
+  }
+
+  return capitalizeWords(id);
+}
+
+
 export function retitled(texts: string[] | string | undefined, defaultText: string = "Docs") {
   if (texts === undefined) return defaultText;
   if (Array.isArray(texts)) {

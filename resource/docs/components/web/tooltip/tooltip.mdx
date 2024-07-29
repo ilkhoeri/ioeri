@@ -1,25 +1,10 @@
-$:title
-
-
-
-$:api-reference-tooltip
-
-
-
-$:depend-on
-
-## Depend on
-
-[`useOpenState`](/docs/hooks/use-open-state)
-
-
 $:consideration
 
 
 
-$:description-tooltip
+$:explanation-tooltip
 
-## Tooltip children
+#### Children
 
 Tooltip requires a trigger as an `content` anchors, you can provide children strings, fragments, numbers, and several elements/components which will later be wrapped in a `<button>`.
 In contrast, when you use `asChild` props, use an element or component as a single child – providing strings, fragments, numbers, and multiple elements/components will cause errors.
@@ -27,7 +12,7 @@ In contrast, when you use `asChild` props, use an element or component as a sing
 The `content` property is `ReactNode`, its will pass children to the tooltip content. Use `contentProps` to change style, attributes, and pass all properties to the content body.
 
 
-## Alternative
+#### Alternative
 
 You can use several ways to use Tooltip.
 
@@ -96,14 +81,13 @@ export const MyToggle = React.forwardRef<
 MyToggle.displayName = "MyToggle";
 ```
 
+___
 
-$:explanation
+#### Depend on
+
+[`useOpenState`](/docs/hooks/use-open-state)
 
 
 $:conclusion
-
-
-
-$:notes
 
 

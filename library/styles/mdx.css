@@ -89,6 +89,23 @@
     @apply list-item [text-align:-webkit-match-parent] [unicode-bidi:isolate] leading-normal;
   }
 }
+
+[data-rehype-customizer] {
+  & :where(ul:is(h4 + ul:not(:is(p + ul)))):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    @apply !list-none !pl-0 relative white-space-pre-wrap text-base flex !flex-row !items-center !flex-wrap gap-4 !space-y-0;
+    & > li {
+      @apply !block;
+      & > a {
+        @apply !no-underline !decoration-none;
+
+        & > code {
+          @apply transition-colors no-underline decoration-none border bg-color text-background hover:bg-color/90 hover:text-background rounded-md font-roboto-mono font-semibold px-2 py-px text-sm after:content-['↗'] md:after:content-['🡵'] after:ml-1 after:text-muted-foreground after:transition-colors hover:after:text-constructive;
+        }
+      }
+    }
+  }
+}
+
 [data-rehype-pretty-code-fragment],
 [data-rehype-customizer] {
   & .rehype-pretty-copy {
@@ -108,7 +125,8 @@
   }
 }
 [data-rehype-customizer] {
-  & :where(h2:not(:is(h1 + h2))):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+  & :where(h3:not(:is(h1 + h2))):not(:where([class~="not-prose"], [class~="not-prose"] *)),
+  & :where(h4:not(:is(h1 + h2))):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
     @apply font-semibold text-color mt-9 mb-1 text-h4 flex items-center cursor-default w-max [&>a]:hover:text-constructive;
 
     & a.anchor_id {
@@ -211,6 +229,75 @@ code[data-theme*=" "] span {
         & > button {
           @apply top-4 m-0;
         }
+      }
+    }
+  }
+}
+
+[data-code-fragment] table {
+  @apply w-full min-w-full max-w-full caption-bottom text-sm relative;
+  &::after {
+    @apply -z-1 absolute content-[''] size-full border border-border rounded-lg inset-0;
+  }
+
+  & thead {
+    @apply relative;
+    &::after {
+      @apply content-[''] absolute w-full h-px bg-border bottom-[3px] inset-x-0;
+    }
+  }
+
+  & tr {
+    @apply border-b appearance-none;
+
+    & th,
+    & td {
+      @apply pl-3 pr-0.5 first:pl-4 last:pr-4 max-w-[200px] font-mono;
+    }
+
+    & th {
+      @apply py-[10px] h-12 text-left font-medium align-middle text-color [&:has([role=checkbox])]:pr-0;
+    }
+    & td {
+      @apply py-4;
+    }
+  }
+
+  & tbody {
+    & tr {
+      @apply last:border-b-0 relative;
+      &:hover,
+      &[data-state="open"] {
+        @apply bg-muted/55;
+      }
+
+      & td[data-sr-only] {
+        @apply hidden sr-only;
+      }
+      & td[data-value="true"] {
+        @apply relative z-[99] p-4 align-middle [&:has([role=checkbox])]:pr-0 max-w-[200px] min-w-max truncate whitespace-nowrap;
+
+        & mark {
+          @apply block mx-auto [--sz:16px] w-[--sz] min-w-[--sz] h-[--sz] min-h-[--sz] rounded-full data-[mark=true]:bg-[#6cc4d2] data-[mark=false]:bg-[#e54b4b];
+        }
+
+        & time {
+          @apply w-full flex flex-nowrap flex-row items-center justify-end gap-2 text-[#888];
+          & svg {
+            @apply sizer [--sz:16px];
+          }
+        }
+        & time:nth-child(2) {
+          @apply text-[13px];
+        }
+      }
+    }
+
+    & .tr_empty {
+      @apply border-b border-b-border data-[state=selected]:bg-muted;
+
+      & .td_empty {
+        @apply py-4 px-4 whitespace-pre-line align-middle [&:has([role=checkbox])]:pr-0 max-w-var min-w-max truncate h-24 text-center;
       }
     }
   }

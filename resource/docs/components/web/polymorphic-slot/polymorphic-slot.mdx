@@ -1,19 +1,16 @@
-$:api-reference
-
-[`cloneElement()`](https://react.dev/reference/react/cloneElement)
-[`inspired by radix Slot`](https://www.radix-ui.com/primitives/docs/utilities/slot)
-
-
 $:consideration
+
+#### API References
+
+- [`cloneElement()`](https://react.dev/reference/react/cloneElement)
+- [`inspired by radix Slot`](https://www.radix-ui.com/primitives/docs/utilities/slot)
 
 Combines and passing data with a render props onto its immediate child.
 
 
-$:description
+$:explanation
 
-___
-
-## Support
+#### Support
 
 - The `asChild` prop will pass all the props you created yourself even the Slot `ref` to its direct child.
 - Using `ref`, `attributes` and `event handlers` according to the `el=""` you use,
@@ -21,7 +18,7 @@ ___
 
 ___
 
-## Alternative
+#### Alternative
 
 By default we use [`twMerge`](https://www.npmjs.com/package/tailwind-merge) to prioritize the tailwindcss style of `PolymorphicSlot` over its immediate child style. You can customize it at any time if you are not using tailwindcss.
 
@@ -80,8 +77,6 @@ export default React.forwardRef(Element) as <T extends React.ElementType = "div"
 ) => React.ReactElement | null;
 ```
 
-
-$:explanation
 
 
 $:usage

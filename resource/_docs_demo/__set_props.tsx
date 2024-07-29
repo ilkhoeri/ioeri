@@ -76,8 +76,8 @@ export const SetProps = {
   Comment: React.forwardRef<HTMLSpanElement, PolymorphicWithoutRef<"span">>(({ className, ...props }, ref) => (
     <span ref={ref} {...classes("comment", { className })} {...props} >{props.children || props.title}</span>
   )),
-  Code: React.forwardRef<HTMLElement, PolymorphicWithoutRef<"code">>(({ className, ...props }, ref) => (
-    <code ref={ref} {...classes("code", { className })} {...props} >{props.children || props.title}</code>
+  Code: React.forwardRef<HTMLElement, PolymorphicWithoutRef<"code">>(({ style, ...props }, ref) => (
+    <code ref={ref} {...{style: { borderRadius: "calc(var(--radius) - 4px)", borderWidth: "1px", backgroundColor: "hsl(var(--code))", padding: "0.07521875em .25em", fontFamily: "var(--ff-roboto-mono)", lineHeight: "1.5", fontSize: "0.75rem", minWidth: "max-content", ...style }, ...props}} >{props.children || props.title}</code>
   )),
 };
 SetProps.Wrapper.displayName = "Wrapper";

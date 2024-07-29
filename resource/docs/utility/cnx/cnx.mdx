@@ -1,15 +1,9 @@
-$:title
-
-Classes and X
-
-
-$:api-reference
-
-[`mdn`](https://developer.mozilla.org/en-US/docs/Web/API/Element/classList#examples)
-[`inspired by clsx`](https://www.npmjs.com/package/clsx)
-
-
 $:consideration
+
+#### API References
+
+- [`mdn`](https://developer.mozilla.org/en-US/docs/Web/API/Element/classList#examples)
+- [`inspired by clsx`](https://www.npmjs.com/package/clsx)
 
 cnx is inspired by [clsx](https://www.npmjs.com/package/clsx), the arguments you give in cn or clsx you can put into cnx, so that you can think of cnx as clsx from another universe.
 
@@ -18,35 +12,6 @@ function cnx(...inputs: ClassValue[]): string
 ```
 
 
-$:description
-
-
-## Merge class
-
-Merge with tailwind-merge
-
-```js
-import { cnx, type ClassValue } from "@/modules/utility";
-import { twMerge } from "tailwind-merge";
-
-function cn(...inputs: ClassValue[]) {
-  return twMerge(cnx(...inputs));
-}
-```
-
-## IntelliSense
-
-If you are using the vscode editor, enable autocomplete for the [`tailwindcss`](https://tailwindcss.com/docs/editor-setup#intelli-sense-for-vs-code) class using the following command:
-
-1. [Install the "Tailwind CSS IntelliSense" Visual Studio Code extension](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
-2. Add to your [`settings.json`](https://code.visualstudio.com/docs/getstarted/settings):
-
-```js
-"tailwindCSS.experimental.classRegex": [
-  ["cnx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
-  ["twMerge\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
-],
-```
 
 $:usage
 
@@ -71,3 +36,45 @@ const className = cnx(["", baz, foo !== "foo" && bar], { "": !props }, "");
 // ""
 cnx(Boolean, Object, undefined, null, "", 0, NaN);
 ```
+
+
+
+$:explanation
+
+
+#### Merge class
+
+Merge with tailwind-merge
+
+```js
+import { cnx, type ClassValue } from "@/modules/utility";
+import { twMerge } from "tailwind-merge";
+
+function cn(...inputs: ClassValue[]) {
+  return twMerge(cnx(...inputs));
+}
+```
+
+#### IntelliSense
+
+If you are using the vscode editor, enable autocomplete for the [`tailwindcss`](https://tailwindcss.com/docs/editor-setup#intelli-sense-for-vs-code) class using the following command:
+
+1. [Install the "Tailwind CSS IntelliSense" Visual Studio Code extension](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
+2. Add to your [`settings.json`](https://code.visualstudio.com/docs/getstarted/settings):
+
+```js
+"tailwindCSS.experimental.classRegex": [
+  ["cnx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
+  ["twMerge\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
+],
+```
+
+
+$:another
+
+| API                                                                                | Import | Export | Annotation |
+| ---------------------------------------------------------------------------------- | ------ | ------ | ---------- |
+| CVAT for images                                                                    | ✔️     | ✔️    | ✔️         |
+
+
+<!--lint enable maximum-line-length-->

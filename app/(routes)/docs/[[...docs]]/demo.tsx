@@ -5,13 +5,13 @@ import dynamic from "next/dynamic";
 import { FileIcon } from "@/modules/icons";
 import { Tabs } from "@/library/components/tabs";
 import { Spinner } from "@/library/assets/anim-loader";
+import { retitled, sourceFiles } from "@/library/utils";
 import { Title } from "@/library/components/components";
 import { readdirPrefix } from "@/library/scripts/get-demos";
 import { highlightCode } from "@/library/utils/escape-code";
 import { Playground } from "@/library/components/playground";
-import { retitled, slug, sourceFiles } from "@/library/utils";
+import { Code, Customizer } from "@/library/components/code";
 import { sanitizedToParams } from "@/modules/ondevelopment/utils";
-import { Code, Customizer, Reference } from "@/library/components/code";
 
 interface DocsParams {
   params: { docs: string[] };
@@ -49,38 +49,28 @@ export function Demos({
   files,
   params,
   usage,
-  reference,
   consideration,
-  description,
+  explanation,
 }: DocsParams & {
   files: string[];
   usage: { [key: string]: string | null } | string | null;
-  reference?: { [key: string]: string | null } | string | null;
   consideration?: { [key: string]: string | null } | string | null;
-  description?: { [key: string]: string | null } | string | null;
+  explanation?: { [key: string]: string | null } | string | null;
 }) {
   if (!files.length) {
     return (
-      <div id="usage" className="mt-12">
-        <Title
-          size="h1"
-          variant="segment"
-          title={retitled(params.docs)}
-          id={sanitizedToParams(retitled(params.docs))}
-          className="mb-12"
-        />
-
-        {reference && typeof reference === "string" && <Reference title="API reference" setInnerHTML={reference} />}
+      <div id={sanitizedToParams(retitled(params.docs))} className="mt-6">
+        <Title size="h1"variant="segment" title={retitled(params.docs)} className="mb-12" />
         {consideration && typeof consideration === "string" && <Customizer setInnerHTML={consideration} />}
 
         {usage && typeof usage === "string" && (
-          <Tabs defaultValue="usage" className="w-full mb-12 prefers_code_fragment">
+          <Tabs id="usage" defaultValue="usage" className="w-full mb-12 prefers_code_fragment">
             <Playground childrens={{ usage: <Customizer setInnerHTML={usage} className="mb-0 scrollbar" /> }} />
           </Tabs>
         )}
 
-        {usage && typeof usage === "string" && description && typeof description === "string" && (
-          <Customizer setInnerHTML={description} />
+        {usage && typeof usage === "string" && explanation && typeof explanation === "string" && (
+          <Customizer setInnerHTML={explanation} />
         )}
       </div>
     );
@@ -94,14 +84,9 @@ export function Demos({
         return (
           <div key={file} id={sanitizedToParams(file)} className="mt-12 pt-8 border-t first:mt-6 first:pt-0 first:border-t-0">
             <Title size="h1" variant="segment" title={retitled(file)} className="mt-16 mb-12" />
-            {reference && typeof reference === "object" && (
-              <Reference title="API reference" setInnerHTML={await highlightCode(reference[file])} />
-            )}
-            {consideration && typeof consideration === "object" && (
-              <Customizer setInnerHTML={await highlightCode(consideration[file])} />
-            )}
+            {consideration && typeof consideration === "object" && <Customizer setInnerHTML={await highlightCode(consideration[file])} />}
 
-            <Tabs defaultValue="preview" className="w-full mb-12">
+            <Tabs id={`usage-${sanitizedToParams(file)}`} defaultValue="preview" className="w-full mb-12">
               <Playground
                 childrens={{
                   preview: (
@@ -118,8 +103,8 @@ export function Demos({
               />
             </Tabs>
 
-            {description && typeof description === "object" && (
-              <Customizer setInnerHTML={await highlightCode(description[file], { copy: true })} />
+            {explanation && typeof explanation === "object" && (
+              <Customizer setInnerHTML={await highlightCode(explanation[file], { copy: true })} />
             )}
           </div>
         );

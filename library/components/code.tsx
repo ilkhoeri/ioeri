@@ -1,7 +1,7 @@
 import * as React from "react";
 import { twMerge } from "tailwind-merge";
 import { CopyToggle, GetCodeToggle } from "./toggle";
-import { CSSIcon, TypescriptIcon } from "@/modules/icons";
+import { ChainIcon, CSSIcon, TypescriptIcon } from "@/modules/icons";
 import { sanitizedToParams } from "@/modules/ondevelopment/utils";
 
 type CodeCustomizer = {
@@ -38,7 +38,11 @@ export function Code(Text: CodeCustomizer & ExtIconsType) {
       </div>
 
       <div data-rehype-pretty-code-fragment="" data-code-fragment="" className="scrollbar">
-        <pre className="p-4 rounded-lg [&>code>[data-rehype-pretty-code-figure]]:pr-8" data-language="tsx" data-theme="default">
+        <pre
+          className="p-4 rounded-lg [&>code>[data-rehype-pretty-code-figure]]:pr-8"
+          data-language="tsx"
+          data-theme="default"
+        >
           <code
             data-language="tsx"
             data-theme="default"
@@ -72,9 +76,12 @@ export function Customizer(Text: CodeCustomizer) {
 export function Reference(Text: CodeCustomizer) {
   if (!Text.code && !Text.setInnerHTML) return null;
   return (
-    <div data-block="reference" className={twMerge("-mt-4 text-base", Text.className)}>
+    <div data-block="reference" data-rehype-customizer="" className={twMerge("-mt-4 text-base", Text.className)}>
       {Text.title && (
-        <h4 id={sanitizedToParams(Text.title)} data-block="title">
+        <h4 id={sanitizedToParams(Text.title)}>
+          <a className="anchor_id" href={`#${sanitizedToParams(Text.title)}`} aria-label={sanitizedToParams(Text.title)}>
+            <ChainIcon size={26} className="mr-2" />
+          </a>
           {Text.title}
         </h4>
       )}

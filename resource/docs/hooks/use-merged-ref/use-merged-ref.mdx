@@ -1,38 +1,30 @@
-$:title
-
-
-
-$:api-reference
-
-
-
-$:depend-on
-
-
-
 $:consideration
-
-
-
-$:description
-
-
-
-$:explanation
-
-
-
-$:conclusion
-
-
-
-$:notes
 
 
 
 $:usage
 
-```js
+`mergeRefs()`
+
+```js "mergeRefs(myRef, ref)" "mergeRefs"
+import { useRef } from "react";
+import { mergeRefs } from "@/modules/hooks";
+
+export const MyComponent = React.forwardRef<React.ElementRef<"div">, React.ComponentPropsWithoutRef<"div">>(
+  ({ ...props }, ref) => {
+    const myRef = useRef();
+
+    return <div ref={mergeRefs(myRef, ref)} {...props} />;
+  },
+);
+MyComponent.displayName = "MyComponent";
+```
+
+___
+
+`createRefs()`
+
+```js /createRefs/
 import { createRefs } from "@/modules/hooks";
 
 export enum Structure {
@@ -61,3 +53,36 @@ export function MyComponent() {
   )
 }
 ```
+
+___
+
+`useMergedRef()`
+
+```js /useMergedRef/
+import { useRef } from "react";
+import { useHover, useMergedRef, useMove } from "@/modules/hooks";
+
+export function MyComponent() {
+  const myRef = useRef();
+  const { ref: moveRef } = useMove<HTMLDivElement>();
+  const { ref: hoverRef } = useHover<HTMLDivElement>();
+
+  const mergedRef = useMergedRef(
+    myRef,
+    moveRef,
+    hoverRef,
+  );
+
+  return <div ref={mergedRef} />;
+}
+```
+
+
+$:explanation
+
+
+
+$:conclusion
+
+
+
