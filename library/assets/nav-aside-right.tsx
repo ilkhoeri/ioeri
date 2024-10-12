@@ -22,7 +22,7 @@ export function AsideRight() {
 
   return (
     <aside className={Styles({ style: "aside", aside: "right" })}>
-      <nav className={cn(Styles({ style: "nav" }), "fixed top-0 pl-3")}>
+      <nav className={cn(Styles({ style: "nav" }), "fixed top-[89px] pl-3")}>
         <ClientOnly>
           <hgroup>
             <h4 role="presentation" className="font-medium text-paragraph mb-2">
